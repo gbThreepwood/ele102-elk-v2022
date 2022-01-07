@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>What is a Microcontroller &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <title>What is a Microcontroller &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -51,8 +51,9 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" />
-    <link rel="prev" title="Lessons:" href="L0_Introduction.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Arduino Introduction" href="L2_Arduino_intro.html" />
+    <link rel="prev" title="Software and hardware preparations" href="software_hardware_preparations.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -64,7 +65,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+          <a class="navbar-brand" href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -81,6 +82,9 @@
 </li>
 <li><a class="reference internal" href="#microcontroller-uc-microprocessor-integrated-circuit-ic">Microcontroller (UC), Microprocessor, Integrated Circuit (IC)</a><ul>
 <li><a class="reference internal" href="#microprocessor-processing-structure">Microprocessor Processing Structure</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compilation">Compilation</a><ul>
 <li><a class="reference internal" href="#arduino">Arduino</a><ul>
 <li><a class="reference internal" href="#fun-fact-about-arduino">Fun fact about Arduino:</a></li>
 </ul>
@@ -95,7 +99,8 @@
               </li>
 
             
-              <li><a href="L0_Introduction.html" title="Lessons:" accesskey="P">previous </a></li>
+              <li><a href="software_hardware_preparations.html" title="Software and hardware preparations" accesskey="P">previous </a></li>
+              <li><a href="L2_Arduino_intro.html" title="Arduino Introduction" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -132,13 +137,16 @@
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 1: What is a Microcontroller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#embedded-systems">Embedded Systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#embedded-system-characteristics">Embedded System Characteristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#microcontroller-uc-microprocessor-integrated-circuit-ic">Microcontroller (UC), Microprocessor, Integrated Circuit (IC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L2_Arduino_intro.html">Lesson 2: Introduction to Arduino</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -158,8 +166,11 @@
     </p>
 </div>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="L0_Introduction.html"
-                        title="previous chapter">Lessons:</a></p>
+  <p class="topless"><a href="software_hardware_preparations.html"
+                        title="previous chapter">Software and hardware preparations</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="L2_Arduino_intro.html"
+                        title="next chapter">Arduino Introduction</a></p>
   </div>
 </div> 
         
@@ -170,49 +181,22 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="admonition note" id="l1-uc-intro">
-<p class="admonition-title">Note</p>
-<p><em>20/01/2021</em></p>
-<p><strong>Aim:</strong></p>
-<p>FIRST PART</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Microcontroller concept very simply.</p></li>
-<li><p>Embedded systems</p></li>
-<li><p>Where to use them</p></li>
-<li><p>How should your system work? reliability: every time all the time!</p></li>
-<li><p>Differences between IC/MCU/microprocessor/embedded system</p></li>
-</ul>
-</div></blockquote>
-<p>SECOND PART</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>what is a compiler and how does it work</p></li>
-<li><p>memory in microcontrollers</p></li>
-<li><p>first pass, 2nd pass in program</p></li>
-<li><p>how to relate 1010’s with printf(), where is assembly in here</p></li>
-<li><p>Simple Computer with assembly</p></li>
-<li><p>so we decided on Arduino</p></li>
-</ul>
-</div></blockquote>
-<p><strong>Materials:</strong></p>
-<p>None</p>
-<p><strong>Code:</strong></p>
-<p>None</p>
-</div>
-<div class="section" id="what-is-a-microcontroller">
+  <span class="target" id="l1-uc-intro"></span><div class="section" id="what-is-a-microcontroller">
 <h1>What is a Microcontroller<a class="headerlink" href="#what-is-a-microcontroller" title="Permalink to this headline">¶</a></h1>
-<p>A microcontroller is a small computer on a single integrated circuit containing a processor core, memory, and programmable input/output peripherals <a class="footnote-reference brackets" href="#f1" id="id1">1</a>.</p>
+<p>We will start this course by exploring the questions of what a microcontroller is, and what it means to be developing software for a embedded system.</p>
+<p>Simply put a microcontroller is a small computer on a single integrated circuit (a chip), containing a processor core, memory, and programmable input/output peripherals <a class="footnote-reference brackets" href="#f1" id="id1">2</a>.</p>
 <ul class="simple">
 <li><p>Tiny, self­contained computers in an IC</p></li>
 <li><p>Requires few external components to maintain the core functionality</p></li>
-<li><p>Often contain peripherals</p></li>
-<li><p>Different packages availible</p></li>
-<li><p>Vast array of size and power availible</p></li>
+<li><p>Often contain additional peripherals</p></li>
+<li><p>Different packages available</p></li>
+<li><p>Vast array of performance categories available</p></li>
 </ul>
-<p>Microcontrollers are generally not the products. The systems/products developes using microcontrollers are called as a product of <em>Embedded Systems</em>. Terms are generally confused!</p>
+<p>A microcontroller alone is generally not a finished product. Microcontrollers are used at the core of so called <em>embedded systems</em> to facilitate control of the system. A embedded system can be used in almost unlimited number of applications, from your microwave oven, to the <em>Perseverance Rover</em> on Mars.</p>
+<p>Not only is a microcontroller alone pretty useless, it is also typically not able to operate unless it has at least a few external components. It is not that it would be impossible to incorporate everything inside the chip, but this would lead to a dramatic reduction in the flexibility of the controller to be adapted to different applications. Of the most prominent examples of required external circuitry a regulated power supply should be mentioned.</p>
+<p>A quick google search for the keyword <em>microcontroller</em> reveals some of the many integrated circuits, and some common experimentation board for microcontrollers:</p>
 <div class="figure align-center">
-<img alt="../../_images/microcontrollerFail.png" src="../../_images/microcontrollerFail.png" />
+<img alt="Google search for microcontroller" src="../../_images/microcontrollerFail.png" />
 </div>
 <div class="section" id="embedded-systems">
 <h2>Embedded Systems<a class="headerlink" href="#embedded-systems" title="Permalink to this headline">¶</a></h2>
@@ -222,7 +206,7 @@
 </div>
 <div class="section" id="embedded-system-characteristics">
 <h2>Embedded System Characteristics<a class="headerlink" href="#embedded-system-characteristics" title="Permalink to this headline">¶</a></h2>
-<p>Common examples of embedded systems include processors used in manufacturing equipment, transportation vehicles, telecommunication equipment, and consumer electronics.  Following are the characteristics of these systems:<a class="footnote-reference brackets" href="#f3" id="id2">3</a>.</p>
+<p>Common examples of embedded systems include processors used in manufacturing equipment, transportation vehicles, telecommunication equipment, and consumer electronics.  Following are the characteristics of these systems:<a class="footnote-reference brackets" href="#f3" id="id2">4</a>.</p>
 <ol class="arabic simple">
 <li><p><strong>Interaction with the physical processes:</strong>  Sensors acquiring information about processes and actuators (or actors) controlling those processes are the connections between the most common embedded systems and the outside physical world.  Signal conditioning, data acquisition, driver electronics and transducers are important parts of these systems.</p></li>
 <li><p><strong>Real-time constraints:</strong>  Failure to complete system tasks within a specified time frame may result in harm to the user or degradation of system performance.  Such failures may be life-threatening in transportation vehicles.  This is a consequence of the embedded systems’ interaction with the physical world. Performance of a PC is not critical while editing a document or browsing Internet.  A user can spend 100 seconds waiting in front of a PC where it may take only 5 seconds to complete the same task in ideal operating conditions.  An embedded system controlling a process on the other hand, must execute the specified computations with the required frequency and precision.  We can find average performance of a PC satisfactory even if it appears to be too slow from time to time.  Unlike a typical PC application, averaged performance is not a meaningful measure when we consider real-time systems.  An embedded system must work within specifications every time, all the time, and its performance must be guaranteed without statistical arguments.</p></li>
@@ -261,7 +245,7 @@
 <div class="section" id="future">
 <h3>Future<a class="headerlink" href="#future" title="Permalink to this headline">¶</a></h3>
 <p>The cost of digital electronic components have been decreasing steadily while the integration density is rising as a result of well-known trends in the semiconductor manufacturing industry.  Digital systems replaced their analog or electromechanical counterparts mainly because of their reliability and flexibility.  In addition, advancements in the electronic assembly and packaging technologies facilitated miniaturization of devices such as the medical implants that seemed impossible to produce ten years ago.  Most people encounter embedded processors in their daily lives more often than they can realize.  There may be several appliances with embedded processors in our homes, and our cars are likely to contain tens of microprocessors depending on their age and luxury level.</p>
-<p>Some market analysts predict that the embedded system market will be much larger than the market for PCs and similar systems in the near future.  It has been estimated that nearly 80% of the processors manufactured today are used in embedded systems <a class="footnote-reference brackets" href="#f2" id="id3">2</a> .In terms of variety of the components available in the market, most of the microcontrollers or embedded processors contain 8-bit processors.  On the other hand, 75% of all 32-bit processors are integrated into embedded systems.  Also, the complexity of embedded software is expected to increase, doubling the length of code every two years in the area of consumer electronics.
+<p>Some market analysts predict that the embedded system market will be much larger than the market for PCs and similar systems in the near future.  It has been estimated that nearly 80% of the processors manufactured today are used in embedded systems <a class="footnote-reference brackets" href="#f2" id="id3">3</a> .In terms of variety of the components available in the market, most of the microcontrollers or embedded processors contain 8-bit processors.  On the other hand, 75% of all 32-bit processors are integrated into embedded systems.  Also, the complexity of embedded software is expected to increase, doubling the length of code every two years in the area of consumer electronics.
 The marketing estimates on the number of processors are dictated by the expectations of the consumer electronics market.   Most consumer electronics products, such as mobile phones and portable audio/video players, heavily focus on the information processing capabilities.  These are high-volume products, so that the sales of every designed system can easily reach thousands or millions.  The number of embedded system designs in the other application areas is higher, but the sales of these products is much lower compared to consumer electronics products.  From a design engineer’s point of view, future trends in embedded systems should not be tied solely to the development of processors.  Development of new sensor and actuator technologies and driver electronics will result in a growing number of applications for embedded systems.</p>
 </div>
 </div>
@@ -273,39 +257,52 @@ The marketing estimates on the number of processors are dictated by the expectat
 <p><strong>Microcontroller (UC):</strong> A system of a microprocessor that is packaged with RAM, program storage and interface (I/O) circuitry to make it simple to use.  They’re most used in (you guessed it) control applications. They are designed to perform specific tasks. Specific means applications where the relationship of input and output is defined.</p>
 <p><strong>Embedded System:</strong> The product that uses a microprocessor (or microcontroller) as a component. It consists of both hardware and software.</p>
 <div class="figure align-center">
-<img alt="../../_images/EmbeddedSystems.png" src="../../_images/EmbeddedSystems.png" />
+<img alt="Embedded system block diagram" src="../../_images/EmbeddedSystems.png" />
 </div>
-<p>Also there are some other early-fundamental tools that can be comperable with microcontrollers:</p>
-<p><strong>Programmable Logic Controller (PLC):</strong> is a specialized industrial computer. It is custom programmed to monitor input signals (digital or analog), perform logical operations, and trigger specific output signals. PLCs are known to be rugged and are commonly used in extreme industrial environments or applications that have almost no room for failure. PLCs are popular because of their modular structure. This makes them easy to install in a plug-and-play manner <a class="footnote-reference brackets" href="#f4" id="id4">4</a>.</p>
-<p><strong>Field Programmable Gate Array (FPGA):</strong> can be defined as a <em>kind of</em> microprocessor which doesn’t have any hardwired logic blocks because that would defeat the field programmable aspect of it. An FPGA is laid out like a net with each junction containing a switch that the user can make or break. This determines how the logic of each block is determined. Programming an FPGA involves learning HDL or the Hardware Description Language; a low level language that some people say to be as difficult as assembly language <a class="footnote-reference brackets" href="#f5" id="id5">5</a>. Compared to FPGAs, microprocessors have fixed instructions.</p>
+<p>Also there are some other early-fundamental tools that can be comparable with microcontrollers:</p>
+<p><strong>Programmable Logic Controller (PLC):</strong> is a specialized industrial computer. It is custom programmed to monitor input signals (digital or analog), perform logical operations, and trigger specific output signals. PLCs are known to be rugged and are commonly used in extreme industrial environments or applications that have almost no room for failure. PLCs are popular because of their modular structure. This makes them easy to install in a plug-and-play manner <a class="footnote-reference brackets" href="#f4" id="id4">5</a>.</p>
+<p><strong>Field Programmable Gate Array (FPGA):</strong> can be defined as a <em>kind of</em> microprocessor which doesn’t have any hardwired logic blocks because that would defeat the field programmable aspect of it. An FPGA is laid out like a net with each junction containing a switch that the user can make or break. This determines how the logic of each block is determined. Programming an FPGA involves learning HDL or the Hardware Description Language; a low level language that some people say to be as difficult as assembly language <a class="footnote-reference brackets" href="#f5" id="id5">6</a>. Compared to FPGAs, microprocessors have fixed instructions.</p>
 <div class="section" id="microprocessor-processing-structure">
 <h3>Microprocessor Processing Structure<a class="headerlink" href="#microprocessor-processing-structure" title="Permalink to this headline">¶</a></h3>
 <div class="figure align-center">
-<img alt="../../_images/Batman.png" src="../../_images/Batman.png" />
+<img alt="Batman is awesome!" src="../../_images/Batman.png" />
 </div>
 <p>All of you know the stereotype: “computers work with ones and zeros”. When I was in the first grade of the engineering class, whenever some bighead told me this sentence, I always wanted to kick their face with a spade. <em>Everyone</em> knows that a computer works with ones and zeros but really, <em>how?</em></p>
-<p>Well, so far what we know that a processor consists of millions of transistors. It is obvious that switcing on/off transistors creates those <em>famous</em> ones and zeros. But again, how when you type <code class="code docutils literal notranslate"><span class="pre">printf(&quot;Hello</span> <span class="pre">world!&quot;);</span></code> on a strange window (we will call it later IDE), a thousand of transistor switches on and off in a couple of nanoseconds and a <strong>Hello world!</strong> appears on another strange window (mostly called a Console)?</p>
-<p>Let me introduce you: <a class="reference external" href="https://www.wikiwand.com/en/Compiler">Compiler</a>. A compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language). There are two versions of your program: the one you wrote but a computer can’t read (source code) and the magically generated one that a computer can read (machine code). Except, a better than magic!</p>
-<div class="figure align-center">
-<img alt="../../_images/Compiler.png" src="../../_images/Compiler.png" />
+<p>Well, so far what we know that a processor consists of millions of transistors. It is obvious that switching on/off transistors creates those <em>famous</em> ones and zeros. But again, how when you type <code class="code docutils literal notranslate"><span class="pre">printf(&quot;Hello</span> <span class="pre">world!&quot;);</span></code> on a strange window (we will call it later IDE), thousands of transistor switches on and off in a couple of nanoseconds and a <strong>Hello world!</strong> appears on another strange window (typically called a Console)?</p>
+<p>There are many levels of nested knowledge which is required to fully grasp all the details of what is going on here. Furthermore a lot of software developers live happily without an understanding of the complete picture. Still some knowledge is required, especially for the times when things are not working they way you expect.</p>
 </div>
-<p>A compiler fills the gap between a human readable code and a machine readable code. Let’s dive into the lovely princaple of a compiler (and assembler).</p>
-<p>Basically, a CPU (or microprocessor) can do a small number of things. They can read from /write to the memory and do some basic math operations (+ - * / &amp; | ~ ^ &lt;&lt; &gt;&gt;).</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>The program you write usually contains at least two types of instructions. First it typically contains instruction to import other code in the form of libraries which are prepared for your convenience. Secondly your code, and the libraries contains instructions (formally known as statements) which are to be interpreted by the compiler.</p>
+<p>The compiler is a computer program which translates computer code written in one programming language (the source language) into another language (the target language). There are two versions of your program: the one you wrote but a computer can’t read (source code) <a class="footnote-reference brackets" href="#f8" id="id6">1</a>, and the magically generated one that a computer can read (machine code).</p>
+<p>The following figure attempts to illustrate this process:</p>
 <div class="figure align-center">
-<img alt="../../_images/microprocessororganization.png" src="../../_images/microprocessororganization.png" />
+<img alt="Compiler illustration" src="../../_images/Compiler.png" />
 </div>
 <p>And this is the reason why your 32-bit programs don’t work on a 64-bit computer (or they are needed to be installed into System32 folder etc). Because the controller divides all those set of 10101101’s into the parts that the architecture supports. If the processors are different or the operating systems are different, then they use different machine instructions. Today things works slightly different to overcome these compatibility issues but we are not in computer architecture class now so better to stop here.</p>
-<p>How it was like in microprocessor world in the past? That is this famous <strong>assembly</strong> code that many old-genius engineers talk about and at the end of the discussion there is always someone says “but it is really hard”.</p>
+<p>Further down the path of development the generated machine code is transferred to the microcontroller memory. When the microcontroller is started it will read and execute one instruction at a time, while traversing step by step through the memory. Special instruction are also able to instruct the controller to jump to different areas of the memory, allowing the program to take different paths depending on some external factors.</p>
+<div class="figure align-center">
+<img alt="Microprocessor organization" src="../../_images/microprocessororganization.png" />
+</div>
+<p>In practice there is usually an intermediate step between the source code, and the machine code. The intermediate step is known as the assembly code, and is a low level language where each statement corresponds to a single operation which is directly supported by the CPU. For some special cases where high performance is needed, or special features not available in the programming language are needed, assembly language is used. It is also used extensively by experienced developers while debugging code, as it is not always obvious how the compiler interpret our instructions.</p>
+<p>Traditionally all software was developed using assembly language, but higher level languages (such as C/C++) have been designed to simplify the development process for all but the most advanced or special cases.</p>
 <p><a class="reference internal" href="../../_images/assembly1.png"><img alt="pic1" src="../../_images/assembly1.png" style="width: 33%;" /></a> <a class="reference internal" href="../../_images/assembly2.png"><img alt="pic2" src="../../_images/assembly2.png" style="width: 33%;" /></a> <a class="reference internal" href="../../_images/assembly3.png"><img alt="pic3" src="../../_images/assembly3.png" style="width: 33%;" /></a></p>
 <p><strong>Why assembly language?</strong></p>
 <ul class="simple">
-<li><p>Assembly language gives us direct access to machine instructions that we cannot use in high-level languages.</p></li>
-<li><p>Assembly language can be the only way to generate efficient code in terms of speed and memory usage.</p></li>
+<li><p>It gives us direct access to machine instructions that we cannot use in high-level languages.</p></li>
+<li><p>It can be the best (only) way to generate efficient code in terms of speed and memory usage.</p></li>
+<li><p>It provides a better insight in to what is actually going on inside the computer (or microcontroller)</p></li>
+<li><p>It allows us to exploit hardware features not available in the programming language. One typical example is context switching of threads in a operating system.</p></li>
 </ul>
-<p><strong>*Personal opinion:</strong> it doesn’t worth today.*</p>
 <p>The embedded system is a bottomless well. It is impossible to cover everything in this course - and we don’t need to. Embedded system world is a charming nerdy black hole that pulls you inside even more as you are willing to learn more. Therefore we limit have to limit for this course at some point.</p>
 <p>For the youtubers:  <a class="reference external" href="https://www.youtube.com/watch?v=QXjU9qTsYCc">How do computers read code?</a> , The Evolution Of CPU Processing Power <a class="reference external" href="https://www.youtube.com/watch?v=sK-49uz3lGg&amp;t=315s">Part 1</a> <a class="reference external" href="https://www.youtube.com/watch?v=kvDBJC_akyg">Part 2</a> <a class="reference external" href="https://www.youtube.com/watch?v=NTLwMgak3Fk">Part 3</a> .</p>
-</div>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f8"><span class="brackets"><a class="fn-backref" href="#id6">1</a></span></dt>
+<dd><p>Strictly speaking the computer also reads the source language, but this reading process is more indirect. There is another set of instructions (another program, the compiler) running on the CPU which reads the code. The finalized program will be directly readable by the CPU without this intermediate step. Additionally for our purposes the compiler runs on your PC, while the finished program runs on the microcontroller.</p>
+</dd>
+</dl>
 <div class="section" id="arduino">
 <h3>Arduino<a class="headerlink" href="#arduino" title="Permalink to this headline">¶</a></h3>
 <p>Open Source electronic prototyping platform based on flexible easy to use hardware and software.</p>
@@ -325,25 +322,25 @@ The marketing estimates on the number of processors are dictated by the expectat
 <p>Some people may say that “Arduino is a toy”, well, in a way it is true. Depends on how you use it. Our computers are also a toy right? It has all the functionalities of a mid-advanced microcontrollers have.</p>
 <div class="section" id="fun-fact-about-arduino">
 <h4>Fun fact about Arduino:<a class="headerlink" href="#fun-fact-about-arduino" title="Permalink to this headline">¶</a></h4>
-<p>Atmega328P is a microcontroller developed by the company called <a class="reference external" href="https://www.wikiwand.com/en/Atmel">Atmel</a> . The microcontroller architecture particularly used by Atmel is called <a class="reference external" href="https://www.wikiwand.com/en/AVR_microcontrollers">AVR</a> developed by Alf-Egil Bogen and Vegard Wollan in NTNU. AVR derives its name from its developers and stands for Alf-Egil Bogen Vegard Wollan RISC microcontroller, also known as Advanced Virtual <a class="reference external" href="https://www.wikiwand.com/en/Reduced_instruction_set_computer">RISC</a> <a class="footnote-reference brackets" href="#f6" id="id6">6</a> . It has a <a class="reference external" href="https://www.wikiwand.com/en/Modified_Harvard_architecture">modified Harvard architecture</a> .</p>
+<p>Atmega328P is a microcontroller originally developed by a company called <a class="reference external" href="https://www.wikiwand.com/en/Atmel">Atmel</a>. Atmel was bought by Microchip in 2016, and thus the company no longer exists. The microcontroller architecture particularly used by Atmel is called <a class="reference external" href="https://www.wikiwand.com/en/AVR_microcontrollers">AVR</a> developed by Alf-Egil Bogen and Vegard Wollan while they where students at NTNU in Trondheim. AVR derives its name from its developers and stands for Alf-Egil Bogen Vegard Wollan RISC microcontroller, although attempts have been made to re-define it as Advanced Virtual <a class="reference external" href="https://www.wikiwand.com/en/Reduced_instruction_set_computer">RISC</a> <a class="footnote-reference brackets" href="#f6" id="id7">7</a> . It has a <a class="reference external" href="https://www.wikiwand.com/en/Modified_Harvard_architecture">modified Harvard architecture</a> .</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
 <dd><p><a class="reference external" href="http://en.wikipedia.org/wiki/Microcontroller">http://en.wikipedia.org/wiki/Microcontroller</a> - 17 October 2019.</p>
 </dd>
-<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p>Marwedel, Peter,  “Embedded System Design”  Springer, Boston, MA,  2006.</p>
 </dd>
-<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id2">3</a></span></dt>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id2">4</a></span></dt>
 <dd><p>Izmir Institute of Technology - Department of Electrical and Electronics Engineering <em>EE443 - Embedded Systems lecture notes - 2013</em></p>
 </dd>
-<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id4">5</a></span></dt>
 <dd><p><a class="reference external" href="https://resources.altium.com/pcb-design-blog/plc-vs-embedded-system-when-you-should-choose-a-plc-despite-the-higher-cost-per-unit">https://resources.altium.com/pcb-design-blog/plc-vs-embedded-system-when-you-should-choose-a-plc-despite-the-higher-cost-per-unit</a> - 14 January 2020</p>
 </dd>
-<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id5">6</a></span></dt>
 <dd><p><a class="reference external" href="https://www.element14.com/community/groups/fpga-group/blog/2018/02/22/comparing-an-fpga-to-a-microcontroller-microprocessor-or-an-asic">https://www.element14.com/community/groups/fpga-group/blog/2018/02/22/comparing-an-fpga-to-a-microcontroller-microprocessor-or-an-asic</a> - 14 January 2020</p>
 </dd>
-<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
 <dd><p><a class="reference external" href="https://www.elprocus.com/difference-between-avr-arm-8051-and-pic-microcontroller/">https://www.elprocus.com/difference-between-avr-arm-8051-and-pic-microcontroller/</a> - 14 January 2020.</p>
 </dd>
 </dl>
@@ -367,11 +364,12 @@ The marketing estimates on the number of processors are dictated by the expectat
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav ">
-        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+        <li><a href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="L0_Introduction.html" title="Lessons:" >previous</a></li>
+        <li><a href="software_hardware_preparations.html" title="Software and hardware preparations" >previous</a></li>
+        <li><a href="L2_Arduino_intro.html" title="Arduino Introduction" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

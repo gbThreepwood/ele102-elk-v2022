@@ -3,18 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ELE102 Microcontroller Session!
+Welcome to ELE102 Microcontroller course!
 ============================================
+
+On this page we will publish new lecture notes every week, as the course is progressing. The lecture notes will contain the curriculum that you need to know for the exam, as well as some additional material for those of you who are eager for more in depth knowledge.
 
 .. toctree::
    :maxdepth: 2
    :caption: Lessons:
-
-   Introduction <texts/Lessons/L0_Introduction.rst>
+ 
+   Introduction <texts/Lessons/L0_Introduction_elk.rst>
+   Software and hardware preparations <texts/Lessons/software_hardware_preparations.rst>
    Lesson 1: What is a Microcontroller <texts/Lessons/L1_UC_intro.rst>
+   Lesson 2: Introduction to Arduino <texts/Lessons/L2_Arduino_intro.rst>
 
 ..
-   Lesson 2: Introduction to Arduino <texts/Lessons/L2_Arduino_intro.rst>
+   Introduction <texts/Lessons/L0_Introduction.rst>
+
+ ..
    Lesson 3: Hands on Activities <texts/Lessons/L3_hands_on_act.rst>
    Lesson 4: Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
    Lesson 5: Conditionals - Functions <texts/Lessons/L5_edge_conditional_func.rst>
@@ -50,7 +56,8 @@ Welcome to ELE102 Microcontroller Session!
    Lesson 16: Project - RACE <texts/Lessons/RC_car.rst>
    Lesson 13: Data Structures <texts/Lessons/stacks_queues_lists.rst>
 
-.. note::
+.. 
+   .. note::
    Even weeks on tuesdays, odd weeks on wednesdays until week 13. Then, vice versa.
 
 .. Old plan with maxdepth 4
@@ -73,11 +80,16 @@ Welcome to ELE102 Microcontroller Session!
 You need to have:
 ==================
 
+For the microcontroller part of ELE102 you will be needing some hardware, as well as some software.
+
 * `Arduino Starter Kit <https://www.kjell.com/no/produkter/elektro-og-verktoy/utviklerkit/arduino/utviklingskort/arduino-startpakke-p87875>`_
 
 * `Arduino Software <https://www.arduino.cc/en/main/software>`_
 
-.. note::
+* `PlatformIO <https://platformio.org/platformio-ide>`_
+
+..
+   .. note::
    Depending of the class level, I will provide (*or you can buy if you will*) some other equipments for more serious and fun stuff!
 
 
@@ -102,8 +114,8 @@ You need to have:
    .. toctree::
       :maxdepth: 2
       :caption: Appendices:
-   
-       
+
+
        State machines <texts/Appendices/A2_state_machines.rst>
        Memory technology <texts/Appendices/memory_technology.rst>
        Operating system <texts/Appendices/operating_system.rst>

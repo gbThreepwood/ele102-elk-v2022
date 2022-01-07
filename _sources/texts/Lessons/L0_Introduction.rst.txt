@@ -27,9 +27,9 @@ All homeworks have 1-2 week of duration. Asking about the assignments are highly
 
 Exercises in the classes are *not* supposed to be finished in the class. We are not in highschool anymore. Freedom is yours as long as you use it wisely and not abuse it. Remember to finish them until next week before the lesson starts.
 
-Arduino is just a tool for this course. The aim is **not how to program Arduino**. The aim is to understant microcontroller concept **using Arduino**.
+Arduino is just a tool for this course. The aim is **not how to program Arduino**. The aim is to understand microcontrollers, and computer architecture *using Arduino*.
 
-Collaboration is highly encouraged in this course. If you want to get into more fun part, you need to colaborate. Helping each other is not cheating.  **But** copy-paste of codes from somewhere or someone is cheating. I believe you are qualified enough to distinguish these two.
+Collaboration is highly encouraged in this course. If you want to get into more fun part, you need to collaborate. Helping each other is not cheating.  **But** copy-paste of codes from somewhere or someone is cheating and has almost zero value when it comes to obtaining an understanding for the topics. I believe you are qualified enough to distinguish these two.
 
 External resources: 
 
@@ -66,6 +66,6 @@ Chapter names, topic keywords and required template codes can be provided before
 
 ..
     :download:`Time table </../external/timeplan.xls>`
-
-.. figure:: ../../../external/fig/timetable2021.png
-   :align: center
+..
+    .. figure:: ../../../external/fig/timetable2021.png
+       :align: center
