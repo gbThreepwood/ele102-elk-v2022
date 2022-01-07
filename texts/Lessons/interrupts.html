@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Interrupts &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Interrupts</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#timing-in-microcontrollers">Timing in Microcontrollers</a></li>
+<li><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#external-interrupts">External Interrupts</a><ul>
+<li><a class="reference internal" href="#practical-exercises">Practical exercises</a></li>
+<li><a class="reference internal" href="#external-interrupt-request-0-and-1">External interrupt request 0 and 1</a></li>
+<li><a class="reference internal" href="#pin-change-interrupts">Pin change interrupts</a></li>
+<li><a class="reference internal" href="#pin-change-interrupt-example">Pin change interrupt example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#internal-interrupts">Internal Interrupts</a><ul>
+<li><a class="reference internal" href="#timer-controlled-interrupts">Timer controlled interrupts</a></li>
+<li><a class="reference internal" href="#timer-1-interrupt-example">Timer 1 interrupt example</a></li>
+<li><a class="reference internal" href="#watchdog-timer-interrupt">Watchdog timer interrupt</a></li>
+<li><a class="reference internal" href="#detailed-look-at-the-operation-of-the-interrupt-system">Detailed look at the operation of the interrupt system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#switch-debounce-methods">Switch debounce methods</a><ul>
+<li><a class="reference internal" href="#measuring-switch-bounce-using-oscilloscope">Measuring switch bounce using oscilloscope</a></li>
+<li><a class="reference internal" href="#hardware-solutions">Hardware solutions</a></li>
+<li><a class="reference internal" href="#software-solutions">Software solutions</a></li>
+<li><a class="reference internal" href="#measure-the-bouncing-using-interrupt">Measure the bouncing using interrupt</a></li>
+<li><a class="reference internal" href="#delay-method">Delay method</a></li>
+<li><a class="reference internal" href="#shift-register-method">Shift register method</a></li>
+<li><a class="reference internal" href="#using-a-timer-interrupt-to-poll-the-inputs">Using a timer interrupt to poll the inputs</a></li>
+<li><a class="reference internal" href="#pin-change-interrupt-debounce-with-smoothing-capacitor">Pin change interrupt debounce with smoothing capacitor</a></li>
+<li><a class="reference internal" href="#pin-change-interrupt-debounce-software-only">Pin change interrupt debounce software only</a></li>
+<li><a class="reference internal" href="#creating-a-library-for-software-debounce">Creating a library for software debounce</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="interrupts">
+<span id="l7-adc-pwm-interrupt"></span><h1>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A interrupt is some form of external signal which interrupts the main process of the microcontroller CPU. When an interrupt occurs the current execution state of the main process is stored, before a different process (the ISR, or interrupt service routine) takes over. When the interrupt service routine has completed, execution control is returned to the main process. By external signal we mean a signal which is external to the CPU, physically it can be internal or external to the microcontroller chip. E.g. it can be generated by the timeout of an internal timer in the MCU, or by the change of logic state on a external pin.</p>
+<p>Interrupts are useful for making the system responsive to external events while avoiding constant polling of the possible external event sources. The ISR may simply set a flag, or publish a message in a event queue such that the main process can take appropirate action when it is ready to do so.</p>
+<p>The first section of this lecture describes how and when the interrupts are preferable over polling techniques. The following sections explain how the interrupt mechanism works. The second half of the lecture notes, starting with the section “Management of Interrupts,” describes the common problems and programming mistakes and their solutions in utilizing interrupts in typical microcontroller applications.</p>
+<div class="section" id="timing-in-microcontrollers">
+<h3>Timing in Microcontrollers<a class="headerlink" href="#timing-in-microcontrollers" title="Permalink to this headline">¶</a></h3>
+<p>A timer is a specialized type of clock which is used to measure time intervals. A timer that counts from zero upwards for measuring time elapsed is often called a stopwatch. It is a device that counts down from a specified time interval and used to generate a time delay, for example, an hourglass is a timer.</p>
+<p>A counter is a device that stores (and sometimes displays) the number of times a particular event or process occurred, with respect to a clock signal. It is used to count the events happening outside the microcontroller. In electronics, counters can be implemented quite easily using register-type circuits such as a flip-flop. <a class="footnote-reference brackets" href="#f2" id="id1">2</a></p>
+<p>Timers are counters that can be programmed to perform a variety of functions. Following are the typical operation modes and possible applications of timers:</p>
+<p><strong>1. Programmed operation:</strong> A timer can be used as an alarm clock to generate predetermined time delays. The  microprocessor sets the count limit or initializes the counter and enables the count operation. The timer generates an interrupt when the count limit is reached indicating the end of the programmed delay period. This mode of operation utilizes the internal clock and it does not require an external connection.</p>
+<p><strong>2. Gated or triggered operation:</strong> The count operation is controlled by an external signal. There may be several options to start and to stop the counter. In gated mode, the counter is enabled while the external signal is active. A multi-purpose timer allows independent selection of events that start and stop the counter. These events can be a rising or falling edge of the external trigger signal or an internal start/stop command issued by the microprocessor itself. The timer can be programmed to generate an interrupt when the counter stops. The common applications of gated or triggered operation involve any kind of time measurements, such as, measuring revolution time of a motor to detect its rotation speed, or quantification of time-encoded signals.</p>
+<p><strong>3. Clocked operation:</strong> The counter clock is supplied by an external signal while the count operation is enabled by the microprocessor or another timer. The typical applications include quantization of frequency-encoded signals, or position information generated by linear or rotational encoders.</p>
+<p>The specifications for a timer are directly related to the requirements of the application:</p>
+<p><strong>1. Maximum clock frequency</strong> determines the timing resolution. The internal clock frequencies available for timer operations depend on the microprocessor clock.</p>
+<p><strong>2. Number of counter bits</strong> determines the count range or the maximum time period that can be measured.</p>
+<p><strong>3. Functionality:</strong> Having a programmable timer does not necessarily mean that it will support all operation modes and gating or triggering options. You need to read the timer description to find out whether it is useful for your application or not. You may as well need additional features such as buffering of timer count results for motor speed measurements. A timer with buffered outputs can store the count result at the end of every motor revolution and re-start the counting process immediately.</p>
+<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions. The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled. The program written for the processor includes the necessary statements to restart the watchdog timer periodically. If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason. In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions <a class="footnote-reference brackets" href="#f1" id="id2">1</a>.</p>
+</div>
+<div class="section" id="interrupts-in-arduino">
+<h3>Interrupts in Arduino<a class="headerlink" href="#interrupts-in-arduino" title="Permalink to this headline">¶</a></h3>
+<p>There are some important keynotes <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/">About Interrupt Service Routines</a> in Arduino.</p>
+<p>Properties of ISR (Interrupt Service Routine):</p>
+<ol class="arabic simple">
+<li><p>Global variables used in an ISR must be <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>.</p></li>
+<li><p>Should normally be fast and short functions.</p></li>
+<li><p>No delay in the interrupt.</p></li>
+<li><p>An ISR cannot have parameters - no input argument, no output return.</p></li>
+<li><p>Stops <strong>everything</strong> in the main function.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">millis()</span></code> doesn’t work properly, <code class="code docutils literal notranslate"><span class="pre">delayMicroseconds()</span></code> works since it does not use any counter.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="external-interrupts">
+<h2>External Interrupts<a class="headerlink" href="#external-interrupts" title="Permalink to this headline">¶</a></h2>
+<p>In the following examples we will be using this circuit:</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/three_button_and_three_led_bb.png"><img alt="Three buttons and three LED's" src="../../_images/three_button_and_three_led_bb.png" style="width: 477.0px; height: 660.0px;" /></a>
+</div>
+<p>External interrupts are created by sensors (via communication channels) or buttons.</p>
+<p>In Arduino an external interrupt handler is defined by the function:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">pin</span><span class="p">),</span><span class="w"> </span><span class="n">ISR</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="section" id="practical-exercises">
+<h3>Practical exercises<a class="headerlink" href="#practical-exercises" title="Permalink to this headline">¶</a></h3>
+<p><strong>Practical exercise:</strong> Modify the RGB-LED code such that the blinking should stop immediately as soon as the button is pressed and should continue again as soon as it is released.</p>
+<p>Although we are using the <code class="code docutils literal notranslate"><span class="pre">delay()</span></code> function in almost everywhere, it is a very dangerous function. It halts any processing completely. No reading of sensors, mathematical calculations, or pin manipulation can go on during delay function.</p>
+<p><strong>Exercise for home:</strong> Modify the interrupt code without using delay functions. There is a very nice project using an LCD here:</p>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/TD-J7LgrsBQ" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
+<div class="section" id="external-interrupt-request-0-and-1">
+<h3>External interrupt request 0 and 1<a class="headerlink" href="#external-interrupt-request-0-and-1" title="Permalink to this headline">¶</a></h3>
+<p>The external interrupt requests INT0, and INT1 are triggered by pin 2, and 3 respectively. The following program illustrates how the interrupst may be used to toggle the state of two digital outputs.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+
+<span class="cm">/*</span>
+<span class="cm"> * The only pins that support external interrupt on the Arduino UNO is pin 2, and 3.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt_2_state_variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt_3_state_variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">external_interrupt_2</span><span class="p">();</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">external_interrupt_3</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton3</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/*</span>
+<span class="cm">   * attachInterrupt(digitalPinToInterrupt(pin), ISR, mode)</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">external_interrupt_2</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">external_interrupt_3</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//digitalWrite(greenLED, interrupt_2_state_variable);</span>
+<span class="w">  </span><span class="c1">//digitalWrite(redLED, interrupt_3_state_variable);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">pushButton3</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//cli();</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Loop: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">external_interrupt_2</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">interrupt_2_state_variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">interrupt_2_state_variable</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">greenLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">external_interrupt_3</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">interrupt_3_state_variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">interrupt_3_state_variable</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pin-change-interrupts">
+<h3>Pin change interrupts<a class="headerlink" href="#pin-change-interrupts" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The pin change interrupts are not supported by the Arduino library, and thus requires manual register manipulation.</p>
+</div>
+<p>The Atmega 328 does not support individual interrupts on all the digital inputs. The pin change interrupts in the Atmega 328 are three interrupt vectors that can be configured to trigger on the change of one or more of a range of input pins. This is often sufficient to make a responsive application, because the ISR can check wich of the input pins that have changed, and thus wich one is responsible for the interrupt. Often the ISR will simply change a flag, or post a message into a queue, and the main process will then take appropirate action when it is ready.</p>
+<p>The following code shows a function that configures Arduino pin 11, 12, and 13 for pin change interrupt:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Arduino pin 13, 12, and 11 are connected to PCINT 5, 4, and 3.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">interrupt_setup</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Enable pin change interrupts PCINT3, PCINT4, and PCINT5.</span>
+<span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT5</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT4</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT3</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Clear any interrupts on ISR0.</span>
+<span class="w">  </span><span class="n">PCIFR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Pin Change Interrrupt Control Register (PCICR)</span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The actual code that is executed upon a interrupt is defined as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Pin change ISR for D8 to D13</span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT0_vect</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Code to detect which pin is responsible for the interrupt.</span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pin-change-interrupt-example">
+<h3>Pin change interrupt example<a class="headerlink" href="#pin-change-interrupt-example" title="Permalink to this headline">¶</a></h3>
+<p>The following example shows how to use all three pin change interrupts. Each ISR is responsible for toggling the state of a LED in order to indicate that the program is functional.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A1</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton3</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A0</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A3</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A4</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">A5</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Arduino pin 13, 12, and 11 are connected to PCINT 5, 4, and 3.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">cli</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Enable pin change interrupts PCINT3, PCINT4, and PCINT5.</span>
+<span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT5</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT4</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT3</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// PCINT8 to PCINT13 are connected to pin A0 to A5.</span>
+<span class="w">  </span><span class="n">PCMSK1</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT8</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT9</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT10</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT11</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// PCINT16, and PCINT17 are connected to the RX, and TX pin of the UART.</span>
+<span class="w">  </span><span class="n">PCMSK2</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT16</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT17</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT18</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// Clear any interrupts.</span>
+<span class="w">  </span><span class="n">PCIFR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Pin Change Interrrupt Control Register (PCICR)</span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE2</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// Pin change ISR for D8 to D13</span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT0_vect</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">greenLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+
+<span class="c1">// Pin change ISR for A0 - A5 </span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT1_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// Pin change ISR for D0 - D7</span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT2_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="internal-interrupts">
+<h2>Internal Interrupts<a class="headerlink" href="#internal-interrupts" title="Permalink to this headline">¶</a></h2>
+<p>Internal interrupts are interrupts that are triggered by the internal hardware (or software) of the microcontroller. Internal interrupt sources includes timers, various communication hardware such as UART, and software that writes to a interrupt request register.</p>
+<div class="section" id="timer-controlled-interrupts">
+<h3>Timer controlled interrupts<a class="headerlink" href="#timer-controlled-interrupts" title="Permalink to this headline">¶</a></h3>
+<p>All timers depends on the system clock of your Arduino system. Normally the system clock is 16MHz, but for the Arduino Pro 3,3V it is 8Mhz. So be careful when writing your own timer functions.
+The timer hardware can be configured with some special timer registers. In the Arduino firmware all timers were configured to a 1kHz frequency and interrupts are gerally enabled.</p>
+<p><strong>Timer0</strong> is a 8bit timer. In the Arduino world timer0 is been used for the timer functions, like delay() 484, millis() 1.1k and micros() 497. If you change Timer0 registers, this may influence the Arduino timer function. So you should know what you are doing.</p>
+<p><strong>Timer1</strong> is a 16bit timer. In the Arduino world the Servo library 811 uses Timer1 on Arduino Uno (timer5 on Arduino Mega).</p>
+<p><strong>Timer2</strong> is a 8bit timer like Timer0. In the Arduino work the tone() 650 function uses Timer2.</p>
+<p>Timer3, Timer4, Timer5 are only available on Arduino Mega boards. These timers are all 16bit timers. <a class="footnote-reference brackets" href="#f3" id="id3">3</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since internal timers are created by changing the Timer behaviour through the timer register, we will not cover it here. This subject requires at least intermediate embedded programming skills and datasheet reading. However, this is one of the most important topics in the embedded systems. For those who are willing to learn this topic should know about setup and Use of the Timers* (<a class="reference external" href="http://ww1.microchip.com/downloads/en/AppNotes/Atmel-2505-Setup-and-Use-of-AVR-Timers_ApplicationNote_AVR130.pdf">AVR130: Setup and Use the AVR Timers</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="code docutils literal notranslate"><span class="pre">interrupts()</span></code> and <code class="code docutils literal notranslate"><span class="pre">noInterrupts()</span></code> are used to enable and disable interrupts respectively. They are used for the critical parts of the code. - <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/">https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/</a>. Alternatively the functions <code class="code docutils literal notranslate"><span class="pre">sei()</span></code>, and <code class="code docutils literal notranslate"><span class="pre">cli()</span></code> may also be used.</p>
+</div>
+</div>
+<div class="section" id="timer-1-interrupt-example">
+<h3>Timer 1 interrupt example<a class="headerlink" href="#timer-1-interrupt-example" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following example uses the TimerOne library for controlling Timer 1. Depending on your development environment you may have tomanually install the library.</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TimerOne.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">timer1_interrupt</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">timer1_interrupt</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Iterasjon: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">timer1_interrupt</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">greenLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="watchdog-timer-interrupt">
+<h3>Watchdog timer interrupt<a class="headerlink" href="#watchdog-timer-interrupt" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of the watchdog timer is to reboot the controller if the program should crash. It is a safeguard for poorly designed programs, but even well designed programs may crash if the controller is exposed to external noise (radiation) that messes with the memory.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/wdt.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * The only pins that support external interrupt on the Arduino UNO is pin 2, and 3.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">watchdog_init</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">wdt_disable</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Controller started.&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">//wdt_enable(WDTO_2S);</span>
+
+<span class="w">  </span><span class="n">watchdog_init</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">watchdog_init</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">cli</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* MCUSR – MCU Status Register. */</span><span class="w"></span>
+<span class="w">  </span><span class="n">MCUSR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* WDTCSR – Watchdog Timer Control Register.</span>
+<span class="cm">   *</span>
+<span class="cm">   * Watchdog Change Enable must be set to one before updating the prescaler bits.</span>
+<span class="cm">   * </span>
+<span class="cm">   * The effect of the various prescaler settings are listed in table 10-3 on</span>
+<span class="cm">   * page 48 in the datsheet.</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="n">WDTCSR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDCE</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDE</span><span class="p">);</span><span class="c1">// | (0 &lt;&lt; WDP3) | (0 &lt;&lt; WDP2) | (0 &lt;&lt; WDP1) | (0 &lt;&lt; WDP0);</span>
+<span class="w">  </span><span class="n">WDTCSR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDIE</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDE</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDP3</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDP2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDP1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">WDP0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//WDTCSR |= 0b00011000;</span>
+<span class="w">  </span><span class="c1">//WDTCSR =  0b01000000 | 0b100001;</span>
+
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Watchdog timer ISR</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="n">ISR</span><span class="p">(</span><span class="n">WDT_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Practical Exercise:</strong> Let’s write a program with an RGB light, blinking each LED for 1 second (reg, green, blue, white) and repeat it infinitely. Also, attach a button that stops blinking of all LEDs. Do not use any interrupt knowledge at first and let’s see what happens. Afterwards, define your button as an interrupt and see what changes.</p>
+</div>
+<div class="section" id="detailed-look-at-the-operation-of-the-interrupt-system">
+<h3>Detailed look at the operation of the interrupt system<a class="headerlink" href="#detailed-look-at-the-operation-of-the-interrupt-system" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="switch-debounce-methods">
+<h2>Switch debounce methods<a class="headerlink" href="#switch-debounce-methods" title="Permalink to this headline">¶</a></h2>
+<p>Switch bounce is the mechanical bouncing of the contacts in an electrical switch, causing what should be a single event to appear to be multiple events (e.g. multiple presses of a push button). It is a feature of most electical swiches, and causes problems when the swiches are interfaced with fast digital electronics, such as microcontrollers. Many solutions have been developed to overcome these issues, and thus it is impossible to cover all of them. This chapter aims to provide you with some effective hardware and software solutions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The part about switch debounce is not ready.</p>
+</div>
+<div class="section" id="measuring-switch-bounce-using-oscilloscope">
+<h3>Measuring switch bounce using oscilloscope<a class="headerlink" href="#measuring-switch-bounce-using-oscilloscope" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hardware-solutions">
+<h3>Hardware solutions<a class="headerlink" href="#hardware-solutions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="software-solutions">
+<h3>Software solutions<a class="headerlink" href="#software-solutions" title="Permalink to this headline">¶</a></h3>
+<p>Switch debounce in hardware is a effective solution, but additional hardware increases the cost and thus it is often possible to save some cost by implementing software debounce. Switch change may be detected by polling the state of the digital input, or the input may generate an interrupt to the CPU. Regardless of which metod one is using, care must be taken to not detect several push events because of bouncing.</p>
+<p>Polling is often the preferred method to detect push buttons, although constant polling does waste some CPU cycles. In applications such as battery operated devices, the microcontroller could be put into a sleep state in order to save power when it is not in use. A interrupt is often required to wake up the controller, but afterwards in could enter a polling mode for the inputs. In simple applications the polling could be acheived in the main loop, or by using a timer interrupt where the ISR polls the inputs. If the controller is running a operating system, it could also be possible to use a thread for the polling.</p>
+<p>The interrupt solution requires extra attention because the bouncing in some cases may cause the ISR to fire many times within a short time period. This can have a bad impact on the performance of the microcontroller. The solution will often be that the pin change interrupt is temporary disabled by the ISR on the first invocation. After some delay the interrupt is re-enabled.</p>
+<p>Because many applications require debouncing of more than one push button, it is often useful to create a library which provides a consistant way of adding debounce to the inputs that require this.</p>
+</div>
+<div class="section" id="measure-the-bouncing-using-interrupt">
+<h3>Measure the bouncing using interrupt<a class="headerlink" href="#measure-the-bouncing-using-interrupt" title="Permalink to this headline">¶</a></h3>
+<p>A oscilloscope is a good tool for evaluating the bouncing problemens of a push button. If you do not have access to a oscilloscope, it is also possible to use the controller itself to measure the bouncing. This method is less accurate, because the voltage levels during the bouncing period may vary, and only occationally cause spurious detection of button events.</p>
+<p>The following example is using a pin change interrupt to count the bouncing of the signal on a digital input. Note that the ISR fires on both rising and falling edge of the signal, thus you will at least trigger the ISR once on button push, and once on button release.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">first_isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Controller starting...&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">isr_flag</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">first_isr_flag</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="n">first_isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">500</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Button ints: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt_counter</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1">// The led should only change state if the ISR fires a odd number of times</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Should LED change it&#39;s final state? &quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">interrupt_counter</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;No&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Yes&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">first_isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">interrupt_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Arduino pin 12 is connected to PCINT 4.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">cli</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Enable pin change interrupts PCINT3, PCINT4, and PCINT5.</span>
+<span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT5</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT4</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT3</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Clear any interrupts.</span>
+<span class="w">  </span><span class="n">PCIFR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Pin Change Interrrupt Control Register (PCICR)</span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Pin change ISR for D8 to D13.</span>
+<span class="cm"> * The ISR fires on both rising and falling edge of the input.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT0_vect</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">greenLED</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">interrupt_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delay-method">
+<h3>Delay method<a class="headerlink" href="#delay-method" title="Permalink to this headline">¶</a></h3>
+<p>The following method checks for a rising edge on the digital input, and subsequently ignores any change of state for a given delay period. A important issue with this method is that the required delay period will vary depending on the type of switch that i used.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">push_button_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">button_press_debounce</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">push_button_1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">button_press_debounce</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Mechanical switch debounce.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">button_press_debounce</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">latest_edge_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">previous_button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">push_button_1</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">button_state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">previous_button_state</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">button_state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Rising edge.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">latest_edge_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="n">button_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">previous_button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">button_state</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">latest_edge_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">button_event</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Button event detected&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">button_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="shift-register-method">
+<h3>Shift register method<a class="headerlink" href="#shift-register-method" title="Permalink to this headline">¶</a></h3>
+<p>The following example is intended to demonstrate the operation of the shift register debounce method, by printing the state of the shift register to the UART. The shift register method is in some ways superior to the delay method, because it will detect if the input is stable rather than simply detecting a edge, and ignoring the input for some period. The sampling delay for the shift register method may be much shorter than the delay for the delay method.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">push_button_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">button_press_debounce</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">push_button_1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/*</span>
+<span class="cm">   * This (500 ms) is not the required delay for efficient switch debounce.</span>
+<span class="cm">   * It is simply used for demonstrational purposes, to allow us to observe</span>
+<span class="cm">   * the output on the terminal.</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">500</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">button_press_debounce</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Mechanical switch debounce using shift register.</span>
+<span class="cm"> *  </span>
+<span class="cm"> * This function must be called with fixed delayed intervals</span>
+<span class="cm"> * in order to avoid sampling the button state to quickly.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">button_press_debounce</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">button_debounce_register</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">push_button_1</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">button_debounce_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">button_debounce_register</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0xc000</span><span class="p">;</span><span class="w">  </span><span class="c1">// 1110 0000 0000 0000</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">button_debounce_register</span><span class="p">,</span><span class="n">BIN</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">button_debounce_register</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xe000</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Button event.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-a-timer-interrupt-to-poll-the-inputs">
+<h3>Using a timer interrupt to poll the inputs<a class="headerlink" href="#using-a-timer-interrupt-to-poll-the-inputs" title="Permalink to this headline">¶</a></h3>
+<p>The following example shows one way to poll three digital inputs using a timer interrupt. The <code class="code ccode c docutils literal notranslate"><span class="pre">get_button_event(push_button_t</span> <span class="pre">button)</span></code> function is included in order to abstract away the operation of the button event detect algorithm. This is a more complete example of how to use debouncing in an application, but it could certainly be improved. In particular the operation of the switch debounce could be hidden in a separate file (a library), and the events could be posted to a queue.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TimerOne.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">push_button_1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">push_button_2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">push_button_3_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_events</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">PUSH_BUTTON_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">PUSH_BUTTON_2</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">PUSH_BUTTON_3</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">push_button_t</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">timer1_interrupt</span><span class="p">();</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">get_button_event</span><span class="p">(</span><span class="n">push_button_t</span><span class="w"> </span><span class="n">button</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">timer1_interrupt</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">get_button_event</span><span class="p">(</span><span class="n">PUSH_BUTTON_1</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Detected push button 1 event&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">get_button_event</span><span class="p">(</span><span class="n">PUSH_BUTTON_2</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Detected push button 2 event&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">get_button_event</span><span class="p">(</span><span class="n">PUSH_BUTTON_3</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Detected push button 3 event&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// counter++;</span>
+<span class="w">  </span><span class="c1">// Serial.print(&quot;Iterasjon: &quot;);</span>
+<span class="w">  </span><span class="c1">// Serial.println(counter);</span>
+<span class="w">  </span><span class="c1">// delay(1000);</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * The timer1 ISR is responsible for polling all the push button inputs.</span>
+<span class="cm"> * If a edge is detected, the ISR will flag the input.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">timer1_interrupt</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">last_button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">last_state_change_time</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">button_state</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">push_button_1_pin</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">button_state</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">push_button_2_pin</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">button_state</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">push_button_3_pin</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_3</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(((</span><span class="n">button_state</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">((</span><span class="n">last_button_state</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)){</span><span class="w"></span>
+<span class="w">      </span><span class="n">last_state_change_time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">last_state_change_time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="p">)){</span><span class="w"></span>
+<span class="w">      </span><span class="n">last_button_state</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">((</span><span class="n">button_state</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">button_events</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * The get_button_event() function is used to check for new push button events.</span>
+<span class="cm"> * It is not polling from an event queue, it simply returns true if the event flag for the</span>
+<span class="cm"> * given button is high.</span>
+<span class="cm"> * </span>
+<span class="cm"> * A event queue would probably be better.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">get_button_event</span><span class="p">(</span><span class="n">push_button_t</span><span class="w"> </span><span class="n">button</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">cli</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">button</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="nl">PUSH_BUTTON_1</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">button_events</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">button_events</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_1</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="nl">PUSH_BUTTON_2</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">button_events</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_2</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">button_events</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_2</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="nl">PUSH_BUTTON_3</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">button_events</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_3</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">button_events</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PUSH_BUTTON_3</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pin-change-interrupt-debounce-with-smoothing-capacitor">
+<h3>Pin change interrupt debounce with smoothing capacitor<a class="headerlink" href="#pin-change-interrupt-debounce-with-smoothing-capacitor" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You should avoid the pin change interrupts for push buttons, unless you are absolutely sure that you need it. The aforementioned methods are simpler to implement, and more general in nature. The pin change interrupt is a specific feature of some of the AVR controllers.</p>
+<p>The problem with using interrupts with switch inputs is that bouncing will cause the ISR to fire multiple times, unless the ISR disables the interrupt on the first invocation. This complicates things.</p>
+</div>
+</div>
+<div class="section" id="pin-change-interrupt-debounce-software-only">
+<h3>Pin change interrupt debounce software only<a class="headerlink" href="#pin-change-interrupt-debounce-software-only" title="Permalink to this headline">¶</a></h3>
+<p>In this section we are demonstrating one way of detecting and debouncing inputs using pin change interrupts. The following algorithm is used:</p>
+<p class="plantuml">
+<img src="../../_images/plantuml-d962e10542f7d82185a7f54dd4589d578a9fdc76.png" alt="(*) --&gt; &quot;ISR fires on one of the inputs&quot;
+--&gt; &quot;Check wich input caused the interrupt&quot;
+--&gt; &quot;Set flag, or post message&quot;
+--&gt; &quot;Disable the pin change interrupt&quot;
+--&gt; (*)"/>
+</p>
+<p class="plantuml">
+<img src="../../_images/plantuml-3831f230e29778471da6f6ad9f9b6f586ef6e195.png" alt="(*) --&gt; &quot;Main loop or timer checks for new events&quot;
+If &quot;New event&quot; then
+--&gt; [Yes] &quot;Store&quot;
+else
+--&gt; (*)
+Endif"/>
+</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A1</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pushButton3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">greenLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">yellowLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pushButton3</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">yellowLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pin_change_interrupt_setup</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Arduino pin 13, 12, and 11 are connected to PCINT 5, 4, and 3.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">pin_change_interrupt_setup</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">cli</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Enable pin change interrupts PCINT3, PCINT4, and PCINT5.</span>
+<span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT5</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT4</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT3</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Clear any interrupts.</span>
+<span class="w">  </span><span class="n">PCIFR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIF0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Pin Change Interrrupt Control Register (PCICR)</span>
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="n">sei</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Pin change interrupt switch software debounce algorithm.</span>
+<span class="cm"> * </span>
+<span class="cm"> * 1. Disable interrupt on the pin for a short delay.</span>
+<span class="cm"> * 2. After the delay check the state of the input.</span>
+<span class="cm"> * 3. If still high interpet as valid button push, but re-enable interrupts regardless.</span>
+<span class="cm"> */</span><span class="w"></span>
+
+<span class="c1">// Pin change ISR for D8 to D13</span>
+<span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT0_vect</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">greenLED</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">greenLED</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-library-for-software-debounce">
+<h3>Creating a library for software debounce<a class="headerlink" href="#creating-a-library-for-software-debounce" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>Izmir Institute of Technology - Department of Electrical and Electronics Engineering <em>EE443 - Embedded Systems lecture notes - 2013</em></p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
+<dd><p><a class="reference external" href="https://www.tutorialspoint.com/embedded_systems/es_timer_counter.htm">https://www.tutorialspoint.com/embedded_systems/es_timer_counter.htm</a></p>
+</dd>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><a class="reference external" href="https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072">https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

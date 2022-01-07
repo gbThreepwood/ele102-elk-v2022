@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Various Hands on Activities &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Various Hands on Activities</a><ul>
+<li><a class="reference internal" href="#digital-i-o">Digital I/O</a></li>
+<li><a class="reference internal" href="#variable-types">Variable Types</a></li>
+<li><a class="reference internal" href="#serial-print">Serial Print</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="admonition note" id="l4-hands-on">
+<p class="admonition-title">Note</p>
+<p><em>04/02/2020 - 75mins</em></p>
+<p><strong>Should be finished with Lecture-4</strong></p>
+<ul class="simple">
+<li><p>Digital I/O</p></li>
+<li><p>Variable types</p></li>
+<li><p>delay</p></li>
+<li><p>Serial print</p></li>
+</ul>
+</div>
+<div class="section" id="various-hands-on-activities">
+<h1>Various Hands on Activities<a class="headerlink" href="#various-hands-on-activities" title="Permalink to this headline">¶</a></h1>
+<p>Let’s increace the practicality.</p>
+<div class="section" id="digital-i-o">
+<h2>Digital I/O<a class="headerlink" href="#digital-i-o" title="Permalink to this headline">¶</a></h2>
+<p>You remember that in the last course we have compiled the built-in <code class="code docutils literal notranslate"><span class="pre">Blink</span></code> example. Let’s remember the procedure first.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// the setup function runs once when you press reset or power the board</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
+<span class="w">   </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// the loop function runs over and over again forever</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
+<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
+<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In this example <code class="code docutils literal notranslate"><span class="pre">LED_BUILTIN</span></code> is named as <em>Macro definition</em> which is a term to used the constant definitions as a pre-processor directive. In here the term <code class="code docutils literal notranslate"><span class="pre">LED_BUILTIN</span></code> is a place holder for the number <strong>13</strong>. Instead, we could have written the code like that and literally nothing would have change in practice:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// the setup function runs once when you press reset or power the board</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
+<span class="w">   </span><span class="n">pinMode</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// the loop function runs over and over again forever</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
+<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
+<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>However, this wouldn’t look good in programming beauty standards. The reason is that whenever you have another LED attached to your Arduino, but in another pin than <strong>13</strong>, you need to change this <em>definition</em> in 3 different places. Therefore there are different <em>place holders</em> in the programming. Macro definitions are one of them and defined like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define identifier replacement</span>
+</pre></div>
+</div>
+<p>Basically, it says your processor that “whenever you see this <code class="code docutils literal notranslate"><span class="pre">identifier</span></code>, replace it with the <code class="code docutils literal notranslate"><span class="pre">replacement</span></code>”. This way of introducing a place holder is executed in a pre-processor directive. It is not different than copying one text (as <code class="code docutils literal notranslate"><span class="pre">identifier</span></code>) and pasting another text (as <code class="code docutils literal notranslate"><span class="pre">replacement</span></code>).</p>
+<p>Let’s define our own macro definition for our external LED, attached to <strong>pin number 2</strong>. Also, change the blink rate from 1000 milliseconds to half a second.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define MY_EXT_LED 2</span>
+<span class="cp">#define BLINK_RATE 500</span>
+<span class="c1">// the setup function runs once when you press reset or power the board</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// the loop function runs over and over again forever</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">BLINK_RATE</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">BLINK_RATE</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-types">
+<h2>Variable Types<a class="headerlink" href="#variable-types" title="Permalink to this headline">¶</a></h2>
+<p>In some cases using macro definitions is the most efficient way because is a faster process. The processor doesn’t have to check the value of a <em>variable</em> in the register. Do you remember what is the register?</p>
+<p>However, macro definitions can be risky and needs to be named carefully. Generally new programmers may overwrite a macro on top of another macro which has been defined before. Furthermore, if the <code class="code docutils literal notranslate"><span class="pre">identifier</span></code> is defined in a very generic way, since it is a text replacement, it can replace some or your other variable definitions. The preprocessor does not understand C/C++ properly, it simply replaces any occurrence of <code class="code docutils literal notranslate"><span class="pre">identifier</span></code> by <code class="code docutils literal notranslate"><span class="pre">replacement</span></code>. Additionally a definition is constant, it cannot change during the execution of a program.</p>
+<p>Therefore we have <em>variables</em> which can change during run time, and hold various different <em>types</em> of information depending on how they are declared. In the Arduino Cookbook First Edition Chapter 2.2.</p>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">Simple Primitive Types in Arduino (Variables)</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 8%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Numeric types</p></th>
+<th class="head"><p>Bytes</p></th>
+<th class="head"><p>Range</p></th>
+<th class="head"><p>Use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>int</p></td>
+<td><p>2</p></td>
+<td><p>-32768 to 32767</p></td>
+<td><p>Represents positive and negative integer values.</p></td>
+</tr>
+<tr class="row-odd"><td><p>unsigned int</p></td>
+<td><p>2</p></td>
+<td><p>0 to 65535</p></td>
+<td><p>Represents only positive values; otherwise, similar to int.</p></td>
+</tr>
+<tr class="row-even"><td><p>long</p></td>
+<td><p>4</p></td>
+<td><p>-2147483648 to 2147483647</p></td>
+<td><p>Represents a very large range of positive and negative values.</p></td>
+</tr>
+<tr class="row-odd"><td><p>unsigned long</p></td>
+<td><p>4</p></td>
+<td><p>0 to 4294967295</p></td>
+<td><p>Represents a very large range of positive values.</p></td>
+</tr>
+<tr class="row-even"><td><p>float</p></td>
+<td><p>4</p></td>
+<td><p>3.4028235E+38 to -3.4028235E+38</p></td>
+<td><p>Represents numbers with fractions; use to approximate real-world measurements.</p></td>
+</tr>
+<tr class="row-odd"><td><p>double</p></td>
+<td><p>4</p></td>
+<td><p>The same as float</p></td>
+<td><p>In Arduino, double is just another name for float.</p></td>
+</tr>
+<tr class="row-even"><td><p>boolean</p></td>
+<td><p>1</p></td>
+<td><p>false (0) or true (1)</p></td>
+<td><p>Represents true and false values.</p></td>
+</tr>
+<tr class="row-odd"><td><p>char</p></td>
+<td><p>1</p></td>
+<td><p>-128 to 127</p></td>
+<td><p>Represebts a single character. Cal also represent a signed value between -128 and 127.</p></td>
+</tr>
+<tr class="row-even"><td><p>byte</p></td>
+<td><p>1</p></td>
+<td><p>0 to 255</p></td>
+<td><p>Similar to char, but for unsigned values.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 76%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>string</p></td>
+<td><p>Represents arrays of chars (characters) typically used to contain text.</p></td>
+</tr>
+<tr class="row-even"><td><p>void</p></td>
+<td><p>Used only in function declarations where no value is returned.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Variables are generally defined such that the values can be changed during the execution of the program; after some calculations, in conditional cases, as the sensor readings change etc. On the other hand, there are some cases that we, as the developer, know that the value of a variable is constant. Through the whole program, it will remain the same value. In these cases it is more efficient and safe to define them as <strong>constant</strong> values, which tells the processor that this value has just <em>read-only</em> property. This feature is useful for especially longer codes in their debug process. In our case, we know that the LED is always connected a predefined pin and it will not be changed in any conditions. Therefore, we can define the pin-number as a <em>constant integer</em>, which would be more memory-efficient declaration way.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">led_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">blink_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w"></span>
+<span class="c1">// the setup function runs once when you press reset or power the board</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// the loop function runs over and over again forever</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led_pin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">blink_rate</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led_pin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">blink_rate</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Since in the embedded world memory is the main concern most of the time, it is good to have a more friendly type definitions. Instead of trying to remember the memory spaces of all the variable types, in Arduino there is a nicer-looking type definitions: <strong>uint8_t, uint16_t, uint32_t</strong>.</p>
+<p>For example <em>char</em> is <strong>int8_t</strong> but <em>byte</em> is <strong>uint8_t</strong>.</p>
+</div>
+</div>
+<div class="section" id="serial-print">
+<h2>Serial Print<a class="headerlink" href="#serial-print" title="Permalink to this headline">¶</a></h2>
+<p>One of the most beautiful feature which Arduino brought into the embedded developers’s world is the built-in serial monitor in its IDE. Before that, it was a big hassle to debug your embedded code. You could connect an external LCD and set a bunch of specifications, initialize many pins and handle their configurations in every single time. Sometimes your final product wouldn’t include an LCD and you might need to use the pins which you have used for your debugging LCD. Then, one might try error coding by using LEDs. In some of your embedded products at home, sometimes yout washing machine buzzer sounds in different frequencies for different messages. Or, the indication LED on your robot vacuum cleaner may blink in different colors and frequencies for indicating different messages.</p>
+<p>You can use the serial-monitor in the Arduino IDE for debugging purposes. (Of course there are many different ways of using it but personally this is the one reason by far than any other reasons that I have been using it). Even in Arduino, if there was not this feature in the IDE, we had to do <a class="reference external" href="https://www.arduino.cc/en/Tutorial/HelloWorld">this.</a></p>
+<img alt="../../_images/serial-monitor.png" class="align-center" src="../../_images/serial-monitor.png" />
+<p>In order to write someting into the serial-monitor, we need to initialize the serial communication with a single line of code. A simple “hello, world!” code would then look like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// initialize serial communication at 9600 bits per second:</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;hello, world!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Serial-monior is basically a terminal with a bit more sophisticated-looking. In order to set the serial-monitor with your board, you need to establish a UART communication Basically, as most of you know, you are uploading your sketches to the Arduino via USB cable. The general name of this commonly used protocol is <a class="reference external" href="https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter">UART</a> (or in less often cases <a class="reference external" href="https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter">USART</a>). It is a wide concept that requires more time to grasp the details. We will look into that in our <a class="reference internal" href="L9_communication.html#l9-communication"><span class="std std-ref">communication protocols</span></a> lesson.</p>
+</div>
+<p>We will be using the following circuit:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/single_potmeter_bb.png"><img alt="../../_images/single_potmeter_bb.png" src="../../_images/single_potmeter_bb.png" style="width: 484.5px; height: 660.0px;" /></a>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Analog read from a potentiometer, write the value.</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="cp">#define POT_PIN A0</span>
+
+<span class="w">  </span><span class="c1">// the setup routine runs once when you press reset:</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// initialize serial communication at 9600 bits per second:</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// the loop routine runs over and over again forever:</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">potVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">POT_PIN</span><span class="p">);</span><span class="w"> </span><span class="c1">// read the input on analog pin</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">potVal</span><span class="p">);</span><span class="w">  </span><span class="c1">// print out the value you read</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w">        </span><span class="c1">// delay in between reads for stability</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

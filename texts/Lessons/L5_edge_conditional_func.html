@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Conditionals, Functions &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Conditionals, Functions</a><ul>
+<li><a class="reference internal" href="#on-the-selection-of-a-suitable-current-limiting-resistor-for-the-led">On the selection of a suitable current limiting resistor for the LED</a><ul>
+<li><a class="reference internal" href="#conditionals">Conditionals</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="admonition note" id="l5-edge-conditional-func">
+<p class="admonition-title">Note</p>
+<p><em>12/02/2020 - 195mins</em></p>
+<p><strong>Aim:</strong></p>
+<ul class="simple">
+<li><p>Edge detection —- Removed to previous lecture</p></li>
+<li><p>Pull-up pull-down resistors: Ex:button connect</p></li>
+<li><p>loops (barely)</p></li>
+<li><p>if..else, Switch case</p></li>
+<li><p>Differences between: Object - Function - Variables
+- nothing such a thing like Method in C++</p></li>
+<li><p>functions</p></li>
+</ul>
+<p><strong>Code:</strong>
+- Basic tilt detection
+- Conditionals with tilt detection
+- keypress with switch case
+- blink once/multiple times/and return
+- ? Stopwatch
+- Assignment-1 intro</p>
+</div>
+<div class="section" id="conditionals-functions">
+<h1>Conditionals, Functions<a class="headerlink" href="#conditionals-functions" title="Permalink to this headline">¶</a></h1>
+<p>The digital inputs and outputs (digital I/O) on the Arduino are what allow you to connect sensors, actuators, and other ICs to the Arduino . Learning how to use the inputs and outputs will allow you to use the Arduino to do some really useful things, such as reading switch inputs, lighting indicators, and controlling relay outputs.</p>
+<div class="section" id="on-the-selection-of-a-suitable-current-limiting-resistor-for-the-led">
+<h2>On the selection of a suitable current limiting resistor for the LED<a class="headerlink" href="#on-the-selection-of-a-suitable-current-limiting-resistor-for-the-led" title="Permalink to this headline">¶</a></h2>
+<p>The characteristics of a LED (like any diode) is inherently non-linear. A small voltage variation may cause a large variation in current through the diode. If this is not managed the diode will be destroyed by excessive current.</p>
+<p>As the light intensity of the diode depends on current, it is apparent that the diode should be supplied by a current source. A real current source is a complex device however, and thus we often opt to approximate the current source by means of a resistor.</p>
+<p>The color of a LED is not determined by the color of the package, but rather by it’s internal physical structure. The different colors thus have different characteristics, such as different nominal voltage drop.</p>
+<p>The value of the selected resistor will impact the light intensity of the LED. The minimum resistor value (i.e. maximum light intensity) depends on the maximum current, as well as the voltage/current-characteristics of the LED.</p>
+<p>The digital outputs of the Arduino UNO has a voltage level of 5V. The voltage drop of a LED vill typically vary between 1.8V and 3.3V, depending on the color. It will also vary slightly depending on the current, but this variation may be ignored in most applications. The maximum current of the large THT LED’s in the Arduino kit is 20 mA. By subtracting the LED voltage from the supplied voltage, we find the required voltage drop of the reisitor.</p>
+<p>The current through a resistor is given by:</p>
+<div class="math notranslate nohighlight">
+\[I_f = \frac{V_R}{R} = \frac{5 - V_f}{R}\]</div>
+<p>Thus a approximately constant voltage drop will cause a approximately constant current. The required resistor size is thus given by:</p>
+<div class="math notranslate nohighlight">
+\[R = \frac{5 - V_{f}}{I_f}\]</div>
+<p>Worst case, if the voltage drop is only 1.8V, and the maximum current is 20mA, we get the following minimum resistor value:</p>
+<div class="math notranslate nohighlight">
+\[R = \frac{5 - 1.8}{0.02} = 160 \Omega\]</div>
+<p>In practice you might want to limit the current to a maximum of 15mA though. It the Arduino kit the recommended resistor size is 220 Ohm, which should be safe in all cases involving 20mA LED’s. In practive values as high as 1k (or even more) may also be used, if the required light intensity is not to high.</p>
+<p>For high power LED’s you should also make sure that the power dissipated in the resistor does nod exceed the ratings of the resistor <a class="footnote-reference brackets" href="#f1" id="id1">1</a>.</p>
+<div class="math notranslate nohighlight">
+\[P = I_f^2 \cdot R\]</div>
+<div class="section" id="conditionals">
+<h3>Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">¶</a></h3>
+<p>Conditionals are used in order to carry out some actions under some circumstances. In other words, you use conditionals if you want to <em>do things</em> in some <em>conditions</em> and do some other things for some other conditions.</p>
+<img alt="../../_images/ifElse.png" class="align-center" src="../../_images/ifElse.png" />
+<p>Let’s do a bit of brain storming before implementing the conditionals: You want to turn on an LED if your system stays stays vertical. If your sytem is tilted, then you want to turn off the LED. Can you help me to draw the flow chart?</p>
+<p><strong>Practical example:</strong> Tilt Sensor (if..else)</p>
+<p>In some cases, having too many if…else statements one another looks unpleasant. A more compact looking of your code is mode fruitful. Then, <em>switch..case</em> concept enters the game.</p>
+<img alt="../../_images/switchCase.png" class="align-center" src="../../_images/switchCase.png" />
+<p>Let’s do a bit more brain storming for switch..case: You want to make a program that asks to the user what s/he wants to do with an LED. If the user presses 1, turn on an LED. If they press 2, turn off LED. Also, in case they forget which number was on/off; if they press 3, there will be a help section. Can you help me to draw the flow chart?</p>
+<p><strong>Practical example:</strong> Switch-case example</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Very nice exercises about conditionals <a class="reference external" href="https://www.w3resource.com/c-programming-exercises/conditional-statement/index.php">here.</a></p>
+</div>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<p><em>Functions</em> are used to organize the actions performed by your sketch into functional blocks. Functions package functionality into well-defined <em>inputs</em> (information given to a function) and <em>outputs</em> (information provided by a function) that make it easier to structure, maintain, and reuse your code. You are already familiar with the two functions that are in every Arduino sketch: <code class="code docutils literal notranslate"><span class="pre">setup</span></code> and <code class="code docutils literal notranslate"><span class="pre">loop</span></code>. You create a function by declaring its return type (the information it provides), its name, and any optional parameters (values that the function will receive when it is called). <a class="footnote-reference brackets" href="#f2" id="id2">2</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The terms functions and methods are used to refer to well-defined blocks of code that can be called as a single entity by other parts of a program. The C language refers to these as functions. Object-oriented languages such as C++ that expose functionality through classes tend to use the term method. Arduino uses a mix of styles (the example sketches tend to use C-like style, libraries tend to be written to expose C++ class methods). We will use, the term <em>function</em> is usually used unless the code is exposed through a class. Don’t worry; if that distinction is not clear to you, treat both terms as the same.</p>
+</div>
+<p>Let’s write a simple function that just blinks an LED. It has no parameters and doesn’t return anything (the void preceding the function indicates that nothing will be returned):</p>
+<p><strong>Practical example:</strong> Blink an LED once function</p>
+<p>We can also tell the function how many times the LED should blink as an <em>input parameter</em>.</p>
+<p><strong>Practical example:</strong> Blink an LED the number of times given in the count parameter</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>ANOUNCE ONLY IF ANY EXPERIENCED PROGRAMMER IN THE CLASS!!</p>
+<p>Experienced programmers will note that both functions could be blink because the compiler will differentiate them by the type of values used for the parameter. This behavior is called function overloading.</p>
+</div>
+<p>A parameter is sometimes referred to as an argument in some documentation. For practical purposes, you can treat these terms as meaning the same thing. I may use them both in various places.</p>
+<p>Time to implement <em>function</em> concept into our previous blinking code. We can expand the idea a little bit. Let’s demonstrate calling a function with a parameter and returning a value. Use the same wiring as the previous exercise. The LED flashes when the program starts and stops when a switch is pressed.</p>
+<p><strong>Practical example:</strong> Blink an LED the number of times given in the count parameter. The program prints the number of times that the LED flashes.</p>
+<dl class="simple">
+<dt>..seealso</dt><dd><p>If there is time, ask students to do a tilt detection should return boolean.</p>
+</dd>
+</dl>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>For wery high power applications a simple current limiting reisitor is not suitable, and you should instead  use power electronics.</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Arduino Cookbook by Michael Margolis Chapter 2.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

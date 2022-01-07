@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Memory technology &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Memory technology</a><ul>
+<li><a class="reference internal" href="#flash-memory">Flash memory</a><ul>
+<li><a class="reference internal" href="#nand-flash">NAND Flash</a></li>
+<li><a class="reference internal" href="#nor-flash">NOR Flash</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#random-access-memory">Random access memory</a><ul>
+<li><a class="reference internal" href="#static-ram">Static RAM</a></li>
+<li><a class="reference internal" href="#dynamic-ram">Dynamic RAM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#eeprom">EEPROM</a></li>
+<li><a class="reference internal" href="#hard-disk-drives">Hard disk drives</a></li>
+<li><a class="reference internal" href="#special-memory-types">Special memory types</a><ul>
+<li><a class="reference internal" href="#nvram">NVRAM</a></li>
+<li><a class="reference internal" href="#nvsram">NVSRAM</a></li>
+<li><a class="reference internal" href="#eeram">EERAM</a></li>
+<li><a class="reference internal" href="#otp-eprom">OTP EPROM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#historical-memory-types">Historical memory types</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="memory-technology">
+<h1>Memory technology<a class="headerlink" href="#memory-technology" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="flash-memory">
+<h2>Flash memory<a class="headerlink" href="#flash-memory" title="Permalink to this headline">¶</a></h2>
+<p>Flash memory is a type of non volatile memory. Flash memory has it’s name from the requirement that one has to erase a whole block of memory if one or more bits of the block has to be changed from zero (0) to one (1). This is a so called <cite>Flash</cite> erase.</p>
+<p>Initially (or straight after a <cite>Flash</cite> erase) all the bits of a flash memory block are one (1), and you only program the ones that have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform <cite>Flash</cite> erase.</p>
+<p>There is no physical limitation that forces us to use a full block erase, but the memory is designed in this way (the transistors are connected in such a way that this is the only possibility). The reason for doing this is that the erase cycle is a relative slow operation, and thus there is a speed gain in erasing many bits at once.</p>
+<p>A Flash memory supporting single byte (or bit) erase is called a EEPROM. But in order to achieve this the circuit for each bit is more complex, and hence more expensive.</p>
+<p>Each bit in a Flash memory consists of one transistor, specifically a floating gate MOSFET. The floating gate holds a negative charge when the bit is programmed, and neutral charge when it is not programmed. The negative charge prevents current from flowing through the transistor when a read voltage is applied, thus zero current is interpreted as a logic zero (0) <span id="id1">[]</span>.</p>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/SlXb2aF_RRU" frameborder="0" allowfullscreen="1">&nbsp;</iframe><div class="section" id="nand-flash">
+<h3>NAND Flash<a class="headerlink" href="#nand-flash" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="nor-flash">
+<h3>NOR Flash<a class="headerlink" href="#nor-flash" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="random-access-memory">
+<h2>Random access memory<a class="headerlink" href="#random-access-memory" title="Permalink to this headline">¶</a></h2>
+<p>Random access memory (RAM) refers to memory where individual bytes of data may be read and modified without affecting other parts of the memory.</p>
+<div class="section" id="static-ram">
+<h3>Static RAM<a class="headerlink" href="#static-ram" title="Permalink to this headline">¶</a></h3>
+<p>Static RAM (SRAM) is a form of volatile memory. Each bit requires six transistors, and the read and write times are equal.</p>
+</div>
+<div class="section" id="dynamic-ram">
+<h3>Dynamic RAM<a class="headerlink" href="#dynamic-ram" title="Permalink to this headline">¶</a></h3>
+<p>Dynamic RAM (DRAM) is a form of volatile memory. Each bit in a DRAM memory consists of one transistor and one capacitor.</p>
+<p>The bits must be refreshed, i.e. the capacitor must be recharged at certain intervals if it is storing a one (1), to avoid loosing the information. The JEDEC (Joint Electron Device Engineering Council) standard states that the refresh rate should be less than 64 ms.</p>
+<p>DRAM is normally very fast when compared to Flash memory, and has equal read and write speeds.</p>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/Lozf9sceW_o" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
+</div>
+<div class="section" id="eeprom">
+<h2>EEPROM<a class="headerlink" href="#eeprom" title="Permalink to this headline">¶</a></h2>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/yLyQRtybfhc" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
+<div class="section" id="hard-disk-drives">
+<h2>Hard disk drives<a class="headerlink" href="#hard-disk-drives" title="Permalink to this headline">¶</a></h2>
+<p>A hard diske drive uses magnetic storage to store data on a rotating platter. It has a moving read and write head.</p>
+</div>
+<div class="section" id="special-memory-types">
+<h2>Special memory types<a class="headerlink" href="#special-memory-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nvram">
+<h3>NVRAM<a class="headerlink" href="#nvram" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="nvsram">
+<h3>NVSRAM<a class="headerlink" href="#nvsram" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="eeram">
+<h3>EERAM<a class="headerlink" href="#eeram" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="otp-eprom">
+<h3>OTP EPROM<a class="headerlink" href="#otp-eprom" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="historical-memory-types">
+<h2>Historical memory types<a class="headerlink" href="#historical-memory-types" title="Permalink to this headline">¶</a></h2>
+<p>In this section we will briefly discuss some of the memory technologies that are not used anymore.</p>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="id2"></span></div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Digital - Analog - Time &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Digital - Analog - Time</a><ul>
+<li><a class="reference internal" href="#edge-detection">Edge detection</a><ul>
+<li><a class="reference internal" href="#pull-up-pull-down-resistors">Pull-up / Pull-down resistors</a><ul>
+<li><a class="reference internal" href="#debounce-of-mechanical-switch">Debounce of mechanical switch</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rough-timing-in-arduino">Rough Timing in Arduino</a><ul>
+<li><a class="reference internal" href="#operation">Operation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#stopwatch">Stopwatch</a></li>
+<li><a class="reference internal" href="#important-timing-functions-in-arduino">Important timing functions in Arduino</a></li>
+<li><a class="reference internal" href="#various-sensor-applications">Various Sensor Applications</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="admonition note" id="l3-arduino-intro">
+<p class="admonition-title">Note</p>
+<p><em>10/02/2021</em></p>
+<p><strong>Aim:</strong></p>
+<ul class="simple">
+<li><p>Digital input/output</p></li>
+<li><p>Analog input (no output)</p></li>
+<li><p>How to deal with time in Arduino</p></li>
+</ul>
+<p><strong>Materials:</strong></p>
+<p>Arduino Board</p>
+<p><strong>Code:</strong></p>
+<p>Various sensor applications
+Timing related applications</p>
+</div>
+<div class="section" id="digital-analog-time">
+<h1>Digital - Analog - Time<a class="headerlink" href="#digital-analog-time" title="Permalink to this headline">¶</a></h1>
+<p>Everything in Arduino has to be digital. Arduino (or any uC/PC) cannot process analog data. It can receive analog, though. But can it produce analog? By the way, what is the time for a microcontroller?</p>
+<div class="section" id="edge-detection">
+<h2>Edge detection<a class="headerlink" href="#edge-detection" title="Permalink to this headline">¶</a></h2>
+<p><strong>Practical example:</strong> Tilt Sensor (basic)
+<em>Probably won’t work :)</em></p>
+<p>The reason why your program might not work now was because that you detected only one state but not the other one. The transitions between stated should be detected by the microcontrollers somehow. This problem is considered under the <em>Edge Detection</em> concept.</p>
+<p>Let’s think about what happens when you press a button. In this example (and the last) we have a digital pin connected to 5 volts through a tilt sensor. When the system is vertical, two pins are in contact. The 5 volts is applied to the digital pin. However, when you tilt the system, the connection is broken. Therefore, the system is not in <em>OFF state</em> but in an <em>unknown state</em>. Consider the figure below:</p>
+<div class="figure align-center">
+<img alt="../../_images/switchFailure.png" src="../../_images/switchFailure.png" />
+</div>
+<div class="figure align-center" id="id1">
+<img alt="../../_images/edgedetection.jpg" src="../../_images/edgedetection.jpg" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.programmingelectronics.com/tutorial-18-state-change-detection-and-the-modulo-operator-old-version">programmingelectronics.com</a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="pull-up-pull-down-resistors">
+<h3>Pull-up / Pull-down resistors<a class="headerlink" href="#pull-up-pull-down-resistors" title="Permalink to this headline">¶</a></h3>
+<p>When using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. The Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.</p>
+<p>The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the imput impedance. In practice a 10k reistor is often used.</p>
+<p>The analog pins also have pull-up resistors, which work identically to pull-up resistors on the digital pins. They are enabled by issuing a command such as <code class="code docutils literal notranslate"><span class="pre">pinMode(A0,</span> <span class="pre">INPUT_PULLUP);</span>&#160; <span class="pre">//</span> <span class="pre">set</span> <span class="pre">pull-up</span> <span class="pre">on</span> <span class="pre">analog</span> <span class="pre">pin</span> <span class="pre">0</span></code></p>
+<div class="figure align-center" id="id2">
+<img alt="../../_images/Pull-up-and-Pull-down-Resistor.png" src="../../_images/Pull-up-and-Pull-down-Resistor.png" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Be aware however that turning on a pull-up will affect the values reported by analogRead().</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/digital_input_demo_bb.png"><img alt="../../_images/digital_input_demo_bb.png" src="../../_images/digital_input_demo_bb.png" style="width: 477.0px; height: 660.0px;" /></a>
+</div>
+<div class="section" id="debounce-of-mechanical-switch">
+<h4>Debounce of mechanical switch<a class="headerlink" href="#debounce-of-mechanical-switch" title="Permalink to this headline">¶</a></h4>
+<p>A mechanical switch will often generate spurious open/close transitions in a short period after it has been activated. It is a risk that these spurious transitions are interpreted as multiple signals from the switch. In order to avoid these problems some form of debounce remedy should be applied. This could be a hardware solution, a software solution or a combination of the two.</p>
+<p>If a software solution is desired, one possibility is to check the button state twice, within a short time windows. I.e. check, delay, check again.</p>
+<p>Hardware solutions include analog filters using resitors and capacitors, as well as using a SR-latch.</p>
+<p>It can be done by software, as well!</p>
+</div>
+</div>
+</div>
+<div class="section" id="rough-timing-in-arduino">
+<h2>Rough Timing in Arduino<a class="headerlink" href="#rough-timing-in-arduino" title="Permalink to this headline">¶</a></h2>
+<p>The Arduino functions associated with timing that we will be using in this tutorial are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/delay/">delay()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/">delayMicroseconds()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/millis/">millis()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/micros/">micros()</a></p></li>
+</ul>
+<p>In embedded systems it is often required to write code that has some delay between executing different parts of the code. For very simple applications it might be sufficient to use code that simply blocks until a given amount of time has passed. The <cite>delay()</cite> function will block for the given number of milliseconds, before execution continues.</p>
+<div class="section" id="operation">
+<h3>Operation<a class="headerlink" href="#operation" title="Permalink to this headline">¶</a></h3>
+<p>The Atmega 328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.</p>
+<p>The <cite>millis()</cite> function returns the the number of milliseconds since the last time the controller was restarted. It is using a 32-bit unsigned integer to store the counter value, thus the maximum value is given by:</p>
+<div class="math notranslate nohighlight">
+\[2^{32} = 4294967296\]</div>
+<p>If we convert this value from milliseconds, to days we get:</p>
+<div class="math notranslate nohighlight">
+\[\frac{4294967296}{1000 \cdot 60 \cdot 60 \cdot 24} = 49.7\]</div>
+<p>Thus we see that the counter will wrap around after approximately 50 days. This should be accounted for in applications where the controller is running continously for extended periods of time.</p>
+<p>If higher accuracy is required there is also a <cite>micros()</cite> function, returning the number of microseconds since the last reboot. Keep in mind that the maximum duration that the register can store will drop significantly.</p>
+</div>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p>We have allready seen how the <cite>delay()</cite> function is used in the simple LED blink example. The <cite>millis()</cite> function allows us to do more interesting and useful delay implementations, where different parts of the code may execute while we are waiting for the required time to pass.</p>
+</div>
+<div class="section" id="stopwatch">
+<h3>Stopwatch<a class="headerlink" href="#stopwatch" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/digital_input_and_output_for_stop_watch_bb.png"><img alt="../../_images/digital_input_and_output_for_stop_watch_bb.png" src="../../_images/digital_input_and_output_for_stop_watch_bb.png" style="width: 477.0px; height: 660.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// include Arduino.h library</span>
+
+<span class="c1">// define led_pin attached to pin 2</span>
+<span class="c1">// define button_pin attached to pin 10</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// set button_pin as input</span>
+<span class="w">  </span><span class="c1">// set led_pin as output</span>
+<span class="w">  </span><span class="c1">// start serial in 9600 hertz</span>
+
+<span class="w">  </span><span class="c1">// turn off LED</span>
+
+<span class="w">  </span><span class="c1">// notification on serial: &quot;Setup ready&quot;</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// define static 8-bit integer button_past</span>
+<span class="w">  </span><span class="c1">// define 8-bit integer button_now</span>
+<span class="w">  </span><span class="c1">// define static 8-bit integer timer_active</span>
+<span class="w">  </span><span class="c1">// define static 32-bit integer start_time</span>
+<span class="w">  </span><span class="c1">// define static 8-bit integer stop_past</span>
+
+<span class="w">  </span><span class="c1">// define 32-bit integer delta_time and set initial value as 0</span>
+<span class="w">  </span><span class="c1">// define float timer_seconds and set initial value as 0</span>
+
+<span class="w">  </span><span class="c1">// set button_now from digital pin button_pin</span>
+
+<span class="w">  </span><span class="c1">//if((button_now equals to 0) and (button_past == equals to 1))</span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">//if timer_active equals to 0</span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// start_time as milliseconds</span>
+
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Starttid: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// print start_time</span>
+
+<span class="w">      </span><span class="c1">// set timer_active to 1</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// stop_time as milliseconds</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Stopptid: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// print stop_time</span>
+
+<span class="w">      </span><span class="c1">// calculate delta_time</span>
+
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Delta tid: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// print delta_time</span>
+
+<span class="w">      </span><span class="c1">// convert delta_time into seconds as &quot;timer_seconds&quot;</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Delta tid sekunder: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// print timer_seconds</span>
+<span class="w">      </span><span class="c1">// set timer_active to 1</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// set button_now as button_past</span>
+
+<span class="w">  </span><span class="c1">// wait 1 millisecond</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="important-timing-functions-in-arduino">
+<h3>Important timing functions in Arduino<a class="headerlink" href="#important-timing-functions-in-arduino" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><cite>delay()</cite></p></li>
+<li><p><cite>delayMicroseconds()</cite></p></li>
+<li><p><cite>millis()</cite></p></li>
+<li><p><cite>pulseIn()</cite></p></li>
+</ul>
+<p>Each of these functions has a handy usage but timing is generally an issue in embedded world. We will see the bottleneck of these functions and how to deal with these problems in later lectures.</p>
+</div>
+<div class="section" id="various-sensor-applications">
+<h3>Various Sensor Applications<a class="headerlink" href="#various-sensor-applications" title="Permalink to this headline">¶</a></h3>
+<p><strong>Note:</strong> Vinly is a nice example for analog data storage.</p>
+<p>Question: What is sampling frequency? <em>(Details of analog is next week)</em></p>
+<p><strong>Digital Sensors</strong>
+- Button/Switch
+- Tilt
+- PIR
+- Ultrasonic Sensor(*)</p>
+<p><strong>Analog Sensors</strong>
+- Potentiometer
+- Force/Torque Sensor
+- Temperature
+- Hummidity</p>
+<p><strong>Different Communications</strong>
+- Inertial Measurement Unit
+- LCD
+- Bluetooth Module
+- Infrared Module
+- Wifi Module
+- Digial/Analog sensors on a module (mostly includes some filters)</p>
+<p>Outputs are either digital or different communication protocols:</p>
+<p>LED, vibrator, buzzer, motors, LCD, screen display.</p>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

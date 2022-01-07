@@ -1,0 +1,232 @@
+.. _L4_hands_on_:
+
+.. note:: *04/02/2020 - 75mins*
+
+    **Should be finished with Lecture-4**
+
+    - Digital I/O
+    - Variable types
+    - delay
+    - Serial print    
+
+******************************************************************
+Various Hands on Activities
+******************************************************************
+Let's increace the practicality.
+
+Digital I/O
+==========================
+You remember that in the last course we have compiled the built-in :code:`Blink` example. Let's remember the procedure first.
+
+.. code-block:: c
+
+   // the setup function runs once when you press reset or power the board
+   void setup() {
+      // initialize digital pin LED_BUILTIN as an output.
+      pinMode(LED_BUILTIN, OUTPUT);
+   }
+
+   // the loop function runs over and over again forever
+   void loop() {
+      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+   }
+
+In this example :code:`LED_BUILTIN` is named as *Macro definition* which is a term to used the constant definitions as a pre-processor directive. In here the term :code:`LED_BUILTIN` is a place holder for the number **13**. Instead, we could have written the code like that and literally nothing would have change in practice:
+
+.. code-block:: c
+
+   // the setup function runs once when you press reset or power the board
+   void setup() {
+      // initialize digital pin LED_BUILTIN as an output.
+      pinMode(13, OUTPUT);
+   }
+
+   // the loop function runs over and over again forever
+   void loop() {
+      digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+      digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+   }
+
+However, this wouldn't look good in programming beauty standards. The reason is that whenever you have another LED attached to your Arduino, but in another pin than **13**, you need to change this *definition* in 3 different places. Therefore there are different *place holders* in the programming. Macro definitions are one of them and defined like:
+
+.. code-block:: c
+
+    #define identifier replacement
+
+
+Basically, it says your processor that "whenever you see this :code:`identifier`, replace it with the :code:`replacement`". This way of introducing a place holder is executed in a pre-processor directive. It is not different than copying one text (as :code:`identifier`) and pasting another text (as :code:`replacement`).
+
+Let's define our own macro definition for our external LED, attached to **pin number 2**. Also, change the blink rate from 1000 milliseconds to half a second.
+
+.. code-block:: c
+
+    #define MY_EXT_LED 2
+    #define BLINK_RATE 500
+    // the setup function runs once when you press reset or power the board
+    void setup() {
+      // initialize digital pin LED_BUILTIN as an output.
+      pinMode(MY_EXT_LED, OUTPUT);
+    }
+
+    // the loop function runs over and over again forever
+    void loop() {
+      digitalWrite(MY_EXT_LED, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(BLINK_RATE);                       // wait for a second
+      digitalWrite(MY_EXT_LED, LOW);    // turn the LED off by making the voltage LOW
+      delay(BLINK_RATE);                       // wait for a second
+    }
+
+
+Variable Types
+==========================
+In some cases using macro definitions is the most efficient way because is a faster process. The processor doesn't have to check the value of a *variable* in the register. Do you remember what is the register?
+
+However, macro definitions can be risky and needs to be named carefully. Generally new programmers may overwrite a macro on top of another macro which has been defined before. Furthermore, if the :code:`identifier` is defined in a very generic way, since it is a text replacement, it can replace some or your other variable definitions. The preprocessor does not understand C/C++ properly, it simply replaces any occurrence of :code:`identifier` by :code:`replacement`. Additionally a definition is constant, it cannot change during the execution of a program.
+
+Therefore we have *variables* which can change during run time, and hold various different *types* of information depending on how they are declared. In the Arduino Cookbook First Edition Chapter 2.2.
+
+
+.. list-table:: Simple Primitive Types in Arduino (Variables)
+   :widths: 20 10 30 60
+   :header-rows: 1   
+
+   * - Numeric types
+     - Bytes
+     - Range
+     - Use
+
+   * - int
+     - 2
+     - -32768 to 32767
+     - Represents positive and negative integer values.
+
+   * - unsigned int
+     - 2
+     - 0 to 65535
+     - Represents only positive values; otherwise, similar to int.
+
+   * - long
+     - 4
+     - -2147483648 to 2147483647
+     - Represents a very large range of positive and negative values.
+
+   * - unsigned long
+     - 4
+     - 0 to 4294967295
+     - Represents a very large range of positive values.
+
+   * - float
+     - 4
+     - 3.4028235E+38 to -3.4028235E+38
+     - Represents numbers with fractions; use to approximate real-world measurements.
+
+   * - double
+     - 4
+     - The same as float
+     - In Arduino, double is just another name for float.
+
+   * - boolean
+     - 1
+     - false (0) or true (1)
+     - Represents true and false values.
+
+   * - char
+     - 1
+     - -128 to 127
+     - Represebts a single character. Cal also represent a signed value between -128 and 127.
+
+   * - byte
+     - 1
+     - 0 to 255
+     - Similar to char, but for unsigned values.
+
+
++------------------------+---------------------------------------------------------------------------+
+| string                 | Represents arrays of chars (characters) typically used to contain text.   |
++------------------------+---------------------------------------------------------------------------+
+| void                   | Used only in function declarations where no value is returned.            |
++------------------------+---------------------------------------------------------------------------+
+
+Variables are generally defined such that the values can be changed during the execution of the program; after some calculations, in conditional cases, as the sensor readings change etc. On the other hand, there are some cases that we, as the developer, know that the value of a variable is constant. Through the whole program, it will remain the same value. In these cases it is more efficient and safe to define them as **constant** values, which tells the processor that this value has just *read-only* property. This feature is useful for especially longer codes in their debug process. In our case, we know that the LED is always connected a predefined pin and it will not be changed in any conditions. Therefore, we can define the pin-number as a *constant integer*, which would be more memory-efficient declaration way.
+
+
+.. code-block:: c
+
+    const int led_pin = 2;
+    unsigned int blink_rate = 500;
+    // the setup function runs once when you press reset or power the board
+    void setup() {
+      // initialize digital pin LED_BUILTIN as an output.
+      pinMode(led_pin, OUTPUT);
+    }
+
+    // the loop function runs over and over again forever
+    void loop() {
+      digitalWrite(led_pin, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(blink_rate);                       // wait for a second
+      digitalWrite(led_pin, LOW);    // turn the LED off by making the voltage LOW
+      delay(blink_rate);                       // wait for a second
+    }
+
+.. seealso::
+   Since in the embedded world memory is the main concern most of the time, it is good to have a more friendly type definitions. Instead of trying to remember the memory spaces of all the variable types, in Arduino there is a nicer-looking type definitions: **uint8_t, uint16_t, uint32_t**.
+
+   For example *char* is **int8_t** but *byte* is **uint8_t**.
+
+
+Serial Print
+==========================
+One of the most beautiful feature which Arduino brought into the embedded developers's world is the built-in serial monitor in its IDE. Before that, it was a big hassle to debug your embedded code. You could connect an external LCD and set a bunch of specifications, initialize many pins and handle their configurations in every single time. Sometimes your final product wouldn't include an LCD and you might need to use the pins which you have used for your debugging LCD. Then, one might try error coding by using LEDs. In some of your embedded products at home, sometimes yout washing machine buzzer sounds in different frequencies for different messages. Or, the indication LED on your robot vacuum cleaner may blink in different colors and frequencies for indicating different messages. 
+
+You can use the serial-monitor in the Arduino IDE for debugging purposes. (Of course there are many different ways of using it but personally this is the one reason by far than any other reasons that I have been using it). Even in Arduino, if there was not this feature in the IDE, we had to do `this. <https://www.arduino.cc/en/Tutorial/HelloWorld>`_
+
+.. image:: ../../../external/fig/serial-monitor.png
+        :align: center
+
+
+In order to write someting into the serial-monitor, we need to initialize the serial communication with a single line of code. A simple "hello, world!" code would then look like:
+
+.. code-block:: c
+
+    void setup() {
+      // initialize serial communication at 9600 bits per second:
+      Serial.begin(9600);
+    }
+
+    void loop() {
+      Serial.println("hello, world!");
+      delay(1000);
+    }
+
+.. seealso::
+   Serial-monior is basically a terminal with a bit more sophisticated-looking. In order to set the serial-monitor with your board, you need to establish a UART communication Basically, as most of you know, you are uploading your sketches to the Arduino via USB cable. The general name of this commonly used protocol is `UART <https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter>`_ (or in less often cases `USART <https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter>`_). It is a wide concept that requires more time to grasp the details. We will look into that in our :ref:`communication protocols <L9_communication>` lesson.
+
+
+We will be using the following circuit:
+
+.. figure:: ../../fig/single_potmeter_bb.png 
+        :align: center
+        :scale: 50
+
+.. code-block:: c
+  :caption: Analog read from a potentiometer, write the value.
+
+    #define POT_PIN A0
+
+    // the setup routine runs once when you press reset:
+    void setup() {
+      // initialize serial communication at 9600 bits per second:
+      Serial.begin(9600);
+    }
+
+    // the loop routine runs over and over again forever:
+    void loop() {
+      int potVal = analogRead(POT_PIN); // read the input on analog pin
+      Serial.println(potVal);  // print out the value you read
+      delay(100);        // delay in between reads for stability
+    }

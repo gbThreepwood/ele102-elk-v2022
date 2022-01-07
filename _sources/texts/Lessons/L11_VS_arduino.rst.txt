@@ -1,0 +1,273 @@
+.. _L11_VS_arduino:
+
+.. note:: *25/03/2020 - 195mins*
+
+    **Aim:**
+
+    - Combine VS and Arduino knowledge
+
+
+
+
+    **Materials:**
+
+    - Arduino Board
+    - Button
+    - Cables
+    - Breadboard
+    - Potentiometer
+    - Resistors
+    - LED
+
+
+
+    **Code:**
+
+    - Ex: Arduino LED on/off over VS serial
+
+
+
+*************************************
+Arduino Control via C# application
+*************************************
+
+In this lesson we will go through the design of a application that allows us to communicate between a desktop application written in C#, and a Arduino application written in C/C++. The communication link will be using the UART, but with some additional higher level application specific protocol layers.
+
+Designing a simple communication protocol on top of UART
+========================================================
+
+Among the low level methods that are available to us are `Serial.write()`, and `Serial.read()`. The methods have the ability to send and receive one byte respectively. They do hovever not put any constraints on what the bytes are supposed to represent. The binary value 0b01001011 could represent a uppercase "K", as it does in ASCII, but it could also be a command to turn on a LED, or read a analog input. It is up to the designer to decide.
+
+Even though you are free to do as you please, there are some approaches that are considered good practice, and that often lead to a more reliable communication system.
+
+The following listing is one typical organisation of the data packet: 
+
+* Start flag (single constant byte signifying start of transmission)
+* Command byte (one or more bytes that informs the receiver on what the data represents)
+* Length byte (the number of data bytes, or possibly the total number of bytes)
+* Data byte (the actual data to transfer)
+* Checksum or CRC (data used to verify the integrity of the transmitted data)
+* End flag (single constant byte signifying end of transmission)
+
+For fixed lengt data packages the length byte is not needed. In simple applications the checksum is often omitted, and possibly also the start and end flags.
+
+For advanced applications there is a possible issue that the start, and end flags could appear as part of the data bytes. If each byte of the data could be anything, that means it could also be the flags no matter which value you choose to use. The flags are introduced to increase reliability, and this benefit is compromized if you do not reset the reception each time you receive a start flag. In order to overcome this issue one may use various forms of byte stuffing.
+
+
+For production code it is recommended to at least use the following organisation of the data even for simple applications:
+
+* Start flag (single constant byte signifying start of transmission)
+* Command byte (one or more bytes that informs the receiver on what the data represents)
+* Data byte (the actual data to transfer)
+* End flag (single constant byte signifying end of transmission)
+
+In the following examples we will try to start of even simpler however.
+
+
+Consistent Overhead Byte Stuffing (COBS)
+-----------------------------------------
+
+.. note:: Byte stuffing is a advanced topic, and will not be covered as part of the course. It is here for the students that are particulary curious.
+
+https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing
+
+
+Using the serial port in C#
+===========================
+
+Before we go into the details of how to use the serial port, we should first try to understand the basic concept of delegates, and events.
+
+Delegates
+--------------------
+
+A delegate in C# is a variable that holds a reference to a method. This is similar to the function pointer concept in C.
+
+Events
+-------
+
+A event could be any occurrence of something. The event system in C# is used to notify one part of the software about something that has happened in a different part of the software. This could for instance be a user pressing a button on the keyboard, or mouse, or it could be data received on the serial port.
+
+The event system works by the publisher-subscriber model. A publisher allows one or more subscribers to subscribe to the available events, when a event is raised, a method in the subscriber is called.
+
+The subscribers are added to the publisher by assigning methods to a delegate variable in the publisher.
+
+.. code-block:: c
+
+  using System;
+  
+  namespace EventsDelegatesTest
+  {
+      class MainClass
+      {
+          public static void Main(string[] args)
+          {
+              var video = new Video() { Title = "Back to the future" };
+              VideoEncoder videoEncoder = new VideoEncoder();
+              var smsServie = new SMS();
+  
+              videoEncoder.VideoEncoded += smsServie.OnVideoEncoded;
+              videoEncoder.VideoEncodingStarted += smsServie.OnStartEncoding;
+  
+              videoEncoder.Encode(video);
+              Console.WriteLine("Programmet er ferdig.");
+          }
+      }
+  
+  }
+
+
+
+.. code-block:: c
+
+  using System;
+  
+  namespace EventsDelegatesTest
+  {
+      public class VideoEventArgs : EventArgs
+      {
+          public Video Video { get; set; }
+      }
+      public class VideoEncoder
+      {
+          public delegate void VideoEncodedEventHandler(object source, VideoEventArgs args);
+          public delegate void VideoEncodingStartedHandler(object source, EventArgs args);
+  
+          public event VideoEncodedEventHandler VideoEncoded;
+          public event VideoEncodingStartedHandler VideoEncodingStarted;
+  
+          public void Encode(Video video)
+          {
+              OnVideoEncodingStarted();
+  
+              Console.WriteLine("Enkodar video..");
+  
+              OnVideoEncoded(video);
+          }
+  
+          protected virtual void OnVideoEncoded(Video video)
+          {
+              if (VideoEncoded != null)
+              {
+                  VideoEncoded(this, new VideoEventArgs() { Video = video });
+              }
+          }
+          protected virtual void OnVideoEncodingStarted()
+          {
+              if(VideoEncodingStarted != null)
+              {
+                  VideoEncodingStarted(this, EventArgs.Empty);
+              }
+          }
+      }
+  }
+
+.. code-block:: c
+  
+  using System;
+  namespace EventsDelegatesTest
+  {
+      public class SMS
+      {
+          public void OnStartEncoding(object source, EventArgs e)
+          {
+              Console.Write("Kodinga har starta.");
+          }
+          public void OnVideoEncoded(object source, EventArgs e)
+          {
+              Console.WriteLine("Sender SMS...");
+          }
+      }
+  }
+
+
+Using the serial port in C# (System.IO.Ports)
+---------------------------------------------
+
+When reading the serial port you have several options. You could use a blocking call that blocks until data is available on the serial port, or you could poll the serial port library to check if data is available. Finally you could register a event handler that is called when data is available.
+
+
+Simple example
+==============
+
+In this example we wil create a application to control an LED, and read a analog value from a potmeter connected to our Arduino.
+
+.. figure:: ../../fig/one_potmeter_and_one_led_bb.png
+  :scale: 50
+
+
+Arduino software
+----------------
+
+Ideally you should not have to concern yourself with what kind of programming language will be used on one side of the communication link, when developing software on the other side. In our case that means that you should not need to know C# in order to develop the Arduino software, and you should not have to know C or Arduino in order to develop the C# software.
+
+For this to work you should write a protocol specification before you start developing the software. In this first approach the following protocol is implemented (please note that this is a very naive approach):
+
+Command: 'led' causes a LED on pin 9 to toggle. Command 'voltage' causes the Arduino to return the measured raw analog value on pin A0. No additional control data is transmitted, the controller does not return a confirmation message when it is told to toggle the LED, and the reception relies on a timeout insted of a end flag to signify complete data packet.
+
+One could also note that the data is transmitted as ASCII, which means that a number that ideally takes up one byte, will use two bytes. And also the length of the commands are many bytes, which introduces unnecessary overhead.
+
+
+.. literalinclude:: ../../../projects/remote_control/simple_arduino_slave/src/main.cpp
+  :language: c
+
+
+C# software
+-----------
+
+.. figure:: ../../fig/software/arduino_comm_screenshot.png
+  :scale: 100
+
+
+Improved example
+================
+
+
+For this improved example we will be using an ASCII based communication protocol. I.e. the data that appear on the UART should be readable when converted to it's character representation in the ASCII code. This introduces some overhead, but has the advantage that the protocol is easy to debug, and it is also testable using a simple UART serial terminal on a PC.
+
+* # - Start flag
+* <byte> 
+* <byte>
+* \n - End flag
+
+
+
+Debugger
+--------
+
+The serial port is often used to print debug messages. When developing an application that uses the serial port for other purposes, it is no longer available for debugging. Arduino UNO contains only one hardware UART, but you can extend your application with software UART's.
+
+The following Arduino program implements a simple bridge between a software UART, and a hardware UART. The software is intended to run on a additional Arduino, to aid in debugging of the code on our primary Arduino. The hardware UART is connected to a PC using USB, while the software UART is connected the the Arduino under test. The allows the Aruino under test to send debug messages using a software UART of it's own.
+
+.. figure:: ../../fig/one_potmeter_and_one_led_with_debugger_bb.png
+  :scale: 50
+
+.. literalinclude:: ../../../projects/remote_control/arduino_softserial_debugger/src/main.cpp
+  :language: c
+
+
+Arduino software
+-----------------
+
+.. literalinclude:: ../../../projects/remote_control/improved_arduino_slave/src/main.cpp
+  :language: c
+
+
+C# software
+-----------
+
+Advanced example
+================
+
+.. figure:: ../../fig/one_potmeter_and_three_led_bb.png
+  :scale: 50
+
+
+Arduino software
+----------------
+
+
+C# software
+-----------
+
+.. figure:: ../../fig/software/adv_arduino_comm_screenshot.png
+  :scale: 100 

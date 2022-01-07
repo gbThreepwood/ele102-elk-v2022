@@ -1,0 +1,202 @@
+.. _L3_Arduino_intro:
+
+.. note:: *10/02/2021*
+
+    **Aim:**
+
+    - Digital input/output
+    - Analog input (no output)
+    - How to deal with time in Arduino
+
+    **Materials:**
+
+    Arduino Board
+
+    **Code:**
+
+    Various sensor applications
+    Timing related applications
+
+*************************
+Digital - Analog - Time
+*************************
+Everything in Arduino has to be digital. Arduino (or any uC/PC) cannot process analog data. It can receive analog, though. But can it produce analog? By the way, what is the time for a microcontroller?
+
+Edge detection
+=================
+
+**Practical example:** Tilt Sensor (basic)
+*Probably won't work :)*
+
+The reason why your program might not work now was because that you detected only one state but not the other one. The transitions between stated should be detected by the microcontrollers somehow. This problem is considered under the *Edge Detection* concept. 
+
+Let’s think about what happens when you press a button. In this example (and the last) we have a digital pin connected to 5 volts through a tilt sensor. When the system is vertical, two pins are in contact. The 5 volts is applied to the digital pin. However, when you tilt the system, the connection is broken. Therefore, the system is not in *OFF state* but in an *unknown state*. Consider the figure below:
+
+.. figure:: ../../../external/fig/switchFailure.png
+   :align: center
+
+.. ref: https://www.programmingelectronics.com/tutorial-18-state-change-detection-and-the-modulo-operator-old-version/
+
+.. figure:: ../../../external/fig/edgedetection.jpg
+   :align: center
+
+   Source: `programmingelectronics.com <https://www.programmingelectronics.com/tutorial-18-state-change-detection-and-the-modulo-operator-old-version>`_
+
+
+Pull-up / Pull-down resistors
+-------------------------------
+When using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. The Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.
+
+The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the imput impedance. In practice a 10k reistor is often used. 
+
+The analog pins also have pull-up resistors, which work identically to pull-up resistors on the digital pins. They are enabled by issuing a command such as :code:`pinMode(A0, INPUT_PULLUP);  // set pull-up on analog pin 0`
+
+
+.. figure:: ../../../external/fig/Pull-up-and-Pull-down-Resistor.png
+   :align: center
+   
+   Source: `circuitdigest.com <https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor>`_
+
+Be aware however that turning on a pull-up will affect the values reported by analogRead().
+
+
+.. figure:: ../../fig/digital_input_demo_bb.png
+        :align: center
+        :scale: 50
+
+
+Debounce of mechanical switch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A mechanical switch will often generate spurious open/close transitions in a short period after it has been activated. It is a risk that these spurious transitions are interpreted as multiple signals from the switch. In order to avoid these problems some form of debounce remedy should be applied. This could be a hardware solution, a software solution or a combination of the two.
+
+If a software solution is desired, one possibility is to check the button state twice, within a short time windows. I.e. check, delay, check again.
+
+Hardware solutions include analog filters using resitors and capacitors, as well as using a SR-latch.
+
+It can be done by software, as well!
+
+Rough Timing in Arduino
+========================
+
+The Arduino functions associated with timing that we will be using in this tutorial are:
+
+- `delay() <https://www.arduino.cc/reference/en/language/functions/time/delay/>`_
+- `delayMicroseconds() <https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/>`_
+- `millis() <https://www.arduino.cc/reference/en/language/functions/time/millis/>`_
+- `micros() <https://www.arduino.cc/reference/en/language/functions/time/micros/>`_
+
+In embedded systems it is often required to write code that has some delay between executing different parts of the code. For very simple applications it might be sufficient to use code that simply blocks until a given amount of time has passed. The `delay()` function will block for the given number of milliseconds, before execution continues.   
+
+Operation
+---------
+
+The Atmega 328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.
+
+The `millis()` function returns the the number of milliseconds since the last time the controller was restarted. It is using a 32-bit unsigned integer to store the counter value, thus the maximum value is given by:
+
+.. math::
+        2^{32} = 4294967296
+
+If we convert this value from milliseconds, to days we get:
+
+.. math::
+        \frac{4294967296}{1000 \cdot 60 \cdot 60 \cdot 24} = 49.7
+
+Thus we see that the counter will wrap around after approximately 50 days. This should be accounted for in applications where the controller is running continously for extended periods of time.
+        
+If higher accuracy is required there is also a `micros()` function, returning the number of microseconds since the last reboot. Keep in mind that the maximum duration that the register can store will drop significantly.
+
+
+Usage
+-----
+
+We have allready seen how the `delay()` function is used in the simple LED blink example. The `millis()` function allows us to do more interesting and useful delay implementations, where different parts of the code may execute while we are waiting for the required time to pass.
+
+
+Stopwatch
+---------
+
+.. figure:: ../../fig/digital_input_and_output_for_stop_watch_bb.png
+        :align: center
+        :scale: 50
+
+.. literalinclude:: ../../../projects/PseudoStopWatch/PseudoStopWatch.ino 
+   :language: c
+
+..
+    Assignment 1 : Real time clock
+    ---------------------------------
+
+    .. code-block:: c
+            
+            void setup()
+            {
+            Serial.begin(9600);
+            }
+            
+            int Year=2019;
+            int Month=1;
+            int Date=2;
+            int Hour=12;
+            int Minutes = 0;
+            int Seconds = 0;
+            
+            void loop()
+            {
+            Seconds++;
+            if (Seconds == 60)
+            {
+                Seconds = 0;
+                Minutes++;
+            }
+            
+            Serial.print(Hour);
+            Serial.print(":");
+            Serial.print(Minutes);
+            Serial.print(":");
+            Serial.println(Seconds);
+            
+            delay(1000);
+            }
+
+Important timing functions in Arduino
+----------------------------------------
+- `delay()` 
+- `delayMicroseconds()`
+- `millis()`
+- `pulseIn()`
+
+Each of these functions has a handy usage but timing is generally an issue in embedded world. We will see the bottleneck of these functions and how to deal with these problems in later lectures.
+
+Various Sensor Applications
+---------------------------------
+**Note:** Vinly is a nice example for analog data storage.
+
+Question: What is sampling frequency? *(Details of analog is next week)*
+
+**Digital Sensors**
+- Button/Switch
+- Tilt
+- PIR
+- Ultrasonic Sensor(*)
+
+
+**Analog Sensors**
+- Potentiometer
+- Force/Torque Sensor
+- Temperature
+- Hummidity
+
+**Different Communications**
+- Inertial Measurement Unit
+- LCD
+- Bluetooth Module
+- Infrared Module
+- Wifi Module
+- Digial/Analog sensors on a module (mostly includes some filters)
+
+
+Outputs are either digital or different communication protocols:
+
+LED, vibrator, buzzer, motors, LCD, screen display.

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>State machines and how to implement them on microcontrollers &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">State machines and how to implement them on microcontrollers</a><ul>
+<li><a class="reference internal" href="#mealy-and-moore-machines">Mealy and Moore machines</a></li>
+<li><a class="reference internal" href="#hierarchical-state-machine">Hierarchical state machine</a></li>
+<li><a class="reference internal" href="#visual-representation-of-state-machines-using-uml">Visual representation of state machines using UML</a></li>
+<li><a class="reference internal" href="#state-machine-implementation-in-c">State machine implementation in C</a><ul>
+<li><a class="reference internal" href="#simple-switch-case-based-implementation">Simple switch case based implementation</a></li>
+<li><a class="reference internal" href="#function-pointer-based-implementation">Function pointer based implementation</a></li>
+<li><a class="reference internal" href="#example-traffic-light-control">Example: Traffic light control</a></li>
+<li><a class="reference internal" href="#example-elevator-controller">Example: Elevator controller</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#state-machine-library">State machine library</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="state-machines-and-how-to-implement-them-on-microcontrollers">
+<span id="state-macines"></span><h1>State machines and how to implement them on microcontrollers<a class="headerlink" href="#state-machines-and-how-to-implement-them-on-microcontrollers" title="Permalink to this headline">¶</a></h1>
+<p>In order to systematically design and implement the intended behaviour of a embedded system, it is often useful to think in terms of state machines. This will help us to break down complex problems into simpler parts. Another benefit is that it often simplifies the design of software that solves multiple tasks simultaneously.</p>
+<div class="section" id="mealy-and-moore-machines">
+<h2>Mealy and Moore machines<a class="headerlink" href="#mealy-and-moore-machines" title="Permalink to this headline">¶</a></h2>
+<p>State machines can be divided into two major categories Mealy and Moore, named after their inventors. In a Mealy state machine the output is dependend on the current state, as well as the inputs. In a Moore state machine the output depends only on the current state.</p>
+</div>
+<div class="section" id="hierarchical-state-machine">
+<h2>Hierarchical state machine<a class="headerlink" href="#hierarchical-state-machine" title="Permalink to this headline">¶</a></h2>
+<p>A common issue with traditional state machines is that similar (but not exactly equal) states causes the need for repeating the same behaviour in many states. This is known as the “state-explosion” phenomenon.</p>
+<p>In order to overcome this issue the hierarchical state machines has been introduced as a way of capturing the common behaviour of different states. In a hierarchical state machine, a given state may exist as a substate of a more generic superstate. Any event not handled by the substate will automatically be passed on to the superstate. Thus the substate only implements the difference from the superstate. This is known as behavioural inheritance.</p>
+</div>
+<div class="section" id="visual-representation-of-state-machines-using-uml">
+<h2>Visual representation of state machines using UML<a class="headerlink" href="#visual-representation-of-state-machines-using-uml" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="state-machine-implementation-in-c">
+<h2>State machine implementation in C<a class="headerlink" href="#state-machine-implementation-in-c" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Rewrite this code to Arduino specific examples, and use external LED’s, switches and similar to visualize the operation.</p>
+</div>
+<div class="section" id="simple-switch-case-based-implementation">
+<h3>Simple switch case based implementation<a class="headerlink" href="#simple-switch-case-based-implementation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/********************************************************************/</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/********************************************************************/</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">ST_RADIO</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">ST_CD</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">STATES</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">EVT_MODE</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">EVT_NEXT</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">EVENTS</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">EVENTS</span><span class="w"> </span><span class="nf">readEventFromMessageQueue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+
+<span class="cm">/********************************************************************/</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="cm">/* Default state is radio */</span><span class="w"></span>
+<span class="w">  </span><span class="n">STATES</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ST_RADIO</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">stationNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">trackNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* Infinite loop */</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Read the next incoming event. Usually this is a blocking function. */</span><span class="w"></span>
+<span class="w">    </span><span class="n">EVENTS</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readEventFromMessageQueue</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Switch the state and the event to execute the right transition. */</span><span class="w"></span>
+<span class="w">    </span><span class="k">switch</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">ST_RADIO</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="k">switch</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="nl">EVT_MODE</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* Change the state */</span><span class="w"></span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ST_CD</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="nl">EVT_NEXT</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* Increase the station number */</span><span class="w"></span>
+<span class="w">            </span><span class="n">stationNumber</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">ST_CD</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="k">switch</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="nl">EVT_MODE</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* Change the state */</span><span class="w"></span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ST_RADIO</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="nl">EVT_NEXT</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* Go to the next track */</span><span class="w"></span>
+<span class="w">            </span><span class="n">trackNumber</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="function-pointer-based-implementation">
+<h3>Function pointer based implementation<a class="headerlink" href="#function-pointer-based-implementation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="nc">state</span><span class="p">;</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">state_fn</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">struct</span> <span class="nc">state</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">state_fn</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="c1">// data</span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="n">state_fn</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">bar</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nl">foo</span> <span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-traffic-light-control">
+<h3>Example: Traffic light control<a class="headerlink" href="#example-traffic-light-control" title="Permalink to this headline">¶</a></h3>
+<p>A traffic light control system is a classical example of a problem that could be solved using a state machine.</p>
+</div>
+<div class="section" id="example-elevator-controller">
+<h3>Example: Elevator controller<a class="headerlink" href="#example-elevator-controller" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="state-machine-library">
+<h2>State machine library<a class="headerlink" href="#state-machine-library" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.state-machine.com/">http://www.state-machine.com/</a></p>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

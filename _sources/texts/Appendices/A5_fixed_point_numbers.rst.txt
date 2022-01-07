@@ -1,0 +1,9 @@
+.. _Fixed_point_numbers:
+
+*********************************
+Fixed point number representation
+*********************************
+
+The CPU of low end microcontrollers do not natively support floating point mathematical operations. Thus these operations are computationally expencive to perform.
+
+

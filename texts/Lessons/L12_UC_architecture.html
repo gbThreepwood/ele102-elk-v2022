@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Microcontroller Hardware &mdash; ELE102_documentation v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102_documentation v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102_documentation v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Microcontroller Hardware</a><ul>
+<li><a class="reference internal" href="#some-wellknown-processors">Some Wellknown Processors</a></li>
+<li><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System:</a><ul>
+<li><a class="reference internal" href="#common-non-volatile-memory-devices">Common Non-volatile Memory Devices</a></li>
+<li><a class="reference internal" href="#common-volatile-memory-devices">Common volatile Memory Devices</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reset-circuit">Reset Circuit</a></li>
+<li><a class="reference internal" href="#clock-generator">Clock Generator</a></li>
+<li><a class="reference internal" href="#i-o-ports-channels-buffers">I/O PORTS, Channels, Buffers</a></li>
+<li><a class="reference internal" href="#serial-i-o">Serial I/O</a></li>
+<li><a class="reference internal" href="#timers">Timers</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="admonition note" id="l12-uc-architecture">
+<p class="admonition-title">Note</p>
+<p><em>31/03/2020 - 75mins</em></p>
+<p><strong>Aim:</strong></p>
+<ul class="simple">
+<li><p>UC architecture, UC/UP/IC history and types</p></li>
+</ul>
+<p><strong>Materials:</strong></p>
+<ul class="simple">
+<li><p>Arduino Board</p></li>
+<li><p>Button</p></li>
+<li><p>Cables</p></li>
+<li><p>Breadboard</p></li>
+<li><p>Potentiometer</p></li>
+<li><p>Resistors</p></li>
+<li><p>LED</p></li>
+</ul>
+<p><strong>Code:</strong></p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</div>
+<div class="section" id="microcontroller-hardware">
+<h1>Microcontroller Hardware<a class="headerlink" href="#microcontroller-hardware" title="Permalink to this headline">¶</a></h1>
+<p>This lecture summarizes the common components that can be found in a microcontroller.  It is better to combine as many as possible components in a single chip.  The advantages of integration are:</p>
+<ul class="simple">
+<li><p><strong>Cost:</strong>  IC packages, PCB area, and PCB assembly are all major cost items that can be reduced with integration of components in a single device.</p></li>
+<li><p><strong>Easy development:</strong>  You don’t need to worry about interfacing external components and the related noise coupling or interference problems.  Accessing an ADC is as easy as writing and reading a few special function registers when the ADC is available as an on-chip component of the microcontroller.  On the other hand, if you end up using an external ADC component, then you need to find solutions to several design requirements such as, ADC power supply, interface protocol,  reserving I/O pins on the microcontroller, and routing I/O connections on the PCB.</p></li>
+</ul>
+<div class="section" id="some-wellknown-processors">
+<h2>Some Wellknown Processors<a class="headerlink" href="#some-wellknown-processors" title="Permalink to this headline">¶</a></h2>
+<p>The instruction set architecture (ISA) of the processor determines the main processing capabilities and efficiency of a microcontroller.  Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  … . .  controller with ARM core or  … . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of the common processor architectures used in microcontrollers.</p>
+<ul class="simple">
+<li><p><strong>AVR (Atmel):</strong>  A large variety of microcontrollers manufactured by Atmel.  Couple of these microprocessors will be used in the application work of this course.</p></li>
+<li><p><strong>PICXXX (Microchip):</strong>  PIC is a family of Harvard architecture microcontrollers manufactured by Microchip Technology.  PIC processors are widely used for industrial applications and hobby purposes.  Optimized processor efficiency, serial programming capability, free development tools, and availability of a large library of application notes made PIC processors popular.</p></li>
+<li><p><strong>8051 (Intel):</strong>  A Harvard architecture 8-bit microcontroller series developed by Intel in 1980 for use in embedded systems.  Today, a large variety of faster and enhanced 8051-core microcontrollers are produced by more than 20 independent manufacturers.</p></li>
+<li><p><strong>68XX, 680X0 (Motorola):</strong>  The 68xx is an 8-bit microprocessor family introduced by Motorola starting in 1974.  The MC6801 and MC6805 were commonly used as microcontrollers in automotive industry.  The Motorola 6809 introduced in 1977 had some 16-bit features.  The Motorola 680x0 is a family of 32-bit processors that were popular in personal computers and workstations until the mid-1990s.  Descendants of the 680x0 family processors are still widely used in embedded applications.</p></li>
+<li><p><strong>ARM (ARM7, ARM9, ARM11 - ARM Holdings):</strong>  ARM architecture is the most widely used 32-bit ISA in terms of numbers produced.  ARM Holdings itself does not manufacture any processors but they license ARM ISA to independent manufacturers.  ARM processors dominate the mobile and embedded electronics market (90% of all embedded 32-bit RISC processors in 2009), because they are suitable for low power applications as relatively low cost, simple, and small microprocessors.</p></li>
+<li><p><strong>x86 (386, 486, Pentium, … -  Intel):</strong>  The term x86 refers to a family of ISAs based on the Intel 8086 CPU introduced in 1978.  More specifically, x86 implies compatibility with the instruction set of 32-bit 80386.  x86 processors are not widely used in embedded systems.</p></li>
+</ul>
+</div>
+<div class="section" id="memory-requirement-of-an-embedded-system">
+<h2>Memory Requirement of an Embedded System:<a class="headerlink" href="#memory-requirement-of-an-embedded-system" title="Permalink to this headline">¶</a></h2>
+<p>A stand-alone computer requires two types of memory.  First, a non-volatile memory is necessary to store the program instructions and other permanent information required for execution.  The non-volatile memory does not lose the stored information when power is turned off.  The second type of memory is the volatile memory to store temporary or dynamically changing information during program execution.</p>
+<ul class="simple">
+<li><p><strong>Non-volatile memory requirement:</strong></p>
+<ul>
+<li><p>Program   storage</p></li>
+<li><p>Read-only tables, such as calibration data, system control parameters, user settings that should be saved when power is turned off.</p></li>
+<li><p>At least 20% safety margin for the additional memory that may be required for future corrections and upgrades.</p></li>
+</ul>
+</li>
+<li><p><strong>Volatile memory requirement:</strong></p>
+<ul>
+<li><p>Variables</p></li>
+<li><p>I/O   buffers</p></li>
+<li><p>Other data structures, such as stacks and queues.</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="common-non-volatile-memory-devices">
+<h3>Common Non-volatile Memory Devices<a class="headerlink" href="#common-non-volatile-memory-devices" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>ROM (Read-Only Memory):</strong>  The term, ROM, strictly meant “read-only memory” as it  was used some decades ago.  The data stored in a ROM could not be modified by any means.  But today, ROM may refer to all types of non-volatile memory included within an embedded computer system.  The data stored in a ROM remain unchanged or “read-only” during the normal program execution, but the memory contents can be modified slowly or with difficulty when it is necessary.  The following is a list of other related memory devices:</p>
+<ul>
+<li><p><strong>PROM (Programmable ROM):</strong>  Memory contents can be written only once by fusing (blowing up) or anti-fusing the connections in the device applying high voltages.</p></li>
+<li><p><strong>EPROM (Erasable Programmable ROM):</strong>  Memory contents can be written using a programming device.  An EPROM can be erased by exposing it to strong ultraviolet light through the transparent window placed on top of the chip.</p></li>
+<li><p><strong>EEPROM (Electrically Erasable Programmable ROM):</strong>  A version of EPROM where memory contents can be erased electrically instead of using ultraviolet light.</p></li>
+<li><p><strong>FLASH Memory:</strong>  FLASH memory is a kind of EEPROM that is commonly used as non-volatile memory on the microcontrollers available in the market today.  The EEPROMs other than FLASH are erasable in small blocks (i.e. byte by byte).   Large blocks of data can be erased and written simultaneously in FLASH memories.  This gives a significant speed advantage when writing large amounts of data.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="common-volatile-memory-devices">
+<h3>Common volatile Memory Devices<a class="headerlink" href="#common-volatile-memory-devices" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>RAM (Random Access Memory):</strong>  Random access means ability to read or write at any memory address as opposed to restricted addressing methods, such as sequential access.  The term, RAM, may refer to all types of volatile memory in a computer system.  SRAM and DRAM are the two common types of RAM.</p>
+<ul>
+<li><p><strong>SRAM (Static RAM):</strong>  Memory contents remain intact as long as the power is on.  SRAM is the most common type of volatile memory included in a single-chip microcontroller.  The cache memories on more powerful CPUs are also SRAM devices.</p></li>
+<li><p><strong>DRAM (Dynamic RAM):</strong>  Unlike SRAM, a DRAM device needs to be periodically refreshed to keep the memory contents intact.  DRAMs store each bit of data in a capacitor, and the voltage on the capacitor needs to be refreshed because the capacitor charge fades due to leakages.  One bit of DRAM storage requires less silicon area compared to one bit of SRAM.  DRAM is the choice for large memory requirements since the cost per unit of memory is less for DRAMs</p></li>
+<li><p><strong>SDRAM (Synchronous DRAM):</strong>  Data transfers to/from SDRAM are synchronized with a clock signal.  Once a memory address is sent to the SDRAM, a sequence of memory locations can be accessed starting at the specified address.</p></li>
+<li><p><strong>DDR SDRAM (Double Data Rate SDRAM):</strong>  SDRAM that transfers data at a rate twice as high the synchronization clock frequency by receiving or sending data at both of the rising and falling edges of the clock.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reset-circuit">
+<h2>Reset Circuit<a class="headerlink" href="#reset-circuit" title="Permalink to this headline">¶</a></h2>
+<p>Active electronic devices require all supply voltages to be within specified limits to operate properly.  The device behavior is unpredictable if a supply voltage is outside the specified range.  A power-on-reset (POR) signal is required to make sure that all components of a system are in a known idle state until the supply voltages reach the specified operation limits.  Supply monitors (also called “power monitor” or  “voltage monitor”) are the dedicated circuits that generate a master reset signal according to the supply conditions.  These are the functions of the master reset signal:</p>
+<ol class="arabic simple">
+<li><p>Suspend all operations while the voltage regulators are ramping up until the supply voltages reach the specified operation limits (power-on-reset).</p></li>
+<li><p>Initialize state of sequential logic circuits.</p></li>
+<li><p>Stop and re-initialize circuit operations if a fault condition occurs at the supplies.</p></li>
+</ol>
+<p>Consider an embedded system that requires three voltage regulators to supply DC power for the following purposes:</p>
+<ul class="simple">
+<li><p>+1.5 V supply for processor core and memory</p></li>
+<li><p>+3.3 V supply for I/O with peripherals</p></li>
+<li><p>+5.0 V supply for sensors and drivers</p></li>
+</ul>
+<div class="align-center figure">
+<img alt="Reset_Circuit_Signals" src="../../_images/Reset_Circuit_Signals.png" />
+</div>
+</div>
+<div class="section" id="clock-generator">
+<h2>Clock Generator<a class="headerlink" href="#clock-generator" title="Permalink to this headline">¶</a></h2>
+<p>Clock generator provides the clock signal for all sequential circuit operations.  Most systems use a single clock source as a reference and necessary clock frequencies are derived from this reference clock using simple frequency dividers or phase lock loops (PLL).  The precision of clock timing depends on the requirements of a particular application.  Generation of a pulse-width modulation (PWM) output, for example, can tolerate large variations in the clock frequency.  The effective value of a PWM output is determined by the duty cycle which is independent of the clock driving the PWM circuitry as long as the clock frequency remains relatively constant in each PWM cycle.  The timing precision of a clock signal used for speed measurements on the other hand, should match the accuracy of the measurements.  There are strict frequency matching requirements for I/O channels that rely on independent clock signals as frequency references.</p>
+<p>A microcontroller may require an external clock generator or it may have on-chip circuitry that supports a frequency resonator.  These are the typical specifications for a clock generator:</p>
+<ol class="arabic simple">
+<li><p>Maximum deviation from target frequency specified in +/- ppm (particle per million).  If you purchase a 10 MHz resonator specified with +/-50 ppm accuracy, then you will obtain a resonance frequency between 9,999,500 and 10,000,500 Hz.</p></li>
+<li><p>Temperature dependency of oscillation frequency specified in ppm/ºC.  The maximum frequency deviation guaranties the oscillation frequency range at a constant temperature (usually 20 or 25ºC).  The temperature dependency adds on to the frequency uncertainty according to the temperature variations.</p></li>
+<li><p>Jitter, or the timing error between clock cycles:  Having 10,000,000 clock cycles in one second does not necessarily mean that each clock cycle will be exactly 100 ns. Jitter is the measure of timing error from one clock interval to another, that can be an important factor when matching reference frequency of communication channels.</p></li>
+</ol>
+</div>
+<div class="section" id="i-o-ports-channels-buffers">
+<h2>I/O PORTS, Channels, Buffers<a class="headerlink" href="#i-o-ports-channels-buffers" title="Permalink to this headline">¶</a></h2>
+<p>I/O ports on a microcontroller provide general-purpose access capabilities to external devices.  These ports can be simple I/O pins that can be read or written by the core processor or they can be combined with more complex interface options.  Some examples of these interface options are:</p>
+<ul class="simple">
+<li><p>Independent access to individual I/O pins as well as of 8 or 16 pin groups.</p></li>
+<li><p>Built in buffering functions for continuous data transfers.</p></li>
+<li><p>Direct memory access to or from the port pins for high-speed communication with external devices without using processor time.</p></li>
+</ul>
+<p>One should be careful about determining the number of available I/O pins on a microcontroller.  Almost all microcontrollers assign multiple functions to many of the I/O pins.  An I/O pin required as an external interrupt input or as an analog interface pin will not be available for general-purpose I/O functions.</p>
+<div class="align-center figure">
+<img alt="Address and Data Flow in Direct Memory Access" src="../../_images/DMA.png" />
+</div>
+<p>Data transfers between the RAM and I/O units or other storage devices may take long processing times depending on the amount of data to be transferred.  For example, if the CPU handles a sequence of data transfers from an I/O unit to the memory, then it performs several operations to transfer each word of data:</p>
+<ol class="arabic simple">
+<li><p>Read data from the I/O unit into the CPU register.</p></li>
+<li><p>Write data from the CPU register to the RAM.</p></li>
+<li><p>Increment the pointer for the target address in the RAM.</p></li>
+<li><p>Decrement the byte/word counter.</p></li>
+<li><p>Check the byte/word count and go back to step-1 if there is more data to be transferred.</p></li>
+</ol>
+<p>As an alternative, a direct memory access (DMA) controller can be used to speed up the data transfers. DMA controller takes over management of address, data, and R/W control lines after CPU tristates its outputs.  DMA controller generates the required address sequence for memory and arranges timing of the control signals for memory and I/O unit.  Data words are transferred directly between the memory and the I/O unit.  It takes just one R/W memory cycle to complete the transfer of a data word.  Direct memory access is an order of magnitude faster compared to the CPU operations that take10s of memory R/W cycles for each data transfer. CPU programs the DMA controller writing starting memory address, number of data transfers, and other necessary information into the controller registers.  DMA controller sends a “Hold” signal to the CPU asking for release of memory control when it is ready to start the transfer sequence.  CPU replies with a “Hold Acknowledgement” after it tristates its outputs.  DMA controller returns control of memory back to the CPU after it completes the data transfers.</p>
+</div>
+<div class="section" id="serial-i-o">
+<h2>Serial I/O<a class="headerlink" href="#serial-i-o" title="Permalink to this headline">¶</a></h2>
+<p>A serial interface will be slower compared to a parallel bus operating at the same clock frequency.  Whenever you don’t need the combined speed of all the data bits in parallel, a serial interface is preferable because of these advantages:</p>
+<ul class="simple">
+<li><p><strong>It requires less number of pins.</strong>  A serial interface uses 2, 3, or 4 connections, so it will require 2-4 pins on transmitter and receiver ends.  An 8-bit parallel interface on the other hand, would require 10 or more connections between the transmitter and receiver ends.  Less number of pins means smaller and cheaper IC packages.</p></li>
+<li><p><strong>PCB design will be easier</strong> for a serial interface, and it will save PCB area as well.  Simply, you will route 3 connections instead of 10.</p></li>
+<li><p><strong>Serial interface will require less power.</strong>  A serial interface will eventually use more-less the same amount of average power to transmit the same number of bits, but the instantaneous power requirement will be different.  If you decide to use a parallel interface, then you had to be prepared for the worst case where all data lines switch from 0 to 1 at the same instant.</p></li>
+<li><p><strong>Save on noise.</strong>  Just as simultaneously switching 8 data lines requires more power, it will also generate more noise on your PCB.</p></li>
+</ul>
+<p>Two different types of serial I/O interfaces can be found on microcontrollers or embedded processors.  The first type of serial interfaces are for “on-board” or “in-box” communication between the components of a single unit.  The commonly used examples of on-board serial communication interfaces are <strong>SPI</strong>, <strong>uWIRE</strong>, and <strong>I2C</strong>.  The second type of serial I/O interfaces are used for box-to-box communication between the independent design units through cables.  The typical examples of box-to-box serial interfaces are <strong>USART</strong> (Universal Synchronous Asynchronous Receiver Transmitter, RS-232, RS-422, etc.), <strong>USB</strong>, and <strong>Firewire</strong> (IEEE 1394).  Another advantage of serial interfaces in box-to-box communication is the simplicity of the connectors and cables.  Long serial transmission cables can be built at a lower cost compared to the cost of parallel data cables that support the similar data transfer rates.</p>
+</div>
+<div class="section" id="timers">
+<h2>Timers<a class="headerlink" href="#timers" title="Permalink to this headline">¶</a></h2>
+<p>Timers are counters that can be programmed to perform a variety of functions.  Following are the typical operation modes and possible applications of timers:</p>
+<ol class="arabic simple">
+<li><p><strong>Programmed operation:</strong>  A timer can be used as an alarm clock to generate predetermined time delays.  The microprocessor sets the count limit or initializes the counter and enables the count operation.  The timer generates an interrupt when the count limit is reached indicating the end of the programmed delay period.  This mode of operation utilizes the internal clock and it does not require an external connection.</p></li>
+<li><p><strong>Gated or triggered operation:</strong>  The count operation is controlled by an external signal.  There may be several options to start and to stop the counter.  In gated mode, the counter is enabled while the external signal is active.  A multi-purpose timer allows independent selection of events that start and stop the counter.  These events can be a rising or falling edge of the external trigger signal or an internal start/stop command issued by the microprocessor itself.  The timer can be programmed to generate an interrupt when the counter stops.  The common applications of gated or triggered operation involve any kind of time measurements, such as, measuring revolution time of a motor to detect its rotation speed, or quantification of time-encoded signals.</p></li>
+<li><p><strong>Clocked operation:</strong>   The counter clock is supplied by an external signal while the count operation is enabled by the microprocessor or another timer.  The typical applications include quantization of frequency-encoded signals, or position information generated by linear or rotational encoders.</p></li>
+</ol>
+<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions.  The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled.  The program written for the processor includes the necessary statements to restart the watchdog timer periodically.  If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason.  In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions.</p>
+<p>THEN MAYBE OPEN THE ATMEGA328P DATASHEET AND LOOK AT ALL THE DETAILS. COMPARE WITH STM32 FOR EXAMPLE</p>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102_documentation v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

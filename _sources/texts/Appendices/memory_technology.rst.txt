@@ -1,0 +1,89 @@
+.. memory_technology:
+
+************************
+Memory technology
+************************
+
+Flash memory
+============
+
+Flash memory is a type of non volatile memory. Flash memory has it's name from the requirement that one has to erase a whole block of memory if one or more bits of the block has to be changed from zero (0) to one (1). This is a so called `Flash` erase.
+
+Initially (or straight after a `Flash` erase) all the bits of a flash memory block are one (1), and you only program the ones that have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform `Flash` erase.
+
+There is no physical limitation that forces us to use a full block erase, but the memory is designed in this way (the transistors are connected in such a way that this is the only possibility). The reason for doing this is that the erase cycle is a relative slow operation, and thus there is a speed gain in erasing many bits at once.
+
+A Flash memory supporting single byte (or bit) erase is called a EEPROM. But in order to achieve this the circuit for each bit is more complex, and hence more expensive.
+
+Each bit in a Flash memory consists of one transistor, specifically a floating gate MOSFET. The floating gate holds a negative charge when the bit is programmed, and neutral charge when it is not programmed. The negative charge prevents current from flowing through the transistor when a read voltage is applied, thus zero current is interpreted as a logic zero (0) :cite:`masuokaNewUltraHigh1987`.
+
+.. youtube:: https://www.youtube.com/watch?v=SlXb2aF_RRU
+
+NAND Flash
+----------
+
+NOR Flash
+---------
+
+
+Random access memory
+=====================
+
+Random access memory (RAM) refers to memory where individual bytes of data may be read and modified without affecting other parts of the memory.
+
+Static RAM
+-----------
+
+Static RAM (SRAM) is a form of volatile memory. Each bit requires six transistors, and the read and write times are equal.
+
+
+
+Dynamic RAM
+-----------
+
+Dynamic RAM (DRAM) is a form of volatile memory. Each bit in a DRAM memory consists of one transistor and one capacitor.
+
+The bits must be refreshed, i.e. the capacitor must be recharged at certain intervals if it is storing a one (1), to avoid loosing the information. The JEDEC (Joint Electron Device Engineering Council) standard states that the refresh rate should be less than 64 ms.
+
+DRAM is normally very fast when compared to Flash memory, and has equal read and write speeds.
+
+.. youtube:: https://www.youtube.com/watch?v=Lozf9sceW_o
+
+
+EEPROM
+======
+
+.. youtube:: https://www.youtube.com/watch?v=yLyQRtybfhc
+
+Hard disk drives
+================
+
+A hard diske drive uses magnetic storage to store data on a rotating platter. It has a moving read and write head.
+
+Special memory types
+=====================
+
+NVRAM
+-----
+
+.. .. youtube:: https://www.youtube.com/watch?v=VzG4MmGOTOQ
+
+NVSRAM
+------
+
+EERAM
+-----
+
+OTP EPROM
+---------
+
+Historical memory types
+=======================
+
+In this section we will briefly discuss some of the memory technologies that are not used anymore.
+
+
+Bibliography
+============
+
+.. bibliography:: ../../bib/memory_technology.bib
