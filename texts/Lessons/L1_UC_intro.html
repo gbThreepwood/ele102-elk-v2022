@@ -139,14 +139,15 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 1: What is a Microcontroller</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 1a: What is a Microcontroller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#embedded-systems">Embedded Systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#embedded-system-characteristics">Embedded System Characteristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#microcontroller-uc-microprocessor-integrated-circuit-ic">Microcontroller (UC), Microprocessor, Integrated Circuit (IC)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="L2_Arduino_intro.html">Lesson 2: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_serial_o.html">Lesson 2: Digital I/O, and serial output</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -285,7 +286,7 @@ The marketing estimates on the number of processors are dictated by the expectat
 <div class="figure align-center">
 <img alt="Microprocessor organization" src="../../_images/microprocessororganization.png" />
 </div>
-<p>In practice there is usually an intermediate step between the source code, and the machine code. The intermediate step is known as the assembly code, and is a low level language where each statement corresponds to a single operation which is directly supported by the CPU. For some special cases where high performance is needed, or special features not available in the programming language are needed, assembly language is used. It is also used extensively by experienced developers while debugging code, as it is not always obvious how the compiler interpret our instructions.</p>
+<p>In practice there is usually an intermediate step between the source code, and the machine code. The intermediate step is known as the assembly code, and is a low level language where each statement corresponds to a single operation which is directly supported by the CPU. For some special cases where high performance is needed, or special features not available in the programming language are needed, assembly language is used. It is also used extensively by experienced developers while debugging code, as it is not always obvious how the compiler interpret and translates our instructions.</p>
 <p>Traditionally all software was developed using assembly language, but higher level languages (such as C/C++) have been designed to simplify the development process for all but the most advanced or special cases.</p>
 <p><a class="reference internal" href="../../_images/assembly1.png"><img alt="pic1" src="../../_images/assembly1.png" style="width: 33%;" /></a> <a class="reference internal" href="../../_images/assembly2.png"><img alt="pic2" src="../../_images/assembly2.png" style="width: 33%;" /></a> <a class="reference internal" href="../../_images/assembly3.png"><img alt="pic3" src="../../_images/assembly3.png" style="width: 33%;" /></a></p>
 <p><strong>Why assembly language?</strong></p>
@@ -294,6 +295,7 @@ The marketing estimates on the number of processors are dictated by the expectat
 <li><p>It can be the best (only) way to generate efficient code in terms of speed and memory usage.</p></li>
 <li><p>It provides a better insight in to what is actually going on inside the computer (or microcontroller)</p></li>
 <li><p>It allows us to exploit hardware features not available in the programming language. One typical example is context switching of threads in a operating system.</p></li>
+<li><p>Provides a deeper understanding of how the system is operating. Invaluable when it comes to understanding the low level details of how the computer operates.</p></li>
 </ul>
 <p>The embedded system is a bottomless well. It is impossible to cover everything in this course - and we don’t need to. Embedded system world is a charming nerdy black hole that pulls you inside even more as you are willing to learn more. Therefore we limit have to limit for this course at some point.</p>
 <p>For the youtubers:  <a class="reference external" href="https://www.youtube.com/watch?v=QXjU9qTsYCc">How do computers read code?</a> , The Evolution Of CPU Processing Power <a class="reference external" href="https://www.youtube.com/watch?v=sK-49uz3lGg&amp;t=315s">Part 1</a> <a class="reference external" href="https://www.youtube.com/watch?v=kvDBJC_akyg">Part 2</a> <a class="reference external" href="https://www.youtube.com/watch?v=NTLwMgak3Fk">Part 3</a> .</p>
@@ -307,19 +309,20 @@ The marketing estimates on the number of processors are dictated by the expectat
 <h3>Arduino<a class="headerlink" href="#arduino" title="Permalink to this headline">¶</a></h3>
 <p>Open Source electronic prototyping platform based on flexible easy to use hardware and software.</p>
 <div class="figure align-center">
-<img alt="../../_images/Arduino.png" src="../../_images/Arduino.png" />
+<img alt="The original Arduino UNO board" src="../../_images/Arduino.png" />
 </div>
-<p>Depending on your requirements, you may choose any of the members of Arduino family. There is one important thing about embedded systems that you cannot stick on one microcontroller if you want to be a good embedded programmer. Especially if you work in a big company which has a mass production, even a couple of cents of saving in production makes huge differences. You need to choose the simplest and just enough for the requirements.</p>
-<p>In this course, we will not focus on this aspect and we will not get into the details of embedded systems but I want you to focus on the “efficiency” of your codes and <em>designs</em> when you are still in the very beginning of the road.</p>
-<p>Efficiency in a code is important but in a microcontroller program, it is vital. Luckily Arduino is pretty powerful for what we are going to achieve in our plan but just keep in mind!</p>
+<p>The Arduino family consists of a large number of boards with different sets of features. Depending on your requirements, you should select the board which best fits the intended application. It can however be a good idea to avoid controllers which exceed the performance requirements. Especially if you work in a big company which has a mass production, even a couple of cents of saving in production can make a huge difference. Thus you should choose the simplest controller which meets the requirements.</p>
+<p>In this course, we will not dwell to much on this aspect, the board is already selected for you (the Arduino UNO), and we are going to explore the features available.</p>
+<p>Efficiency in code is always important, i.e. the code should be written in a way which as efficiently as possible achieve the intended goal. In a microcontroller program it can often be vital, due to the limited resources available (e.g. limited memory, and CPU clock speed). Luckily Arduino is plenty powerful for what we are going to achieve in this course, but just keep this in mind!</p>
 <div class="figure align-center">
-<img alt="../../_images/ArduinoFamily.png" src="../../_images/ArduinoFamily.png" />
+<img alt="Various boards in the Arduino family" src="../../_images/ArduinoFamily.png" />
 </div>
-<p>Before Arduino get into the market, embedded programming used to seems like a rocket science. Literally, no kidding. Because it was still not <em>fun enough</em>, used to require more qualification. You used to need many different circuits, clocks, prescalars, pin assignments and many other different thing. After Arduino has entered the market, there is a new way of learning was discovered on the microcontrollers side.</p>
+<p>Before Arduino and similar boards appeared on the marked, embedded programming had a pretty high entry barrier. It was hard for beginner to get started. You had to consider many different external circuits, clocks, prescalers, pin assignments, direct register access among other things. After Arduino entered the market, a new era has started.</p>
+<p>A quick google search reveals that there is a lot more interest in Arduino, than it is in the microcontroller on which the original Arduino is based:</p>
 <div class="figure align-center">
-<img alt="../../_images/ArduinoVSAtmega.png" src="../../_images/ArduinoVSAtmega.png" />
+<img alt="Arduino vs Atmega on Google" src="../../_images/ArduinoVSAtmega.png" />
 </div>
-<p>Some people may say that “Arduino is a toy”, well, in a way it is true. Depends on how you use it. Our computers are also a toy right? It has all the functionalities of a mid-advanced microcontrollers have.</p>
+<p>Some people may say that “Arduino is a toy”, well, in a way it is true. Depends on how you use it. Our computers are also a toy right? It has all the functionalities of a mid-advanced microcontrollers have. One thing to note though, is that the low entry barrier has allowed many poorly skilled programmers to write about their experiences on the web. Beware of shitty tutorials, which teach shitty programming style, and low performance electronics.</p>
 <div class="section" id="fun-fact-about-arduino">
 <h4>Fun fact about Arduino:<a class="headerlink" href="#fun-fact-about-arduino" title="Permalink to this headline">¶</a></h4>
 <p>Atmega328P is a microcontroller originally developed by a company called <a class="reference external" href="https://www.wikiwand.com/en/Atmel">Atmel</a>. Atmel was bought by Microchip in 2016, and thus the company no longer exists. The microcontroller architecture particularly used by Atmel is called <a class="reference external" href="https://www.wikiwand.com/en/AVR_microcontrollers">AVR</a> developed by Alf-Egil Bogen and Vegard Wollan while they where students at NTNU in Trondheim. AVR derives its name from its developers and stands for Alf-Egil Bogen Vegard Wollan RISC microcontroller, although attempts have been made to re-define it as Advanced Virtual <a class="reference external" href="https://www.wikiwand.com/en/Reduced_instruction_set_computer">RISC</a> <a class="footnote-reference brackets" href="#f6" id="id7">7</a> . It has a <a class="reference external" href="https://www.wikiwand.com/en/Modified_Harvard_architecture">modified Harvard architecture</a> .</p>
@@ -380,7 +383,7 @@ The marketing estimates on the number of processors are dictated by the expectat
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+          &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
       </footer>
       <!-- /footer -->

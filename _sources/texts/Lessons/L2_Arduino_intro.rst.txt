@@ -1,42 +1,45 @@
 .. _L2_Arduino_intro:
 
-.. note:: *27/01/2021*
-
-    **Aim:**
-
-    - Arduino program upload
-    - what is behind
-    - Digital I/O concept
-    - setup and loop
-    - delay()
-    - as students if they have learned otherwise use Cookbook Ch 2
-      - simple primitive types (variables)
-      - using floats
-      - arrays
-      - string (so important before hello world)
-      - number to string
-
-    - Arduino concept very simply.
-    - Arduino software
-    - how to use other resources
-    - Arduino hardware
-    - introduce the components on the board
-    - memory issues with Arduino
-    - safety warnings
-
-    **Materials:**
-
-    Arduino Board
-
-    **Code:**
-
-    First blink is going to be introduced, 
-    Where is hello, world?
+..
+        .. note:: *27/01/2021*
+        
+            **Aim:**
+        
+            - Arduino program upload
+            - what is behind
+            - Digital I/O concept
+            - setup and loop
+            - delay()
+            - as students if they have learned otherwise use Cookbook Ch 2
+              - simple primitive types (variables)
+              - using floats
+              - arrays
+              - string (so important before hello world)
+              - number to string
+        
+            - Arduino concept very simply.
+            - Arduino software
+            - how to use other resources
+            - Arduino hardware
+            - introduce the components on the board
+            - memory issues with Arduino
+            - safety warnings
+        
+            **Materials:**
+        
+            Arduino Board
+        
+            **Code:**
+        
+            First blink is going to be introduced, 
+            Where is hello, world?
 
 **********************
 Arduino Introduction
 **********************
-Last week we talked about:
+
+..
+        Last week we talked about:
 
 `Arduino <https://www.arduino.cc/en/guide/introduction>`_ is an open-source electronics platform based on easy-to-use hardware and software. Arduino boards are able to read inputs - light on a sensor, a finger on a button, or a Twitter message - and turn it into an output - activating a motor, turning on an LED, publishing something online. You can tell your board what to do by sending a set of instructions to the microcontroller on the board. To do so you use the Arduino programming language (based on Wiring), and the Arduino Software (IDE), based on Processing.
 
@@ -55,13 +58,18 @@ I don't want to scare you in the first course :) I just wanted to show you how p
 
 Arduino Software
 ======================
-The Arduino Software (IDE) allows you to write programs and upload them to your board.
+Installation of the Arduino software has already been covered in a previous lesson. The Arduino Software (or Integrated Development Environment - IDE) allows you to write programs and upload them to your board.
 
 .. figure:: ../../../external/fig/Arduinosoftware.png
    :alt: Arduino IDE
    :align: center
 
-`Language reference <https://www.arduino.cc/reference/en/>`_ and `built-in examples <https://www.arduino.cc/en/Tutorial/BuiltInExamples>`_ are going to be your everything. Learn how to use those websites. Also thanks to open community, there are vast of resources with lots od inspiring projects.
+The `Language reference <https://www.arduino.cc/reference/en/>`_ and the `built-in examples <https://www.arduino.cc/en/Tutorial/BuiltInExamples>`_ are invaluable resources when developing your own programs.
+
+..
+        going to be your everything. Learn how to use those websites. Also thanks to open community, there are vast of resources with lots od inspiring projects.
+
+Furthermore the following resources can be of great help (although they should be read with dubious eyes, as some of them are open to contributions from anyone):
 
 - `Instructables <https://www.arduino.cc/en/Tutorial/BuiltInExamples>`_
 - `Arduino Playground <https://playground.arduino.cc/>`_
@@ -69,41 +77,46 @@ The Arduino Software (IDE) allows you to write programs and upload them to your 
 - `LadyAda <http://www.ladyada.net/make/>`_
 - `How to Mechatronics <https://howtomechatronics.com/arduino-projects/>`_
 
-Also you can use `Arduino forum <https://forum.arduino.cc/>`_ to ask anything.
+Also you can use `Arduino forum <https://forum.arduino.cc/>`_ to ask questions.
 
 
 .. ref: https://learn.sparkfun.com/tutorials/what-is-an-arduino/all
 
-Believe it or not, in less than 10 lines of code in the above screenshot you will be able to blink the on-board LED on your Arduino. The code might not make perfect sense right now, but, after reading this tutorial and the many more Arduino tutorials waiting for you on our site, we'll get you up to speed in no time! In the old boards of traditional microcontroller development, such a feat could easily take your whole day.
+.. Believe it or not, in less than 10 lines of code in the above screenshot you will be able to blink the on-board LED on your Arduino. The code might not make perfect sense right now, but, after reading this tutorial and the many more Arduino tutorials waiting for you on our site, we'll get you up to speed in no time! In the old boards of traditional microcontroller development, such a feat could easily take your whole day.
 
 Let's see if your installation works with a blink code :ref:`BlinkLED`
 
-Alternative software
---------------------
+..
+        Alternative software
+        --------------------
 
-The Arduino IDE is easy to use for beginners, but it is not very rich on features. For this reason many developers prefer alterative development environments.
+        The Arduino IDE is easy to use for beginners, but it is not very rich on features. For this reason many developers prefer alterative development environments.
 
-PlatformIO (https://platformio.org/) is one such alternative development environment. It is a platform for embedded software development supporting a lot of different embedded platforms and boards. PlatformIO does not provide a graphical user interface of it's own, but may be installed as a plugin to various code editors. We recommend using *Visual studio code* (https://code.visualstudio.com/) as the code editor. *Visual studio code* should not be confused with *Visual studio*, although both programs are used for software development, they are not the same program. This seems to be yet another example of Microsoft's silly naming conventions, where completely different (although functionally similar) software receives similar names, causing a lot of confusion. E.g. Skype, vs Skype for Business.
+        PlatformIO (https://platformio.org/) is one such alternative development environment. It is a platform for embedded software development supporting a lot of different embedded platforms and boards. PlatformIO does not provide a graphical user interface of it's own, but may be installed as a plugin to various code editors. We recommend using *Visual studio code* (https://code.visualstudio.com/) as the code editor. *Visual studio code* should not be confused with *Visual studio*, although both programs are used for software development, they are not the same program. This seems to be yet another example of Microsoft's silly naming conventions, where completely different (although functionally similar) software receives similar names, causing a lot of confusion. E.g. Skype, vs Skype for Business.
 
-You are free to choose whatever code editor you like, but if you expect installation help from your lecturer you should choose whatever he or she is using.
+        You are free to choose whatever code editor you like, but if you expect installation help from your lecturer you should choose whatever he or she is using.
 
-Please refer to the official installation guide of PlatformIO, for instructions on how to get started.
+        Please refer to the official installation guide of PlatformIO, for instructions on how to get started.
 
 
 Arduino Hardware
 ======================
-There are many varieties of Arduino boards (as we mentioned before) that can be used for different purposes. Some boards look a bit different from the one below, but most Arduinos have the majority of these components in common [#f5]_:
+There are many varieties of Arduino boards (as we mention in the previous lecture notes) that can be used for different purposes. Some boards look a bit different from the one below, but most Arduinos have the majority of these components in common [#f5]_:
 
 .. figure:: ../../../external/fig/Arduinohardware.png
+   :alt: The Arduino UNO board
    :align: center
 
-.. warning:: Be aware that you are fiddling around the electricity. Even though Arduino has a low `current consumption <http://robotics.lib-ieronimoub.gr/?p=715>`_ (Uno 1A, Nano 500mA, both 500mA when they are fed from USB), still you have to mind that you can damage yourself, the board, or the products which you are working with.
+.. warning:: Be aware that you are fiddling around the electricity. Even though Arduino has a low `current rating <http://robotics.lib-ieronimoub.gr/?p=715>`_ (Uno 1A, Nano 500mA, both 500mA when they are fed from USB), still you have to keep in mind that you can damage yourself, the board, or the products which you are working with.
 
 Power (USB / Barrel Jack)
 ------------------------------
 Every Arduino board needs a way to be connected to a power source. The Arduino UNO can be powered from a USB cable coming from your computer or a wall power supply that is terminated in a barrel jack. In the picture above the USB connection is labeled (1) and the barrel jack is labeled (2).
 
-The USB connection is also how you will load code onto your Arduino board.
+The USB connection also allows you to upload new firmware onto your Arduino board, as well as to communicate with the board while the firmware is running.
+
+..
+        The USB connection is also how you will load code onto your Arduino board.
 
 .. warning:: Do NOT use a power supply greater than 20 Volts as you will overpower (and thereby destroy) your Arduino. The recommended voltage for most Arduino models is between 6 and 12 Volts.
 
@@ -147,6 +160,7 @@ There are three pools of memory in the microcontroller used on avr-based Arduino
 - EEPROM is memory space that programmers can use to store long-term information.
 
 .. figure:: ../../../external/fig/MemoryArduino.png
+   :alt: Arduino memory map
    :align: center
 
 Flash memory and EEPROM memory are non-volatile (the information persists after the power is turned off). SRAM is volatile and will be lost when the power is cycled.
@@ -201,6 +215,7 @@ The Arduino UNO board
 Arduino UNO (uno meaning "one" in Italian) was the first Arduino board to be released with onboard USB connector. This schematic can be divided as USB Bridge, POWER and Microcontroller.
 
 .. image:: ../../fig/arduino_uno_schematic.png
+   :alt: Arduino UNO schematic
    :scale: 50
    :align: center 
 
@@ -216,8 +231,8 @@ The `datasheet <http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Autom
 
 .. _BlinkLED:
 
-Blink an LED
---------------
+Exercise: Blink an LED
+-----------------------
 It is tradition when introducing a new programming language on a PC that the first program simply prints the text 'Hello, World!' to the monitor [#f1]_. Many microcontrollers however are not equiped with a monitor, and even if they where, the code involed in writing text to this monitor would be to complicated for a first example (on a PC many of the low level details are hidden from the user). Thus the simple process of blinking a lamp (typically a LED) is often considered the 'Hello, world' of microcontrollers
 .
 
@@ -256,13 +271,14 @@ The following code is taken from the official Arduino distribution, and demonstr
 Pin 13 on the Arduino UNO is connected to a onboard LED, which makes it convenient to use for this first test program.
 
 
-Blink an external LED
----------------------
+Exercise: Blink an external LED
+-------------------------------
 
 The above program may easily be modified to blink an external LED. The following figure shows how a LED may be connected to pin 3 of the Arduino UNO. The resistor is 220 Ohm, and is required in order to limit the current through the LED.
 
 
 .. image:: ../../fig/single_led_bb.png
+        :alt: Single external LED
         :scale: 50
         :align: center
 
@@ -280,9 +296,10 @@ When you press the upload button in the Arduino IDE the program goes through man
 
 
 
-The Arduino software
---------------------
-You don’t need to know this to write Arduino sketches, but experienced C/C++ pro grammers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:
+A detailed look at the Arduino software library
+------------------------------------------------
+
+This last section is not part of the curriculum, but is included for those of you who have previous programming experience. You don’t need to know this to write Arduino sketches, but experienced C/C++ programmers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:
 
 In standard C/C++ programs the first function to run is the 'main()' function. In Arduino however this has been changed into the 'setup()' function followed by the 'loop()' function. Behind the scenes however there is still a main function as shown in the following code.
 
@@ -367,6 +384,7 @@ The upload process
 The Arduino UNO board has a USB connector used for communication as well as for uploading new programs. The complicated USB protocol is handled by a separate microcontroller Atmel ATMEGA16U2 that is running a program written for this purpose [#f2]_. Normally it is not required to modify the program on this additional microcontroller, but it is possible through a special procedure.
 
 .. image:: ../../fig/arduino_uno_usb_to_uart_converter.png
+   :alt: Arduino USB to UART converter
    :scale: 50
    :align: center 
 
@@ -374,22 +392,22 @@ When power is applied to the microcontroller (or the controller is reset) the fi
 
 On the Arduino the bootloader initially waits for a special sequence of bytes on the serial port. If the sequence is received the bootloader expects the following bytes to be a new program to be written to flash memory of the controller. If not such sequence is received the bootloader will issue a jump to the previously written program.
 
-
-.. _HelloWorld:
-
-hello, world\n
----------------
-Now just for tradition, we can write `hello, world`
-
-.. code-block:: c
-
-        void setup() {
-                Serial.begin(9600);
-        }
-
-        void loop() {
-                Serial.println("hello, world");
-        }
+..
+        .. _HelloWorld:
+        
+        Hello, world
+        ---------------
+        Now just for tradition, we can write `hello, world`
+        
+        .. code-block:: c
+        
+                void setup() {
+                        Serial.begin(9600);
+                }
+        
+                void loop() {
+                        Serial.println("hello, world");
+                }
 
 
 

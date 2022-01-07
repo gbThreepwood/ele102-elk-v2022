@@ -52,6 +52,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Digital I/O, and serial port output" href="L3_digital_io_serial_o.html" />
     <link rel="prev" title="What is a Microcontroller" href="L1_UC_intro.html" /> 
   </head>
   <body role="document">
@@ -73,10 +74,7 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Arduino Introduction</a><ul>
-<li><a class="reference internal" href="#arduino-software">Arduino Software</a><ul>
-<li><a class="reference internal" href="#alternative-software">Alternative software</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#arduino-software">Arduino Software</a></li>
 <li><a class="reference internal" href="#arduino-hardware">Arduino Hardware</a><ul>
 <li><a class="reference internal" href="#power-usb-barrel-jack">Power (USB / Barrel Jack)</a></li>
 <li><a class="reference internal" href="#pins-5v-3-3v-gnd-analog-digital-pwm-aref">Pins (5V, 3.3V, GND, Analog, Digital, PWM, AREF)</a></li>
@@ -91,18 +89,17 @@
 <li><a class="reference internal" href="#arduino-programming">Arduino Programming</a><ul>
 <li><a class="reference internal" href="#the-arduino-uno-board">The Arduino UNO board</a></li>
 <li><a class="reference internal" href="#the-atmega328-microcontroller">The Atmega328 microcontroller</a></li>
-<li><a class="reference internal" href="#blink-an-led">Blink an LED</a></li>
-<li><a class="reference internal" href="#blink-an-external-led">Blink an external LED</a></li>
+<li><a class="reference internal" href="#exercise-blink-an-led">Exercise: Blink an LED</a></li>
+<li><a class="reference internal" href="#exercise-blink-an-external-led">Exercise: Blink an external LED</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#the-build-and-upload-process">The build and upload process</a><ul>
-<li><a class="reference internal" href="#the-arduino-software">The Arduino software</a></li>
+<li><a class="reference internal" href="#a-detailed-look-at-the-arduino-software-library">A detailed look at the Arduino software library</a></li>
 <li><a class="reference internal" href="#the-preprocessor">The preprocessor</a></li>
 <li><a class="reference internal" href="#the-compiler">The compiler</a></li>
 <li><a class="reference internal" href="#the-linker">The linker</a></li>
 <li><a class="reference internal" href="#generation-of-the-hex-file">Generation of the HEX file</a></li>
 <li><a class="reference internal" href="#the-upload-process">The upload process</a></li>
-<li><a class="reference internal" href="#hello-worldn">hello, worldn</a></li>
 <li><a class="reference internal" href="#covering-the-programming-fundamentals">Covering the programming fundamentals</a></li>
 </ul>
 </li>
@@ -115,6 +112,7 @@
 
             
               <li><a href="L1_UC_intro.html" title="What is a Microcontroller" accesskey="P">previous </a></li>
+              <li><a href="L3_digital_io_serial_o.html" title="Digital I/O, and serial port output" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -153,8 +151,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1: What is a Microcontroller</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 2: Introduction to Arduino</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 1b: Introduction to Arduino</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#arduino-software">Arduino Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#arduino-hardware">Arduino Hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#memory-in-arduino">Memory in Arduino</a></li>
@@ -162,6 +160,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#the-build-and-upload-process">The build and upload process</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_serial_o.html">Lesson 2: Digital I/O, and serial output</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -183,6 +182,9 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="L1_UC_intro.html"
                         title="previous chapter">What is a Microcontroller</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="L3_digital_io_serial_o.html"
+                        title="next chapter">Digital I/O, and serial port output</a></p>
   </div>
 </div> 
         
@@ -193,39 +195,8 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="admonition note" id="l2-arduino-intro">
-<p class="admonition-title">Note</p>
-<p><em>27/01/2021</em></p>
-<p><strong>Aim:</strong></p>
-<ul class="simple">
-<li><p>Arduino program upload</p></li>
-<li><p>what is behind</p></li>
-<li><p>Digital I/O concept</p></li>
-<li><p>setup and loop</p></li>
-<li><p>delay()</p></li>
-<li><p>as students if they have learned otherwise use Cookbook Ch 2
-- simple primitive types (variables)
-- using floats
-- arrays
-- string (so important before hello world)
-- number to string</p></li>
-<li><p>Arduino concept very simply.</p></li>
-<li><p>Arduino software</p></li>
-<li><p>how to use other resources</p></li>
-<li><p>Arduino hardware</p></li>
-<li><p>introduce the components on the board</p></li>
-<li><p>memory issues with Arduino</p></li>
-<li><p>safety warnings</p></li>
-</ul>
-<p><strong>Materials:</strong></p>
-<p>Arduino Board</p>
-<p><strong>Code:</strong></p>
-<p>First blink is going to be introduced,
-Where is hello, world?</p>
-</div>
-<div class="section" id="arduino-introduction">
+  <span class="target" id="l2-arduino-intro"></span><div class="section" id="arduino-introduction">
 <h1>Arduino Introduction<a class="headerlink" href="#arduino-introduction" title="Permalink to this headline">¶</a></h1>
-<p>Last week we talked about:</p>
 <p><a class="reference external" href="https://www.arduino.cc/en/guide/introduction">Arduino</a> is an open-source electronics platform based on easy-to-use hardware and software. Arduino boards are able to read inputs - light on a sensor, a finger on a button, or a Twitter message - and turn it into an output - activating a motor, turning on an LED, publishing something online. You can tell your board what to do by sending a set of instructions to the microcontroller on the board. To do so you use the Arduino programming language (based on Wiring), and the Arduino Software (IDE), based on Processing.</p>
 <p>Over the years Arduino has been the brain of thousands of projects, from everyday objects to complex scientific instruments. A worldwide community of makers - students, hobbyists, artists, programmers, and professionals - has gathered around this open-source platform, their contributions have added up to an incredible amount of accessible knowledge that can be of great help to novices and experts alike.</p>
 <p>Arduino was born at the Ivrea Interaction Design Institute as an easy tool for fast prototyping, aimed at students without a background in electronics and programming. As soon as it reached a wider community, the Arduino board started changing to adapt to new needs and challenges, differentiating its offer from simple 8-bit boards to products for IoT applications, wearable, 3D printing, and embedded environments. All Arduino boards are completely open-source, empowering users to build them independently and eventually adapt them to their particular needs. The software, too, is open-source, and it is growing through the contributions of users worldwide.</p>
@@ -235,11 +206,12 @@ Where is hello, world?</p>
 <p>I don’t want to scare you in the first course :) I just wanted to show you how powerful tool you are gonna learn to use. Of course we will not cover all of the capabilities of Arduino right now. We will see very fundamental applications in this course. By carrying out them, we will improve our programming skills. Depending on the enthusiasm of you in general, I am planning to achieve really good projects! Lower down the contribution of the exams and increase the contribution of the fun part - projects!</p>
 <div class="section" id="arduino-software">
 <h2>Arduino Software<a class="headerlink" href="#arduino-software" title="Permalink to this headline">¶</a></h2>
-<p>The Arduino Software (IDE) allows you to write programs and upload them to your board.</p>
+<p>Installation of the Arduino software has already been covered in a previous lesson. The Arduino Software (or Integrated Development Environment - IDE) allows you to write programs and upload them to your board.</p>
 <div class="figure align-center">
 <img alt="Arduino IDE" src="../../_images/Arduinosoftware.png" />
 </div>
-<p><a class="reference external" href="https://www.arduino.cc/reference/en/">Language reference</a> and <a class="reference external" href="https://www.arduino.cc/en/Tutorial/BuiltInExamples">built-in examples</a> are going to be your everything. Learn how to use those websites. Also thanks to open community, there are vast of resources with lots od inspiring projects.</p>
+<p>The <a class="reference external" href="https://www.arduino.cc/reference/en/">Language reference</a> and the <a class="reference external" href="https://www.arduino.cc/en/Tutorial/BuiltInExamples">built-in examples</a> are invaluable resources when developing your own programs.</p>
+<p>Furthermore the following resources can be of great help (although they should be read with dubious eyes, as some of them are open to contributions from anyone):</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.arduino.cc/en/Tutorial/BuiltInExamples">Instructables</a></p></li>
 <li><p><a class="reference external" href="https://playground.arduino.cc/">Arduino Playground</a></p></li>
@@ -247,31 +219,23 @@ Where is hello, world?</p>
 <li><p><a class="reference external" href="http://www.ladyada.net/make/">LadyAda</a></p></li>
 <li><p><a class="reference external" href="https://howtomechatronics.com/arduino-projects/">How to Mechatronics</a></p></li>
 </ul>
-<p>Also you can use <a class="reference external" href="https://forum.arduino.cc/">Arduino forum</a> to ask anything.</p>
-<p>Believe it or not, in less than 10 lines of code in the above screenshot you will be able to blink the on-board LED on your Arduino. The code might not make perfect sense right now, but, after reading this tutorial and the many more Arduino tutorials waiting for you on our site, we’ll get you up to speed in no time! In the old boards of traditional microcontroller development, such a feat could easily take your whole day.</p>
-<p>Let’s see if your installation works with a blink code <a class="reference internal" href="#blinkled"><span class="std std-ref">Blink an LED</span></a></p>
-<div class="section" id="alternative-software">
-<h3>Alternative software<a class="headerlink" href="#alternative-software" title="Permalink to this headline">¶</a></h3>
-<p>The Arduino IDE is easy to use for beginners, but it is not very rich on features. For this reason many developers prefer alterative development environments.</p>
-<p>PlatformIO (<a class="reference external" href="https://platformio.org/">https://platformio.org/</a>) is one such alternative development environment. It is a platform for embedded software development supporting a lot of different embedded platforms and boards. PlatformIO does not provide a graphical user interface of it’s own, but may be installed as a plugin to various code editors. We recommend using <em>Visual studio code</em> (<a class="reference external" href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>) as the code editor. <em>Visual studio code</em> should not be confused with <em>Visual studio</em>, although both programs are used for software development, they are not the same program. This seems to be yet another example of Microsoft’s silly naming conventions, where completely different (although functionally similar) software receives similar names, causing a lot of confusion. E.g. Skype, vs Skype for Business.</p>
-<p>You are free to choose whatever code editor you like, but if you expect installation help from your lecturer you should choose whatever he or she is using.</p>
-<p>Please refer to the official installation guide of PlatformIO, for instructions on how to get started.</p>
-</div>
+<p>Also you can use <a class="reference external" href="https://forum.arduino.cc/">Arduino forum</a> to ask questions.</p>
+<p>Let’s see if your installation works with a blink code <a class="reference internal" href="#blinkled"><span class="std std-ref">Exercise: Blink an LED</span></a></p>
 </div>
 <div class="section" id="arduino-hardware">
 <h2>Arduino Hardware<a class="headerlink" href="#arduino-hardware" title="Permalink to this headline">¶</a></h2>
-<p>There are many varieties of Arduino boards (as we mentioned before) that can be used for different purposes. Some boards look a bit different from the one below, but most Arduinos have the majority of these components in common <a class="footnote-reference brackets" href="#f5" id="id1">5</a>:</p>
+<p>There are many varieties of Arduino boards (as we mention in the previous lecture notes) that can be used for different purposes. Some boards look a bit different from the one below, but most Arduinos have the majority of these components in common <a class="footnote-reference brackets" href="#f5" id="id1">5</a>:</p>
 <div class="figure align-center">
-<img alt="../../_images/Arduinohardware.png" src="../../_images/Arduinohardware.png" />
+<img alt="The Arduino UNO board" src="../../_images/Arduinohardware.png" />
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Be aware that you are fiddling around the electricity. Even though Arduino has a low <a class="reference external" href="http://robotics.lib-ieronimoub.gr/?p=715">current consumption</a> (Uno 1A, Nano 500mA, both 500mA when they are fed from USB), still you have to mind that you can damage yourself, the board, or the products which you are working with.</p>
+<p>Be aware that you are fiddling around the electricity. Even though Arduino has a low <a class="reference external" href="http://robotics.lib-ieronimoub.gr/?p=715">current rating</a> (Uno 1A, Nano 500mA, both 500mA when they are fed from USB), still you have to keep in mind that you can damage yourself, the board, or the products which you are working with.</p>
 </div>
 <div class="section" id="power-usb-barrel-jack">
 <h3>Power (USB / Barrel Jack)<a class="headerlink" href="#power-usb-barrel-jack" title="Permalink to this headline">¶</a></h3>
 <p>Every Arduino board needs a way to be connected to a power source. The Arduino UNO can be powered from a USB cable coming from your computer or a wall power supply that is terminated in a barrel jack. In the picture above the USB connection is labeled (1) and the barrel jack is labeled (2).</p>
-<p>The USB connection is also how you will load code onto your Arduino board.</p>
+<p>The USB connection also allows you to upload new firmware onto your Arduino board, as well as to communicate with the board while the firmware is running.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Do NOT use a power supply greater than 20 Volts as you will overpower (and thereby destroy) your Arduino. The recommended voltage for most Arduino models is between 6 and 12 Volts.</p>
@@ -319,7 +283,7 @@ Where is hello, world?</p>
 <li><p>EEPROM is memory space that programmers can use to store long-term information.</p></li>
 </ul>
 <div class="figure align-center">
-<img alt="../../_images/MemoryArduino.png" src="../../_images/MemoryArduino.png" />
+<img alt="Arduino memory map" src="../../_images/MemoryArduino.png" />
 </div>
 <p>Flash memory and EEPROM memory are non-volatile (the information persists after the power is turned off). SRAM is volatile and will be lost when the power is cycled.</p>
 <p>The <strong>ATmega328 chip found on the Uno</strong> has the following amounts of memory:</p>
@@ -360,7 +324,7 @@ To use the EEPROM, see the EEPROM library.</p>
 <div class="section" id="the-arduino-uno-board">
 <h3>The Arduino UNO board<a class="headerlink" href="#the-arduino-uno-board" title="Permalink to this headline">¶</a></h3>
 <p>Arduino UNO (uno meaning “one” in Italian) was the first Arduino board to be released with onboard USB connector. This schematic can be divided as USB Bridge, POWER and Microcontroller.</p>
-<a class="reference internal image-reference" href="../../_images/arduino_uno_schematic.png"><img alt="../../_images/arduino_uno_schematic.png" class="align-center" src="../../_images/arduino_uno_schematic.png" style="width: 811.0px; height: 537.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/arduino_uno_schematic.png"><img alt="Arduino UNO schematic" class="align-center" src="../../_images/arduino_uno_schematic.png" style="width: 811.0px; height: 537.0px;" /></a>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>For the further enthusiastic ones you can find the all components list <a class="reference external" href="http://solderpad.com/solderpad/arduino-uno/">here</a> <a class="reference external" href="https://www.allaboutcircuits.com/technical-articles/understanding-arduino-uno-hardware-design/">and here.</a></p>
@@ -371,8 +335,8 @@ To use the EEPROM, see the EEPROM library.</p>
 <p>The Arduino UNO uses the Atmega328 microcontroller. The processor in the Atmega328 is of the AVR architecture (AVR from the Norwegian inventors <strong>A</strong>lf-Egil and <strong>V</strong>egard, and the acronym <strong>R</strong>ISC (Reduced instruction set computer)).</p>
 <p>The <a class="reference external" href="http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf">datasheet</a> for the microcontroller contains many details about the features of the controller and how to use them.</p>
 </div>
-<div class="section" id="blink-an-led">
-<span id="blinkled"></span><h3>Blink an LED<a class="headerlink" href="#blink-an-led" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="exercise-blink-an-led">
+<span id="blinkled"></span><h3>Exercise: Blink an LED<a class="headerlink" href="#exercise-blink-an-led" title="Permalink to this headline">¶</a></h3>
 <p>It is tradition when introducing a new programming language on a PC that the first program simply prints the text ‘Hello, World!’ to the monitor <a class="footnote-reference brackets" href="#f1" id="id2">1</a>. Many microcontrollers however are not equiped with a monitor, and even if they where, the code involed in writing text to this monitor would be to complicated for a first example (on a PC many of the low level details are hidden from the user). Thus the simple process of blinking a lamp (typically a LED) is often considered the ‘Hello, world’ of microcontrollers
 .</p>
 <p>The following code is taken from the official Arduino distribution, and demonstrates how to blink a led connected to pin number 13 on the Arduino. This example continuously flashes an LED by writing HIGH and LOW outputs to a pin. In the next lesson we will learn more about the Arduino pins. When the sketch begins, the code in setup sets the pin mode (so it’s capable of lighting an LED). After the code in setup is completed, the code in loop is repeatedly called (to flash the LED) for as long as the Arduino board is powered on.</p>
@@ -407,19 +371,19 @@ To use the EEPROM, see the EEPROM library.</p>
 </div>
 <p>Pin 13 on the Arduino UNO is connected to a onboard LED, which makes it convenient to use for this first test program.</p>
 </div>
-<div class="section" id="blink-an-external-led">
-<h3>Blink an external LED<a class="headerlink" href="#blink-an-external-led" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="exercise-blink-an-external-led">
+<h3>Exercise: Blink an external LED<a class="headerlink" href="#exercise-blink-an-external-led" title="Permalink to this headline">¶</a></h3>
 <p>The above program may easily be modified to blink an external LED. The following figure shows how a LED may be connected to pin 3 of the Arduino UNO. The resistor is 220 Ohm, and is required in order to limit the current through the LED.</p>
-<a class="reference internal image-reference" href="../../_images/single_led_bb.png"><img alt="../../_images/single_led_bb.png" class="align-center" src="../../_images/single_led_bb.png" style="width: 438.0px; height: 610.5px;" /></a>
+<a class="reference internal image-reference" href="../../_images/single_led_bb.png"><img alt="Single external LED" class="align-center" src="../../_images/single_led_bb.png" style="width: 438.0px; height: 610.5px;" /></a>
 <p>By changing the code <cite>int led = 13;</cite> to <cite>int led = 3;</cite>, the above program will blink the LED in the figure.</p>
 </div>
 </div>
 <div class="section" id="the-build-and-upload-process">
 <h2>The build and upload process<a class="headerlink" href="#the-build-and-upload-process" title="Permalink to this headline">¶</a></h2>
 <p>When you press the upload button in the Arduino IDE the program goes through many steps before the program is ready to run on the microcontroller. Although it is often safe to ignore these low level details, it is also important to know about them when someting goes wrong. A thorough understanding of these steps will help you deduce the source of the error.</p>
-<div class="section" id="the-arduino-software">
-<h3>The Arduino software<a class="headerlink" href="#the-arduino-software" title="Permalink to this headline">¶</a></h3>
-<p>You don’t need to know this to write Arduino sketches, but experienced C/C++ pro grammers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:</p>
+<div class="section" id="a-detailed-look-at-the-arduino-software-library">
+<h3>A detailed look at the Arduino software library<a class="headerlink" href="#a-detailed-look-at-the-arduino-software-library" title="Permalink to this headline">¶</a></h3>
+<p>This last section is not part of the curriculum, but is included for those of you who have previous programming experience. You don’t need to know this to write Arduino sketches, but experienced C/C++ programmers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:</p>
 <p>In standard C/C++ programs the first function to run is the ‘main()’ function. In Arduino however this has been changed into the ‘setup()’ function followed by the ‘loop()’ function. Behind the scenes however there is still a main function as shown in the following code.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">  main.cpp - Main loop for Arduino sketches</span>
@@ -495,22 +459,9 @@ To use the EEPROM, see the EEPROM library.</p>
 <div class="section" id="the-upload-process">
 <h3>The upload process<a class="headerlink" href="#the-upload-process" title="Permalink to this headline">¶</a></h3>
 <p>The Arduino UNO board has a USB connector used for communication as well as for uploading new programs. The complicated USB protocol is handled by a separate microcontroller Atmel ATMEGA16U2 that is running a program written for this purpose <a class="footnote-reference brackets" href="#f2" id="id4">2</a>. Normally it is not required to modify the program on this additional microcontroller, but it is possible through a special procedure.</p>
-<a class="reference internal image-reference" href="../../_images/arduino_uno_usb_to_uart_converter.png"><img alt="../../_images/arduino_uno_usb_to_uart_converter.png" class="align-center" src="../../_images/arduino_uno_usb_to_uart_converter.png" style="width: 390.5px; height: 299.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/arduino_uno_usb_to_uart_converter.png"><img alt="Arduino USB to UART converter" class="align-center" src="../../_images/arduino_uno_usb_to_uart_converter.png" style="width: 390.5px; height: 299.0px;" /></a>
 <p>When power is applied to the microcontroller (or the controller is reset) the first instruction to be executed by the CPU is placed in the so called ‘reset vector’ memory location (at address 0x0000 on Atmega328). This instruction must be a relative jump instruction (RJMP) to move the instruction pointer to the address of the boot loader (or the main program if no bootloader is used).</p>
 <p>On the Arduino the bootloader initially waits for a special sequence of bytes on the serial port. If the sequence is received the bootloader expects the following bytes to be a new program to be written to flash memory of the controller. If not such sequence is received the bootloader will issue a jump to the previously written program.</p>
-</div>
-<div class="section" id="hello-worldn">
-<span id="helloworld"></span><h3>hello, worldn<a class="headerlink" href="#hello-worldn" title="Permalink to this headline">¶</a></h3>
-<p>Now just for tradition, we can write <cite>hello, world</cite></p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;hello, world&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="covering-the-programming-fundamentals">
 <h3>Covering the programming fundamentals<a class="headerlink" href="#covering-the-programming-fundamentals" title="Permalink to this headline">¶</a></h3>
@@ -560,6 +511,7 @@ To use the EEPROM, see the EEPROM library.</p>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L1_UC_intro.html" title="What is a Microcontroller" >previous</a></li>
+        <li><a href="L3_digital_io_serial_o.html" title="Digital I/O, and serial port output" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
@@ -570,7 +522,7 @@ To use the EEPROM, see the EEPROM library.</p>
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; Copyright 2022, Gizem Ates &amp; Eirik Haustveit.
+          &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
       </footer>
       <!-- /footer -->

@@ -184,7 +184,7 @@ Further down the path of development the generated machine code is transferred t
           :alt: Microprocessor organization
           :align: center
 
-In practice there is usually an intermediate step between the source code, and the machine code. The intermediate step is known as the assembly code, and is a low level language where each statement corresponds to a single operation which is directly supported by the CPU. For some special cases where high performance is needed, or special features not available in the programming language are needed, assembly language is used. It is also used extensively by experienced developers while debugging code, as it is not always obvious how the compiler interpret our instructions.
+In practice there is usually an intermediate step between the source code, and the machine code. The intermediate step is known as the assembly code, and is a low level language where each statement corresponds to a single operation which is directly supported by the CPU. For some special cases where high performance is needed, or special features not available in the programming language are needed, assembly language is used. It is also used extensively by experienced developers while debugging code, as it is not always obvious how the compiler interpret and translates our instructions.
 
 Traditionally all software was developed using assembly language, but higher level languages (such as C/C++) have been designed to simplify the development process for all but the most advanced or special cases.
 
@@ -210,9 +210,11 @@ Traditionally all software was developed using assembly language, but higher lev
 * It can be the best (only) way to generate efficient code in terms of speed and memory usage.
 * It provides a better insight in to what is actually going on inside the computer (or microcontroller)
 * It allows us to exploit hardware features not available in the programming language. One typical example is context switching of threads in a operating system.
+* Provides a deeper understanding of how the system is operating. Invaluable when it comes to understanding the low level details of how the computer operates.
 
 ..
    ***Personal opinion:** it doesn't worth today.*
+   Eirik disagree, but I agree that it is not worth it for a basic course such as ELE102
 
 The embedded system is a bottomless well. It is impossible to cover everything in this course - and we don't need to. Embedded system world is a charming nerdy black hole that pulls you inside even more as you are willing to learn more. Therefore we limit have to limit for this course at some point.
 
@@ -228,27 +230,43 @@ For the youtubers:  `How do computers read code? <https://www.youtube.com/watch?
 
 Arduino
 ============
+
 Open Source electronic prototyping platform based on flexible easy to use hardware and software.
 
 .. figure:: ../../../external/fig/Arduino.png
+          :alt: The original Arduino UNO board
           :align: center
 
-Depending on your requirements, you may choose any of the members of Arduino family. There is one important thing about embedded systems that you cannot stick on one microcontroller if you want to be a good embedded programmer. Especially if you work in a big company which has a mass production, even a couple of cents of saving in production makes huge differences. You need to choose the simplest and just enough for the requirements.
+The Arduino family consists of a large number of boards with different sets of features. Depending on your requirements, you should select the board which best fits the intended application. It can however be a good idea to avoid controllers which exceed the performance requirements. Especially if you work in a big company which has a mass production, even a couple of cents of saving in production can make a huge difference. Thus you should choose the simplest controller which meets the requirements.
 
-In this course, we will not focus on this aspect and we will not get into the details of embedded systems but I want you to focus on the "efficiency" of your codes and *designs* when you are still in the very beginning of the road.
+In this course, we will not dwell to much on this aspect, the board is already selected for you (the Arduino UNO), and we are going to explore the features available.
 
-Efficiency in a code is important but in a microcontroller program, it is vital. Luckily Arduino is pretty powerful for what we are going to achieve in our plan but just keep in mind!
+.. 
+   and we will not get into the details of embedded systems but I want you to focus on the "efficiency" of your codes and *designs* when you are still in the very beginning of the road.
+
+..
+   There is one important thing about embedded systems that you cannot stick on one microcontroller if you want to be a good embedded programmer.
+
+Efficiency in code is always important, i.e. the code should be written in a way which as efficiently as possible achieve the intended goal. In a microcontroller program it can often be vital, due to the limited resources available (e.g. limited memory, and CPU clock speed). Luckily Arduino is plenty powerful for what we are going to achieve in this course, but just keep this in mind!
 
 .. figure:: ../../../external/fig/ArduinoFamily.png
+          :alt: Various boards in the Arduino family
           :align: center
 
 
-Before Arduino get into the market, embedded programming used to seems like a rocket science. Literally, no kidding. Because it was still not *fun enough*, used to require more qualification. You used to need many different circuits, clocks, prescalars, pin assignments and many other different thing. After Arduino has entered the market, there is a new way of learning was discovered on the microcontrollers side.
+Before Arduino and similar boards appeared on the marked, embedded programming had a pretty high entry barrier. It was hard for beginner to get started. You had to consider many different external circuits, clocks, prescalers, pin assignments, direct register access among other things. After Arduino entered the market, a new era has started.
+
+..
+   After Arduino has entered the market, there is a new way of learning was discovered on the microcontrollers side.
+   used to seems like a rocket science. Literally, no kidding. Because it was still not *fun enough*, used to require more qualification.
+
+A quick google search reveals that there is a lot more interest in Arduino, than it is in the microcontroller on which the original Arduino is based:
 
 .. figure:: ../../../external/fig/ArduinoVSAtmega.png
+          :alt: Arduino vs Atmega on Google
           :align: center
 
-Some people may say that "Arduino is a toy", well, in a way it is true. Depends on how you use it. Our computers are also a toy right? It has all the functionalities of a mid-advanced microcontrollers have.
+Some people may say that "Arduino is a toy", well, in a way it is true. Depends on how you use it. Our computers are also a toy right? It has all the functionalities of a mid-advanced microcontrollers have. One thing to note though, is that the low entry barrier has allowed many poorly skilled programmers to write about their experiences on the web. Beware of shitty tutorials, which teach shitty programming style, and low performance electronics.
 
 Fun fact about Arduino:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

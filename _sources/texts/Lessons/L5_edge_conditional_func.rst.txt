@@ -30,43 +30,6 @@ Conditionals, Functions
 The digital inputs and outputs (digital I/O) on the Arduino are what allow you to connect sensors, actuators, and other ICs to the Arduino . Learning how to use the inputs and outputs will allow you to use the Arduino to do some really useful things, such as reading switch inputs, lighting indicators, and controlling relay outputs.
 
 
-On the selection of a suitable current limiting resistor for the LED
---------------------------------------------------------------------
-
-The characteristics of a LED (like any diode) is inherently non-linear. A small voltage variation may cause a large variation in current through the diode. If this is not managed the diode will be destroyed by excessive current.
-
-As the light intensity of the diode depends on current, it is apparent that the diode should be supplied by a current source. A real current source is a complex device however, and thus we often opt to approximate the current source by means of a resistor.
-
-The color of a LED is not determined by the color of the package, but rather by it's internal physical structure. The different colors thus have different characteristics, such as different nominal voltage drop.
-
-The value of the selected resistor will impact the light intensity of the LED. The minimum resistor value (i.e. maximum light intensity) depends on the maximum current, as well as the voltage/current-characteristics of the LED.
-
-The digital outputs of the Arduino UNO has a voltage level of 5V. The voltage drop of a LED vill typically vary between 1.8V and 3.3V, depending on the color. It will also vary slightly depending on the current, but this variation may be ignored in most applications. The maximum current of the large THT LED's in the Arduino kit is 20 mA. By subtracting the LED voltage from the supplied voltage, we find the required voltage drop of the reisitor.
-
-The current through a resistor is given by:
-
-.. math::
-        I_f = \frac{V_R}{R} = \frac{5 - V_f}{R}
-
-Thus a approximately constant voltage drop will cause a approximately constant current. The required resistor size is thus given by:
-
-
-.. math::
-        R = \frac{5 - V_{f}}{I_f}
-
-Worst case, if the voltage drop is only 1.8V, and the maximum current is 20mA, we get the following minimum resistor value:
-
-.. math::
-        R = \frac{5 - 1.8}{0.02} = 160 \Omega
-
-In practice you might want to limit the current to a maximum of 15mA though. It the Arduino kit the recommended resistor size is 220 Ohm, which should be safe in all cases involving 20mA LED's. In practive values as high as 1k (or even more) may also be used, if the required light intensity is not to high.
-
-For high power LED's you should also make sure that the power dissipated in the resistor does nod exceed the ratings of the resistor [#f1]_.
-
-.. math::
-        P = I_f^2 \cdot R
-
-
 Conditionals
 ==========================
 Conditionals are used in order to carry out some actions under some circumstances. In other words, you use conditionals if you want to *do things* in some *conditions* and do some other things for some other conditions.
