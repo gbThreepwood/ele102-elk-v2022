@@ -161,6 +161,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="L3_digital_io_serial_o.html">Lesson 2: Digital I/O, and serial output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L4_digital_analog_time.html">Lesson 3: Digital-Analog-Time</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -306,8 +311,8 @@
 <p>If you run out of SRAM, your program may fail in unexpected ways; it will appear to upload successfully, but not run, or run strangely. To check if this is happening, you can try commenting out or shortening the strings or other data structures in your sketch (without changing the code). If it then runs successfully, you’re probably running out of SRAM. There are a few things you can do to address this problem:</p>
 <p>If your sketch talks to a program running on a (desktop/laptop) computer, you can try shifting data or calculations to the computer, reducing the load on the Arduino.
 If you have lookup tables or other large arrays, use the smallest data type necessary to store the values you need; for example, an int takes up two bytes, while a byte uses only one (but can store a smaller range of values).
-If you don’t need to modify the strings or data while your sketch is running, you can store them in flash (program) memory instead of SRAM; to do this, use the PROGMEM keyword.
-To use the EEPROM, see the EEPROM library.</p>
+If you don’t need to modify the strings or data while your sketch is running, you can store them in flash (program) memory instead of SRAM; to do this, use the PROGMEM keyword. We will discuss this in more detail later in the course.</p>
+<p>Finally if you need the microcontroller to be able to keep some data it is operating on after a power cycle you should use the EEPROM. See the EEPROM library.</p>
 </div>
 <div class="section" id="arduino-programming">
 <h2>Arduino Programming<a class="headerlink" href="#arduino-programming" title="Permalink to this headline">¶</a></h2>
@@ -376,6 +381,8 @@ To use the EEPROM, see the EEPROM library.</p>
 <p>The above program may easily be modified to blink an external LED. The following figure shows how a LED may be connected to pin 3 of the Arduino UNO. The resistor is 220 Ohm, and is required in order to limit the current through the LED.</p>
 <a class="reference internal image-reference" href="../../_images/single_led_bb.png"><img alt="Single external LED" class="align-center" src="../../_images/single_led_bb.png" style="width: 438.0px; height: 610.5px;" /></a>
 <p>By changing the code <cite>int led = 13;</cite> to <cite>int led = 3;</cite>, the above program will blink the LED in the figure.</p>
+<p>In real life it should look like the following:</p>
+<a class="reference internal image-reference" href="../../_images/arduino-led-blink.gif"><img alt="Single external LED gif animation" class="align-center" src="../../_images/arduino-led-blink.gif" style="width: 512.0px; height: 288.0px;" /></a>
 </div>
 </div>
 <div class="section" id="the-build-and-upload-process">

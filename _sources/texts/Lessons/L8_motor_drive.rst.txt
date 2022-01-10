@@ -246,7 +246,7 @@ The follwing example is a implementation of motor control using the L293D driver
 Advanced motor drive example
 ----------------------------
 
-In the following example a potmeter is used to control the voltage level (i.e. speed) of the motor, one push button changes rotation direction, and the other turns the drive on and off. The main idea is pretty much the same as the first program. The code is a bit more sophisticated and safer to use. The control software is built around a hierarchical `State Machine <https://www.wikiwand.com/en/Finite-state_machine>`_, that simplifyes the management of the different states in which the motor drive may be operating. Put attention of the usage of :code:`typedef`.
+In the following example a potentiometer is used to control the voltage level (i.e. speed) of the motor, one push button changes rotation direction, and the other turns the drive on and off. The main idea is pretty much the same as the first program. The code is a bit more sophisticated and safer to use. The control software is built around a hierarchical `State Machine <https://www.wikiwand.com/en/Finite-state_machine>`_, that simplifyes the management of the different states in which the motor drive may be operating. Put attention of the usage of :code:`typedef`.
 
 .. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
     :scale: 50

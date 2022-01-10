@@ -189,8 +189,9 @@ If you run out of SRAM, your program may fail in unexpected ways; it will appear
 
 If your sketch talks to a program running on a (desktop/laptop) computer, you can try shifting data or calculations to the computer, reducing the load on the Arduino.
 If you have lookup tables or other large arrays, use the smallest data type necessary to store the values you need; for example, an int takes up two bytes, while a byte uses only one (but can store a smaller range of values).
-If you don't need to modify the strings or data while your sketch is running, you can store them in flash (program) memory instead of SRAM; to do this, use the PROGMEM keyword.
-To use the EEPROM, see the EEPROM library.
+If you don't need to modify the strings or data while your sketch is running, you can store them in flash (program) memory instead of SRAM; to do this, use the PROGMEM keyword. We will discuss this in more detail later in the course.
+
+Finally if you need the microcontroller to be able to keep some data it is operating on after a power cycle you should use the EEPROM. See the EEPROM library.
 
 
 Arduino Programming
@@ -283,6 +284,14 @@ The above program may easily be modified to blink an external LED. The following
         :align: center
 
 By changing the code `int led = 13;` to `int led = 3;`, the above program will blink the LED in the figure.
+
+In real life it should look like the following:
+
+.. image:: ../../fig/gif/arduino-led-blink.gif
+        :alt: Single external LED gif animation
+        :scale: 100
+        :align: center
+
 
 The build and upload process
 ============================

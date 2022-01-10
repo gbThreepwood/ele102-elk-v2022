@@ -8,7 +8,8 @@ In this lesson we will cover how to deal with digital inputs, digital outputs, a
 
 In addition to the microcontroller topics, we also need to cover some general programming concepts.
 
-
+.. highlight:: c
+   :linenothreshold: 15
 
 Arduino program structure
 =========================
@@ -37,9 +38,26 @@ First you should know that any text which is preceded by two forward slashes :co
 
 The first lines of code is the :code:`setup()` function. A function is a group of code under a identifier (the identifier :code:`setup()`). The body of the :code:`setup()` function is delimited by the curly brackets :code:`{`, and :code:`}`. In this function the only statement we see is a call to another function, the :code:`pinMode(LED_BUILTIN, OUTPUT);` function. This function configures the pin which is connected to the build in LED as a output. It is one of the many functions in the Arduino library. 
 
-Further down we see another function definition :code:`loop()`. The first statement in the :code:`loop()` function is a call to the function :code:`digitalWrite(LED_BUILTIN, HIGH);`. The function tells the microcontroller to set the pin connected to the built in LED high, i.e. the microcontroller will output 5 V on this pin. The second statement :code:`delay(1000);` performs a delay of 1000 milliseconds, i.e. 1 second. The microcontroller sits on this positiion in the code for one second, performing no other task than waiting. We then see a instruction to turn the output low :code:`digitalWrite(LED_BUILTIN, LOW);`, followed by another delay.
+.. code-block:: c
 
-If the need for two delay functions confuses you, try to think about what would happen if we only had a single delay in the code. Say we removed the second delay, we would get the following structure of our program:
+   void setup() {
+      // initialize digital pin LED_BUILTIN as an output.
+      pinMode(LED_BUILTIN, OUTPUT);
+   }
+
+Further down we see another function definition :code:`loop()`. When the processor has finished executing alle the statements in the :code:`loop()` function, it starts over again from the top. Thus the microcontroller is able to continuously perform its duties. The first statement in the :code:`loop()` function is a call to the function :code:`digitalWrite(LED_BUILTIN, HIGH);`. The function tells the microcontroller to set the pin connected to the built in LED high, i.e. the microcontroller will output 5 V on this pin. The second statement :code:`delay(1000);` performs a delay of 1000 milliseconds, i.e. 1 second. The microcontroller sits on this position in the code for one second, performing no other task except waiting. We then see a instruction to turn the output low :code:`digitalWrite(LED_BUILTIN, LOW);`, followed by another delay.
+
+.. code-block:: c
+
+   // the loop function runs over and over again forever
+   void loop() {
+      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+   }
+
+Perhaps the need for two delay functions confuses you, i.e. why can we not use a single delay with the parameter 2000. try to think about what would happen if we only had a single delay in the code. Say we removed the second delay function, we would get the following structure of our program:
 
 1.  :code:`digitalWrite(LED_BUILTIN, HIGH);`
 2.  :code:`delay(1000);`
@@ -47,15 +65,7 @@ If the need for two delay functions confuses you, try to think about what would 
 
 When the program reaches line 3, it will immediately jump to line 1 (due to the fact that we are in the :code:`loop()` function). Hence the output goes from `LOW`, to `HIGH` as fast as the microcontroller is able to execute the instructions. It will then remain in `HIGH` for one second again. In practice the LED will remain `HIGH` for more than 99.9% percent of the time, and will appear to be glowing constantly.
 
-When the processor has finished executing alle the statements in the :code:`loop()` function, it starts over again from the top. Thus the microcontroller is able to continuously perform its duties.
-
-.. code-block:: c
-   void setup() {
-      // initialize digital pin LED_BUILTIN as an output.
-      pinMode(LED_BUILTIN, OUTPUT);
-   }
-
-In this example :code:`LED_BUILTIN` is a *Macro definition*, a pre-processor directive which is stored somewhere in the Arduino libraries. In the example the term :code:`LED_BUILTIN` is a place holder for the number **13**. Instead, we could have written the code like the following, and literally nothing would have change in practice:
+A final thing to note about this example, the code :code:`LED_BUILTIN` is a *Macro definition*, a pre-processor directive which is stored somewhere in the Arduino libraries. In the example the term :code:`LED_BUILTIN` is a place holder for the number **13**. Instead, we could have written the code like the following, and literally nothing would have change in practice:
 
 .. code-block:: c
 
@@ -118,74 +128,32 @@ Let's define our own macro definition for our external LED, attached to **pin nu
     }
 
 
-Atmega328 GPIO pins
-===================
-
-
-
-
-Digital outputs
-===================
-
-Selecting a suitable current limiting resistor for the LED
---------------------------------------------------------------------
-
-The characteristics of a LED (like any diode) is inherently non-linear. A small voltage variation may cause a large variation in current through the diode. If this is not managed the diode will be destroyed by excessive current.
-
-As the light intensity of the diode depends on current, it is apparent that the diode should be supplied by a current source. A real current source is a complex device however, and thus we often opt to approximate the current source by means of a resistor.
-
-The color of a LED is not determined by the color of the package, but rather by it's internal physical structure. The different colors thus have different characteristics, such as different nominal voltage drop.
-
-The value of the selected resistor will impact the light intensity of the LED. The minimum resistor value (i.e. maximum light intensity) depends on the maximum current, as well as the voltage/current-characteristics of the LED.
-
-The digital outputs of the Arduino UNO has a voltage level of 5V. The voltage drop of a LED vill typically vary between 1.8V and 3.3V, depending on the color. It will also vary slightly depending on the current, but this variation may be ignored in most applications. The maximum current of the large THT LED's in the Arduino kit is 20 mA. By subtracting the LED voltage from the supplied voltage, we find the required voltage drop of the reisitor.
-
-The current through a resistor is given by:
-
-.. math::
-        I_f = \frac{V_R}{R} = \frac{5 - V_f}{R}
-
-Thus a approximately constant voltage drop will cause a approximately constant current. The required resistor size is thus given by:
-
-
-.. math::
-        R = \frac{5 - V_{f}}{I_f}
-
-Worst case, if the voltage drop is only 1.8V, and the maximum current is 20mA, we get the following minimum resistor value:
-
-.. math::
-        R = \frac{5 - 1.8}{0.02} = 160 \Omega
-
-In practice you might want to limit the current to a maximum of 15mA though. It the Arduino kit the recommended resistor size is 220 Ohm, which should be safe in all cases involving 20mA LED's. In practive values as high as 1k (or even more) may also be used, if the required light intensity is not to high.
-
-For high power LED's you should also make sure that the power dissipated in the resistor does nod exceed the ratings of the resistor [#f1]_.
-
-.. math::
-        P = I_f^2 \cdot R
-
-
-
-.. rubric:: Footnotes
-
-.. [#f1] For wery high power applications a simple current limiting reisitor is not suitable, and you should instead  use power electronics.
-
-Digital inputs
-===================
-
-
-
-
-
-
 
 Variable Types
 ==========================
-In some cases using macro definitions is the most efficient way because is a faster process. The processor doesn't have to check the value of a *variable* in the register. Do you remember what is the register?
 
-However, macro definitions can be risky and needs to be named carefully. Generally new programmers may overwrite a macro on top of another macro which has been defined before. Furthermore, if the :code:`identifier` is defined in a very generic way, since it is a text replacement, it can replace some or your other variable definitions. The preprocessor does not understand C/C++ properly, it simply replaces any occurrence of :code:`identifier` by :code:`replacement`. Additionally a definition is constant, it cannot change during the execution of a program.
+Macros are a powerful tool for managing large software projects, and this will become clear as the course progresses. For constant parameter values however it is not necessarily true that a :code:`#define` statement is the best choice. In any case a :code:`#define` statement is only suitable for values which are constant at run-time. I.e. macros can be complex and auto-generate code at compile-time, but when the program is running on your microcontroller, they have all been replaced with the value the preprocessor determined that they should have.
 
-Therefore we have *variables* which can change during run time, and hold various different *types* of information depending on how they are declared. In the Arduino Cookbook First Edition Chapter 2.2.
+..
+  In some cases using macro definitions is the most efficient way because is a faster process. The processor doesn't have to check the value of a *variable* in the register. Do you remember what is the register?
 
+..
+  However, macro definitions can be risky and needs to be named carefully. Generally new programmers may overwrite a macro on top of another macro which has been defined before. Furthermore, if the :code:`identifier` is defined in a very generic way, since it is a text replacement, it can replace some or your other variable definitions. The preprocessor does not understand C/C++ properly, it simply replaces any occurrence of :code:`identifier` by :code:`replacement`. Additionally a definition is constant, it cannot change during the execution of a program.
+
+.. 
+  Therefore we have *variables* which can change during run time, and hold various different *types* of information depending on how they are declared. In the Arduino Cookbook First Edition Chapter 2.2.
+
+For dynamic values (values which can change while the microcontroller is running), we use variables. A variable is closely related to the variable you know from mathematics. It is some identifier, which is associated with some value. For example the following code would first declare a variable with a size of 8 bit, and give it a value of 23. Then later on the value is changed to 42.
+
+.. code-block:: c
+
+  uint8_t number_of_students = 23;
+
+  number_of_students = 42;
+
+The declaration of the variable is only performed the first time the identifier is introduced. It tells the compiler how much memory should be made available for the value, and what type of value we intend to store. ``uint8_t`` means unsigned 8-bit integer. I.e. a unsigned number which can not contain fractional parts, and with a range of values from 0 to 255. We use the equal sign ``=`` to *assign* a value to the identifier. Attempting to assign something which is outside the values supported by the declaration is an error.
+
+The following list provides a overview of the default variable types supported in the Arduino framework. You should note that ``uint8_t`` is not part of the list. This is because the name ``uint8_t``, and many others like it (e.g. ``int32_t``) are just redefinitions of the standard names to make them more readable. Unlike the standard names, names like ``uint8_t`` makes it immediately obvious what kind of type we are dealing with.
 
 .. list-table:: Simple Primitive Types in Arduino (Variables)
    :widths: 20 10 30 60
@@ -234,7 +202,7 @@ Therefore we have *variables* which can change during run time, and hold various
    * - char
      - 1
      - -128 to 127
-     - Represebts a single character. Cal also represent a signed value between -128 and 127.
+     - Represents a single character. Can also represent a signed value between -128 and 127.
 
    * - byte
      - 1
@@ -242,14 +210,18 @@ Therefore we have *variables* which can change during run time, and hold various
      - Similar to char, but for unsigned values.
 
 
-+------------------------+--------------------------------------------------------------------------------------------------+
-| string                 | Represents arrays of chars (characters) typically used to contain text.                          |
-+------------------------+--------------------------------------------------------------------------------------------------+
-| void                   | Used in function declarations where no value is returned, or for pointer to any type.            |
-+------------------------+--------------------------------------------------------------------------------------------------+
++--------+-----------------------------------------------------------------------------------------------+
+| string | Represents arrays of chars (characters) typically used to contain text.                       |
++--------+-----------------------------------------------------------------------------------------------+
+| void   | Used in function declarations where no value is returned, or for pointer to unspecified type. |
++--------+-----------------------------------------------------------------------------------------------+
 
-Variables are generally defined such that the values can be changed during the execution of the program; after some calculations, in conditional cases, as the sensor readings change etc. On the other hand, there are some cases that we, as the developer, know that the value of a variable is constant. Through the whole program, it will remain the same value. In these cases it is more efficient and safe to define them as **constant** values, which tells the processor that this value has just *read-only* property. This feature is useful for especially longer codes in their debug process. In our case, we know that the LED is always connected a predefined pin and it will not be changed in any conditions. Therefore, we can define the pin-number as a *constant integer*, which would be more memory-efficient declaration way.
+Variables are generally defined such that the values can be changed during the execution of the program; after some calculations, in conditional cases, as a sensor readings change etc. On the other hand, there are some situations where the value is not expected to change. Through the whole program life time, it will remain the same value. In these cases it is more efficient and safe to define them as **constant** values, which tells the compiler that this value has just *read-only* property. This feature is useful for especially longer codes in their debug process. In our case, we know that the LED is always connected a predefined pin and it will not be changed in any conditions. Constant "variables" have some advantages over :code:`#define`, we will not go in to the details here, but both of them are used extensively.
 
+..
+  Therefore, we can define the pin-number as a *constant integer*, which would be more memory-efficient declaration way.
+
+The following example uses a ``const`` "variable" for the pin definition, and a regular variable for the blink rate. Please note that it is optional to add the ``const`` qualifier. It improves safety, when you as the developer intends for the value to never change. In some other application it might be needed to change the led pin while the program is running, and if that is the case you can not use ``const``.
 
 .. code-block:: c
 
@@ -270,23 +242,150 @@ Variables are generally defined such that the values can be changed during the e
     }
 
 .. seealso::
-   Since in the embedded world memory is the main concern most of the time, it is good to have a more friendly type definitions. Instead of trying to remember the memory spaces of all the variable types, in Arduino there is a nicer-looking type definitions: **uint8_t, uint16_t, uint32_t**.
+   Since in the embedded world memory usage is often a major concern, it is good to have a more friendly type definitions. Instead of trying to remember the memory spaces of all the variable types: **uint8_t, uint16_t, uint32_t**.
 
    For example *char* is **int8_t** but *byte* is **uint8_t**.
 
 
+Simple arithmetics
+==================
+
+The microcontroller (Atmega328) has built in support for some basic arithmetic operations (addition, subtraction, multiplication, but not division). Our programming language (C/C++) also support basic arithmetic operations on constant numbers or variables (including division, which is a relatively slow operation since the microcontroller does not support it directly, and has to do a step by step method to compute it).
+
+Note that if you need slightly more advanced mathematics (e.g. square root, or logarithm), you will need to use a library which contain a function for this purpose (or alternatively you can write your own function).
+
+We previously had a example variable for a number of students. The following example shows how you could add the number of one variable to the contents of another variable, overwriting the original value.
+
+.. code-block:: c
+
+  uint8_t number_of_students = 23;
+  uint8_t another_group_of_students = 19
+
+  number_of_students = number_of_students + another_group_of_students; // After this operation the value of number_of_students becomes 42
+
+This example also illustrates an important thing to note about the assignment (``=``) operator. It is not a equal sign in the sense that the left and right sides have to be equal. It assigns the value which results from the expression to the right, in to the variable to the left.
+
+Exercise: morse code
+-----------------------
+
+.. todo:: Add link to examples
+
+It this exercise we will use the LED to emit morse code. It is possible to create a function which takes text input, and automatically generate the corresponding morse code signals (and indeed such a function has been prepared as one of our larger examples). For this exercise however you are only expected to hard code the blinking using explicit calls to the write and delay functions.
+
+Unless you already know the morse alphabet, use your favorite search engine to locate a table of all the characters. Write a program which outputs the correct blink pattern on an external LED. Remember to take into consideration the correct durations of each element in the code. A dash is three times as long as a dot, and the space between each mark (dash or dot) is the same length as a dot. By using a single variable to hold the duration of a dot, you can easily compute the other delays. This will allow you to adjust the transmission speed without having to do large changes to your code.
+
+The traditional lamp used for blinking morse is known as an Aldis lamp. A person trained in decoding morse in the form of sound signals will not necessarily find it easy to decode the blinking light. One typically does not count dots and dashes, but rather identify the particular "sound" of a given symbol. For this to work the speed of transmission should not be to slow.
+
+
+.. todo:: Add picture of aldis lamp
+
+Atmega328 GPIO pins
+===================
+
+Most of the physical pins on the microcontroller in the Arduino UNO (The Atmega328) are general purpose input output (GPIO) pins. This means that they support both the reading of input signals, and writing of output signals. All the GPIO pins support digital input, and digital output. In addition to digital I/O they also support various extra features such as analog input, pulse width modulation, UART, etc. The extra features that are supported, will vary from one pin to the next.
+
+The following figure depicts the internal structure of a single GPIO pin:
+
+.. image:: ../../../external/fig/atmega/atmega328-gpio-block-diagram.png
+        :alt: Atmega328 GPIO block diagram
+        :align: center
+
+We will not go in to details about the internal operation here, but you should know that it is the configuration of this digital circuit that change when you call the function :code:`pinMode(MY_EXT_LED, OUTPUT);`, or :code:`pinMode(MY_EXT_LED, INPUT);`
+
+
+Digital outputs
+===================
+
+Digital outputs have already been demonstrated thoroughly. There are however some general things to note about the operation of the digital outputs.
+
+The maximum input or output current of any one pin is 20 mA. The output uses a transistor pair in a push-pull structure. It is able to raise the pin up to 5 V, or to pull it down to GND (0 V). The pin can either sink, or source current. I.e. the direct current can flow out of the microcontroller, or it can flow in to the microcontroller.
+
+Selecting a suitable current limiting resistor for the LED
+--------------------------------------------------------------------
+
+As you probably noticed, when we are controlling a LED from the Arduino we are using a resistor in series with the LED. This resistor is required in order to not destroy the LED, and should be of an appropriate resistance.
+
+The characteristics of a LED (like any diode) is inherently non-linear. A small voltage variation may cause a large variation in current through the diode. If this is not managed the diode will be destroyed by excessive current. As the light intensity of the diode depends on current, it is apparent that the diode should be supplied by a current source. A high performance current source is a complex device however, and thus we often opt to approximate the current source by means of a resistor.
+
+The color of a LED is not determined by the color of the package, but rather by it's internal physical structure. The different colors thus have different characteristics, such as different nominal voltage drop. This has implications on the selection of the resistor. Also the value of the selected resistor will impact the light intensity of the LED. The minimum resistor value (i.e. maximum light intensity) depends on the maximum current, as well as the voltage/current-characteristics of the LED.
+
+The digital outputs of the Arduino UNO has a high voltage level of 5 V. The voltage drop of a LED will typically vary between 1.8 V and 3.3 V, depending on the color. It will also vary slightly depending on the current, but this variation may be ignored in most applications. The maximum current of the large THT LED's in the Arduino kit is 20 mA. By subtracting the LED voltage from the supplied voltage, we find the required voltage drop of the resistor.
+
+The current through a resistor is given by:
+
+.. math::
+        I_f = \frac{V_R}{R} = \frac{5 - V_f}{R}
+
+Thus a approximately constant voltage drop will cause a approximately constant current. The required resistor size is thus given by:
+
+
+.. math::
+        R = \frac{5 - V_{f}}{I_f}
+
+Worst case, if the voltage drop is only 1.8V, and the maximum current is 20 mA, we get the following minimum resistor value:
+
+.. math::
+        R = \frac{5 - 1.8}{0.02} = 160 \Omega
+
+In practice you might want to limit the current to a maximum of 15 mA or even less though. It the Arduino kit the recommended resistor size is 220 Ohm, which should be safe in all cases involving 20 mA LED's. In practice values as high as 1k (or even more) may also be used, if the required light intensity is not to high. 
+
+For high power LED's you should also make sure that the power dissipated in the resistor does nod exceed the ratings of the resistor [#f1]_.
+
+.. math::
+        P = I_f^2 \cdot R
 
 
 
+.. rubric:: Footnotes
+
+.. [#f1] For very high power applications a simple current limiting resistor is not suitable, and you should instead  use power electronics. This however is a entire field of engineering on it's own, and way outside the scope of what we will be covering here.
+
+Digital inputs
+===================
+
+Digital inputs will be dealt with in greater detail in a lecture specifically dedicated to it. For now we will only introduce the basics, in order to get you quickly up and running with some interesting projects.
+
+
+Performing decisions in the software
+====================================
+
+It is important for the microcontroller to be able to make decisions on how to continue the execution of the program based upon the state of some internal or external factor. E.g. it could change the blink speed of a LED only if a push button is pressed. The C and C++ programming languages have several statement which can be used to make decisions, the first ones we will introduce is the ``if``, ``else if``, and ``else``.
+
+
+
+Exercise: Poll the state of a push button
+------------------------------------------
+
+In this exercise we will poll the state of a push button, and use the state of the push button to determine the blinking frequency of a LED.
+
+.. todo:: Add drawing which shows how to connect the button and LED
+
+.. todo:: Add solution proposal
+
+The above solution is not ideal. The following gif shows how the Arduino board should behave. When the button is pressed, the frequency increase is instant. I.e. you do not have to wait for some :code:`delay()` to complete before it checks the button state.
+
+.. image:: ../../fig/gif/arduino-blink-button.gif
+        :alt: Gif animation of Arduino with single external LED, where blink frequency is controlled by push button
+        :scale: 100
+        :align: center
+
+The solution is provided in the following code listing, but you do not have to understand everything now. We will get back to this solution in a future lecture.
+
+.. literalinclude:: ../../../projects/platformio/led-blink-two-rates-pb-controlled/src/main.cpp
+   :language: c
 
 
 Serial port output
 ===================
 
-The serial port will be covered in great detail in a future lecture, for now we will only be using it in its simplest form as a way to output data from the microcontroller. This will allow us some better insight in to the internal operation of the controller.
+The serial port will be covered in detail in a future lecture, for now we will only be using it in its simplest form as a way to output data from the microcontroller. This will allow us some better insight in to the internal operation of the controller.
 
 ..
         One of the most beautiful feature which Arduino brought into the embedded developers's world is the 
+
+
+Serial port monitor in the Arduino IDE
+--------------------------------------
 
 A very useful feature which is built-in to the Arduino IDE is the serial monitor.
 
@@ -301,14 +400,21 @@ You can use the serial-monitor in the Arduino IDE for debugging purposes. (Of co
         :alt: Arduino serial monitor button
         :align: center
 
+Serial port monitor in PlatformIO
+----------------------------------
 
-PlatformIO also have a built in serial monitor.
+PlatformIO also have a built in serial monitor. It is accessed by clicking the button looking like a power plug in at the toolbar in the bottom of the window:
 
-..
-        TODO: PlatformIO screenshot
+.. image:: ../../fig/screenshots/platformio-serial-monitor-button.png
+        :alt: Arduino serial monitor button
+        :align: center
 
 
-In order to write something into the serial-monitor, we need to initialize the serial communication. This is achieved by calling the method ``begin(9600)`` on the ``Serial`` object. Normally this is performed in the ``setup()`` function. Further on several methods such as ``println()`` allows us to send data back from the microcontroller to our serial monitor. This is demonstrated in the following "hello, world!" example:
+
+Hello World
+------------
+
+In order to write something into the serial-monitor, we need to initialize the serial communication. This is achieved by calling the method ``begin(9600)`` on the ``Serial`` object. The parameter 9600 setts the baud rate of the serial transmission, i.e. the number of symbols which is transmitted per second. For now you should leave it at the rate of 9600, in future lectures we will go in to more detail about how and when to change it. Normally the ``begin()`` method is called in the ``setup()`` function. After initialization several methods such as ``println()`` allows us to send data back from the microcontroller to our serial monitor. This is demonstrated in the following "hello, world!" example:
 
 .. code-block:: c
 
@@ -322,13 +428,34 @@ In order to write something into the serial-monitor, we need to initialize the s
       delay(1000);
     }
 
+The result in PlatformIO should look something like this:
+
+.. image:: ../../fig/screenshots/platformio-serial-monitor.png
+        :alt: Arduino serial monitor button
+        :align: center
+
+
 
 Exercise: Count to 10
 -----------------------
+
+In this exercise we will modify the hello wold example to a counter, which counts to 10 over a interval of 10 seconds, before it resets back to zero. Each count value is to be displayed on the serial monitor.
+
+.. code-block:: c
+
+    void setup() {
+      // initialize serial communication at 9600 bits per second:
+      Serial.begin(9600);
+    }
+
+    void loop() {
+      // Put your own code here.
+      delay(1000);
+    }
 
 
 
 
 .. seealso::
-   Serial-monior is basically a terminal with a bit more sophisticated-looking. In order to set the serial-monitor with your board, you need to establish a UART communication Basically, as most of you know, you are uploading your sketches to the Arduino via USB cable. The general name of this commonly used protocol is `UART <https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter>`_ (or in less often cases `USART <https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter>`_). It is a wide concept that requires more time to grasp the details. We will look into that in our :ref:`communication protocols <L9_communication>` lesson.
+   The serial-monitor is basically a terminal. In order to use the serial-monitor with your board, you need to establish a UART communication link between the two. By now you should have realized that you are uploading your software to the Arduino via USB cable. This transmission is using the same protocol as you use when printing text in the serial monitor. The general name of this commonly used protocol is `UART <https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter>`_ (or sometimes the more general term `USART <https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter>`_ is used). It is a wide concept that requires more time to grasp the details. We will look into that in our :ref:`communication protocols <L9_communication>` lesson later in the course.
 

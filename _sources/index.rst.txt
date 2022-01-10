@@ -17,12 +17,13 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 1a: What is a Microcontroller <texts/Lessons/L1_UC_intro.rst>
    Lesson 1b: Introduction to Arduino <texts/Lessons/L2_Arduino_intro.rst>
    Lesson 2: Digital I/O, and serial output <texts/Lessons/L3_digital_io_serial_o.rst>
+   Lesson 3: Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
+
 ..
    Introduction <texts/Lessons/L0_Introduction.rst>
 
  ..
    Lesson 3: Hands on Activities <texts/Lessons/L3_hands_on_act.rst>
-   Lesson 4: Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
    Lesson 5: Conditionals - Functions <texts/Lessons/L5_edge_conditional_func.rst>
    Lesson 6.1: ADC - PWM - Interrupt <texts/Lessons/L6_interrupt_adc_dac.rst>
    Lesson 7: Repetition <texts/Lessons/L7_repetition.rst>
@@ -39,16 +40,6 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson X.4 Infrared remote <texts/Lessons/ir_communication.rst>
    Lesson X.5 Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
    Lesson X.5 Course summary <texts/Lessons/course_summary.rst>
-   State machine tutorial <texts/Appendices/state_machine_tutorial.rst>
-   Abstract data types <texts/Appendices/abstract_data_types.rst>
-   Operating system <texts/Appendices/operating_system.rst>
-   Additional Chapters <texts/Appendices/Additionals.rst>
-   Appendix A1: Development environment  <texts/Appendices/A1_development_environment.rst>
-   Appendix A3: Unit testing <texts/Appendices/A3_unit_testing.rst>
-   Appendix A4: Digital signal processing <texts/Appendices/A4_digital_signal_processing.rst>
-   Appendix A5: Fixed point numbers <texts/Appendices/A5_fixed_point_numbers.rst>
-   Appendix A6: Microcontroller memory <texts/Appendices/A6_microcontroller_memory.rst>
-   Appendix A7: C introduction <texts/Appendices/A7_introduction_to_c_programming.rst>
 
 .. These where duplicates
    Lesson 14: Project - Communication <texts/Lessons/RC_car.rst>
@@ -75,6 +66,38 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 12: Wireless Communication With ESP8266 <texts/Lessons/L12_wifi.rst>
    Lesson 13: Visual Studio and Arduino <texts/Lessons/L13_VS_arduino.rst>
    Lesson 14: RC Car (Bluetooth or Joystick) <texts/Lessons/L14_RC_car.rst>
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Projects:
+
+   Mix <texts/Appendices/Additionals.rst>
+
+
+.. todo:: Add these if we feel like it (and we can find the time to write them)
+..    
+   .. toctree::
+      :maxdepth: 2
+      :caption: Appendices:
+
+      State machine tutorial <texts/Appendices/state_machine_tutorial.rst>
+      Abstract data types <texts/Appendices/abstract_data_types.rst>
+      Operating system <texts/Appendices/operating_system.rst>
+      Appendix A1: Development environment  <texts/Appendices/A1_development_environment.rst>
+      Appendix A3: Unit testing <texts/Appendices/A3_unit_testing.rst>
+      Appendix A4: Digital signal processing <texts/Appendices/A4_digital_signal_processing.rst>
+      Appendix A5: Fixed point numbers <texts/Appendices/A5_fixed_point_numbers.rst>
+      Appendix A6: Microcontroller memory <texts/Appendices/A6_microcontroller_memory.rst>
+      Appendix A7: C introduction <texts/Appendices/A7_introduction_to_c_programming.rst>
+
+
+..
+   State machines <texts/Appendices/A2_state_machines.rst>
+   Memory technology <texts/Appendices/memory_technology.rst>
+   Operating system <texts/Appendices/operating_system.rst>
+   Advanced data structures <texts/Appendices/advanced_data_structures.rst>
+   Additional Chapters <texts/Appendices/Additionals.rst>
 
 
 You need to have:
@@ -110,17 +133,7 @@ For the microcontroller part of ELE102 you will be needing some hardware, as wel
     https://opensource.com/article/19/11/document-python-sphinx
 
 
-..    
-   .. toctree::
-      :maxdepth: 2
-      :caption: Appendices:
 
-
-       State machines <texts/Appendices/A2_state_machines.rst>
-       Memory technology <texts/Appendices/memory_technology.rst>
-       Operating system <texts/Appendices/operating_system.rst>
-       Advanced data structures <texts/Appendices/advanced_data_structures.rst>
-       Additional Chapters <texts/Appendices/Additionals.rst>
 
 .. Comment out for now
 

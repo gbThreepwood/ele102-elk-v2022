@@ -72,7 +72,6 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Various Hands on Activities</a><ul>
-<li><a class="reference internal" href="#digital-i-o">Digital I/O</a></li>
 <li><a class="reference internal" href="#serial-print">Serial Print</a></li>
 </ul>
 </li>
@@ -123,6 +122,11 @@
 <li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L2_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L3_digital_io_serial_o.html">Lesson 2: Digital I/O, and serial output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L4_digital_analog_time.html">Lesson 3: Digital-Analog-Time</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -165,64 +169,6 @@
 <div class="section" id="various-hands-on-activities">
 <h1>Various Hands on Activities<a class="headerlink" href="#various-hands-on-activities" title="Permalink to this headline">¶</a></h1>
 <p>Let’s increace the practicality.</p>
-<div class="section" id="digital-i-o">
-<h2>Digital I/O<a class="headerlink" href="#digital-i-o" title="Permalink to this headline">¶</a></h2>
-<p>You remember that in the last course we have compiled the built-in <code class="code docutils literal notranslate"><span class="pre">Blink</span></code> example. Let’s remember the procedure first.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// the setup function runs once when you press reset or power the board</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
-<span class="w">   </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">// the loop function runs over and over again forever</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
-<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
-<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>In this example <code class="code docutils literal notranslate"><span class="pre">LED_BUILTIN</span></code> is named as <em>Macro definition</em> which is a term to used the constant definitions as a pre-processor directive. In here the term <code class="code docutils literal notranslate"><span class="pre">LED_BUILTIN</span></code> is a place holder for the number <strong>13</strong>. Instead, we could have written the code like that and literally nothing would have change in practice:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// the setup function runs once when you press reset or power the board</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
-<span class="w">   </span><span class="n">pinMode</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">// the loop function runs over and over again forever</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
-<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="w">   </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
-<span class="w">   </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>However, this wouldn’t look good in programming beauty standards. The reason is that whenever you have another LED attached to your Arduino, but in another pin than <strong>13</strong>, you need to change this <em>definition</em> in 3 different places. Therefore there are different <em>place holders</em> in the programming. Macro definitions are one of them and defined like:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define identifier replacement</span>
-</pre></div>
-</div>
-<p>Basically, it says your processor that “whenever you see this <code class="code docutils literal notranslate"><span class="pre">identifier</span></code>, replace it with the <code class="code docutils literal notranslate"><span class="pre">replacement</span></code>”. This way of introducing a place holder is executed in a pre-processor directive. It is not different than copying one text (as <code class="code docutils literal notranslate"><span class="pre">identifier</span></code>) and pasting another text (as <code class="code docutils literal notranslate"><span class="pre">replacement</span></code>).</p>
-<p>Let’s define our own macro definition for our external LED, attached to <strong>pin number 2</strong>. Also, change the blink rate from 1000 milliseconds to half a second.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define MY_EXT_LED 2</span>
-<span class="cp">#define BLINK_RATE 500</span>
-<span class="c1">// the setup function runs once when you press reset or power the board</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
-<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">// the loop function runs over and over again forever</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">   </span><span class="c1">// turn the LED on (HIGH is the voltage level)</span>
-<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">BLINK_RATE</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">MY_EXT_LED</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w">    </span><span class="c1">// turn the LED off by making the voltage LOW</span>
-<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">BLINK_RATE</span><span class="p">);</span><span class="w">                       </span><span class="c1">// wait for a second</span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="serial-print">
 <h2>Serial Print<a class="headerlink" href="#serial-print" title="Permalink to this headline">¶</a></h2>
 <p>We will be using the following circuit:</p>
