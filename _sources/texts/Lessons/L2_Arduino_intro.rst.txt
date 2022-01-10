@@ -51,7 +51,9 @@ Arduino was born at the Ivrea Interaction Design Institute as an easy tool for f
    :alt: Arduino UNO pin-out diagram
    :align: center
 
-I don't want to scare you in the first course :) I just wanted to show you how powerful tool you are gonna learn to use. Of course we will not cover all of the capabilities of Arduino right now. We will see very fundamental applications in this course. By carrying out them, we will improve our programming skills. Depending on the enthusiasm of you in general, I am planning to achieve really good projects! Lower down the contribution of the exams and increase the contribution of the fun part - projects!
+I don't want to scare you in the first course :) I just wanted to show you how powerful tool you are gonna learn to use. Of course we will not cover all of the capabilities of Arduino right now. We will see very fundamental applications in this course. By carrying them out, we will improve our programming skills. Depending on the enthusiasm of you in general, We are planning to achieve really good projects!
+
+.. Lower down the contribution of the exams and increase the contribution of the fun part - projects!
 
 .. ref: https://www.arduino.cc/en/guide/introduction
 
@@ -145,7 +147,7 @@ TX is short for transmit, RX is short for receive. These markings appear quite a
 
 Main IC
 ------------------------------
-The black thing with all the metal legs is an IC, or Integrated Circuit (13). Think of it as the brains of our Arduino. The main IC on the Arduino is slightly different from board type to board type, but is usually from the ATmega line of IC’s from the ATMEL company. This can be important, as you may need to know the IC type (along with your board type) before loading up a new program from the Arduino software. This information can usually be found in writing on the top side of the IC. If you want to know more about the difference between various IC's, reading the datasheets is often a good idea.
+The black thing with all the metal legs is an IC, or Integrated Circuit (13). Think of it as the brains of our Arduino. The main IC on the Arduino is slightly different from board type to board type, but is usually from the ATmega line of IC’s from the ATMEL company, although some new boards are appearing which use different microcontrollers. This can be important, as you may need to know the IC type (along with your board type) before loading up a new program from the Arduino software. This information can usually be found in writing on the top side of the IC. If you want to know more about the difference between various IC's, reading the datasheets is often a good idea.
 
 Voltage Regulator
 ------------------------------
@@ -187,7 +189,7 @@ puts 42 bytes into SRAM (each character takes a byte, plus the terminator charac
 
 If you run out of SRAM, your program may fail in unexpected ways; it will appear to upload successfully, but not run, or run strangely. To check if this is happening, you can try commenting out or shortening the strings or other data structures in your sketch (without changing the code). If it then runs successfully, you're probably running out of SRAM. There are a few things you can do to address this problem:
 
-If your sketch talks to a program running on a (desktop/laptop) computer, you can try shifting data or calculations to the computer, reducing the load on the Arduino.
+If your arduino software talks to a program running on a (desktop/laptop) computer, you can try shifting data or calculations to the computer, reducing the load on the Arduino.
 If you have lookup tables or other large arrays, use the smallest data type necessary to store the values you need; for example, an int takes up two bytes, while a byte uses only one (but can store a smaller range of values).
 If you don't need to modify the strings or data while your sketch is running, you can store them in flash (program) memory instead of SRAM; to do this, use the PROGMEM keyword. We will discuss this in more detail later in the course.
 
@@ -209,11 +211,24 @@ The following code block shows the bare minimum that must be included in a Ardui
 		// This function gets called indefinitely
 	}
 
+In addition to this bare minimum, any project using PlatformIO will have :code:`#include <Arduino.h>` in order to import the required Arduino libraries. This is not required in the Arduino IDE, as this import happens "behind the scenes". Thus in the PlatformIO case the bare minimum is:
+
+.. code-block:: c
+
+        #include <Arduino.h>
+
+        void setup() {
+
+        }
+
+        void loop() {
+
+        }
 
 The Arduino UNO board
 -----------------------------
 
-Arduino UNO (uno meaning "one" in Italian) was the first Arduino board to be released with onboard USB connector. This schematic can be divided as USB Bridge, POWER and Microcontroller.
+Arduino UNO (uno meaning "one" in Italian) was the first Arduino board to be released with onboard USB connector. It has the following schematic, which can be divided in to USB bridge, power, and microcontroller.
 
 .. image:: ../../fig/arduino_uno_schematic.png
    :alt: Arduino UNO schematic
@@ -226,16 +241,17 @@ The Atmega328 microcontroller
 -----------------------------
 The Arduino UNO uses the Atmega328 microcontroller. The processor in the Atmega328 is of the AVR architecture (AVR from the Norwegian inventors **A**\ lf-Egil and **V**\ egard, and the acronym **R**\ ISC (Reduced instruction set computer)).
 
-The `datasheet <http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf>`_ for the microcontroller contains many details about the features of the controller and how to use them. 
-
+The `datasheet <http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf>`_ for the microcontroller contains many details about the features of the controller and how to use them. We will get back to some details in the datasheet in future lectures. 
 
 
 .. _BlinkLED:
 
 Exercise: Blink an LED
 -----------------------
-It is tradition when introducing a new programming language on a PC that the first program simply prints the text 'Hello, World!' to the monitor [#f1]_. Many microcontrollers however are not equiped with a monitor, and even if they where, the code involed in writing text to this monitor would be to complicated for a first example (on a PC many of the low level details are hidden from the user). Thus the simple process of blinking a lamp (typically a LED) is often considered the 'Hello, world' of microcontrollers
-.
+
+We already looked at a LED blink example as a initial test in the software installation lesson, but it is repeated here because the exercises which follows build upon the basic LED blinker.
+
+It is tradition when introducing a new programming language on a PC that the first program simply prints the text 'Hello, World!' to the monitor [#f1]_. Many microcontrollers however are not equipped with a monitor, and even if they where, the code involved in writing text to this monitor would be to complicated for a first example (on a PC many of the low level details are hidden from the user). Thus the simple process of blinking a lamp (typically a LED) is often considered the 'Hello, world' of microcontrollers.
 
 The following code is taken from the official Arduino distribution, and demonstrates how to blink a led connected to pin number 13 on the Arduino. This example continuously flashes an LED by writing HIGH and LOW outputs to a pin. In the next lesson we will learn more about the Arduino pins. When the sketch begins, the code in setup sets the pin mode (so it’s capable of lighting an LED). After the code in setup is completed, the code in loop is repeatedly called (to flash the LED) for as long as the Arduino board is powered on.
 
@@ -272,6 +288,31 @@ The following code is taken from the official Arduino distribution, and demonstr
 Pin 13 on the Arduino UNO is connected to a onboard LED, which makes it convenient to use for this first test program.
 
 
+Exercise: Blink using morse code
+--------------------------------
+
+
+.. todo:: Add solution proposal after the lecture is finished.
+
+It this exercise we will use the LED to emit morse code. It is possible to create a function which takes text input, and automatically generate the corresponding morse code signals (and indeed such a function has been prepared as one of our larger examples). For this exercise however you are only expected to hard code the blinking using explicit calls to the write and delay functions.
+
+#. Start by creating a new project, and copying your LED blink code from the previous project
+#. Make the necessary modification in order to make the LED emit the morse signal for SOS.
+#. Verify the operation of the program.
+#. If you have time (and a short name), change the code so it emits your name as morse code.
+
+Unless you already know the morse alphabet, use your favorite search engine to locate a table of all the characters. Write a program which outputs the correct blink pattern on an external LED. Remember to take into consideration the correct durations of each element in the code. A dash is three times as long as a dot, and the space between each mark (dash or dot) is the same length as a dot. By using a single variable to hold the duration of a dot, you can easily compute the other delays. This will allow you to adjust the transmission speed without having to do large changes to your code.
+
+A person trained in decoding morse in the form of sound signals will not necessarily find it easy to decode the blinking light. One typically does not count dots and dashes, but rather identify the particular "sound" of a given symbol. For this to work the speed of transmission should not be to slow.
+
+The traditional lamp used for blinking morse is known as an Aldis lamp, and is still in use by the navy for short range communication between ships:
+
+.. image:: ../../../external/fig/aldis_lamp.jpg
+        :alt: Aldis lamp (source: https://id.wikipedia.org/wiki/Berkas:Aldis_lamp.jpg)
+        :scale: 50
+        :align: center
+
+
 Exercise: Blink an external LED
 -------------------------------
 
@@ -283,7 +324,11 @@ The above program may easily be modified to blink an external LED. The following
         :scale: 50
         :align: center
 
-By changing the code `int led = 13;` to `int led = 3;`, the above program will blink the LED in the figure.
+By changing the code `int led = 13;` to `int led = 3;`, the LED blink program or morse generation program, it will blink the LED in the figure.
+
+#. Connect the external LED in accordance with the "schematic".
+#. Change the pin configuration to pin 3.
+#. Verify the operation of the program, and your circuit.
 
 In real life it should look like the following:
 
@@ -293,8 +338,31 @@ In real life it should look like the following:
         :align: center
 
 
-The build and upload process
-============================
+Exercise: Hello World
+----------------------
+
+For those of you who finished the previous tasks, and did not like the LED blink alterative to "hello, world", the following example illustrates how to do it properly:
+
+.. _HelloWorld:
+
+..
+        Now just for the sake of tradition, we can write `hello, world`
+
+.. code-block:: c
+
+        void setup() {
+                Serial.begin(9600);
+        }
+
+        void loop() {
+                Serial.println("hello, world");
+        }
+
+
+This will be covered thoroughly in the upcoming lecture, but it does not hurt to try it. Make sure you understand the LED blink example first though.
+
+The build and upload process (not mandatory to read)
+====================================================
 
 ..
         .. warning::
@@ -308,7 +376,9 @@ When you press the upload button in the Arduino IDE the program goes through man
 A detailed look at the Arduino software library
 ------------------------------------------------
 
-This last section is not part of the curriculum, but is included for those of you who have previous programming experience. You don’t need to know this to write Arduino sketches, but experienced C/C++ programmers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:
+This last section is not part of the curriculum, but is included for those of you who have previous programming experience.
+
+.. You don’t need to know this to write Arduino sketches, but experienced C/C++ programmers may wonder where the expected main() entry point function has gone. It’s there, but it’s hidden under the covers by the Arduino build environment. The build process creates an intermediate file that includes the sketch code and the following additional statements:
 
 In standard C/C++ programs the first function to run is the 'main()' function. In Arduino however this has been changed into the 'setup()' function followed by the 'loop()' function. Behind the scenes however there is still a main function as shown in the following code.
 
@@ -363,7 +433,7 @@ In standard C/C++ programs the first function to run is the 'main()' function. I
         	return 0;
         }
 
-In addition to the above code, the Arduino distribution has many other source files that by default are added to the project. This makes sure that functions such as 'digitalWrite', and 'digitalRead' are available for our convenience [#f3]_.
+The code above is automatically added to your project, and ensures that the :code:`setup()` function is called once during boot, and that the :code:`loop()` function is called again as soon as it can finish. In addition to the above code, the Arduino distribution has many other source files that by default are added to the project. This makes sure that functions such as 'digitalWrite', and 'digitalRead' are available for our convenience [#f3]_.
 
 The preprocessor
 ----------------
@@ -400,24 +470,6 @@ The Arduino UNO board has a USB connector used for communication as well as for 
 When power is applied to the microcontroller (or the controller is reset) the first instruction to be executed by the CPU is placed in the so called 'reset vector' memory location (at address 0x0000 on Atmega328). This instruction must be a relative jump instruction (RJMP) to move the instruction pointer to the address of the boot loader (or the main program if no bootloader is used).
 
 On the Arduino the bootloader initially waits for a special sequence of bytes on the serial port. If the sequence is received the bootloader expects the following bytes to be a new program to be written to flash memory of the controller. If not such sequence is received the bootloader will issue a jump to the previously written program.
-
-..
-        .. _HelloWorld:
-        
-        Hello, world
-        ---------------
-        Now just for tradition, we can write `hello, world`
-        
-        .. code-block:: c
-        
-                void setup() {
-                        Serial.begin(9600);
-                }
-        
-                void loop() {
-                        Serial.println("hello, world");
-                }
-
 
 
 Covering the programming fundamentals
