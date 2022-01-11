@@ -16,9 +16,9 @@ On this page we will publish new lecture notes every week, as the course is prog
    Software and hardware preparations <texts/Lessons/software_hardware_preparations.rst>
    Lesson 1a: What is a Microcontroller <texts/Lessons/L1_UC_intro.rst>
    Lesson 1b: Introduction to Arduino <texts/Lessons/L2_Arduino_intro.rst>
-   
-..
    Lesson 2: Digital I/O, and serial output <texts/Lessons/L3_digital_io_serial_o.rst>
+
+..   
    Lesson 3: Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
 
 ..
@@ -77,7 +77,7 @@ On this page we will publish new lecture notes every week, as the course is prog
    Mix <texts/Appendices/Additionals.rst>
 
 
-.. todo:: Add these if we feel like it (and we can find the time to write them)
+.. todo:: Add more projects if we feel like it (and we can find the time to write them)
 ..    
    .. toctree::
       :maxdepth: 2

@@ -265,20 +265,6 @@ We previously had a example variable for a number of students. The following exa
 
 This example also illustrates an important thing to note about the assignment (``=``) operator. It is not a equal sign in the sense that the left and right sides have to be equal. It assigns the value which results from the expression to the right, in to the variable to the left.
 
-Exercise: morse code
------------------------
-
-.. todo:: Add link to examples
-
-It this exercise we will use the LED to emit morse code. It is possible to create a function which takes text input, and automatically generate the corresponding morse code signals (and indeed such a function has been prepared as one of our larger examples). For this exercise however you are only expected to hard code the blinking using explicit calls to the write and delay functions.
-
-Unless you already know the morse alphabet, use your favorite search engine to locate a table of all the characters. Write a program which outputs the correct blink pattern on an external LED. Remember to take into consideration the correct durations of each element in the code. A dash is three times as long as a dot, and the space between each mark (dash or dot) is the same length as a dot. By using a single variable to hold the duration of a dot, you can easily compute the other delays. This will allow you to adjust the transmission speed without having to do large changes to your code.
-
-The traditional lamp used for blinking morse is known as an Aldis lamp. A person trained in decoding morse in the form of sound signals will not necessarily find it easy to decode the blinking light. One typically does not count dots and dashes, but rather identify the particular "sound" of a given symbol. For this to work the speed of transmission should not be to slow.
-
-
-.. todo:: Add picture of aldis lamp
-
 Atmega328 GPIO pins
 ===================
 

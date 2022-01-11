@@ -256,8 +256,11 @@ It is tradition when introducing a new programming language on a PC that the fir
 The following code is taken from the official Arduino distribution, and demonstrates how to blink a led connected to pin number 13 on the Arduino. This example continuously flashes an LED by writing HIGH and LOW outputs to a pin. In the next lesson we will learn more about the Arduino pins. When the sketch begins, the code in setup sets the pin mode (so it’s capable of lighting an LED). After the code in setup is completed, the code in loop is repeatedly called (to flash the LED) for as long as the Arduino board is powered on.
 
 
+.. 
+        :caption: LED Blink
+
+
 .. code-block:: c
-   :caption: LED Blink
 
         /*
          Blink
@@ -292,9 +295,7 @@ Exercise: Blink using morse code
 --------------------------------
 
 
-.. todo:: Add solution proposal after the lecture is finished.
-
-It this exercise we will use the LED to emit morse code. It is possible to create a function which takes text input, and automatically generate the corresponding morse code signals (and indeed such a function has been prepared as one of our larger examples). For this exercise however you are only expected to hard code the blinking using explicit calls to the write and delay functions.
+It this exercise we will use the LED to emit morse code. It is possible to create a function which takes text input, and automatically generate the corresponding morse code signals (and indeed such a function has been prepared as one of our larger examples which you will be exposed to later in the course). For this exercise however you are only expected to hard code the blinking using explicit calls to the write and delay functions.
 
 #. Start by creating a new project, and copying your LED blink code from the previous project
 #. Make the necessary modification in order to make the LED emit the morse signal for SOS.
@@ -311,6 +312,12 @@ The traditional lamp used for blinking morse is known as an Aldis lamp, and is s
         :alt: Aldis lamp (source: https://id.wikipedia.org/wiki/Berkas:Aldis_lamp.jpg)
         :scale: 50
         :align: center
+
+
+The following code listing provides one possible solution to this exercise:
+
+.. literalinclude:: ../../../projects/platformio/sos-blink/src/main.cpp
+   :language: c
 
 
 Exercise: Blink an external LED
