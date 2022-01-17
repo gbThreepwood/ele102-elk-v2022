@@ -11,7 +11,6 @@
     - showing them the ability of doing a whole project by themself
     - let them expand their knowledge
     - 3 groups, each group 4-5 people
-    - Ask them to deliver a 3-page report (?) or a presentation
     - Choose one group leader
     
 
@@ -33,7 +32,7 @@
 
     **Code:**
 
-    - Ex: Show BT control, Joystick control, mini manipulator with 4 servo
+    - Ex: Show BT control, Joystick control
 
 
 **********************
@@ -55,7 +54,7 @@ Joystick Controlled
 Drive your car via joystick.
 
 
-Mini 3-Dof manipulator
+Wheels and DC motors
 =================================
 
-I will provide the servos for you. Design your own manipulator
+I will provide the motors and 3D prints for you. Design your own car

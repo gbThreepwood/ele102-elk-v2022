@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Motor Drive &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Motor Drive</a><ul>
+<li><a class="reference internal" href="#the-theory-beind-the-dc-motor">The theory beind the DC-Motor</a></li>
+<li><a class="reference internal" href="#dc-motor-drive">DC-motor drive</a><ul>
+<li><a class="reference internal" href="#motor-speed-adjusting-by-pwm">Motor Speed Adjusting by PWM</a><ul>
+<li><a class="reference internal" href="#fast-pwm-mode">Fast PWM mode</a></li>
+<li><a class="reference internal" href="#phase-correct-pwm">Phase correct PWM</a></li>
+<li><a class="reference internal" href="#available-outputs">Available outputs</a></li>
+<li><a class="reference internal" href="#control-loop">Control loop</a></li>
+<li><a class="reference internal" href="#four-quadrant-operation">Four quadrant operation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#motor-direction-setting-by-switching">Motor Direction Setting by Switching</a><ul>
+<li><a class="reference internal" href="#h-brigde">H-Brigde</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-motor-drive-example-using-single-transistor">Simple motor drive example using single transistor</a></li>
+<li><a class="reference internal" href="#motor-drive-using-the-l293d">Motor drive using the L293D</a></li>
+<li><a class="reference internal" href="#motor-drive-example-using-the-l293d">Motor drive example using the L293D</a></li>
+<li><a class="reference internal" href="#advanced-motor-drive-example">Advanced motor drive example</a></li>
+<li><a class="reference internal" href="#motor-drive-assignment">Motor drive assignment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#servo-motor-drive">Servo Motor Drive</a><ul>
+<li><a class="reference internal" href="#switching-frequency">Switching frequency</a></li>
+<li><a class="reference internal" href="#servo-motor-library">Servo motor library</a></li>
+<li><a class="reference internal" href="#servo-motor-drive-example">Servo motor drive example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_digital_io.html">Lesson 2: Digital I/O</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Lesson X.1 Interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Lesson X.2 Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Lesson X.3 Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Lesson X.4 Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson X.5 Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Lesson X.5 Course summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="admonition note" id="l8-motor-drive">
+<p class="admonition-title">Note</p>
+<p><em>03/03/2020 - 75mins</em></p>
+<p><strong>Aim:</strong></p>
+<ul class="simple">
+<li><p>DC drive, H-bridge</p></li>
+<li><p>Servo drive</p></li>
+</ul>
+<p><strong>Materials:</strong></p>
+<ul class="simple">
+<li><p>Arduino Board</p></li>
+<li><p>Button</p></li>
+<li><p>Cables</p></li>
+<li><p>Breadboard</p></li>
+<li><p>Potentiometer</p></li>
+<li><p>Resistors</p></li>
+<li><p>Servo</p></li>
+<li><p>DC</p></li>
+</ul>
+<p><strong>Code:</strong></p>
+<ul class="simple">
+<li><p>Ex: Faster/Slower motor drive controlled with Potentiometer</p></li>
+</ul>
+</div>
+<div class="section" id="motor-drive">
+<h1>Motor Drive<a class="headerlink" href="#motor-drive" title="Permalink to this headline">¶</a></h1>
+<p>In general a motor drive is a power electronic device used to control the power delivered to a motor. The purpose could be either torque, speed or position control of the rotating motor shaft.</p>
+<p>There are many different types of motors in existence, and each type warrants its own particular motor drive design.</p>
+<p><strong>DC Motors:</strong> This is a very common motor in cheap low power applications. We can see it in remote control cars, robots, etc. This motor has a simple structure. It will start rolling by applying proper voltage to its terminals and change it’s rotational direction by switching voltage polarity. The DC motor torque (and thus speed) is directly controlled by the applied current. Current depends on voltage, and thus a voltage level less than the maximum tolerable voltage, will cause a speed that is less than maximum speed.</p>
+<p><strong>Stepper Motors:</strong> In some projects such as 3D printers, scanners and CNC machines we need to know motor spin steps accurately. In these cases, we may use stepper motors. Stepper motor are electric motors that divides a full rotation into a number of equal steps. The amount of rotation per step is determined by the motor structure. These kind of motors may be desiged to have a very high accuracy.</p>
+<p><strong>Servo Motors:</strong> There are many different types of motors that could be considered as seveo motors. The  position control service. By using a servo you will be able to control the amount of shafts rotation and move it to a specific position. They usually have a small dimension and are the best choice for robotic arms.</p>
+<p><strong>AC motors</strong> Three phase AC motors are the larges consumer of electical energy in the world. This type of motor is typically used in applications where accuracy is less important. Examples include the driving of pumps, fans, drums, batching plants etc.</p>
+<p>It is typically not possible to connect these motors to microcontrollers or controller board such as Arduino directly. Unless the motor is really small it will require more current than the controller is able to supply. We need some form of circuit to amplify the control signal from the controller, this kind of circuit is called amotor driver. The driver is an interface circuit between the motor and controlling unit to facilitate driving. Drives come in many different types <span id="id1">[]</span>.</p>
+<p>In this lecture we will look at DC-motor drives. The understanding of DC-motor drives is a good foundation for understanding more advanced AC-motor drives.</p>
+<div class="section" id="the-theory-beind-the-dc-motor">
+<h2>The theory beind the DC-Motor<a class="headerlink" href="#the-theory-beind-the-dc-motor" title="Permalink to this headline">¶</a></h2>
+<p>DC motors are divided into 2 main categories: <em>brushed</em> and <em>brushless</em> DC motors. We can define a brushed DC motor as a motor with internal mechanical commutation. It is designed to be powered by a direct current source. On the other hand, in the brushless DC motors, there is no physical contact between coils and the field magnet (stationary and rotaty parts). The brushless DC motor is really a AC motor with a electronic DC to AC converter built in.</p>
+<p>A brushless DC motor uses a permanent magnet as its external rotor and there are three phases of coils surrounding it. A specialized sensor is also placed in the setup to track the position of the rotor and as it is being tracked, the reference signals are being sent to a controller. It is driven by an ESC (electronic speed control). ESC regulates the speed and also provides dynamic braking. They are mostly used in fast-speed required applications like in drones since they have less corrision compared to brushed DC motors. Nevertheless, day by day their fields of usages are increasind.</p>
+<div class="figure align-center" id="id6">
+<img alt="../../_images/Brushed-and-Brushless-DC-motors.jpg" src="../../_images/Brushed-and-Brushless-DC-motors.jpg" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.meee-services.com/why-do-dc-motors-have-brushes/">https://www.meee-services.com/why-do-dc-motors-have-brushes/</a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<p>A brushed motor, on the other hand, has a configuration of wound wire coils, carrying out the duties of a two-pole electromagnet. The direction of the current is controlled by the commutator and this ensures the flow through the armature.</p>
+<p>Brushed DC motors have been in commercial use since 1886. Brushless motors, on the other hand, did not become commercially viable until 1962. Brushed DC motors develop a maximum torque when stationary, linearly decreasing as velocity increases. Some limitations of brushed motors can be overcome by brushless motors; they include higher efficiency and a lower susceptibility to mechanical wear. These benefits come at the cost of potentially less rugged, more complex, and more expensive control electronics <span id="id2">[]</span>.</p>
+<p>Brushed DC motors on the other hand, is more widely used in the industry today. One should understand the working principle of a brushed DC motor before to go with brushless one.</p>
+<div class="figure align-center" id="id7">
+<img alt="../../_images/dcMotor.jpg" src="../../_images/dcMotor.jpg" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.motioncontrolonline.org/blog-article.cfm/Brushed-DC-Motors-Vs-Brushless-DC-Motors/24">https://www.motioncontrolonline.org/</a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="dc-motor-drive">
+<h2>DC-motor drive<a class="headerlink" href="#dc-motor-drive" title="Permalink to this headline">¶</a></h2>
+<p>We can divide controlling a DC motor concept in 2 chapters: Speed control and direction control.</p>
+<div class="section" id="motor-speed-adjusting-by-pwm">
+<h3>Motor Speed Adjusting by PWM<a class="headerlink" href="#motor-speed-adjusting-by-pwm" title="Permalink to this headline">¶</a></h3>
+<p>The most common way to vary the voltage level (and the frequency)  in modern motor drives is by using pulse width modulation. A thorough understanding of this concept is essential for anyone designing such drives.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As this course is a basic course we will not have time to go into all the details of how the PWM operates.</p>
+</div>
+<p>The Atmega 328 supports two major types of PWM:</p>
+<ul class="simple">
+<li><p>Fast PWM</p></li>
+<li><p>Phase correct PWM</p></li>
+</ul>
+<div class="section" id="fast-pwm-mode">
+<h4>Fast PWM mode<a class="headerlink" href="#fast-pwm-mode" title="Permalink to this headline">¶</a></h4>
+<p>The frequency of the fast PWM mode is given by:</p>
+<div class="math notranslate nohighlight">
+\[f_{pwm} = \frac{\text{clock_speed}}{ \text{prescaler} \cdot (1 + \text{top_value})}\]</div>
+<p>Where clock_speed is the speed of the Arduino CPU clock (16 MHz by default). The prescaler is a number that is scaling the clock, and top_value is the maximum value of the counter.</p>
+</div>
+<div class="section" id="phase-correct-pwm">
+<h4>Phase correct PWM<a class="headerlink" href="#phase-correct-pwm" title="Permalink to this headline">¶</a></h4>
+<p>The phase correct PWM is a mode where the phase of the PWM signal remains constant. This is important in some applications, such as AC motor drives.</p>
+<div class="math notranslate nohighlight">
+\[f_{pwm} = \frac{\text{clock_speed}}{2 \cdot \text{prescaler} \cdot \text{top_value}}\]</div>
+</div>
+<div class="section" id="available-outputs">
+<h4>Available outputs<a class="headerlink" href="#available-outputs" title="Permalink to this headline">¶</a></h4>
+<p>The outputs that support PWM are labeled with a small sine wave symbol (actually a tilde  “~”). The following table lists some important information regarding the PWM outputs. The <cite>switching frequency</cite> is only the default value, and may be changed by direct register manipulation.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 24%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Pin number</p></td>
+<td><p>Timer</p></td>
+<td><p>Switching frequency</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>490 Hz</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>0</p></td>
+<td><p>980 Hz</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>0</p></td>
+<td><p>980 Hz</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>1</p></td>
+<td><p>490 Hz</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>1</p></td>
+<td><p>490 Hz</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>2</p></td>
+<td><p>490 Hz</p></td>
+</tr>
+</tbody>
+</table>
+<p>A brushed DC-motor has a torque proportional to the current passing through the armature of the motor <span id="id3">[]</span>.</p>
+<div class="math notranslate nohighlight">
+\[T_{em} = (2 B_f \ell_r ) i_a = k_T \cdot I_a\]</div>
+<p>Where <span class="math notranslate nohighlight">\(k_T\)</span> is the torque constant for the motor, and <span class="math notranslate nohighlight">\(I_a\)</span> is the armature current.</p>
+</div>
+<div class="section" id="control-loop">
+<h4>Control loop<a class="headerlink" href="#control-loop" title="Permalink to this headline">¶</a></h4>
+<p>If we simply apply a voltage to the motor without making any measurements to determine the optimal voltage magnitude for a given performance criteria, this is referred to as open loop control.</p>
+<p>By measuring the armature current, the speed, or the position of the rotor shaft, it is possible to implement closed loop control. Closed loop control requires additional sensors, thus in this lecture, we will only consider open loop control.</p>
+</div>
+<div class="section" id="four-quadrant-operation">
+<h4>Four quadrant operation<a class="headerlink" href="#four-quadrant-operation" title="Permalink to this headline">¶</a></h4>
+<p>The rotating shaft of an electric machine has two fundamental parameters, torque and speed. The speed may be forward or reverse, and the torque may be motoring or braking. Thus we have four possible modes of operation, i.e. four quadrant operation.</p>
+<div class="figure align-center" id="id8">
+<img alt="../../_images/four-quadrant-operatio-fig-compressor.jpg" src="../../_images/four-quadrant-operatio-fig-compressor.jpg" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitglobe.com/four-quadrant-operation-of-dc-motor.html">https://circuitglobe.com/four-quadrant-operation-of-dc-motor.html</a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>For a brushed DC-motor it is possible to operate in all four quadrants by controlling the voltage applied to the armature. The motor drive must have the ability to control both the magnitude, and polarity of the voltage, and the circuit must allow the current to flow in both directions.</p>
+<p>When the drive is operating in a mode with negative torque with respect to the rotating direction it is said to be in breaking (generator) mode. In this mode the energy is flowing from the motor back to the power source.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>How a brushed DC works: <a class="reference external" href="https://www.youtube.com/watch?v=LAtPHANEfQo">BDC principle</a></p></li>
+<li><p>How a brushless DC works: <a class="reference external" href="https://www.youtube.com/watch?v=bCEiOnuODac">BLDC principle</a></p></li>
+<li><p>Practical demonstration of the four quadrant operation: <a class="reference external" href="https://www.youtube.com/watch?v=51yZrXBlCQY">four quadrant</a></p></li>
+<li><p>Speed-Torque relation in efficiency: <a class="reference external" href="https://www.semanticscholar.org/paper/Improved-torque-and-efficiency-of-a-four-switch-fed-Ekong-Inamori/60a9c55e2cead93ec4f68dc99f93be5647d07c88">Motor efficiency map of a DC motor</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="motor-direction-setting-by-switching">
+<h3>Motor Direction Setting by Switching<a class="headerlink" href="#motor-direction-setting-by-switching" title="Permalink to this headline">¶</a></h3>
+<p>The most efficient way to control the voltage level to the motor is by using some form of on/off modulation, commonly we use pulse width modulation. The digital outputs of the arduino has a maximum current output of 40mA. This current is far below what is required for most motor applications, and thus we need amplification.</p>
+<p>The digital outputs may be used to drive transistors that are able to support the higher currents required for the motor. Because this is such a common use for transistors, it is possible to buy integrated circuits where several transistors are connected in a configuration for motor drive.</p>
+<div class="section" id="h-brigde">
+<h4>H-Brigde<a class="headerlink" href="#h-brigde" title="Permalink to this headline">¶</a></h4>
+<p>An H bridge is an electronic circuit that switches the polarity of a voltage applied to a load. These circuits are often used in robotics and other applications to allow DC motors to run forwards or backwards <span id="id4">[]</span>.</p>
+<img alt="../../_images/l293d_package.png" src="../../_images/l293d_package.png" />
+<p>The L293D is a quadruple high-current half-H driver. The D in the name signifies that this version incorporates diodes on the outputs. It has a maximum output current of 600 mA, and supports a voltage range from 4.5 to 36 V.</p>
+<img alt="../../_images/l293d_logic_diagram.png" src="../../_images/l293d_logic_diagram.png" />
+<p>Depening on the degree of control that your application requires there are several possible ways to connect the motor.</p>
+<img alt="../../_images/l293d_motor_connection_examples.png" src="../../_images/l293d_motor_connection_examples.png" />
+<p>More details about the driver is available in the <a class="reference external" href="https://www.st.com/resource/en/datasheet/l293d.pdf">datasheet</a></p>
+</div>
+</div>
+<div class="section" id="simple-motor-drive-example-using-single-transistor">
+<h3>Simple motor drive example using single transistor<a class="headerlink" href="#simple-motor-drive-example-using-single-transistor" title="Permalink to this headline">¶</a></h3>
+<p>In this example we will be using a <cite>IFR520N</cite> transistor to drive the small DC-motor that comes as part of the Arduino starter kit. The <a class="reference external" href="https://www.vishay.com/docs/91017/91017.pdf">IRF520N datasheet</a> provides the required details on the electrical limitations of the transistor, but for our purposes you should only know that it will operate within limits.</p>
+<p>The function <code class="code ccode c docutils literal notranslate"><span class="pre">analogWrite()</span></code> will be used to generate a PWM signal to the transistor, and the switching frequency will stay at it’s default value.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/dc_motor_drive_single_transistor_bb.png"><img alt="../../_images/dc_motor_drive_single_transistor_bb.png" src="../../_images/dc_motor_drive_single_transistor_bb.png" style="width: 784.5px; height: 660.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pwm_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">on_off_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">old_button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">motor_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pwm_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">on_off_button</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">on_off_button</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">button_state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">old_button_state</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">old_button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">button_state</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// TODO: This code requires debouncing of the push button.</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">button_state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">motor_enable</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor disabled.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">pwm_pin</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">motor_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor enabled.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">pwm_pin</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">motor_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="motor-drive-using-the-l293d">
+<h3>Motor drive using the L293D<a class="headerlink" href="#motor-drive-using-the-l293d" title="Permalink to this headline">¶</a></h3>
+<p>In order to fully control a motor using the L293D you need three digital signals. Two signals to <cite>IN1</cite>, and <cite>IN2</cite> for selection of the rotation direction, and one PWM signal to <cite>ENABLE1</cite> for speed control.</p>
+<p>In the following example we have one potentiometer to control the speed of the motor and one push button to toggle the direction.</p>
+<div class="figure align-center">
+<img alt="../../_images/DC_speed_control.png" src="../../_images/DC_speed_control.png" />
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*  Arduino DC Motor Control - PWM | H-Bridge | L298N  -  Example 01</span>
+
+<span class="cm">    by Dejan Nedelkovski, www.HowToMechatronics.com</span>
+<span class="cm">*/</span><span class="w"></span>
+
+<span class="cp">#define enA 9</span>
+<span class="cp">#define in1 6</span>
+<span class="cp">#define in2 7</span>
+<span class="cp">#define button 4</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">rotDirection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">pressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">enA</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">button</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Set initial rotation direction</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">potValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"> </span><span class="c1">// Read potentiometer value</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pwmOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">potValue</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1023</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">);</span><span class="w"> </span><span class="c1">// Map the potentiometer value from 0 to 255</span>
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">enA</span><span class="p">,</span><span class="w"> </span><span class="n">pwmOutput</span><span class="p">);</span><span class="w"> </span><span class="c1">// Send PWM signal to L298N Enable pin</span>
+
+<span class="w">  </span><span class="c1">// Read button - Debounce</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">button</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">pressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">pressed</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">button</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// If button is pressed - change rotation direction</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pressed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="n">rotDirection</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">rotDirection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// If button is pressed - change rotation direction</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pressed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">rotDirection</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">rotDirection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="motor-drive-example-using-the-l293d">
+<h3>Motor drive example using the L293D<a class="headerlink" href="#motor-drive-example-using-the-l293d" title="Permalink to this headline">¶</a></h3>
+<p>The follwing example is a implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stoping the motor. The voltage on analog input <cite>A0</cite> is used to control the duty cycle of the puse width modulation.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/dc_motor_drive_potmeter_control_bb.png"><img alt="../../_images/dc_motor_drive_potmeter_control_bb.png" src="../../_images/dc_motor_drive_potmeter_control_bb.png" style="width: 757.5px; height: 661.5px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">start_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">stopp_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">control_voltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">start_button_event</span><span class="p">();</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">stopp_button_event</span><span class="p">();</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">FORWARD</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">REVERSE</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">STOPPED</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">rot_direction_t</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_control</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">rot_direction_t</span><span class="w"> </span><span class="n">direction</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">enable</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">input_2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">serial_old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">adc_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">adc_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">control_voltage</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">duty_cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">serial_old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1000</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Duty cycle: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">serial_old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">motor_state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
+<span class="w">   </span>
+<span class="w">    </span><span class="n">motor_control</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">start_button_event</span><span class="p">()){</span><span class="w"></span>
+<span class="w">      </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">motor_state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">motor_control</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">stopp_button_event</span><span class="p">()){</span><span class="w"></span>
+<span class="w">      </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_control</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">rot_direction_t</span><span class="w"> </span><span class="n">direction</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_2</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_2</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input_2</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">enable</span><span class="p">,</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//digitalWrite(enable, HIGH);</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">start_button_event</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">start_button</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0xC000</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xE000</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Start event detected.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">stopp_button_event</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">stopp_button</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0xC000</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xE000</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Stop event detected.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-motor-drive-example">
+<h3>Advanced motor drive example<a class="headerlink" href="#advanced-motor-drive-example" title="Permalink to this headline">¶</a></h3>
+<p>In the following example a potentiometer is used to control the voltage level (i.e. speed) of the motor, one push button changes rotation direction, and the other turns the drive on and off. The main idea is pretty much the same as the first program. The code is a bit more sophisticated and safer to use. The control software is built around a hierarchical <a class="reference external" href="https://www.wikiwand.com/en/Finite-state_machine">State Machine</a>, that simplifyes the management of the different states in which the motor drive may be operating. Put attention of the usage of <code class="code docutils literal notranslate"><span class="pre">typedef</span></code>.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/dc_motor_drive_potmeter_control_bb.png"><img alt="../../_images/dc_motor_drive_potmeter_control_bb.png" src="../../_images/dc_motor_drive_potmeter_control_bb.png" style="width: 757.5px; height: 661.5px;" /></a>
+</div>
+<p>The following state diagram depicts the operation of the software:</p>
+<p class="plantuml">
+<img src="../../_images/plantuml-211d8b3e18ba1dff509a87cac8bff4e77471ffe4.png" alt="[*] --&gt; STOPPED
+
+STOPPED -&gt; RUNNING : enable_button
+RUNNING -&gt; STOPPED : enable_button
+STOPPED: motor_control(0, 0);
+
+RUNNING: duty_cycle = analogRead(control_voltage)/4;
+state RUNNING {
+  [*] --&gt; FORWARD
+  FORWARD -&gt; REVERSE : direction_button
+  REVERSE -&gt; FORWARD : direction_button
+
+  FORWARD: motor_control(duty_cycle, FORWARD);
+  REVERSE: motor_control(duty_cycle, REVERSE);
+}"/>
+</p>
+<p>The following source code listing is the complete software for the motor drive:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>Show/Hide Code</strong></p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">enable1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">enable_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">direction_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">control_voltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">//#define DEBUG</span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">FORWARD</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">REVERSE</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">direction_t</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">RUNNING</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">STOPPED</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">motor_state_t</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_control</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">direction_t</span><span class="w"> </span><span class="n">direction</span><span class="p">);</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">buttonPressed_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">digital_input</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">debounce_delay</span><span class="p">);</span><span class="w"></span>
+
+
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">(){</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">enable1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">input1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">input2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">enable_button</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">direction_button</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">motor_state_t</span><span class="w"> </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">direction_t</span><span class="w"> </span><span class="n">motor_direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="p">(;;){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">duty_cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">control_voltage</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cp">#ifdef DEBUG</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Duty cycle: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cp">#endif</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="cm">/*</span>
+<span class="cm">     * State machine for motor control.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">motor_state</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">RUNNING</span><span class="p">:</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">buttonPressed_debounce</span><span class="p">(</span><span class="n">enable_button</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)){</span><span class="w"></span>
+<span class="w">        </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor stopped.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">motor_direction</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">FORWARD</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">buttonPressed_debounce</span><span class="p">(</span><span class="n">direction_button</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)){</span><span class="w"></span>
+<span class="w">          </span><span class="n">motor_direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor direction reversed.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">motor_control</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">REVERSE</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">buttonPressed_debounce</span><span class="p">(</span><span class="n">direction_button</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)){</span><span class="w"></span>
+<span class="w">          </span><span class="n">motor_direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor direction forward.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">motor_control</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">STOPPED</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">buttonPressed_debounce</span><span class="p">(</span><span class="n">enable_button</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)){</span><span class="w"></span>
+<span class="w">        </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Motor enabled.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">motor_control</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">motor_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">STOPPED</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">motor_control</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">direction_t</span><span class="w"> </span><span class="n">direction</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">FORWARD</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input1</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input2</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input1</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">input2</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">enable1</span><span class="p">,</span><span class="w"> </span><span class="n">duty_cycle</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Check if button is pressed, i.e. if it is high, and it was low before.</span>
+<span class="cm"> * This version includes a debounce timer.</span>
+<span class="cm"> * </span>
+<span class="cm"> * The debounce time is stored as an array of 16 32-bit integers, thus it is</span>
+<span class="cm"> * not very memory efficient.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">buttonPressed_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">digital_input</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">debounce_delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">lastStates</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Store the states of digital input 0 - 15.</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">lastEdgeDetect</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"> </span><span class="c1">// Store the time of the last rising edge.</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">digital_input</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="w">  </span><span class="c1">// Check if the state of the digital input has changed.</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">((</span><span class="n">lastStates</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">digital_input</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">lastEdgeDetect</span><span class="p">[</span><span class="n">digital_input</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">((</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastEdgeDetect</span><span class="p">[</span><span class="n">digital_input</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">debounce_delay</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">lastStates</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">digital_input</span><span class="p">;</span><span class="w"> </span><span class="c1">// Store the current state of the digital input.</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="motor-drive-assignment">
+<h3>Motor drive assignment<a class="headerlink" href="#motor-drive-assignment" title="Permalink to this headline">¶</a></h3>
+<p>The following circuit is the one used in assignment 5.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/dc_motor_drive_potmeter_control_three_button_9v_battery_bb.png"><img alt="../../_images/dc_motor_drive_potmeter_control_three_button_9v_battery_bb.png" src="../../_images/dc_motor_drive_potmeter_control_three_button_9v_battery_bb.png" style="width: 757.5px; height: 661.5px;" /></a>
+</div>
+<p>The following state diagram depicts the intended operation of the motor drive in the assignment:</p>
+<p class="plantuml">
+<img src="../../_images/plantuml-7175e7244f98a053b04ad49bb2fbc27a3bfc0604.png" alt="STATE NORMAL {
+
+  [*] --&gt; STOPPED
+
+  STOPPED -&gt; ACCELERATING : start_stop_button
+  ACCELERATING -&gt; RUNNING : setpoint_reached
+  ACCELERATING -&gt; BREAKING : start_stop_button
+  RUNNING -&gt; BREAKING : start_stop_button
+  BREAKING -&gt; STOPPED : zero_reached
+  BREAKING -&gt; ACCELERATING : start_stop_button
+  STOPPED: motor_control(0, 0);
+
+}
+
+[*] --&gt; NORMAL
+
+NORMAL -&gt; EMERGENCY_STOP : emergency_stop_button
+EMERGENCY_STOP -&gt; NORMAL : start_stop_button
+
+EMERGENCY_STOP : motor_control(0, 0);"/>
+</p>
+</div>
+</div>
+<div class="section" id="servo-motor-drive">
+<h2>Servo Motor Drive<a class="headerlink" href="#servo-motor-drive" title="Permalink to this headline">¶</a></h2>
+<p>There is no principal difference between a servo motor and any other kind of motor. The difference lies in how one intends to use it. A servo motor is intended for precise control of angular or linear position, and thus it typically employs a position sensor on the shaft. Traditionally brushed DC-motors have been the preferred choice for servo motors, due to the ease of control. Today however there are many different classes of motors that are used for servo application.</p>
+<p>The Arduino starter kit contains a special servo motor <cite>SM-S2309S</cite> which has some features that are quite usefull for many servo applications. It has a built in gearbox that reduces the speed and increases the torque on the shaft, and a built in position sensor, wich allows us to simply request a potion, and the motor will move to that position.</p>
+<p>The following <a class="reference external" href="https://www.youtube.com/watch?v=LXURLvga8bQ">video</a> gives a good explanation to the internal operation of this kind of servo motor.</p>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/LXURLvga8bQ" frameborder="0" allowfullscreen="1">&nbsp;</iframe><div class="section" id="switching-frequency">
+<h3>Switching frequency<a class="headerlink" href="#switching-frequency" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>analogWrite()</cite> function in the standard Arduino library only support one parameter, specifying the duty cycle of the generated PWM output. Another important parameter of PWM however is the frequency at wich the pulses are turned on and off. The Arduino library does not support changing this frequency, but it is possible to change it by accessing the registers of the timers responsible for generating the PWM.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Changing the registers may impact the operation of other features of the Arduino library, such as the <code class="code ccode c docutils literal notranslate"><span class="pre">millis()</span></code> function.</p>
+</div>
+<p>The various hardware timers in the microcontroller are responsible for various groups of PWM outputs. Thus by manipulating a given hardware timer, you will be manipulating the frequency of some of the PWM outputs.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">pinMode</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="n">pinMode</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="n">TCCR2A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_BV</span><span class="p">(</span><span class="n">COM2A1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">_BV</span><span class="p">(</span><span class="n">COM2B1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">_BV</span><span class="p">(</span><span class="n">WGM21</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">_BV</span><span class="p">(</span><span class="n">WGM20</span><span class="p">);</span><span class="w"></span>
+<span class="n">TCCR2B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_BV</span><span class="p">(</span><span class="n">CS22</span><span class="p">);</span><span class="w"></span>
+<span class="n">OCR2A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">180</span><span class="p">;</span><span class="w"></span>
+<span class="n">OCR2B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="servo-motor-library">
+<h3>Servo motor library<a class="headerlink" href="#servo-motor-library" title="Permalink to this headline">¶</a></h3>
+<p>Servo motors typically requires 20ms period of PWM signals (50Hz) with pulse width varying between 1ms-2ms (0-180 degrees) as a driving signal. Since the generic <code class="code docutils literal notranslate"><span class="pre">analogWrite()</span></code> works in 490Hz/ 980Hz, you cannot drive a servo motor unless you fiddle around the timer settings. Luckily, Arduino comes with a servo library that simplifies the control of the servo motor.</p>
+<p>The following example shows how you may send commands on the serial UART to control the servo position. Given 5 different values via serial port, control the servo angle.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="cp"></span>
+
+<span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">incomingByte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// for incoming serial data</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">;</span><span class="w">    </span><span class="c1">// variable to read the value from the serial port</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">mappedVal</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">myservo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">// attaches the servo on pin 9 to the servo object</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"> </span><span class="c1">// opens serial port, sets data rate to 9600 bps  </span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">48</span><span class="p">;</span><span class="w">            </span><span class="c1">// reads the value from the serial port. (-48 is for ascii conversion)</span>
+<span class="w">    </span><span class="n">mappedVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span><span class="w">     </span><span class="c1">// scale it to use it with the servo (value between 0 and 180)</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;I received: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">mappedVal</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">myservo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">mappedVal</span><span class="p">);</span><span class="w">                  </span><span class="c1">// sets the servo position according to the scaled value</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w">          </span><span class="c1">// waits for the servo to get there</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+
+<span class="cm">/*</span>
+<span class="cm">////////////////////////////////////////////////////</span>
+<span class="cm">//      COMPARISON WITH analogWrite()             //</span>
+<span class="cm">////////////////////////////////////////////////////</span>
+
+<span class="cm">int incomingByte = 0; // for incoming serial data</span>
+
+<span class="cm">int val;    // variable to read the value from the serial port</span>
+<span class="cm">int mappedVal;</span>
+
+<span class="cm">const int myservo_pin = 9;</span>
+
+<span class="cm">void setup() {</span>
+<span class="cm">  Serial.begin(9600); // opens serial port, sets data rate to 9600 bps</span>
+<span class="cm">  pinMode(myservo_pin, OUTPUT);</span>
+<span class="cm">}</span>
+
+<span class="cm">void loop() {</span>
+<span class="cm">    </span>
+<span class="cm">  if (Serial.available() &gt; 0) { </span>
+<span class="cm">    val = Serial.read() - 48;            // reads the value from the serial port. (-48 is for ascii conversion)</span>
+<span class="cm">    mappedVal = map(val, 0, 5, 0, 180);     // scale it to use it with the servo (value between 0 and 180)</span>
+<span class="cm">    Serial.print(&quot;I received: &quot;);</span>
+<span class="cm">    Serial.println(mappedVal);</span>
+<span class="cm">    //myservo.write(mappedVal);                  // sets the servo position according to the scaled value</span>
+<span class="cm">    analogWrite(myservo_pin, mappedVal);</span>
+<span class="cm">    delay(15);          // waits for the servo to get there</span>
+<span class="cm">  }</span>
+<span class="cm">}</span>
+<span class="cm">*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We talked about that we drive servo motors using PWM signal but also we didn’t use the regular <code class="code docutils literal notranslate"><span class="pre">analogWrite()</span></code> function. It wouldn’t work. Let’s see the difference of the signal types between <code class="code docutils literal notranslate"><span class="pre">analogWrite()</span></code> and <code class="code docutils literal notranslate"><span class="pre">myservo.write()</span></code> using a <a class="reference external" href="https://www.wikiwand.com/en/Logic_analyzer">logic analyzer</a>.</p>
+<div class="figure align-center" id="id9">
+<img alt="../../_images/logicAnalogWrite.png" src="../../_images/logicAnalogWrite.png" />
+<p class="caption"><span class="caption-text">Logic Analyzer result for analogWrite() function</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-center" id="id10">
+<img alt="../../_images/logicServoWrite.png" src="../../_images/logicServoWrite.png" />
+<p class="caption"><span class="caption-text">Logic Analyzer result for myservo.write() function</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="servo-motor-drive-example">
+<h3>Servo motor drive example<a class="headerlink" href="#servo-motor-drive-example" title="Permalink to this headline">¶</a></h3>
+<p>The following example uses a push button to toggle through various positions on the servo motor.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">toggle_button_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">Servo</span><span class="w"> </span><span class="n">robot_arm</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">toggle_button_event</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">toggle_button_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">robot_arm</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">motor_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">toggle_button_event</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">motor_pos</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;+10 grader.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">motor_pos</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">motor_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">180</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">motor_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">robot_arm</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">motor_pos</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//delay(500);</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="nf">toggle_button_event</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">old_millis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">old_millis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">toggle_button_pin</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">shift_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">input_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0xC000</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">shift_register</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xE000</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Start event detected.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="id5"></span></div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

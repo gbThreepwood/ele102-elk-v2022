@@ -1,0 +1,405 @@
+.. _L8_motor_drive:
+
+.. note:: *03/03/2020 - 75mins*
+
+    **Aim:**
+
+    - DC drive, H-bridge
+    - Servo drive
+
+
+    **Materials:**
+
+    - Arduino Board
+    - Button
+    - Cables
+    - Breadboard
+    - Potentiometer
+    - Resistors
+    - Servo
+    - DC
+
+    **Code:**
+
+    - Ex: Faster/Slower motor drive controlled with Potentiometer
+    
+
+**********************
+Motor Drive
+**********************
+
+In general a motor drive is a power electronic device used to control the power delivered to a motor. The purpose could be either torque, speed or position control of the rotating motor shaft.
+
+There are many different types of motors in existence, and each type warrants its own particular motor drive design.
+
+.. DC motor is the most common type of engine that can be used for many applications. (Sorry, Gizem, but I am not sure if this is correct.) 
+
+**DC Motors:** This is a very common motor in cheap low power applications. We can see it in remote control cars, robots, etc. This motor has a simple structure. It will start rolling by applying proper voltage to its terminals and change it's rotational direction by switching voltage polarity. The DC motor torque (and thus speed) is directly controlled by the applied current. Current depends on voltage, and thus a voltage level less than the maximum tolerable voltage, will cause a speed that is less than maximum speed.
+
+**Stepper Motors:** In some projects such as 3D printers, scanners and CNC machines we need to know motor spin steps accurately. In these cases, we may use stepper motors. Stepper motor are electric motors that divides a full rotation into a number of equal steps. The amount of rotation per step is determined by the motor structure. These kind of motors may be desiged to have a very high accuracy.
+
+**Servo Motors:** There are many different types of motors that could be considered as seveo motors. The  position control service. By using a servo you will be able to control the amount of shafts rotation and move it to a specific position. They usually have a small dimension and are the best choice for robotic arms.
+
+**AC motors** Three phase AC motors are the larges consumer of electical energy in the world. This type of motor is typically used in applications where accuracy is less important. Examples include the driving of pumps, fans, drums, batching plants etc.
+
+..  In order to control them since they possibly need more current than a microcontroller can drive so we need drivers. 
+
+It is typically not possible to connect these motors to microcontrollers or controller board such as Arduino directly. Unless the motor is really small it will require more current than the controller is able to supply. We need some form of circuit to amplify the control signal from the controller, this kind of circuit is called amotor driver. The driver is an interface circuit between the motor and controlling unit to facilitate driving. Drives come in many different types :cite:`arduinoProjectHub`.
+
+In this lecture we will look at DC-motor drives. The understanding of DC-motor drives is a good foundation for understanding more advanced AC-motor drives.
+
+The theory beind the DC-Motor
+===============================
+DC motors are divided into 2 main categories: *brushed* and *brushless* DC motors. We can define a brushed DC motor as a motor with internal mechanical commutation. It is designed to be powered by a direct current source. On the other hand, in the brushless DC motors, there is no physical contact between coils and the field magnet (stationary and rotaty parts). The brushless DC motor is really a AC motor with a electronic DC to AC converter built in.
+
+A brushless DC motor uses a permanent magnet as its external rotor and there are three phases of coils surrounding it. A specialized sensor is also placed in the setup to track the position of the rotor and as it is being tracked, the reference signals are being sent to a controller. It is driven by an ESC (electronic speed control). ESC regulates the speed and also provides dynamic braking. They are mostly used in fast-speed required applications like in drones since they have less corrision compared to brushed DC motors. Nevertheless, day by day their fields of usages are increasind. 
+
+.. figure:: ../../../external/fig/Brushed-and-Brushless-DC-motors.jpg
+          :align: center
+
+          Source: `https://www.meee-services.com/why-do-dc-motors-have-brushes/ <https://www.meee-services.com/why-do-dc-motors-have-brushes/>`_
+
+
+A brushed motor, on the other hand, has a configuration of wound wire coils, carrying out the duties of a two-pole electromagnet. The direction of the current is controlled by the commutator and this ensures the flow through the armature.
+
+Brushed DC motors have been in commercial use since 1886. Brushless motors, on the other hand, did not become commercially viable until 1962. Brushed DC motors develop a maximum torque when stationary, linearly decreasing as velocity increases. Some limitations of brushed motors can be overcome by brushless motors; they include higher efficiency and a lower susceptibility to mechanical wear. These benefits come at the cost of potentially less rugged, more complex, and more expensive control electronics :cite:`motionControlGuide`.
+
+Brushed DC motors on the other hand, is more widely used in the industry today. One should understand the working principle of a brushed DC motor before to go with brushless one.
+
+.. figure:: ../../../external/fig/dcMotor.jpg
+          :align: center
+
+          Source: `https://www.motioncontrolonline.org/ <https://www.motioncontrolonline.org/blog-article.cfm/Brushed-DC-Motors-Vs-Brushless-DC-Motors/24>`_
+
+
+DC-motor drive
+==============
+We can divide controlling a DC motor concept in 2 chapters: Speed control and direction control.
+
+Motor Speed Adjusting by PWM
+--------------------------------
+
+The most common way to vary the voltage level (and the frequency)  in modern motor drives is by using pulse width modulation. A thorough understanding of this concept is essential for anyone designing such drives.
+
+.. note::
+    As this course is a basic course we will not have time to go into all the details of how the PWM operates.
+
+The Atmega 328 supports two major types of PWM:
+
+* Fast PWM
+* Phase correct PWM
+
+Fast PWM mode
+~~~~~~~~~~~~~~~
+
+The frequency of the fast PWM mode is given by:
+
+.. math::
+        f_{pwm} = \frac{\text{clock_speed}}{ \text{prescaler} \cdot (1 + \text{top_value})} 
+
+Where clock_speed is the speed of the Arduino CPU clock (16 MHz by default). The prescaler is a number that is scaling the clock, and top_value is the maximum value of the counter.
+
+Phase correct PWM
+~~~~~~~~~~~~~~~~~~~~
+
+The phase correct PWM is a mode where the phase of the PWM signal remains constant. This is important in some applications, such as AC motor drives.
+
+.. math::
+        f_{pwm} = \frac{\text{clock_speed}}{2 \cdot \text{prescaler} \cdot \text{top_value}} 
+
+Available outputs
+~~~~~~~~~~~~~~~~~~~
+
+The outputs that support PWM are labeled with a small sine wave symbol (actually a tilde  "~"). The following table lists some important information regarding the PWM outputs. The `switching frequency` is only the default value, and may be changed by direct register manipulation.
+
+========== ========= ===========
+Pin number Timer     Switching frequency
+3           2           490 Hz
+5           0           980 Hz
+6           0           980 Hz
+9           1           490 Hz
+10          1           490 Hz
+11          2           490 Hz
+========== ========= ===========
+
+
+A brushed DC-motor has a torque proportional to the current passing through the armature of the motor :cite:`mohanElectricMachinesDrives2012`.
+
+.. math::
+        T_{em} = (2 B_f \ell_r ) i_a = k_T \cdot I_a
+
+Where :math:`k_T` is the torque constant for the motor, and :math:`I_a` is the armature current.
+
+
+Control loop
+~~~~~~~~~~~~~~~
+
+If we simply apply a voltage to the motor without making any measurements to determine the optimal voltage magnitude for a given performance criteria, this is referred to as open loop control.
+
+By measuring the armature current, the speed, or the position of the rotor shaft, it is possible to implement closed loop control. Closed loop control requires additional sensors, thus in this lecture, we will only consider open loop control. 
+
+Four quadrant operation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The rotating shaft of an electric machine has two fundamental parameters, torque and speed. The speed may be forward or reverse, and the torque may be motoring or braking. Thus we have four possible modes of operation, i.e. four quadrant operation.
+
+
+.. figure:: ../../../external/fig/four-quadrant-operatio-fig-compressor.jpg
+          :align: center
+
+          Source: `https://circuitglobe.com/four-quadrant-operation-of-dc-motor.html <https://circuitglobe.com/four-quadrant-operation-of-dc-motor.html>`_
+
+For a brushed DC-motor it is possible to operate in all four quadrants by controlling the voltage applied to the armature. The motor drive must have the ability to control both the magnitude, and polarity of the voltage, and the circuit must allow the current to flow in both directions.
+
+When the drive is operating in a mode with negative torque with respect to the rotating direction it is said to be in breaking (generator) mode. In this mode the energy is flowing from the motor back to the power source.
+
+.. seealso::
+   * How a brushed DC works: `BDC principle <https://www.youtube.com/watch?v=LAtPHANEfQo>`_
+   * How a brushless DC works: `BLDC principle <https://www.youtube.com/watch?v=bCEiOnuODac>`_
+   * Practical demonstration of the four quadrant operation: `four quadrant <https://www.youtube.com/watch?v=51yZrXBlCQY>`_
+   * Speed-Torque relation in efficiency: `Motor efficiency map of a DC motor <https://www.semanticscholar.org/paper/Improved-torque-and-efficiency-of-a-four-switch-fed-Ekong-Inamori/60a9c55e2cead93ec4f68dc99f93be5647d07c88>`_
+
+
+Motor Direction Setting by Switching
+-------------------------------------
+
+The most efficient way to control the voltage level to the motor is by using some form of on/off modulation, commonly we use pulse width modulation. The digital outputs of the arduino has a maximum current output of 40mA. This current is far below what is required for most motor applications, and thus we need amplification.
+
+The digital outputs may be used to drive transistors that are able to support the higher currents required for the motor. Because this is such a common use for transistors, it is possible to buy integrated circuits where several transistors are connected in a configuration for motor drive. 
+
+H-Brigde
+~~~~~~~~~
+An H bridge is an electronic circuit that switches the polarity of a voltage applied to a load. These circuits are often used in robotics and other applications to allow DC motors to run forwards or backwards :cite:`hbridge`.
+
+.. L238D is a double H-bridge IC. `Here is the datasheet <https://cdn-shop.adafruit.com/datasheets/l293d.pdf>`_.
+.. Let's set the following circuit and upload the code deprived from `https://howtomechatronics.com/ <https://howtomechatronics.com/tutorials/arduino/arduino-dc-motor-control-tutorial-l298n-pwm-h-bridge/>`_ and talk about the concept behind.
+
+
+.. image:: ../../fig/l293d_package.png
+
+The L293D is a quadruple high-current half-H driver. The D in the name signifies that this version incorporates diodes on the outputs. It has a maximum output current of 600 mA, and supports a voltage range from 4.5 to 36 V.
+
+
+.. image:: ../../fig/l293d_logic_diagram.png
+
+
+Depening on the degree of control that your application requires there are several possible ways to connect the motor.
+
+
+.. image:: ../../fig/l293d_motor_connection_examples.png
+
+More details about the driver is available in the `datasheet <https://www.st.com/resource/en/datasheet/l293d.pdf>`_
+
+
+Simple motor drive example using single transistor
+----------------------------------------------------
+
+..     This is an additional part just to see how to use a regular MOSFET to drive a DC motor.
+   
+
+In this example we will be using a `IFR520N` transistor to drive the small DC-motor that comes as part of the Arduino starter kit. The `IRF520N datasheet <https://www.vishay.com/docs/91017/91017.pdf>`_ provides the required details on the electrical limitations of the transistor, but for our purposes you should only know that it will operate within limits.
+
+.. role:: ccode(code)
+    :language: c
+
+The function :ccode:`analogWrite()` will be used to generate a PWM signal to the transistor, and the switching frequency will stay at it's default value.
+
+
+.. figure:: ../../fig/dc_motor_drive_single_transistor_bb.png
+    :scale: 50
+    :align: center
+
+
+.. literalinclude:: ../../../projects/dc_motor_drive_single_transistor/src/main.cpp
+    :language: c
+
+
+Motor drive using the L293D
+---------------------------
+
+In order to fully control a motor using the L293D you need three digital signals. Two signals to `IN1`, and `IN2` for selection of the rotation direction, and one PWM signal to `ENABLE1` for speed control.
+
+In the following example we have one potentiometer to control the speed of the motor and one push button to toggle the direction.
+
+.. figure:: ../../../external/fig/DC_speed_control.png
+          :align: center
+
+.. literalinclude:: ../../../projects/DC_speed_control/DC_speed_control.ino
+   :language: c
+
+
+Motor drive example using the L293D
+-----------------------------------
+
+The follwing example is a implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stoping the motor. The voltage on analog input `A0` is used to control the duty cycle of the puse width modulation.
+
+.. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
+    :scale: 50
+    :align: center
+
+
+.. literalinclude:: ../../../projects/motor_drive/dc_motor_drive/src/main.cpp
+  :language: c
+
+
+
+Advanced motor drive example
+----------------------------
+
+In the following example a potentiometer is used to control the voltage level (i.e. speed) of the motor, one push button changes rotation direction, and the other turns the drive on and off. The main idea is pretty much the same as the first program. The code is a bit more sophisticated and safer to use. The control software is built around a hierarchical `State Machine <https://www.wikiwand.com/en/Finite-state_machine>`_, that simplifyes the management of the different states in which the motor drive may be operating. Put attention of the usage of :code:`typedef`.
+
+.. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
+    :scale: 50
+    :align: center
+
+
+The following state diagram depicts the operation of the software:
+
+.. Apparently Gizem decided to go for images instead of UML plugin last year. Let's change it back now :P
+
+.. .. figure:: ../../fig/uml/motorctrlStateDiagram1.png
+    :align: center
+
+
+.. uml::
+
+        [*] --> STOPPED
+        
+        STOPPED -> RUNNING : enable_button
+        RUNNING -> STOPPED : enable_button
+        STOPPED: motor_control(0, 0);
+        
+        RUNNING: duty_cycle = analogRead(control_voltage)/4;
+        state RUNNING {
+          [*] --> FORWARD
+          FORWARD -> REVERSE : direction_button
+          REVERSE -> FORWARD : direction_button
+
+          FORWARD: motor_control(duty_cycle, FORWARD);
+          REVERSE: motor_control(duty_cycle, REVERSE);
+        }
+        
+
+The following source code listing is the complete software for the motor drive:
+
+.. container:: toggle
+
+    .. container:: header
+
+        **Show/Hide Code**
+
+    .. literalinclude:: ../../../projects/dc_motor_drive/src/main.cpp
+       :language: c
+
+
+Motor drive assignment
+----------------------
+
+The following circuit is the one used in assignment 5.
+
+.. figure:: ../../fig/dc_motor_drive_potmeter_control_three_button_9v_battery_bb.png
+  :scale: 50
+
+
+The following state diagram depicts the intended operation of the motor drive in the assignment:
+
+.. .. figure:: ../../fig/uml/motorctrlStateDiagram2.png
+     :align: center
+
+
+.. uml::
+
+        STATE NORMAL {
+
+          [*] --> STOPPED
+          
+          STOPPED -> ACCELERATING : start_stop_button
+          ACCELERATING -> RUNNING : setpoint_reached
+          ACCELERATING -> BREAKING : start_stop_button
+          RUNNING -> BREAKING : start_stop_button
+          BREAKING -> STOPPED : zero_reached
+          BREAKING -> ACCELERATING : start_stop_button
+          STOPPED: motor_control(0, 0);
+          
+        }
+
+        [*] --> NORMAL
+
+        NORMAL -> EMERGENCY_STOP : emergency_stop_button
+        EMERGENCY_STOP -> NORMAL : start_stop_button
+        
+        EMERGENCY_STOP : motor_control(0, 0);
+           
+Servo Motor Drive
+=================
+
+There is no principal difference between a servo motor and any other kind of motor. The difference lies in how one intends to use it. A servo motor is intended for precise control of angular or linear position, and thus it typically employs a position sensor on the shaft. Traditionally brushed DC-motors have been the preferred choice for servo motors, due to the ease of control. Today however there are many different classes of motors that are used for servo application.
+
+The Arduino starter kit contains a special servo motor `SM-S2309S` which has some features that are quite usefull for many servo applications. It has a built in gearbox that reduces the speed and increases the torque on the shaft, and a built in position sensor, wich allows us to simply request a potion, and the motor will move to that position.
+
+The following `video <https://www.youtube.com/watch?v=LXURLvga8bQ>`_ gives a good explanation to the internal operation of this kind of servo motor.
+
+.. youtube:: https://www.youtube.com/watch?v=LXURLvga8bQ 
+
+
+Switching frequency
+-------------------
+
+The `analogWrite()` function in the standard Arduino library only support one parameter, specifying the duty cycle of the generated PWM output. Another important parameter of PWM however is the frequency at wich the pulses are turned on and off. The Arduino library does not support changing this frequency, but it is possible to change it by accessing the registers of the timers responsible for generating the PWM.
+
+.. warning::
+        Changing the registers may impact the operation of other features of the Arduino library, such as the :ccode:`millis()` function.
+
+The various hardware timers in the microcontroller are responsible for various groups of PWM outputs. Thus by manipulating a given hardware timer, you will be manipulating the frequency of some of the PWM outputs.
+
+
+
+.. code-block:: c
+
+        pinMode(3, OUTPUT);
+        pinMode(11, OUTPUT);
+        TCCR2A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
+        TCCR2B = _BV(CS22);
+        OCR2A = 180;
+        OCR2B = 50;
+
+
+Servo motor library
+-------------------
+
+Servo motors typically requires 20ms period of PWM signals (50Hz) with pulse width varying between 1ms-2ms (0-180 degrees) as a driving signal. Since the generic :code:`analogWrite()` works in 490Hz/ 980Hz, you cannot drive a servo motor unless you fiddle around the timer settings. Luckily, Arduino comes with a servo library that simplifies the control of the servo motor.
+
+The following example shows how you may send commands on the serial UART to control the servo position. Given 5 different values via serial port, control the servo angle.
+
+.. literalinclude:: ../../../projects/ServoSerial/ServoSerial.ino
+    :language: c
+
+
+
+We talked about that we drive servo motors using PWM signal but also we didn't use the regular :code:`analogWrite()` function. It wouldn't work. Let's see the difference of the signal types between :code:`analogWrite()` and :code:`myservo.write()` using a `logic analyzer <https://www.wikiwand.com/en/Logic_analyzer>`_.
+
+.. figure:: ../../../external/fig/logicAnalogWrite.png
+          :align: center
+          
+          Logic Analyzer result for analogWrite() function
+
+.. figure:: ../../../external/fig/logicServoWrite.png
+          :align: center
+
+          Logic Analyzer result for myservo.write() function
+
+
+Servo motor drive example
+-------------------------
+
+The following example uses a push button to toggle through various positions on the servo motor.
+
+.. literalinclude:: ../../../projects/motor_drive/servo_motor_control/src/main.cpp
+  :language: c
+
+
+Bibliography
+============
+
+.. bibliography:: ../../bib/motor_drives.bib 
+   :style: unsrt

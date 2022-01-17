@@ -1,0 +1,20 @@
+.. _L10_memory:
+
+.. note:: 
+
+    **Aim:**
+    Repetition with Jupyter notebook
+
+
+**************************
+Memory
+**************************
+
+RAM/ROM
+HDD/SSD/CD
+data saving technologies
+No, floppy disk is not a 3D printed save button
+
+  .. image:: ../../fig/3d_save_button.jpg
+          :alt: 3D save button
+          :align: center

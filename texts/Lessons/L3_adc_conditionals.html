@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Analog to Digital Conversion (ADC) &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Analog to Digital Conversion (ADC)</a><ul>
+<li><a class="reference internal" href="#analog-to-digital-converter">Analog to digital converter</a><ul>
+<li><a class="reference internal" href="#temperature-measurement-using-tmp36">Temperature measurement using TMP36</a></li>
+<li><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#digital-to-analog-converter">Digital to analog converter</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_digital_io.html">Lesson 2: Digital I/O</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Lesson X.1 Interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Lesson X.2 Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Lesson X.3 Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Lesson X.4 Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson X.5 Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Lesson X.5 Course summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="analog-to-digital-conversion-adc">
+<h1>Analog to Digital Conversion (ADC)<a class="headerlink" href="#analog-to-digital-conversion-adc" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Make an introduction of what is analog i/o, why do we need ADC/DAC?</p>
+</div>
+<p>Analog to digital converters (ADC) and digital to analog converters (DAC) are
+the bridges between digital and analog worlds. The analog input or output range is
+determined by a reference voltage, <span class="math notranslate nohighlight">\(V_{ref}\)</span>. Typically for an N-bit converter with
+unsigned digital I/O and unipolar analog range <span class="math notranslate nohighlight">\((0V .. +V_{ref})\)</span>, one step at the analog
+end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[\Delta V_{LSB} = \frac{V_{ref}}{2^N}\]</div>
+<p>Similarly for a bipolar analog range <span class="math notranslate nohighlight">\((-V_{ref} .. +V_{ref})\)</span>, one step at the analog end is:</p>
+<div class="math notranslate nohighlight">
+\[\Delta V_{LSB} = \frac{V_{ref}}{2^N}\]</div>
+<p>ADC: potentiometer, RGB LED, temperature sensor
+DAC: Quantization, PWM</p>
+<div class="section" id="analog-to-digital-converter">
+<h2>Analog to digital converter<a class="headerlink" href="#analog-to-digital-converter" title="Permalink to this headline">¶</a></h2>
+<p>A A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. There are many important parameters one should understand when applying an A/D converter. This is only a summary of a few basic ones:</p>
+<ul class="simple">
+<li><p>Resolution - The digital representation of the analog signal must use a finite number of bits, and this imposes limitations on the smallest possible change in the analog value that is detectable by the converter.</p></li>
+<li><p>Sampling frequency - The conversion from analog to digital takes up a finite time, and this imposes limitation on how fast changes in the analog signals that are detectable.</p></li>
+<li><p><a class="reference external" href="https://jeelabs.org/article/1620b">Aliasing</a> - If the measured analog signal contains components with a frequency that is higher than half of the sampling frequency, there is a risk of aliasing. The risk is that the resulting digital representation contains frequency components that does not exist in the real analog signal.</p></li>
+<li><p>Dymaic range -  The range of signal amplitudes that the ADC can resolve.</p></li>
+</ul>
+<p>For simple applications with values that vary slowly (e.g. temperature measurements), it might be sufficient to only take these parameters into account. For more demanding applications (e.g. real time current measurements in a motor drive), one should obtain a deeper knowledge of all the parameters that will impact the performance.</p>
+<p>But before that, let’s talk about bit manipulation and binary operations. Detailed readinng <a class="reference external" href="https://binaryupdates.com/bitwise-operations-in-embedded-programming/#Bitwise_Shift_Operators_ltlt_gtgt">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Blackboard explanation.</p>
+</div>
+<p>In ADC, there are many different parameters that you need to set. Using <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> built-in function, we cannot reach many of the functionalities of Atmega328p. For example setting the ADC speed, resolution, convertion mode etc. can be only set by bitwise manipulation.</p>
+<p>Here is an example of the implementation of ADC without using built-in <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let’s understand it with the help of Atmega328p datasheet.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define BAUDRATE 9600</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_ports</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">read_ADC</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">init_adc</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">BAUDRATE</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">adc_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;ADC value:&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adc_val</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">REFS0</span><span class="p">);</span><span class="w"> </span><span class="c1">//default Ch-0; Vref = 5V</span>
+<span class="w">  </span><span class="c1">//ADMUX = ADMUX | 0x20;   // set for Left Justified</span>
+<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADEN</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADATE</span><span class="p">);</span><span class="w"> </span><span class="c1">//auto-trigger OFF -- EXERCISE:how to write in hexadecimal?</span>
+<span class="w">  </span><span class="n">ADCSRB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint16_t</span><span class="w"> </span><span class="nf">adc_read</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pin</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w">     </span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// select the corresponding channel 0~7</span>
+<span class="w">  </span><span class="c1">// ANDing with &#39;7′ will always keep the value of pin between 0 and 7</span>
+<span class="w">  </span><span class="n">pin</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mb">0b00000111</span><span class="p">;</span><span class="w">  </span><span class="c1">// AND operation with 7 // pin &amp;= 0x07 // pin = pin &amp; 7</span>
+<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADMUX</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xF8</span><span class="p">)</span><span class="o">|</span><span class="n">pin</span><span class="p">;</span><span class="w"> </span><span class="c1">// setting MUX[0:3]</span>
+
+<span class="w">  </span><span class="c1">// start single convertion</span>
+<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// wait for conversion to complete</span>
+<span class="w">  </span><span class="c1">// ADSC becomes &#39;0′ again</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x10</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// until the flag is reset again // while(ADCSRA &amp; (1 &lt;&lt; ADSC))</span>
+<span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADCL</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">ADCH</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">));</span><span class="w"> </span><span class="c1">//10-bit data</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. <a class="reference external" href="https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html">Here,</a> is a very nice summary of general ADC problems.</p>
+</div>
+<p>The ATmega controllers used for the Arduino contain an onboard 6 channel (8 channels on the Mini and Nano, 16 on the Mega) analog-to-digital (A/D) converter. The converter has 10 bit resolution, returning integers from 0 to 1023. The default input voltage range is 0 - 5V, thus 5V corresponds to 1023. By default the maximum sampling frequency of the Arduino UNO is 9615 Hz. It is however possible to increase this by modifying the ADC clock frequency.</p>
+<p>While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13).</p>
+<p>Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.</p>
+<p>The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.</p>
+</div>
+<div class="section" id="temperature-measurement-using-tmp36">
+<h3>Temperature measurement using TMP36<a class="headerlink" href="#temperature-measurement-using-tmp36" title="Permalink to this headline">¶</a></h3>
+<p>Now, we will be reading the temperature from the TMP36 sensor that is included in the Arduino kit. The TMP36 has a voltage output linearly proportional to the temperature, and thus makes it easy to measure temperatures without any curve fitting that must be used with nonlinear sensing elements.</p>
+<p>The details of how the TMP36 operates are available in the <a class="reference external" href="https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf/">datasheet</a></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/temperature_sensor_bb.png"><img alt="../../_images/temperature_sensor_bb.png" src="../../_images/temperature_sensor_bb.png" style="width: 484.5px; height: 660.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">          </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVal</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor verdi: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVal</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor spenning: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVolt</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor temperatur: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="voltage-reference-for-the-adc">
+<h3>Voltage reference for the ADC<a class="headerlink" href="#voltage-reference-for-the-adc" title="Permalink to this headline">¶</a></h3>
+<p>The analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. This reference may be set to <cite>DEFAULT</cite>, <cite>INTERNAL</cite>, or <cite>EXTERNAL</cite>, for 5V, 1.1V or externaly applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">analogReference</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The accuracy of the reference voltage directly affects the accuracy of the converted voltage, thus if a external reference is used, it’s accuracy should be considered.</p>
+</div>
+</div>
+<div class="section" id="digital-to-analog-converter">
+<h2>Digital to analog converter<a class="headerlink" href="#digital-to-analog-converter" title="Permalink to this headline">¶</a></h2>
+<p>Alternatively if you need real analog output you may use an external chip, that the Arduino may control by a digital bus such as I2C.</p>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>More ADC examples with LED and if…else</p>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

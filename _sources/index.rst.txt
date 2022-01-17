@@ -14,18 +14,35 @@ On this page we will publish new lecture notes every week, as the course is prog
  
    Introduction <texts/Lessons/L0_Introduction_elk.rst>
    Software and hardware preparations <texts/Lessons/software_hardware_preparations.rst>
-   Lesson 1a: What is a Microcontroller <texts/Lessons/L1_UC_intro.rst>
-   Lesson 1b: Introduction to Arduino <texts/Lessons/L2_Arduino_intro.rst>
-   Lesson 2: Digital I/O, and serial output <texts/Lessons/L3_digital_io_serial_o.rst>
-
-..   
-   Lesson 3: Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
+   Lesson 1a: What is a Microcontroller <texts/Lessons/L1a_UC_intro.rst>
+   Lesson 1b: Introduction to Arduino <texts/Lessons/L1b_Arduino_intro.rst>
+   Lesson 2: Digital I/O <texts/Lessons/L2_digital_io.rst>
 
 ..
+   Lesson 3: Analog Input (ADC) <texts/Lessons/L3_adc_conditionals.rst>
+   Lesson 4: Analog Output (PWM) <texts/Lessons/L4_pwm_conditionals.rst>
+   Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
+   Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
+   Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
+   Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
+   Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
+   Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
+   Lesson 11: Memory <texts/Lessons/L11_memory.rst>
+   Lesson 12: C# and Arduino <texts/Lessons/L12_VS_arduino.rst>
+   Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
+   
+   
+..
    Introduction <texts/Lessons/L0_Introduction.rst>
+   Lesson 3 (temporary): Digital-Analog-Time <texts/Lessons/L4_digital_analog_time.rst>
+   Lesson 4: Hands on Activities <texts/Lessons/L4_hands_on_act.rst>
+   Lesson 6 (divided): ADC - PWM - Interrupt <texts/Lessons/L6_interrupt_adc_dac.rst>
+   Lesson 10 (gone): Real-Time Clock <texts/Lessons/L10_rtc.rst>
+   Lesson 12: Microcontroller Architecture <texts/Lessons/L12_UC_architecture.rst>
+   Lesson 13: Project - Introduction <texts/Lessons/RC_car.rst>
 
  ..
-   Lesson 3: Hands on Activities <texts/Lessons/L3_hands_on_act.rst>
+   Lesson 4: Hands on Activities <texts/Lessons/L3_hands_on_act.rst>
    Lesson 5: Conditionals - Functions <texts/Lessons/L5_edge_conditional_func.rst>
    Lesson 6.1: ADC - PWM - Interrupt <texts/Lessons/L6_interrupt_adc_dac.rst>
    Lesson 7: Repetition <texts/Lessons/L7_repetition.rst>
@@ -75,6 +92,14 @@ On this page we will publish new lecture notes every week, as the course is prog
    :caption: Projects:
 
    Mix <texts/Appendices/Additionals.rst>
+   Lesson X.1 Interrupts <texts/Lessons/interrupts.rst>
+   Lesson X.2 Functions <texts/Lessons/functions.rst>
+   Lesson X.3 Low power operation <texts/Lessons/low_power_operation.rst>
+   Lesson X.4 Infrared remote <texts/Lessons/ir_communication.rst>
+   Lesson X.5 Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
+   Lesson X.5 Course summary <texts/Lessons/course_summary.rst>
+   Cool Project: RC Car (Bluetooth or Joystick) <texts/Lessons/RC_car.rst>
+   Cool Project: Simple Robot Arm (Bluetooth or Joystick) <texts/Lessons/Robotarm.rst>
 
 
 .. todo:: Add more projects if we feel like it (and we can find the time to write them)

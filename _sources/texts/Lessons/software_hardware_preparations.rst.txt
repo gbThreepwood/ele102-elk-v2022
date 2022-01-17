@@ -131,3 +131,28 @@ After your modification the code should look like this:
 
 ..
   Let's see if your installation works with a blink code :ref:`BlinkLED`
+
+Simulator (optional)
+======================
+Until recently, there were not any usable Arduino simulator. You were able to simulate the processor of Arduino (ATmega8, ATmega168, ATmega328, ATmega1280, or ATmega2560) and set the whole circuit with electronic design and circuit simulator software (such as `Ptoteus <https://www.labcenter.com/>`_) but not the whole Arduino kit itself. Luckily, we have some alternatives and in this section we introduce one of the most used one: TinkerCAD.
+
+Tinkercad
+------------
+It is browser based solution from Autodesk. Initially, it is not developed as an Arduino simulator. It is quite famous for 3D part designing purposes for DIY project. Since Arduino is a very common microcontroller for DIY projects, such a useful is also utilized. You can design the circuit and also write your Arduino code here.
+
+.. figure:: ../../fig/screenshots/tinkercad.png
+  :alt: TinkerCAD
+  :align: center
+
+In order to use TinkerCAD:
+
+#. You need to create an account to create projects `Create an account here <https://www.tinkercad.com/join>`_.
+#. Select Circuits on the left toolbar.
+#. Create a new circuit or edit an existing one.
+
+  .. figure:: ../../fig/screenshots/tinkercad-circuits-toolbar.png
+    :alt: TinkerCAD circuits toolbar
+    :align: center
+
+
+**PS:** All projects you develop here are open to community, which means everyone can see what you develop if they search your project. The same way, you can search projects on the right top search button. This is a very nice feature, use it :)

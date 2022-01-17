@@ -1,0 +1,126 @@
+Pulse Width Modulation (PWM)
+=============================
+
+What is Modulation?
+
+What is a pulse?
+
+.. note::
+   Blackboard explanation.
+
+Analog output
+-----------------
+
+This section introduces the pulse width modulation outputs. It is a way of how to trick the having such an output that its value is so-called in between 0-5V. 
+
+The Arduino function associated with analog output signals that we will be using in this tutorial are:
+
+- `analogWrite() <https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/>`_
+
+Now we will be pulling up the hood, looking under the hood, digging deeper, pulling back the onion!
+
+
+
+Adjusting the light intensity of LED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**ANNOUNCE:** If you have, use RGB-LED instead. 
+
+In this example we will be adjusting the light intensity of two LED's connected to pin 5, and 6. A push button on pin 10 is used to step through various intensity levels.
+
+.. figure:: ../../fig/digital_input_and_output_bb.png
+        :align: center
+        :scale: 50
+
+
+.. note::
+   Logic Analyzer demonstration.
+
+.. ref: https://www.instructables.com/id/Arduino-How-to-Control-Servo-Motor-With-Potentiome/
+
+
+Servo and map function
+~~~~~~~~~~~~~~~~~~~~~~~
+
+There are different types of motors which require different driving circuit. Sometimes driving a motor can be challenging but luckily Arduino community presents a plug-and-play option for *servo motor* s. There is an important concept behind driving a servo motor but this theoretical part is going to be examined in the following courses. In this course, we will focus on the programming aspect.
+
+The purpose of this example is to control the position of this little motor you have using a potentiometer.
+
+.. warning:: The servo motor you have is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don't.
+   
+First of all, let's build the following circuit:
+
+.. figure:: ../../../external/fig/servoconnection.jpg
+   :align: center
+
+
+Servo motors have three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to pin 9 on the board.
+
+The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input 0 on the board.
+
+.. code-block:: c
+   :caption: Servo control using potentiometer
+
+   #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = 0;  // analog pin used to connect the potentiometer
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+        }
+
+        void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+        myservo.write(val);                  // sets the servo position according to the scaled value
+        delay(15);                           // waits for the servo to get there
+    }
+
+
+Attention that we are writing the potentiometer value directly as the servo angle. What if we want to *check* the value first and switch on an LED *if* it is in a desired range? Then the code will look like.
+
+
+.. code-block:: c
+   :caption: Controlling LED based on Servo angle
+
+    #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = 0;  // analog pin used to connect the potentiometer
+    const int ledPin = 13; // output pin for the LED
+
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+        }
+
+        void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+        myservo.write(val);                  // sets the servo position according to the scaled value
+        if(val > 90)
+        {
+            digitalWrite(ledPin,HIGH);
+        }
+        else
+        {
+            digitalWrite(ledPin,LOW);
+        }
+        delay(15);                           // waits for the servo to get there
+    }
+
+.. ref: https://www.allaboutcircuits.com/projects/using-the-arduinos-analog-io/
+
+
+The function used to output a PWM signal is analogWrite(pin, value). pin is the pin number used for the PWM output. value is a number proportional to the duty cycle of the signal. When value = 0, the signal is always off. When value = 255, the signal is always on. On most Arduino boards, the PWM function is available on pins 3, 5, 6, 9, 10, and 11. The frequency of the PWM signal on most pins is approximately 490 Hz. On the Uno and similar boards, pins 5 and 6 have a frequency of approximately 980 Hz. Pins 3 and 11 on the Leonardo also run at 980 Hz.
+
+To map an analog input value, which ranges from 0 to 1023 to a PWM output signal, which ranges from 0 - 255, you can use the map(value, fromLow, fromHigh, toLow, toHigh) function. This function has five parameters, one is the variable in which the analog value is stored, while the others are 0, 1023, 0 and 255 respectively. 
+
+The frequency of the PWM signal is important to drive a servo motor. Even though the :code:`analogWrite(pin, value)` and :code:`myServo.write(pin,value)` produces PWM signals, their frequencies are different. You can change the :code:`analogWrite(pin, value)` function's frequency by setting the corresponding timers's prescalar. The timer concept is going to be talked in the next section.
+
+.. todo:: More PWM examples with LED and if...else

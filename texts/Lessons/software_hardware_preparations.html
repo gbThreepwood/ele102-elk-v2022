@@ -52,7 +52,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="What is a Microcontroller" href="L1_UC_intro.html" />
+    <link rel="next" title="What is a Microcontroller" href="L1a_UC_intro.html" />
     <link rel="prev" title="Course introduction" href="L0_Introduction_elk.html" /> 
   </head>
   <body role="document">
@@ -83,6 +83,10 @@
 <li><a class="reference internal" href="#test-project-in-platformio">Test project in PlatformIO</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#simulator-optional">Simulator (optional)</a><ul>
+<li><a class="reference internal" href="#tinkercad">Tinkercad</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -92,7 +96,7 @@
 
             
               <li><a href="L0_Introduction_elk.html" title="Course introduction" accesskey="P">previous </a></li>
-              <li><a href="L1_UC_intro.html" title="What is a Microcontroller" accesskey="N">next </a></li>
+              <li><a href="L1a_UC_intro.html" title="What is a Microcontroller" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -133,15 +137,24 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Software and hardware preparations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#software-installation">Software installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hardware-testing">Hardware testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulator-optional">Simulator (optional)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="L1_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L2_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_serial_o.html">Lesson 2: Digital I/O, and serial output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_digital_io.html">Lesson 2: Digital I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Lesson X.1 Interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Lesson X.2 Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Lesson X.3 Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Lesson X.4 Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson X.5 Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Lesson X.5 Course summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -164,7 +177,7 @@
   <p class="topless"><a href="L0_Introduction_elk.html"
                         title="previous chapter">Course introduction</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="L1_UC_intro.html"
+  <p class="topless"><a href="L1a_UC_intro.html"
                         title="next chapter">What is a Microcontroller</a></p>
   </div>
 </div> 
@@ -268,6 +281,29 @@ Please refer to the <a class="reference external" href="https://platformio.org/i
 </div>
 </div>
 </div>
+<div class="section" id="simulator-optional">
+<h2>Simulator (optional)<a class="headerlink" href="#simulator-optional" title="Permalink to this headline">¶</a></h2>
+<p>Until recently, there were not any usable Arduino simulator. You were able to simulate the processor of Arduino (ATmega8, ATmega168, ATmega328, ATmega1280, or ATmega2560) and set the whole circuit with electronic design and circuit simulator software (such as <a class="reference external" href="https://www.labcenter.com/">Ptoteus</a>) but not the whole Arduino kit itself. Luckily, we have some alternatives and in this section we introduce one of the most used one: TinkerCAD.</p>
+<div class="section" id="tinkercad">
+<h3>Tinkercad<a class="headerlink" href="#tinkercad" title="Permalink to this headline">¶</a></h3>
+<p>It is browser based solution from Autodesk. Initially, it is not developed as an Arduino simulator. It is quite famous for 3D part designing purposes for DIY project. Since Arduino is a very common microcontroller for DIY projects, such a useful is also utilized. You can design the circuit and also write your Arduino code here.</p>
+<div class="figure align-center">
+<img alt="TinkerCAD" src="../../_images/tinkercad.png" />
+</div>
+<p>In order to use TinkerCAD:</p>
+<ol class="arabic simple">
+<li><p>You need to create an account to create projects <a class="reference external" href="https://www.tinkercad.com/join">Create an account here</a>.</p></li>
+<li><p>Select Circuits on the left toolbar.</p></li>
+<li><p>Create a new circuit or edit an existing one.</p></li>
+</ol>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="TinkerCAD circuits toolbar" src="../../_images/tinkercad-circuits-toolbar.png" />
+</div>
+</div></blockquote>
+<p><strong>PS:</strong> All projects you develop here are open to community, which means everyone can see what you develop if they search your project. The same way, you can search projects on the right top search button. This is a very nice feature, use it :)</p>
+</div>
+</div>
 </div>
 
 
@@ -290,7 +326,7 @@ Please refer to the <a class="reference external" href="https://platformio.org/i
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L0_Introduction_elk.html" title="Course introduction" >previous</a></li>
-        <li><a href="L1_UC_intro.html" title="What is a Microcontroller" >next</a></li>
+        <li><a href="L1a_UC_intro.html" title="What is a Microcontroller" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
