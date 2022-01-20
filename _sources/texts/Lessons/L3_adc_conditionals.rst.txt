@@ -40,31 +40,6 @@ But before that, let's talk about bit manipulation and binary operations. Detail
    Blackboard explanation.
 
 
-In ADC, there are many different parameters that you need to set. Using :code:`analogRead(analogPin)` built-in function, we cannot reach many of the functionalities of Atmega328p. For example setting the ADC speed, resolution, convertion mode etc. can be only set by bitwise manipulation.
-
-Here is an example of the implementation of ADC without using built-in :code:`analogRead(analogPin)` function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let's understand it with the help of Atmega328p datasheet.
-
-.. literalinclude:: ../../../projects/ADC_full/ADC_full.ino
-   :language: c
-
-
-.. note::
-
-   ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. `Here, <https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html>`_ is a very nice summary of general ADC problems. 
-
-The ATmega controllers used for the Arduino contain an onboard 6 channel (8 channels on the Mini and Nano, 16 on the Mega) analog-to-digital (A/D) converter. The converter has 10 bit resolution, returning integers from 0 to 1023. The default input voltage range is 0 - 5V, thus 5V corresponds to 1023. By default the maximum sampling frequency of the Arduino UNO is 9615 Hz. It is however possible to increase this by modifying the ADC clock frequency.
-
-While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13).
-
-Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.
-
-
-.. warning:: 
-   The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.
-   
-   The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.
-
-
 Temperature measurement using TMP36
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -81,32 +56,91 @@ The details of how the TMP36 operates are available in the `datasheet <https://w
 
 .. code-block:: c
                 
-        #include <Arduino.h>
-        
-        void setup() { 
-                Serial.begin(9600); 
-        }
-        
-        void loop() {
-       
-                  int sensorVal = analogRead(0);
-                  float sensorVolt = (sensorVal/1024.0)*5;
-                  float temperature = (sensorVolt - 0.5)*100;
-                
-                  Serial.print("Sensor verdi: ");
-                  Serial.print(sensorVal);
-                  Serial.print("\n");
-                
-                  Serial.print("Sensor spenning: ");
-                  Serial.print(sensorVolt);
-                  Serial.print("\n");
-                
-                  Serial.print("Sensor temperatur: ");
-                  Serial.print(temperature);
-                  Serial.print("\n");
-                  delay(2000);
-   
-        }
+	void setup() { 
+		Serial.begin(9600); 
+	}
+
+	void loop() {
+		int sensorVal = analogRead(0);
+		float sensorVolt = (sensorVal/1024.0)*5;
+		float temperature = (sensorVolt - 0.5)*100;
+
+		Serial.print("Sensor verdi: ");
+		Serial.print(sensorVal);
+		Serial.print("\n");
+
+		Serial.print("Sensor spenning: ");
+		Serial.print(sensorVolt);
+		Serial.print("\n");
+
+		Serial.print("Sensor temperatur: ");
+		Serial.print(temperature);
+		Serial.print("\n");
+		delay(2000);
+
+		}
+
+
+
+Potentiometer as Analog Input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How does a dimmer light work? Well, you don't need a microcontroller for *just* changing the light luminosity, for sure. The key element you got to know here is a **potentiometer**. It simply divides the voltage on its two legs between the middle leg. You may or may not use the both legs depending on your purpose.
+
+
+.. figure:: ../../../external/fig/simple_pot_battery.png
+   :alt: Simple potentiometer circuit
+   :align: center
+
+
+You can use this potentiometer value for various different reasons. Now, assume that your microcontroller team is assigned to develop a simple heat display system. If the temperature is higher than 30 celcius, the display gives a warning. If it is between 20-30 celcius, everything is fine. If it is less than 20 celcius, then your display system warns again. To have a temperature sensor (in real life) and physically change the temperature of the room for the sake of test is not very efficient. *We all know* that temperature sensor gives an analog signal so I can trick the system using potentiometer. Let's change the temperature sensor with a potentiometer assuming that the potentiometer is the temperature sensor.
+
+
+.. figure:: ../../../external/fig/simple_pot_arduino.png
+   :alt: Simple potentiometer circuit with Arduino
+   :align: center
+
+.. note:: Check that the same code for the temperature sensor works!
+
+
+.. code-block:: c
+
+	void setup() {
+		Serial.begin(9600);
+	}
+
+	void loop() {
+		int sensorVal = analogRead(0);
+		float sensorVolt = (sensorVal/1024.0)*5;
+		float temperature = (sensorVolt - 0.5)*100;
+
+		Serial.print("Verdi: ");
+		Serial.print(sensorVal);
+		Serial.print("\t");
+
+		Serial.print("Spenning: ");
+		Serial.print(sensorVolt);
+		Serial.print("\t");
+
+		Serial.print("Temperatur: ");
+		Serial.print(temperature);
+		Serial.print("\n");
+
+		if(temperature >=30)
+			Serial.print("Warm");
+
+		else if((temperature >=20)&&(temperature <30))
+			Serial.print(":)");
+
+		else
+			Serial.print("Cold");
+
+		delay(1000);
+
+	}
+
+
+**Note** that you may want to change potentiometer ranging.
+
         
 
 Voltage reference for the ADC
@@ -139,3 +173,31 @@ Digital to analog converter
 Alternatively if you need real analog output you may use an external chip, that the Arduino may control by a digital bus such as I2C.
 
 .. todo:: More ADC examples with LED and if...else
+
+
+Advanced Analog to Digital Conversion
+---------------------------------------
+
+In ADC, there are many different parameters that you need to set. Using :code:`analogRead(analogPin)` built-in function, we cannot reach many of the functionalities of Atmega328p. For example setting the ADC speed, resolution, convertion mode etc. can be only set by bitwise manipulation.
+
+Here is an example of the implementation of ADC without using built-in :code:`analogRead(analogPin)` function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let's understand it with the help of Atmega328p datasheet.
+
+.. literalinclude:: ../../../projects/ADC_full/ADC_full.ino
+   :language: c
+
+
+.. note::
+
+   ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. `Here, <https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html>`_ is a very nice summary of general ADC problems. 
+
+The ATmega controllers used for the Arduino contain an onboard 6 channel (8 channels on the Mini and Nano, 16 on the Mega) analog-to-digital (A/D) converter. The converter has 10 bit resolution, returning integers from 0 to 1023. The default input voltage range is 0 - 5V, thus 5V corresponds to 1023. By default the maximum sampling frequency of the Arduino UNO is 9615 Hz. It is however possible to increase this by modifying the ADC clock frequency.
+
+While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13).
+
+Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.
+
+
+.. warning:: 
+   The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.
+   
+   The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.

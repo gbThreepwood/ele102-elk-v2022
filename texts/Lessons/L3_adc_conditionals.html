@@ -75,10 +75,12 @@
 <li><a class="reference internal" href="#">Analog to Digital Conversion (ADC)</a><ul>
 <li><a class="reference internal" href="#analog-to-digital-converter">Analog to digital converter</a><ul>
 <li><a class="reference internal" href="#temperature-measurement-using-tmp36">Temperature measurement using TMP36</a></li>
+<li><a class="reference internal" href="#potentiometer-as-analog-input">Potentiometer as Analog Input</a></li>
 <li><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#digital-to-analog-converter">Digital to analog converter</a></li>
+<li><a class="reference internal" href="#advanced-analog-to-digital-conversion">Advanced Analog to Digital Conversion</a></li>
 </ul>
 </li>
 </ul>
@@ -201,6 +203,109 @@ DAC: Quantization, PWM</p>
 <p class="admonition-title">Note</p>
 <p>Blackboard explanation.</p>
 </div>
+<div class="section" id="temperature-measurement-using-tmp36">
+<h3>Temperature measurement using TMP36<a class="headerlink" href="#temperature-measurement-using-tmp36" title="Permalink to this headline">¶</a></h3>
+<p>Now, we will be reading the temperature from the TMP36 sensor that is included in the Arduino kit. The TMP36 has a voltage output linearly proportional to the temperature, and thus makes it easy to measure temperatures without any curve fitting that must be used with nonlinear sensing elements.</p>
+<p>The details of how the TMP36 operates are available in the <a class="reference external" href="https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf/">datasheet</a></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/temperature_sensor_bb.png"><img alt="../../_images/temperature_sensor_bb.png" src="../../_images/temperature_sensor_bb.png" style="width: 484.5px; height: 660.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVal</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor verdi: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVal</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor spenning: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVolt</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor temperatur: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="potentiometer-as-analog-input">
+<h3>Potentiometer as Analog Input<a class="headerlink" href="#potentiometer-as-analog-input" title="Permalink to this headline">¶</a></h3>
+<p>How does a dimmer light work? Well, you don’t need a microcontroller for <em>just</em> changing the light luminosity, for sure. The key element you got to know here is a <strong>potentiometer</strong>. It simply divides the voltage on its two legs between the middle leg. You may or may not use the both legs depending on your purpose.</p>
+<div class="figure align-center">
+<img alt="Simple potentiometer circuit" src="../../_images/simple_pot_battery.png" />
+</div>
+<p>You can use this potentiometer value for various different reasons. Now, assume that your microcontroller team is assigned to develop a simple heat display system. If the temperature is higher than 30 celcius, the display gives a warning. If it is between 20-30 celcius, everything is fine. If it is less than 20 celcius, then your display system warns again. To have a temperature sensor (in real life) and physically change the temperature of the room for the sake of test is not very efficient. <em>We all know</em> that temperature sensor gives an analog signal so I can trick the system using potentiometer. Let’s change the temperature sensor with a potentiometer assuming that the potentiometer is the temperature sensor.</p>
+<div class="figure align-center">
+<img alt="Simple potentiometer circuit with Arduino" src="../../_images/simple_pot_arduino.png" />
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check that the same code for the temperature sensor works!</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVal</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Verdi: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVal</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Spenning: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVolt</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Temperatur: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">temperature</span><span class="w"> </span><span class="o">&gt;=</span><span class="mi">30</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Warm&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">((</span><span class="n">temperature</span><span class="w"> </span><span class="o">&gt;=</span><span class="mi">20</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">temperature</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">30</span><span class="p">))</span><span class="w"></span>
+<span class="w">                </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;:)&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Cold&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that you may want to change potentiometer ranging.</p>
+</div>
+<div class="section" id="voltage-reference-for-the-adc">
+<h3>Voltage reference for the ADC<a class="headerlink" href="#voltage-reference-for-the-adc" title="Permalink to this headline">¶</a></h3>
+<p>The analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. This reference may be set to <cite>DEFAULT</cite>, <cite>INTERNAL</cite>, or <cite>EXTERNAL</cite>, for 5V, 1.1V or externaly applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">analogReference</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The accuracy of the reference voltage directly affects the accuracy of the converted voltage, thus if a external reference is used, it’s accuracy should be considered.</p>
+</div>
+</div>
+<div class="section" id="digital-to-analog-converter">
+<h2>Digital to analog converter<a class="headerlink" href="#digital-to-analog-converter" title="Permalink to this headline">¶</a></h2>
+<p>Alternatively if you need real analog output you may use an external chip, that the Arduino may control by a digital bus such as I2C.</p>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>More ADC examples with LED and if…else</p>
+</div>
+</div>
+<div class="section" id="advanced-analog-to-digital-conversion">
+<h2>Advanced Analog to Digital Conversion<a class="headerlink" href="#advanced-analog-to-digital-conversion" title="Permalink to this headline">¶</a></h2>
 <p>In ADC, there are many different parameters that you need to set. Using <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> built-in function, we cannot reach many of the functionalities of Atmega328p. For example setting the ADC speed, resolution, convertion mode etc. can be only set by bitwise manipulation.</p>
 <p>Here is an example of the implementation of ADC without using built-in <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let’s understand it with the help of Atmega328p datasheet.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
@@ -264,58 +369,6 @@ DAC: Quantization, PWM</p>
 <p class="admonition-title">Warning</p>
 <p>The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.</p>
 <p>The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.</p>
-</div>
-<div class="section" id="temperature-measurement-using-tmp36">
-<h3>Temperature measurement using TMP36<a class="headerlink" href="#temperature-measurement-using-tmp36" title="Permalink to this headline">¶</a></h3>
-<p>Now, we will be reading the temperature from the TMP36 sensor that is included in the Arduino kit. The TMP36 has a voltage output linearly proportional to the temperature, and thus makes it easy to measure temperatures without any curve fitting that must be used with nonlinear sensing elements.</p>
-<p>The details of how the TMP36 operates are available in the <a class="reference external" href="https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf/">datasheet</a></p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="../../_images/temperature_sensor_bb.png"><img alt="../../_images/temperature_sensor_bb.png" src="../../_images/temperature_sensor_bb.png" style="width: 484.5px; height: 660.0px;" /></a>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-<span class="w">          </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVal</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor verdi: &quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVal</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor spenning: &quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorVolt</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sensor temperatur: &quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="w"></span>
-
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="voltage-reference-for-the-adc">
-<h3>Voltage reference for the ADC<a class="headerlink" href="#voltage-reference-for-the-adc" title="Permalink to this headline">¶</a></h3>
-<p>The analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. This reference may be set to <cite>DEFAULT</cite>, <cite>INTERNAL</cite>, or <cite>EXTERNAL</cite>, for 5V, 1.1V or externaly applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">analogReference</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-<p>The accuracy of the reference voltage directly affects the accuracy of the converted voltage, thus if a external reference is used, it’s accuracy should be considered.</p>
-</div>
-</div>
-<div class="section" id="digital-to-analog-converter">
-<h2>Digital to analog converter<a class="headerlink" href="#digital-to-analog-converter" title="Permalink to this headline">¶</a></h2>
-<p>Alternatively if you need real analog output you may use an external chip, that the Arduino may control by a digital bus such as I2C.</p>
-<div class="admonition-todo admonition" id="id3">
-<p class="admonition-title">Todo</p>
-<p>More ADC examples with LED and if…else</p>
 </div>
 </div>
 </div>

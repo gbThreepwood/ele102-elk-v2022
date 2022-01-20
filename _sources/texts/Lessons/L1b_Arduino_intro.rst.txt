@@ -11,7 +11,7 @@
             - setup and loop
             - delay()
             - as students if they have learned otherwise use Cookbook Ch 2
-              - simple primitive types (variables)
+              - simple primitive types (variables, macros)
               - using floats
               - arrays
               - string (so important before hello world)
@@ -33,6 +33,7 @@
         
             First blink is going to be introduced, 
             Where is hello, world?
+            Serial print
 
 **********************
 Arduino Introduction
@@ -313,6 +314,12 @@ The traditional lamp used for blinking morse is known as an Aldis lamp, and is s
         :scale: 50
         :align: center
 
+... to send long and short duration of light signals. For SOS:
+
+.. figure:: ../../../external/fig/sos_morse.jpg
+   :alt: SOS morse code
+   :align: center
+
 
 The following code listing provides one possible solution to this exercise:
 
@@ -367,6 +374,9 @@ For those of you who finished the previous tasks, and did not like the LED blink
 
 
 This will be covered thoroughly in the upcoming lecture, but it does not hurt to try it. Make sure you understand the LED blink example first though.
+
+.. seealso:: Are you done with your Blink and HelloWorld? Can you print out the dots and dashes to the serial monitor while blinking? 
+             **Hint:** use :code:`Serial.begin(9600)`, :code:`Serial.print()`.
 
 The build and upload process (not mandatory to read)
 ====================================================

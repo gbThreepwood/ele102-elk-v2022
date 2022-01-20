@@ -407,6 +407,10 @@ If you don’t need to modify the strings or data while your sketch is running, 
 <p>A person trained in decoding morse in the form of sound signals will not necessarily find it easy to decode the blinking light. One typically does not count dots and dashes, but rather identify the particular “sound” of a given symbol. For this to work the speed of transmission should not be to slow.</p>
 <p>The traditional lamp used for blinking morse is known as an Aldis lamp, and is still in use by the navy for short range communication between ships:</p>
 <a class="reference internal image-reference" href="../../_images/aldis_lamp.jpg"><img alt="Aldis lamp (source: https://id.wikipedia.org/wiki/Berkas:Aldis_lamp.jpg)" class="align-center" src="../../_images/aldis_lamp.jpg" style="width: 205.0px; height: 310.5px;" /></a>
+<p>… to send long and short duration of light signals. For SOS:</p>
+<div class="figure align-center">
+<img alt="SOS morse code" src="../../_images/sos_morse.jpg" />
+</div>
 <p>The following code listing provides one possible solution to this exercise:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
@@ -511,6 +515,11 @@ If you don’t need to modify the strings or data while your sketch is running, 
 </pre></div>
 </div>
 <p>This will be covered thoroughly in the upcoming lecture, but it does not hurt to try it. Make sure you understand the LED blink example first though.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Are you done with your Blink and HelloWorld? Can you print out the dots and dashes to the serial monitor while blinking?
+<strong>Hint:</strong> use <code class="code docutils literal notranslate"><span class="pre">Serial.begin(9600)</span></code>, <code class="code docutils literal notranslate"><span class="pre">Serial.print()</span></code>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="the-build-and-upload-process-not-mandatory-to-read">

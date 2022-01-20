@@ -18,18 +18,17 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 1b: Introduction to Arduino <texts/Lessons/L1b_Arduino_intro.rst>
    Lesson 2: Digital I/O <texts/Lessons/L2_digital_io.rst>
 
-..
-   Lesson 3: Analog Input (ADC) <texts/Lessons/L3_adc_conditionals.rst>
-   Lesson 4: Analog Output (PWM) <texts/Lessons/L4_pwm_conditionals.rst>
-   Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
-   Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
-   Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
-   Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
-   Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
-   Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
-   Lesson 11: Memory <texts/Lessons/L11_memory.rst>
-   Lesson 12: C# and Arduino <texts/Lessons/L12_VS_arduino.rst>
-   Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
+..   Lesson 3: Analog Input (ADC) <texts/Lessons/L3_adc_conditionals.rst>
+     Lesson 4: Analog Output (PWM) <texts/Lessons/L4_pwm_conditionals.rst>
+     Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
+     Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
+     Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
+     Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
+     Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
+     Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
+     Lesson 11: Memory <texts/Lessons/L11_memory.rst>
+     Lesson 12: Visual Studio and Arduino <texts/Lessons/L12_VS_arduino.rst>
+     Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
    
    
 ..
@@ -88,7 +87,7 @@ On this page we will publish new lecture notes every week, as the course is prog
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Projects:
 
    Mix <texts/Appendices/Additionals.rst>

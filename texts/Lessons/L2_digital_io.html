@@ -80,7 +80,6 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#variable-types">Variable Types</a></li>
-<li><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a></li>
 <li><a class="reference internal" href="#atmega328-gpio-pins">Atmega328 GPIO pins</a></li>
 <li><a class="reference internal" href="#digital-outputs">Digital outputs</a><ul>
 <li><a class="reference internal" href="#selecting-a-suitable-current-limiting-resistor-for-the-led">Selecting a suitable current limiting resistor for the LED</a></li>
@@ -100,7 +99,16 @@
 <li><a class="reference internal" href="#hello-world">Hello World</a></li>
 <li><a class="reference internal" href="#exercise-print-some-numbers">Exercise: Print some numbers</a></li>
 <li><a class="reference internal" href="#exercise-serial-output-of-digital-input">Exercise: Serial output of digital input</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a><ul>
+<li><a class="reference internal" href="#exercise-calculator-with-serial-port-output">Exercise: Calculator with serial port output</a></li>
 <li><a class="reference internal" href="#exercise-count-to-10">Exercise: Count to 10</a></li>
+<li><a class="reference internal" href="#exercise-calculator-with-binary-display">Exercise: Calculator with binary display</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-exercises">Additional exercises</a><ul>
+<li><a class="reference internal" href="#exercise-d-flip-flop-and-state-machines-voluntary">Exercise: D-flip flop, and state machines (voluntary)</a></li>
 </ul>
 </li>
 </ul>
@@ -156,11 +164,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 2: Digital I/O</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#arduino-program-structure">Arduino program structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#variable-types">Variable Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#atmega328-gpio-pins">Atmega328 GPIO pins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#digital-outputs">Digital outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#digital-inputs">Digital inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#serial-port-output">Serial port output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-exercises">Additional exercises</a></li>
 </ul>
 </li>
 </ul>
@@ -317,8 +326,8 @@
 </div>
 <p>The declaration of the variable is only performed the first time the identifier is introduced. It tells the compiler how much memory should be made available for the value, and what type of value we intend to store. <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code> means unsigned 8-bit integer. I.e. a unsigned number which can not contain fractional parts, and with a range of values from 0 to 255. We use the equal sign <code class="docutils literal notranslate"><span class="pre">=</span></code> to <em>assign</em> a value to the identifier. Attempting to assign something which is outside the values supported by the declaration is an error.</p>
 <p>The following list provides a overview of the default variable types supported in the Arduino framework. You should note that <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code> is not part of the list. This is because the name <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code>, and many others like it (e.g. <code class="docutils literal notranslate"><span class="pre">int32_t</span></code>) are just redefinitions of the standard names to make them more readable. Unlike the standard names, names like <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code> makes it immediately obvious what kind of type we are dealing with.</p>
-<table class="colwidths-given docutils align-default" id="id8">
-<caption><span class="caption-text">Simple Primitive Types in Arduino (Variables)</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-given docutils align-default" id="id13">
+<caption><span class="caption-text">Simple Primitive Types in Arduino (Variables)</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 17%" />
 <col style="width: 8%" />
@@ -419,19 +428,6 @@
 <p>For example <em>char</em> is <strong>int8_t</strong> but <em>byte</em> is <strong>uint8_t</strong>.</p>
 </div>
 </div>
-<div class="section" id="simple-arithmetics">
-<h2>Simple arithmetics<a class="headerlink" href="#simple-arithmetics" title="Permalink to this headline">¶</a></h2>
-<p>The microcontroller (Atmega328) has built in support for some basic arithmetic operations (addition, subtraction, multiplication, but not division). Our programming language (C/C++) also support basic arithmetic operations on constant numbers or variables (including division, which is a relatively slow operation since the microcontroller does not support it directly, and has to do a step by step method to compute it).</p>
-<p>Note that if you need slightly more advanced mathematics (e.g. square root, or logarithm), you will need to use a library which contain a function for this purpose (or alternatively you can write your own function).</p>
-<p>We previously had a example variable for a number of students. The following example shows how you could add the number of one variable to the contents of another variable, overwriting the original value.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">number_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span><span class="p">;</span><span class="w"></span>
-<span class="kt">uint8_t</span><span class="w"> </span><span class="n">another_group_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">19</span><span class="w"></span>
-
-<span class="n">number_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_of_students</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">another_group_of_students</span><span class="p">;</span><span class="w"> </span><span class="c1">// After this operation the value of number_of_students becomes 42</span>
-</pre></div>
-</div>
-<p>This example also illustrates an important thing to note about the assignment (<code class="docutils literal notranslate"><span class="pre">=</span></code>) operator. It is not a equal sign in the sense that the left and right sides have to be equal. It assigns the value which results from the expression to the right, in to the variable to the left.</p>
-</div>
 <div class="section" id="atmega328-gpio-pins">
 <h2>Atmega328 GPIO pins<a class="headerlink" href="#atmega328-gpio-pins" title="Permalink to this headline">¶</a></h2>
 <p>Most of the physical pins on the microcontroller in the Arduino UNO (The Atmega328) are general purpose input output (GPIO) pins. This means that they support both the reading of input signals, and writing of output signals. All the GPIO pins support digital input, and digital output. In addition to digital I/O they also support various extra features such as analog input, pulse width modulation, UART, etc. The extra features that are supported, will vary from one pin to the next.</p>
@@ -477,8 +473,8 @@
 <div class="section" id="how-to-connect-a-button-to-the-arduino">
 <h3>How to connect a button to the Arduino<a class="headerlink" href="#how-to-connect-a-button-to-the-arduino" title="Permalink to this headline">¶</a></h3>
 <p>You may think that “just to connect a button, what can it go wrong?” but unfortunately when it comes to push buttons, a common beginner mistake root from connecting the button wrong. For now, as a rule of thumb, keep in mind these two figures and check these:</p>
-<table class="docutils align-center" id="id9">
-<caption><span class="caption-text">How to connect a button?</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id14">
+<caption><span class="caption-text">How to connect a button?</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 55%" />
 <col style="width: 45%" />
@@ -524,13 +520,13 @@
 <h3>Understanding Pull-up / Pull-down resistors<a class="headerlink" href="#understanding-pull-up-pull-down-resistors" title="Permalink to this headline">¶</a></h3>
 <p>As already discussed in terms of push buttons, when using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. For our convenience the Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.</p>
 <p>The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the input impedance. In practice a 10k resistor is often used.</p>
-<div class="figure align-center" id="id10">
+<div class="figure align-center" id="id15">
 <img alt="Arduino with pull-up, and pull-down resistors on push buttons" src="../../_images/Pull-up-and-Pull-down-Resistor.png" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
-<p>The following figure depicts the connection of a LED and a push button to the Arduino. The resistor in the figure pulls the input low, and the push button is connected in such a way that it can pull it up.</p>
+<p>The following figure depicts the connection of two push buttons to the Arduino. For the leftmost button the resistor in the figure pulls the input low, and the push button is connected in such a way that it can pull it up. For the button to the right the configuration is opposite.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../../_images/digital_input_demo_bb.png"><img alt="Arduino with external LED, and external push button" src="../../_images/digital_input_demo_bb.png" style="width: 477.0px; height: 660.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/arduino_two_pb_pull_up_pull_down_bb.png"><img alt="Arduino with external LED, and two push buttons" src="../../_images/arduino_two_pb_pull_up_pull_down_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
 </div>
 <p>It is very important to realize that the default state of a digital input depends on whether the input is pulled up, or pulled down. If the input is pulled down by a resistor, and the push button pulls it up, then a push on the button will make the input logical <strong>HIGH</strong>. If on the other hand the input is pulled up by a resistor, and a push on the button pulls it down, pushing the button will make the input logical <strong>LOW</strong></p>
 <p>It is not important which of the two you choose, because it is easy to invert the state in software. But it is important to realize the difference, in order to know when you have to invert it in software.</p>
@@ -563,7 +559,11 @@
 <span class="kt">uint8_t</span><span class="w"> </span><span class="n">q2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_2</span><span class="p">);</span><span class="w"> </span><span class="c1">// The AND between the two inputs</span>
 </pre></div>
 </div>
-<p>In this exercise you will try some basic logic operations on two digital inputs connected to push buttons. The result of the operation is to be displayed on a LED. Use the following code as a basis for solving the exercise:</p>
+<p>In this exercise you will try some basic logic operations on two digital inputs connected to push buttons. The result of the operation is to be displayed on a LED. The following figure depicts the connection of the push buttons, and the LED. Note that the push buttons are using “pull-down” resistors, i.e. the digital input will go high when you push the button.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/arduino_two_pb_one_led_bb.png"><img alt="Arduino with external LED, and two push buttons" src="../../_images/arduino_two_pb_one_led_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
+</div>
+<p>Use the following code as a basis for solving the exercise:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
@@ -579,14 +579,19 @@
 <span class="linenos">13</span>
 <span class="linenos">14</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="linenos">15</span>
-<span class="linenos">16</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Invert the input, as the input state is high when you are not pushing the button.</span>
-<span class="linenos">17</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_2</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">18</span>
-<span class="linenos">19</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">20</span>
-<span class="linenos">21</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led_1</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">22</span>
-<span class="linenos">23</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">  </span><span class="c1">// Use these lines if the push buttons are using &quot;pull-up&quot; resistors:</span>
+<span class="linenos">17</span><span class="w">  </span><span class="c1">//uint8_t a = !digitalRead(btn_1); // Invert the input, as the input state is high when you are not pushing the button.</span>
+<span class="linenos">18</span><span class="w">  </span><span class="c1">//uint8_t b = !digitalRead(btn_2);</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1">// Use these lines if the push buttons are using &quot;pull-down&quot; resistors:</span>
+<span class="linenos">21</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn_2</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led_1</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -594,7 +599,12 @@
 <li><p>Add the required code to test the <em>AND</em> operation between the two inputs.</p></li>
 <li><p>Add the required code to test the <em>OR</em> operation between the two inputs.</p></li>
 <li><p>As you know form basics of digital electronics, these are the three fundamental logic operations. Try to build the <em>exclusive OR</em> using only the three basic operations.</p></li>
+<li><p>Try to build the active high SR-latch (Hint: declare the variables <code class="code docutils literal notranslate"><span class="pre">q</span></code>, and <code class="code docutils literal notranslate"><span class="pre">q_inv</span></code> as global variables, i.e. declare them outside the functions).</p></li>
 </ol>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>Add solution proposal after the lecture</p>
+</div>
 </div>
 </div>
 <div class="section" id="serial-port-output">
@@ -666,7 +676,7 @@
 <li><p>Add the required calls to serial <code class="code docutils literal notranslate"><span class="pre">println</span></code> in order to print the values of all the variables. One call for each variable</p></li>
 <li><p>Are there some errors in the printout of the numbers? Try to explain why, if there is some mismatch between the numbers in the code, and the numbers showing up in the serial monitor.</p></li>
 </ol>
-<div class="admonition-todo admonition" id="id5">
+<div class="admonition-todo admonition" id="id6">
 <p class="admonition-title">Todo</p>
 <p>Add solution proposal after the lecture</p>
 </div>
@@ -675,9 +685,37 @@
 <h3>Exercise: Serial output of digital input<a class="headerlink" href="#exercise-serial-output-of-digital-input" title="Permalink to this headline">¶</a></h3>
 <p>Inside your software, the state of a digital input is a number just like any other number. The only special property of this number is that it is always 1, or 0. Thus it can be printed on the serial port, in a similar fashion to the previous exercise.</p>
 <ol class="arabic simple">
-<li><p>Write a program which prints the state of two digital inputs to the serial monitor. The delay between each print should be 1 second.</p></li>
+<li><p>Write a program which prints the state of two digital inputs to the serial monitor. The delay between each print should be 500 milliseconds.</p></li>
 </ol>
-<div class="admonition-todo admonition" id="id6">
+<div class="admonition-todo admonition" id="id7">
+<p class="admonition-title">Todo</p>
+<p>Add solution proposal after the lecture</p>
+</div>
+</div>
+</div>
+<div class="section" id="simple-arithmetics">
+<h2>Simple arithmetics<a class="headerlink" href="#simple-arithmetics" title="Permalink to this headline">¶</a></h2>
+<p>The microcontroller (Atmega328) has built in support for some basic arithmetic operations (addition, subtraction, multiplication, but not division). Our programming language (C/C++) also support basic arithmetic operations on constant numbers or variables (including division, which is a relatively slow operation since the microcontroller does not support it directly, and has to use a multi step method to compute it).</p>
+<p>Note that if you need slightly more advanced mathematics (e.g. square root, or logarithm), you will need to use a library which contain a function for this purpose (or alternatively you can write your own function).</p>
+<p>We previously had a example variable for a number of students. The following example shows how you could add the number of one variable to the contents of another variable, overwriting the original value.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">number_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">another_group_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">19</span><span class="w"></span>
+
+<span class="n">number_of_students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_of_students</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">another_group_of_students</span><span class="p">;</span><span class="w"> </span><span class="c1">// After this operation the value of number_of_students becomes 42</span>
+</pre></div>
+</div>
+<p>This example also illustrates an important thing to note about the assignment (<code class="docutils literal notranslate"><span class="pre">=</span></code>) operator. It is not a equal sign in the sense that the left and right sides have to be equal. It assigns the value which results from the expression to the right, in to the variable to the left.</p>
+<div class="section" id="exercise-calculator-with-serial-port-output">
+<h3>Exercise: Calculator with serial port output<a class="headerlink" href="#exercise-calculator-with-serial-port-output" title="Permalink to this headline">¶</a></h3>
+<p>For each of the arithmetic operations, the output is to be printed on the serial console.</p>
+<ol class="arabic simple">
+<li><p>Perform the addition of 3, and 4.</p></li>
+<li><p>Perform the subtraction of 5, and 9.</p></li>
+<li><p>Perform the multiplication of 2, and 3.</p></li>
+<li><p>Perform the division of 20 and 4.</p></li>
+<li><p>Perform the division of 20 and 6.</p></li>
+</ol>
+<div class="admonition-todo admonition" id="id8">
 <p class="admonition-title">Todo</p>
 <p>Add solution proposal after the lecture</p>
 </div>
@@ -696,13 +734,236 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="admonition-todo admonition" id="id7">
+<div class="admonition-todo admonition" id="id9">
+<p class="admonition-title">Todo</p>
+<p>Add solution proposal after the lecture</p>
+</div>
+</div>
+<div class="section" id="exercise-calculator-with-binary-display">
+<h3>Exercise: Calculator with binary display<a class="headerlink" href="#exercise-calculator-with-binary-display" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise you are going to extend the program from the exercise “Calculator with serial port output”, to one which output the result to some LEDs.</p>
+<ol class="arabic simple">
+<li><p>Connect 4 LEDs to some free GPIO pins.</p></li>
+<li><p>Add the required code to control the LED in accordance with the result from the mathematical operation</p></li>
+</ol>
+<div class="admonition-todo admonition" id="id10">
 <p class="admonition-title">Todo</p>
 <p>Add solution proposal after the lecture</p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>The serial-monitor is basically a terminal. In order to use the serial-monitor with your board, you need to establish a UART communication link between the two. By now you should have realized that you are uploading your software to the Arduino via USB cable. This transmission is using the same protocol as you use when printing text in the serial monitor. The general name of this commonly used protocol is <a class="reference external" href="https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter">UART</a> (or sometimes the more general term <a class="reference external" href="https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter">USART</a> is used). It is a wide concept that requires more time to grasp the details. We will look into that in our <a class="reference internal" href="L10_communication.html#l9-communication"><span class="std std-ref">communication protocols</span></a> lesson later in the course.</p>
+</div>
+</div>
+</div>
+<div class="section" id="additional-exercises">
+<h2>Additional exercises<a class="headerlink" href="#additional-exercises" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-d-flip-flop-and-state-machines-voluntary">
+<h3>Exercise: D-flip flop, and state machines (voluntary)<a class="headerlink" href="#exercise-d-flip-flop-and-state-machines-voluntary" title="Permalink to this headline">¶</a></h3>
+<p>The ideal way to implement state machines in software differs from the hardware approach. The concepts covered so far however, limits our possibilities, and in this exercise you will implement a state machine using the same techniques as you know from digital electronics. In digital electronics we use flip-flops to store data, but in our microcontroller we can easily store data by declaring a variable for it. Thus the implementation of flip-flops in this way is rather silly, but still a useful learning experience.</p>
+<ol class="arabic simple">
+<li><p>Implement a D latch</p></li>
+<li><p>Implement a D flip-flop using two D latches</p></li>
+<li><p>Use two D flip-flops to implement a state machine with 4 states. Usa a push button to provide the clock signal, and 4 LEDs to decode the current state.</p></li>
+</ol>
+<div class="admonition-todo admonition" id="id11">
+<p class="admonition-title">Todo</p>
+<p>Add a drawing of the state diagram that we are going to use. A regular 3-bit counter which counts from 0 to 7, and then resets back to 0.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Turns out the code becomes rather complex. In order to prevent a mess, it was also necessary to use some advanced programming techniques to structure the code. You should note however that it would be possible to make it work using only the theory covered so far.</p>
+</div>
+<p>The following code listing provides a solution proposal, where the D flip-flop is defined in a function to allow easy re-use of the code. If you do not know how to use functions, you will have to duplicate some of the code in order to make two flip-flops.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
+<span class="linenos">  2</span><span class="cm"> * @file main.cpp</span>
+<span class="linenos">  3</span><span class="cm"> * @author Eirik Haustveit (ehau@hvl.no)</span>
+<span class="linenos">  4</span><span class="cm"> * @brief A D flip flop based state machine</span>
+<span class="linenos">  5</span><span class="cm"> * @version 0.1</span>
+<span class="linenos">  6</span><span class="cm"> * @date 2022-01-18</span>
+<span class="linenos">  7</span><span class="cm"> * </span>
+<span class="linenos">  8</span><span class="cm"> * @copyright Copyright (c) 2022</span>
+<span class="linenos">  9</span><span class="cm"> * </span>
+<span class="linenos"> 10</span><span class="cm"> */</span><span class="w"></span>
+<span class="linenos"> 11</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">LED1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 14</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">LED2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 15</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">LED3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 16</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">LED4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">CLK_IN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 19</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">USR_SIG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">_d_latch_ctx</span><span class="w"></span>
+<span class="linenos"> 22</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 23</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 24</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q_inv</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 25</span><span class="p">}</span><span class="w"> </span><span class="n">d_latch_t</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">_d_flip_flop_ctx</span><span class="w"></span>
+<span class="linenos"> 29</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 30</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 31</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q_inv</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 32</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q_master</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 33</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">q_inv_master</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 34</span><span class="p">}</span><span class="w"> </span><span class="n">d_flip_flop_t</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">exclusive_or</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 38</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop</span><span class="p">(</span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 39</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_latch</span><span class="p">(</span><span class="n">d_latch_t</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">en</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_latch_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 42</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 43</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop_state_machine</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 46</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 47</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 48</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED3</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 49</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED4</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">CLK_IN</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 52</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">USR_SIG</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 55</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="w">  </span><span class="c1">//d_latch_test();</span>
+<span class="linenos"> 61</span><span class="w">  </span><span class="c1">//d_flip_flop_test();</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="w">  </span><span class="n">d_flip_flop_state_machine</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 64</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop_state_machine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 67</span>
+<span class="linenos"> 68</span><span class="w">  </span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="n">dff1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 69</span><span class="w">  </span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="n">dff2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 70</span><span class="w">  </span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="n">dff3</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 71</span><span class="w">  </span>
+<span class="linenos"> 72</span><span class="w">  </span><span class="k">for</span><span class="p">(;;){</span><span class="w"></span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="c1">// Perform a very crude debouncing of the switch</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">CLK_IN</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">CLK_IN</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">clk2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">usr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">USR_SIG</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dff1</span><span class="p">.</span><span class="n">q_inv</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exclusive_or</span><span class="p">(</span><span class="n">dff1</span><span class="p">.</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">dff2</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exclusive_or</span><span class="p">((</span><span class="n">dff1</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dff2</span><span class="p">.</span><span class="n">q</span><span class="p">),</span><span class="w"> </span><span class="n">dff3</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="n">d_flip_flop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dff1</span><span class="p">,</span><span class="w"> </span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="n">d_flip_flop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dff2</span><span class="p">,</span><span class="w"> </span><span class="n">d2</span><span class="p">,</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="n">d_flip_flop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dff3</span><span class="p">,</span><span class="w"> </span><span class="n">d3</span><span class="p">,</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="c1">// State decoding</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="c1">//digitalWrite(LED1, dff1.q &amp;&amp; !dff2.q);</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="c1">//digitalWrite(LED2, dff1.q &amp;&amp; !dff2.q);</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="c1">//digitalWrite(LED3, dff1.q &amp;&amp; !dff2.q);</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="c1">//digitalWrite(LED4, dff1.q &amp;&amp; !dff2.q);</span>
+<span class="linenos"> 95</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Q: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">dff1</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">dff2</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">100</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">dff3</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">101</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="sc">&#39;\r&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">102</span>
+<span class="linenos">103</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">104</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">105</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">108</span>
+<span class="linenos">109</span><span class="w">  </span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="n">dff1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">110</span><span class="w">  </span>
+<span class="linenos">111</span><span class="w">  </span><span class="k">for</span><span class="p">(;;){</span><span class="w"></span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">CLK_IN</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">114</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">usr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">USR_SIG</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">115</span>
+<span class="linenos">116</span>
+<span class="linenos">117</span><span class="w">    </span><span class="n">d_flip_flop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dff1</span><span class="p">,</span><span class="w"> </span><span class="n">usr</span><span class="p">,</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">118</span>
+<span class="linenos">119</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Q1: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">120</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">dff1</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">121</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">122</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">123</span>
+<span class="linenos">124</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">125</span>
+<span class="linenos">126</span>
+<span class="linenos">127</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">exclusive_or</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">b</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">128</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">129</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">130</span>
+<span class="linenos">131</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_latch_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">132</span>
+<span class="linenos">133</span><span class="w">  </span><span class="n">d_latch_t</span><span class="w"> </span><span class="n">latch1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">134</span>
+<span class="linenos">135</span><span class="w">  </span><span class="k">for</span><span class="p">(;;){</span><span class="w"></span>
+<span class="linenos">136</span>
+<span class="linenos">137</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">CLK_IN</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">138</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">usr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">USR_SIG</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">139</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span><span class="w">    </span><span class="n">d_latch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">latch1</span><span class="p">,</span><span class="w"> </span><span class="n">usr</span><span class="p">,</span><span class="w"> </span><span class="n">clk</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">142</span>
+<span class="linenos">143</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Q1: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">144</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">latch1</span><span class="p">.</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">145</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">146</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">147</span>
+<span class="linenos">148</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">149</span>
+<span class="linenos">150</span><span class="cm">/**</span>
+<span class="linenos">151</span><span class="cm"> * @brief Implements a D flip flop with negative edge triggering </span>
+<span class="linenos">152</span><span class="cm"> *</span>
+<span class="linenos">153</span><span class="cm"> * This function implements a D flip flop using the master / slave principle. This is</span>
+<span class="linenos">154</span><span class="cm"> * likely not the optimum way to implement it in software though.</span>
+<span class="linenos">155</span><span class="cm"> *  </span>
+<span class="linenos">156</span><span class="cm"> * @param ctx </span>
+<span class="linenos">157</span><span class="cm"> * @param d </span>
+<span class="linenos">158</span><span class="cm"> * @param clk </span>
+<span class="linenos">159</span><span class="cm"> */</span><span class="w"></span>
+<span class="linenos">160</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_flip_flop</span><span class="p">(</span><span class="n">d_flip_flop_t</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clk</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">161</span>
+<span class="linenos">162</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">s_master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">clk</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">163</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">r_master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">d</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">clk</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">164</span>
+<span class="linenos">165</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">s_slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_master</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">clk</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">166</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">r_slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv_master</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">clk</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">167</span>
+<span class="linenos">168</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">r_master</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv_master</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">169</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv_master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">s_master</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_master</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">170</span>
+<span class="linenos">171</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">r_slave</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">172</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">s_slave</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">173</span>
+<span class="linenos">174</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">175</span>
+<span class="linenos">176</span><span class="kt">void</span><span class="w"> </span><span class="nf">d_latch</span><span class="p">(</span><span class="n">d_latch_t</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">en</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">177</span>
+<span class="linenos">178</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">en</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">179</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">d</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">en</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">180</span>
+<span class="linenos">181</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">182</span><span class="w">  </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q_inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">183</span>
+<span class="linenos">184</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="id12">
+<p class="admonition-title">Todo</p>
+<p>Add solution proposal using common software techniques, in order to demonstrate the proper way to solve such problems in software.</p>
 </div>
 </div>
 </div>
