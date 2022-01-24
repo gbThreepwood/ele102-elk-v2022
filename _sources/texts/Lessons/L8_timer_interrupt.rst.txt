@@ -133,6 +133,14 @@ Although we are using the :code:`delay()` function in almost everywhere, it is a
 **Exercise for home:** Modify the interrupt code without using delay functions. There is a very nice project using an LCD in `this link <https://www.youtube.com/watch?v=TD-J7LgrsBQ>`_.
 
 
+Exercise: Using external interrupts to count switch bouncing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to determine how much your switch is actually bouncing, it is possible to use an external interrupt pin.
+
+#. Connect a push button to one of the external interrupt pins (pin 2, or 3 on the Arduino UNO).
+#. Configure the ISR to trigger on rising (or falling) edge of the signal on the pin. Test by toggling a LED inside the ISR.
+#. Increment a variable inside the ISR, and print the value of the variable from your :code:`loop()` at regular intervals. Do not use :code:`Serial.print` inside the ISR.
 
 Internal Interrupts
 ~~~~~~~~~~~~~~~~~~~~~

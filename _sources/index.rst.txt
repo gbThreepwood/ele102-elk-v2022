@@ -17,19 +17,20 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 1a: What is a Microcontroller <texts/Lessons/L1a_UC_intro.rst>
    Lesson 1b: Introduction to Arduino <texts/Lessons/L1b_Arduino_intro.rst>
    Lesson 2: Digital I/O <texts/Lessons/L2_digital_io.rst>
-
-..   Lesson 3: Analog Input (ADC) <texts/Lessons/L3_adc_conditionals.rst>
-     Lesson 4: Analog Output (PWM) <texts/Lessons/L4_pwm_conditionals.rst>
-     Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
-     Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
-     Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
-     Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
-     Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
-     Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
-     Lesson 11: Memory <texts/Lessons/L11_memory.rst>
-     Lesson 12: Visual Studio and Arduino <texts/Lessons/L12_VS_arduino.rst>
-     Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
+   Lesson 3: Analog Output (PWM) <texts/Lessons/L3_pwm_conditionals.rst>
    
+..
+  Lesson 4: Analog Input (ADC) <texts/Lessons/L4_adc_conditionals.rst>
+  Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
+  Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
+  Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
+  Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
+  Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
+  Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
+  Lesson 11: Memory <texts/Lessons/L11_memory.rst>
+  Lesson 12: Visual Studio and Arduino <texts/Lessons/L12_VS_arduino.rst>
+  Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
+  
    
 ..
    Introduction <texts/Lessons/L0_Introduction.rst>
@@ -65,25 +66,6 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 16: Project - RACE <texts/Lessons/RC_car.rst>
    Lesson 13: Data Structures <texts/Lessons/stacks_queues_lists.rst>
 
-.. 
-   .. note::
-   Even weeks on tuesdays, odd weeks on wednesdays until week 13. Then, vice versa.
-
-.. Old plan with maxdepth 4
-   Lesson 1: Microcontroller History and Types <texts/Lessons/L1_uc_history.rst>
-   Lesson 2: Microcontroller Hardware <texts/Lessons/L2_uc_hw.rst>
-   Lesson 3: Introduction to Arduino <texts/Lessons/L3_Arduino_intro.rst>
-   Lesson 4: Variables - Sensors - Conditionals <texts/Lessons/L4_variable_sensor_conditional.rst>
-   Lesson 5: Functions <texts/Lessons/L5_functions.rst>
-   Lesson 6: Pointers - Arrays - Interrupts <texts/Lessons/L6_pointer_array_interrupt.rst>
-   Lesson 7: Analog to Digital / Digital to Analog Conversion <texts/Lessons/L7_adc_dac.rst>
-   Lesson 8: Pulse Width Modulation <texts/Lessons/L8_pwm.rst>
-   Lesson 9: Stacks - Queues - Linked Lists <texts/Lessons/L9_stack_queue_linkedlist.rst>
-   Lesson 10: Look-up Tables <texts/Lessons/L10_lookup_table.rst>
-   Lesson 11: Communication Protocols <texts/Lessons/L11_communication.rst>
-   Lesson 12: Wireless Communication With ESP8266 <texts/Lessons/L12_wifi.rst>
-   Lesson 13: Visual Studio and Arduino <texts/Lessons/L13_VS_arduino.rst>
-   Lesson 14: RC Car (Bluetooth or Joystick) <texts/Lessons/L14_RC_car.rst>
 
 
 .. toctree::
@@ -91,12 +73,13 @@ On this page we will publish new lecture notes every week, as the course is prog
    :caption: Projects:
 
    Mix <texts/Appendices/Additionals.rst>
-   Lesson X.1 Interrupts <texts/Lessons/interrupts.rst>
-   Lesson X.2 Functions <texts/Lessons/functions.rst>
-   Lesson X.3 Low power operation <texts/Lessons/low_power_operation.rst>
-   Lesson X.4 Infrared remote <texts/Lessons/ir_communication.rst>
-   Lesson X.5 Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
-   Lesson X.5 Course summary <texts/Lessons/course_summary.rst>
+   Lesson X.2 L2_additional <texts/Lessons-additional/L2_additional.rst>
+   Lesson X.8 Interrupts <texts/Lessons/interrupts.rst>
+   Lesson X.5 Functions <texts/Lessons/functions.rst>
+   Lesson Low power operation <texts/Lessons/low_power_operation.rst>
+   Lesson Infrared remote <texts/Lessons/ir_communication.rst>
+   Lesson Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
+   Lesson Course summary <texts/Lessons/course_summary.rst>
    Cool Project: RC Car (Bluetooth or Joystick) <texts/Lessons/RC_car.rst>
    Cool Project: Simple Robot Arm (Bluetooth or Joystick) <texts/Lessons/Robotarm.rst>
 

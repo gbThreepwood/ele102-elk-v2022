@@ -318,7 +318,7 @@ Digital inputs
 
 Digital inputs will be dealt with in greater detail in a lecture specifically dedicated to it. For now we will only introduce the basics, in order to get you quickly up and running with some interesting projects.
 
-As the name implies, digital inputs are used for getting information from the real world. A button, a digital sensor or a simple jumper cable connected to +5V (or GND) is processed in the same way in an Arduino program. So far, we have seen how to *express Arduino's feelings* with digital output. Now it is time to express our desire to the Arduino. **Let's design an Arduino program to turn on/off the same LED based on a button state.
+As the name implies, digital inputs are used for getting information from the real world. A button, a digital sensor or a simple jumper cable connected to +5V (or GND) is processed in the same way in an Arduino program. So far, we have seen how to *express Arduino's feelings* with digital output. Now it is time to express *our desire to the Arduino*. Let's design an Arduino program to turn on/off the same LED based on a button state.
 
 How to connect a button to the Arduino
 -----------------------------------------
@@ -683,7 +683,7 @@ For each of the arithmetic operations, the output is to be printed on the serial
 Exercise: Count to 10
 -----------------------
 
-In this exercise we will modify the hello wold example to a counter, which counts to 10 over a interval of 10 seconds, before it resets back to zero. Each count value is to be displayed on the serial monitor.
+In this exercise we will modify the hello world example to a counter, which counts to 10 over a interval of 10 seconds, before it resets back to zero. Each count value is to be displayed on the serial monitor.
 
 .. code-block:: c
 
@@ -715,28 +715,3 @@ In this exercise you are going to extend the program from the exercise "Calculat
    The serial-monitor is basically a terminal. In order to use the serial-monitor with your board, you need to establish a UART communication link between the two. By now you should have realized that you are uploading your software to the Arduino via USB cable. This transmission is using the same protocol as you use when printing text in the serial monitor. The general name of this commonly used protocol is `UART <https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter>`_ (or sometimes the more general term `USART <https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter>`_ is used). It is a wide concept that requires more time to grasp the details. We will look into that in our :ref:`communication protocols <L9_communication>` lesson later in the course.
 
 
-Additional exercises
-====================
-
-
-
-Exercise: D-flip flop, and state machines (voluntary)
-------------------------------------------------------
-
-The ideal way to implement state machines in software differs from the hardware approach. The concepts covered so far however, limits our possibilities, and in this exercise you will implement a state machine using the same techniques as you know from digital electronics. In digital electronics we use flip-flops to store data, but in our microcontroller we can easily store data by declaring a variable for it. Thus the implementation of flip-flops in this way is rather silly, but still a useful learning experience.
-
-#. Implement a D latch
-#. Implement a D flip-flop using two D latches
-#. Use two D flip-flops to implement a state machine with 4 states. Usa a push button to provide the clock signal, and 4 LEDs to decode the current state.
-
-.. todo:: Add a drawing of the state diagram that we are going to use. A regular 3-bit counter which counts from 0 to 7, and then resets back to 0.
-
-.. warning:: Turns out the code becomes rather complex. In order to prevent a mess, it was also necessary to use some advanced programming techniques to structure the code. You should note however that it would be possible to make it work using only the theory covered so far.
-
-The following code listing provides a solution proposal, where the D flip-flop is defined in a function to allow easy re-use of the code. If you do not know how to use functions, you will have to duplicate some of the code in order to make two flip-flops.
-
-.. literalinclude:: ../../../projects/platformio/d-flip-flop-state-machine/src/main.cpp
-   :language: c
-
-
-.. todo:: Add solution proposal using common software techniques, in order to demonstrate the proper way to solve such problems in software.
