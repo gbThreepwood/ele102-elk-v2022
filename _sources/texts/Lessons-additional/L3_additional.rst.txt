@@ -2,3 +2,107 @@ Additional exercises for lesson 3
 =================================
 
 
+
+The following function allows de-bouncing up to 8 digital inputs simultaneously:
+
+.. code-block:: c
+
+    uint8_t switch_debounce(uint8_t current_state){
+
+        static uint8_t asserted = 0x00;
+        static uint8_t previous = 0x00;
+
+        asserted |= (previous & current_state);
+        asserted &= (previous | current_state);
+
+        previous = current_state;
+
+        return asserted;
+    }
+
+
+Servo motor control
+-------------------
+
+The frequency of the PWM signal is important to drive a servo motor. Even though the :code:`analogWrite(pin, value)` and :code:`myServo.write(pin,value)` produces PWM signals, their frequencies are different. You can change the :code:`analogWrite(pin, value)` function's frequency by setting the corresponding timers's prescalar. The timer concept is going to be talked in the next section.
+
+.. todo:: More PWM examples with LED and if...else
+
+
+Exercise: Servo and map function
+---------------------------------
+
+There are different types of motors which require different driving circuit. Sometimes driving a motor can be challenging but luckily Arduino community presents a plug-and-play option for *servo motor* s. There is an important concept behind driving a servo motor but this theoretical part is going to be examined in the following courses. In this course, we will focus on the programming aspect.
+
+The purpose of this example is to control the position of this little motor you have using a potentiometer.
+
+.. warning:: The servo motor you have is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don't.
+   
+First of all, let's build the following circuit:
+
+.. figure:: ../../../external/fig/servoconnection.jpg
+   :align: center
+
+
+Servo motors have three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to pin 9 on the board.
+
+The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input 0 on the board.
+
+.. code-block:: c
+   :caption: Servo control using potentiometer
+
+   #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = 0;  // analog pin used to connect the potentiometer
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+        }
+
+        void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+        myservo.write(val);                  // sets the servo position according to the scaled value
+        delay(15);                           // waits for the servo to get there
+    }
+
+
+Attention that we are writing the potentiometer value directly as the servo angle. What if we want to *check* the value first and switch on an LED *if* it is in a desired range? Then the code will look like.
+
+
+.. code-block:: c
+   :caption: Controlling LED based on Servo angle
+
+    #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = 0;  // analog pin used to connect the potentiometer
+    const int ledPin = 13; // output pin for the LED
+
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+        }
+
+        void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+        myservo.write(val);                  // sets the servo position according to the scaled value
+        if(val > 90)
+        {
+            digitalWrite(ledPin,HIGH);
+        }
+        else
+        {
+            digitalWrite(ledPin,LOW);
+        }
+        delay(15);                           // waits for the servo to get there
+    }
+
+.. ref: https://www.allaboutcircuits.com/projects/using-the-arduinos-analog-io/
+

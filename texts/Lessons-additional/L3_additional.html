@@ -67,6 +67,19 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Additional exercises for lesson 3</a><ul>
+<li><a class="reference internal" href="#servo-motor-control">Servo motor control</a></li>
+<li><a class="reference internal" href="#exercise-servo-and-map-function">Exercise: Servo and map function</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
 
             
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
@@ -154,6 +167,99 @@
                   
   <div class="section" id="additional-exercises-for-lesson-3">
 <h1>Additional exercises for lesson 3<a class="headerlink" href="#additional-exercises-for-lesson-3" title="Permalink to this headline">¶</a></h1>
+<p>The following function allows de-bouncing up to 8 digital inputs simultaneously:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">switch_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">current_state</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">previous</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">previous</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">previous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_state</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="section" id="servo-motor-control">
+<h2>Servo motor control<a class="headerlink" href="#servo-motor-control" title="Permalink to this headline">¶</a></h2>
+<p>The frequency of the PWM signal is important to drive a servo motor. Even though the <code class="code docutils literal notranslate"><span class="pre">analogWrite(pin,</span> <span class="pre">value)</span></code> and <code class="code docutils literal notranslate"><span class="pre">myServo.write(pin,value)</span></code> produces PWM signals, their frequencies are different. You can change the <code class="code docutils literal notranslate"><span class="pre">analogWrite(pin,</span> <span class="pre">value)</span></code> function’s frequency by setting the corresponding timers’s prescalar. The timer concept is going to be talked in the next section.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>More PWM examples with LED and if…else</p>
+</div>
+</div>
+<div class="section" id="exercise-servo-and-map-function">
+<h2>Exercise: Servo and map function<a class="headerlink" href="#exercise-servo-and-map-function" title="Permalink to this headline">¶</a></h2>
+<p>There are different types of motors which require different driving circuit. Sometimes driving a motor can be challenging but luckily Arduino community presents a plug-and-play option for <em>servo motor</em> s. There is an important concept behind driving a servo motor but this theoretical part is going to be examined in the following courses. In this course, we will focus on the programming aspect.</p>
+<p>The purpose of this example is to control the position of this little motor you have using a potentiometer.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The servo motor you have is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don’t.</p>
+</div>
+<p>First of all, let’s build the following circuit:</p>
+<div class="figure align-center">
+<img alt="../../_images/servoconnection.jpg" src="../../_images/servoconnection.jpg" />
+</div>
+<p>Servo motors have three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to pin 9 on the board.</p>
+<p>The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input 0 on the board.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
+
+<span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
+
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">potPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// analog pin used to connect the potentiometer</span>
+<span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">;</span><span class="w">    </span><span class="c1">// variable to read the value from the analog pin</span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">// attaches the servo on pin 9 to the servo object</span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">     </span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">potPin</span><span class="p">);</span><span class="w">            </span><span class="c1">// reads the value of the potentiometer (value between 0 and 1023)</span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1023</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span><span class="w">     </span><span class="c1">// scale it to use it with the servo (value between 0 and 180)</span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">);</span><span class="w">                  </span><span class="c1">// sets the servo position according to the scaled value</span>
+<span class="w">     </span><span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w">                           </span><span class="c1">// waits for the servo to get there</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<p>Attention that we are writing the potentiometer value directly as the servo angle. What if we want to <em>check</em> the value first and switch on an LED <em>if</em> it is in a desired range? Then the code will look like.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
+
+<span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
+
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">potPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// analog pin used to connect the potentiometer</span>
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span><span class="w"> </span><span class="c1">// output pin for the LED</span>
+
+<span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">;</span><span class="w">    </span><span class="c1">// variable to read the value from the analog pin</span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">// attaches the servo on pin 9 to the servo object</span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">     </span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">potPin</span><span class="p">);</span><span class="w">            </span><span class="c1">// reads the value of the potentiometer (value between 0 and 1023)</span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1023</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span><span class="w">     </span><span class="c1">// scale it to use it with the servo (value between 0 and 180)</span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">);</span><span class="w">                  </span><span class="c1">// sets the servo position according to the scaled value</span>
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">90</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">     </span><span class="k">else</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">     </span><span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w">                           </span><span class="c1">// waits for the servo to get there</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
