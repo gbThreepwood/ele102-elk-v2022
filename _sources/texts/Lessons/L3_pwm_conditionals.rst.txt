@@ -39,6 +39,12 @@ For this exercise you can use the following connections:
 #. Extend the program to detect the rising and falling edge of a second push button.
 
 
+Exercise: rising edge counter
+-----------------------------
+
+#. Write a program which counts the rising edges of the push button. On each rising edge, the value of the counter should be printed to the serial port.
+#. Push the button 10 times, and take note of the value of your counter. If the value is higher than 10, it means that the button is bouncing (or that you made a mistake in your program)
+
 Push button de-bouncing
 ------------------------
 
@@ -57,8 +63,9 @@ It should also be noted that it is possible to create a switch de-bouncing libra
 Exercise: push button de-bouncing
 ----------------------------------
 
-#. Write a program which toggles a LED on the rising edge of a push button. The program should also print a message on the rising edge.
+#. Write a program which toggles a LED on the rising edge of a push button. The program should also print a message to the serial port on the rising edge.
 #. Extend the program with the code required to avoid bouncing problems.
+#. Try to press the push button repetitively to make sure that it is not bouncing.
 
 
 Pulse Width Modulation (PWM)
@@ -77,6 +84,8 @@ Analog output
 Analog output from a microcontroller (or any digital system) is performed by means of a Digital to Analog Converter (DAC). The Atmega328p of the Arduino UNO does not have a dedicated DAC built in to the device, but it has another feature which allows us to perform crude digital to analog conversion. The feature is known as pulse width modulation, and basically means that we are switching one of the digital outputs on and off quickly, but with variation in the durations the output stays high and low. This allows us to control the average output voltage. By using some external components for filtering, this pulsating voltage can be converted to a steady voltage with a value corresponding to the average of the PWM signal.
 
 You may wonder why pulse width modulation is a special feature in the microcontroller, only available on some pins. As you know from the previous lessons, any GPIO pin is capable of switching between the two voltage states representing *high*, and *low* (5 V, and 0 V on the Arduino UNO). It is indeed possible to generate PWM on any GPIO, and there are examples on situations where switching a generic GPIO in this way is desirable. The problem is that this switching is controlled by the software, taking up a certain amount of the available CPU time. If the switching frequency is supposed to be high, it will leave little room for the microcontroller to be working on other tasks besides the PWM. Additionally having multiple PWM outputs in this way increases the load even further. For this reason dedicated hardware support for PWM in included on some pins of the microcontroller. You simply configure the PWM, and the output will be running continuously with your settings, until it is changed from software. The reason only some pins have PWM is simply to reduce cost, there are other more powerful microcontrollers which support PWM on any pin.
+
+.. todo:: Add graph of discrete samples, and DAC output.
 
 Operation of a pulse width modulator
 ------------------------------------

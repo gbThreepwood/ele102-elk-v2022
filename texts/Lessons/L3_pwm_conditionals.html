@@ -78,6 +78,7 @@
 <li><a class="reference internal" href="#using-digital-inputs">Using digital inputs</a><ul>
 <li><a class="reference internal" href="#edge-detection">Edge detection</a></li>
 <li><a class="reference internal" href="#exercise-rising-and-falling-edge-detection">Exercise: rising and falling edge detection</a></li>
+<li><a class="reference internal" href="#exercise-rising-edge-counter">Exercise: rising edge counter</a></li>
 <li><a class="reference internal" href="#push-button-de-bouncing">Push button de-bouncing</a></li>
 <li><a class="reference internal" href="#exercise-push-button-de-bouncing">Exercise: push button de-bouncing</a></li>
 </ul>
@@ -221,6 +222,13 @@
 <li><p>Extend the program to detect the rising and falling edge of a second push button.</p></li>
 </ol>
 </div>
+<div class="section" id="exercise-rising-edge-counter">
+<h3>Exercise: rising edge counter<a class="headerlink" href="#exercise-rising-edge-counter" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Write a program which counts the rising edges of the push button. On each rising edge, the value of the counter should be printed to the serial port.</p></li>
+<li><p>Push the button 10 times, and take note of the value of your counter. If the value is higher than 10, it means that the button is bouncing (or that you made a mistake in your program)</p></li>
+</ol>
+</div>
 <div class="section" id="push-button-de-bouncing">
 <h3>Push button de-bouncing<a class="headerlink" href="#push-button-de-bouncing" title="Permalink to this headline">¶</a></h3>
 <p>Mechanical switches such as push buttons will often exhibit mechanical bouncing when they are connected. This is a relatively high frequency opening and closing of the contacts at the instant that they are supposed to close, or open. E.g. when you push a push button, the first connection instant will often be followed by several fast open close instants. Our microcontroller is more than capable of detecting these quick (but undesired) openings and closings of the switch, and may cause or software to detect multiple button events, when we only wanted one event.</p>
@@ -239,8 +247,9 @@
 <div class="section" id="exercise-push-button-de-bouncing">
 <h3>Exercise: push button de-bouncing<a class="headerlink" href="#exercise-push-button-de-bouncing" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>Write a program which toggles a LED on the rising edge of a push button. The program should also print a message on the rising edge.</p></li>
+<li><p>Write a program which toggles a LED on the rising edge of a push button. The program should also print a message to the serial port on the rising edge.</p></li>
 <li><p>Extend the program with the code required to avoid bouncing problems.</p></li>
+<li><p>Try to press the push button repetitively to make sure that it is not bouncing.</p></li>
 </ol>
 </div>
 </div>
@@ -256,11 +265,15 @@
 <h3>Analog output<a class="headerlink" href="#analog-output" title="Permalink to this headline">¶</a></h3>
 <p>Analog output from a microcontroller (or any digital system) is performed by means of a Digital to Analog Converter (DAC). The Atmega328p of the Arduino UNO does not have a dedicated DAC built in to the device, but it has another feature which allows us to perform crude digital to analog conversion. The feature is known as pulse width modulation, and basically means that we are switching one of the digital outputs on and off quickly, but with variation in the durations the output stays high and low. This allows us to control the average output voltage. By using some external components for filtering, this pulsating voltage can be converted to a steady voltage with a value corresponding to the average of the PWM signal.</p>
 <p>You may wonder why pulse width modulation is a special feature in the microcontroller, only available on some pins. As you know from the previous lessons, any GPIO pin is capable of switching between the two voltage states representing <em>high</em>, and <em>low</em> (5 V, and 0 V on the Arduino UNO). It is indeed possible to generate PWM on any GPIO, and there are examples on situations where switching a generic GPIO in this way is desirable. The problem is that this switching is controlled by the software, taking up a certain amount of the available CPU time. If the switching frequency is supposed to be high, it will leave little room for the microcontroller to be working on other tasks besides the PWM. Additionally having multiple PWM outputs in this way increases the load even further. For this reason dedicated hardware support for PWM in included on some pins of the microcontroller. You simply configure the PWM, and the output will be running continuously with your settings, until it is changed from software. The reason only some pins have PWM is simply to reduce cost, there are other more powerful microcontrollers which support PWM on any pin.</p>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>Add graph of discrete samples, and DAC output.</p>
+</div>
 </div>
 <div class="section" id="operation-of-a-pulse-width-modulator">
 <h3>Operation of a pulse width modulator<a class="headerlink" href="#operation-of-a-pulse-width-modulator" title="Permalink to this headline">¶</a></h3>
 <p>In this section we will cover the basics of how the PWM-outputs on the Atmega328p are operating.</p>
-<div class="admonition-todo admonition" id="id5">
+<div class="admonition-todo admonition" id="id6">
 <p class="admonition-title">Todo</p>
 <p>Figure from datasheet</p>
 </div>
@@ -308,7 +321,7 @@
 <p class="admonition-title">Note</p>
 <p>Logic Analyzer, or scope demonstration.</p>
 </div>
-<div class="admonition-todo admonition" id="id6">
+<div class="admonition-todo admonition" id="id7">
 <p class="admonition-title">Todo</p>
 <p>Add solution after the lecture</p>
 </div>
