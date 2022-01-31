@@ -71,36 +71,15 @@ It is very important to realize that the default state of a digital input depend
 It is not important which of the two you choose, because it is easy to invert the state in software. But it is important to realize the difference, in order to know when you have to invert it in software.
 
 
+
+Edge detection algorithm
+------------------------
+
+.. todo:: Describe a typicall edge detection algorithm
+
 .. Hands-on Exercises
 .. ====================
 .. Time to use expand the knowledge by doing!
-
-
-Exercise: Rising and falling edge detection
--------------------------------------------
-
-For this exercise you can use the following connections:
-
-.. figure:: ../../fig/fritzing/arduino_two_pb_one_led_bb.png
-  :alt: Arduino with external LED, and two push buttons
-  :align: center
-  :scale: 50
-
-
-#. Write a program which detect the rising edge of a push button. The program should send the text "rising edge detected" to the serial port on each rising edge.
-#. Extend the program to also detect the falling edge, and send the text "falling edge detected".
-#. Extend the program to toggle a LED on the rising edge.
-#. Take note on how many rising and falling edge detected messages you receive each time you push the button. If you receive more than one message on each button push this is likely due to mechanical bouncing which is covered in the next section.
-#. Extend the program to detect the rising and falling edge of a second push button.
-
-
-Exercise: Rising edge counter
------------------------------
-
-#. Write a program which counts the rising edges of the push button. On each rising edge, the value of the counter should be printed to the serial port.
-#. Push the button 10 times, and take note of the value of your counter. If the value is higher than 10, it means that the button is bouncing (or that you made a mistake in your program)
-
-
 
 Simple button press counter
 ----------------------------
@@ -111,7 +90,7 @@ Imagine that you develop a system that counts how many times a button pressed. I
    :align: center
 
 
-Here is the code:
+Here is the code template:
 
 .. code-block:: c
 
@@ -133,10 +112,9 @@ Here is the code:
         delay(10);
     }
 
+The following code listing is one possible solution:
 
-.. todo:: Reveal solution proposal
-
-.. .. code-block:: c
+.. code-block:: c
 
     const uint8_t led_pin = 2;
     const uint8_t button_pin = 11;
@@ -160,9 +138,12 @@ Here is the code:
     }
 
 
-.. note:: Note that how different serial print methods are used.
+.. .. note:: Note that how different serial print methods are used.
 
-Can you run and define if the system meets your requirements or something is off? What if you change the :code:`delay()` duration? Would it be *perfect* then? What if you move :code:`uint16_t count = 0;` in a function, let say in :code:`setup()` or :code:`loop()`. Play with this code and define the problem please.
+Can you run and determine if the system meets your requirements, or if something is off? What if you change the :code:`delay()` duration? Would it be *perfect* then?
+
+..
+    What if you move :code:`uint16_t count = 0;` in a function, let say in :code:`setup()` or :code:`loop()`. Play with this code and define the problem please.
 
 
 Simple button LED state change
@@ -192,9 +173,9 @@ Maybe we can modify the code such that the LED is not *directly* controlled by t
     }
 
 
-.. todo:: Reveal solution proposal
+Again the following code listing is one possible solution:
 
-.. .. code-block:: c
+.. code-block:: c
 
     const uint8_t led_pin = 2;
     const uint8_t button_pin = 11;
@@ -225,137 +206,31 @@ Maybe we can modify the code such that the LED is not *directly* controlled by t
     delay(100);
     }
 
+Exercise: Rising and falling edge detection
+-------------------------------------------
 
-Switch bouncing
-===============
+For this exercise you can use the following connections:
 
-A mechanical switch will often generate spurious open/close transitions in a short period after it has been activated. It is a risk that these spurious transitions are interpreted as multiple signals from the switch. In order to avoid these problems some form of debounce remedy should be applied. This could be a hardware solution, a software solution or a combination of the two.
-
-The graph to the right in the following figure illustrates the spurious changes in voltage level at the node between the resistor and the switch.
- 
-.. figure:: ../../../external/fig/switch_bounce.png
-   :alt: Switch bounce
-   :align: center
-
-   Source: `https://www.best-microcontroller-projects.com/easy_switch_debounce.html <https://www.best-microcontroller-projects.com/easy_switch_debounce.html>`_
+.. figure:: ../../fig/fritzing/arduino_two_pb_one_led_bb.png
+  :alt: Arduino with external LED, and two push buttons
+  :align: center
+  :scale: 50
 
 
-Debounce methods
-------------------------------
-
-If a software debounce solution is desired, one possibility is to check the button state twice, within a short time windows. I.e. check, delay, check again. The following source code listing illustrates one possibility:
-
-.. literalinclude:: ../../../projects//switch_debounce/delay_switch_debounce_no_func/src/main.cpp
-    :language: c
-    :linenos:
-
-Hardware solutions include analog filters using resistors and capacitors, or digital circuits as illustrated in the following figure:
-
-.. figure:: ../../../external/fig/Shift-register_and_a_nand_gate_as_a_debouncer.png
-   :align: center
-
-   Source: `https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/ <https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/>`_
-
-The button state is *clocked* in to the d flip-flops, and only when all the flip-flops have registered the same state the output will change. This solution is typically found in programmable logic, but it is rather expensive to realise by using discrete components.
-
-A really efficient and reliable debounce circuit can be built bu using a SR-latch in conjunction with a SPDT switch. In one position the switch is connected to the *set* input, while the other position of the switch is connected to *reset* input of the latch. That way you do not have to consider the time you expect the bouncing to last, or the duration between each of the spurious voltage pulses.
-
-..
-    This part is repetitive.
-
-    Mechanical switches such as push buttons will often exhibit mechanical bouncing when they are connected. This is a relatively high frequency opening and closing of the contacts at the instant that they are supposed to close, or open. E.g. when you push a push button, the first connection instant will often be followed by several fast open close instants. Our microcontroller is more than capable of detecting these quick (but undesired) openings and closings of the switch, and may cause or software to detect multiple button events, when we only wanted one event.
-
-    For this reason we often have to include some form of switch de-bouncing algorithm in our software. It is also possible to use a hardware solution (e.g. a SPDT switch, and an RS-latch), but in this lesson we will only consider a simple software solution. It is usually much cheaper to do the de-bouncing in software, that it is do to it in hardware.
+#. Write a program which detect the rising edge of a push button. The program should send the text "rising edge detected" to the serial port on each rising edge.
+#. Extend the program to also detect the falling edge, and send the text "falling edge detected".
+#. Extend the program to toggle a LED on the rising edge.
+#. Take note on how many rising and falling edge detected messages you receive each time you push the button. If you receive more than one message on each button push this is likely due to mechanical bouncing which is covered in the next section.
+#. Extend the program to detect the rising and falling edge of a second push button.
 
 
-    A simple approach is to detect the rising (or falling) edge of the digital input, and then simply ignore any changes on the input for a short duration after the first change was detected. Alternatively we could detect a change in the input, wait, and check it again to see if it is stable. More sophisticated methods are also available, and will be demonstrated in a future lecture.
+Exercise: Rising edge counter
+-----------------------------
 
-    It should also be noted that it is possible to create a switch de-bouncing library which hides this details from the application. This however will also have to wait for a future lecture.
-
-Exercise: Push button de-bouncing
-----------------------------------
-
-#. Write a program which toggles a LED on the rising edge of a push button. The program should also print a message to the serial port on the rising edge.
-#. Extend the program with the code required to avoid bouncing problems.
-#. Try to press the push button repetitively to make sure that it is not bouncing.
+#. Write a program which counts the rising edges of the push button. On each rising edge, the value of the counter should be printed to the serial port.
+#. Push the button 10 times, and take note of the value of your counter. If the value is higher than 10, it means that the button is bouncing (or that you made a mistake in your program)
 
 
-
-Stopwatch
------------
-Since we know some ways of eliminating the glitches (or jitter) on the button, we can design a nice stopwatch timer.
-
-.. literalinclude:: ../../../projects/StopWatch_pseudo/src/main.cpp
-    :language: c
-    :linenos:
-
-
-.. note:: Note that this is not a perfect solution either. If you press and release the button so fast that the program cannot catch :code:`digitalRead(button_pin)` line - since the microcontroller reads memory line by line - then you miss a button press. You need to *interrupt* your system. Yes, we will do it later :)
-
-
-
-.. According to our new plan array will be discussed in lecture 6.
-
-    Exercise: Triple button, triple LED
-    -----------------------------------
-
-    .. todo:: Start with regular long way with 2 buttons+2LED first.
-
-    .. When you have similar identities to be defined, changed, manipulated etc. you can use **arrays**. Here you have 3 button and 3 LED requested. With arrays, a better way:
-
-    .. code-block:: c
-
-        const int inputPins[] = {2,3,4};
-        const int ledPins[] = {9,10,11};
-        void setup(){
-            for(int i = 0; i < 3; i++){
-                pinMode(ledPins[i], OUTPUT);
-                delay(1);
-                pinMode(inputPins[i], INPUT);
-                delay(1);
-            }
-            Serial.begin(9600);
-        }
-        void loop(){
-            for(int i = 0; i < 3; i++){
-                int val = digitalRead(inputPins[i]);
-                if (val == LOW){
-                    digitalWrite(ledPins[i], HIGH);
-                }
-                else{
-                    digitalWrite(ledPins[i], LOW);
-                }
-            }
-        }   
-
-..  Also according to our plan serial input will come in lecture 6
-
-    Exercise: Serial UI for LED control
-    =====================================
-
-    Let's design a serial UI for controlling the button state.
-
-    Design requirements:
-
-    - An LED is connected to pin number 3 will be controlled by keyboard inputs.
-    - The user is allowed to enter **1**, **2** and **3** as input. If something else is entered, a help manual will appear.
-    - Keyboard number 1 will turn on the LED.
-    - Keyboard number 2 will turn off the LED.
-    - Keyboard number 3 will give the help manual as shown in the figure.
-
-    .. figure:: ../../../external/fig/led_serial_requirements.png
-       :align: center
-
-
-    .. note:: The :code:`rx_byte = Serial.read();` will be useful.
-
-
-    .. 
-        Solution:
-
-        .. literalinclude:: ../../../projects/led_serial/led_serial.ino
-            :language: c
-            :linenos:
 
 
 
@@ -406,12 +281,18 @@ Additionally it is convenient in the case you have multiple section of code whic
 Exercise: Blink two LEDs at different frequencies
 -------------------------------------------------
 
-.. todo:: Blink example using delay() to demonstrate how difficult it is to blink two LEDs at different rates this way
+The following code demonstrates how to blink two LEDs at different frequencies using the :code:`delay()` method. It should be obvious that this code will be difficult to maintain.
 
+.. literalinclude:: ../../../projects/platformio/timing/delay-blink-two-leds/src/main.cpp
+    :language: c
+    :linenos:
+
+
+In this exercise a similar program should be designed without the use of :code:`delay()`.
 
 #. Connect two external LEDs to the microcontroller.
-#. Write a program which blinks one LED at a frequency of 0.5 Hz.
-#. Extend the program to blink the other LED at a frequency of 0.25 Hz.
+#. Write a program which blinks one LED at a frequency of 1 Hz.
+#. Extend the program to blink the other LED at a frequency of 5 Hz.
 
 
 Exercise: Adjustable blink frequency
@@ -649,16 +530,24 @@ In this exercise you will (hopefully) experience the bouncing problem in practic
 
 
 
-Stopwatch
------------
-Since we know some ways of eliminating the glitches (or jitter) on the button, we can design a nice stopwatch timer.
+Exercise: Stopwatch
+-------------------
+
+Since we now know some ways of eliminating the glitches (or jitter) on the button, we can design a nice stopwatch timer, where a push button starts and stops the timing. Use the comments in the source code as your guide on how to solve this exercise.
 
 .. literalinclude:: ../../../projects/StopWatch_pseudo/src/main.cpp
     :language: c
     :linenos:
 
+.. todo:: Add solution proposal after the lecture
 
-.. note:: Note that this is not a perfect solution. If you press and release the button so fast that the program cannot catch :code:`digitalRead(button_pin)` line - since the microcontroller reads memory line by line - then you miss a button press. This will likely not be a problem for manual push buttons (unless your microcontroller executes a lot of code between each time it reads the digital input), but it might be a problem if you try to use the stopwatch for timing of something which is faster than a human hand. E.g. if you want to determine the speed of you bicycle, and try to measure the interval between pulses from a sensor on the wheel. The solution for fast signals is to use the *interrupt* system. This will be covered in a future lecture.
+..
+    .. literalinclude:: ../../../projects/StopWatch/src/main.cpp
+    :language: c
+    :linenos:
+
+
+.. note:: Note that this is not necessarily a perfect solution. If you press and release the button so fast that the program cannot catch :code:`digitalRead(button_pin)` line - since the microcontroller reads memory line by line - then you miss a button press. This will likely not be a problem for manual push buttons (unless your microcontroller executes a lot of code between each time it reads the digital input), but it might be a problem if you try to use the stopwatch for timing of something which is faster than a human hand. E.g. if you want to determine the speed of you bicycle, and try to measure the interval between pulses from a sensor on the wheel. The solution for fast signals is to use the *interrupt* system. This will be covered in a future lecture.
 
 
 .. According to our new plan array will be discussed in lecture 6.

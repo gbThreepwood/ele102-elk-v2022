@@ -91,6 +91,7 @@
 <li><a class="reference internal" href="#integer-return">Integer return</a></li>
 <li><a class="reference internal" href="#exercise-abstracting-away-your-hardware">Exercise: Abstracting away your hardware</a></li>
 <li><a class="reference internal" href="#exercise-pythagoras">Exercise: Pythagoras</a></li>
+<li><a class="reference internal" href="#exercise-tilt-detection">Exercise: Tilt detection</a></li>
 <li><a class="reference internal" href="#function-for-debounce-of-multiple-push-buttons">Function for debounce of multiple push buttons</a></li>
 </ul>
 </li>
@@ -171,6 +172,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#integer-return">Integer return</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-abstracting-away-your-hardware">Exercise: Abstracting away your hardware</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-pythagoras">Exercise: Pythagoras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-tilt-detection">Exercise: Tilt detection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#function-for-debounce-of-multiple-push-buttons">Function for debounce of multiple push buttons</a></li>
 </ul>
 </li>
@@ -452,6 +454,16 @@
 <li><p>Test the function with some data, and print the result to the serial port.</p></li>
 </ol>
 </div>
+<div class="section" id="exercise-tilt-detection">
+<h3>Exercise: Tilt detection<a class="headerlink" href="#exercise-tilt-detection" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise we are going to utilize a 4-pin tilt sensor to detect the orientation of the Arduino board. It is possible to detect the direction of orientation by checking which of the 4 pins are connected, but for this exercise you should only check if the switch is oriented in such a way that no pins are connected.</p>
+<p>The datasheet for the tilt sensor is available at: <a class="reference external" href="https://www.arduino.cc/documents/datasheets/TiltSensor.PDF">https://www.arduino.cc/documents/datasheets/TiltSensor.PDF</a></p>
+<ol class="arabic simple">
+<li><p>Connect the sensor to a digital input.</p></li>
+<li><p>Write a function which checks the state of the orientation switch. The function should return 1 (true) if the board is tilted.</p></li>
+<li><p>Complete the application with the required code to print a message to the serial port when the board is tilted.</p></li>
+</ol>
+</div>
 <div class="section" id="function-for-debounce-of-multiple-push-buttons">
 <h3>Function for debounce of multiple push buttons<a class="headerlink" href="#function-for-debounce-of-multiple-push-buttons" title="Permalink to this headline">¶</a></h3>
 <p>The previously discussed method for software switch debounce is a good candidate for placement in a function. Switch debounce is almost always needed when using mechanical push buttons on digital inputs, and it makes sense to have the code available for easy reuse. Additionally if designed properly a single function can be used for debounce of multiple digital inputs.</p>
@@ -630,6 +642,9 @@
 </div>
 <p>The function takes one <code class="code docutils literal notranslate"><span class="pre">uint8_t</span></code> as parameter. Each bit in this byte corresponds to a digital input which we want to debounce. In the function call the parameter is formed of the three bits which indicate the state of the three push buttons. We are using the bit left shift operator <code class="code docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> to shift the bits of the button 2, and button 3 state, one, and two places respectively. The bitwise or operator <code class="code docutils literal notranslate"><span class="pre">|</span></code> is then used to merge them in to a single byte.</p>
 <p>After declaring some variables, the first line of interest is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
 <p>The purpose it to store the previously asserted button states. I.e. the <code class="code docutils literal notranslate"><span class="pre">asserted</span></code> variable holds the state (which is considered stable) of up to 8 push buttons, and before we update it, we first store the previous value.</p>
 <p>The next statement is the following:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>

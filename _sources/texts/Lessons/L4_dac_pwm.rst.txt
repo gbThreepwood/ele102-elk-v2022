@@ -296,6 +296,16 @@ Exercise: Pythagoras
     If you wonder `how to return multiple arguments from a function, follow this link <http://nebomusic.net/arduinolessons/Void_and_Return_Functions_with_Arduino.pdf>`_.
 
 
+Exercise: Tilt detection
+------------------------
+
+In this exercise we are going to utilize a 4-pin tilt sensor to detect the orientation of the Arduino board. It is possible to detect the direction of orientation by checking which of the 4 pins are connected, but for this exercise you should only check if the switch is oriented in such a way that no pins are connected.
+
+The datasheet for the tilt sensor is available at: https://www.arduino.cc/documents/datasheets/TiltSensor.PDF
+
+#. Connect the sensor to a digital input.
+#. Write a function which checks the state of the orientation switch. The function should return 1 (true) if the board is tilted.
+#. Complete the application with the required code to print a message to the serial port when the board is tilted.
 
 Function for debounce of multiple push buttons
 -----------------------------------------------
@@ -352,6 +362,7 @@ The function takes one :code:`uint8_t` as parameter. Each bit in this byte corre
 After declaring some variables, the first line of interest is the following:
 
 .. code-block:: c
+
     btn_asserted_prev = asserted;
 
 The purpose it to store the previously asserted button states. I.e. the :code:`asserted` variable holds the state (which is considered stable) of up to 8 push buttons, and before we update it, we first store the previous value. 

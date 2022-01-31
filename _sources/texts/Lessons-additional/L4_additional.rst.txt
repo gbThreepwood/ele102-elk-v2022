@@ -390,3 +390,16 @@ Functions in separate files
 
 It is often useful to group related functions in a library by putting them in dedicated files. This is usually achieved by placing the definitions in a source file (\*.c, or \*.cpp), while the declarations are placed in a header (\*.h) file.
 
+
+
+Using the tilt sensor
+=====================
+
+According to the datasheet, the sensor will disconnect all four pins when the switch is tilted more than 45 degree. Considering how the switch is constructed this seems unlikely, and it would appear that it is possible to detect multiple orientations.
+
+The following source code illustrates how to detect all 6 detectable orientations. Note that this is an advanced example, and also that it is not too reliable because of how the switch operates.
+
+.. literalinclude:: ../../../projects/platformio/digital-input/tilt-switch/src/main.cpp
+    :language: c
+    :linenos:
+
