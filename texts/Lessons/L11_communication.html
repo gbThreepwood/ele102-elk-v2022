@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Communication Protocols &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../../',
+            VERSION:     'v1.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Communication Protocols</a><ul>
+<li><a class="reference internal" href="#uart-usart">UART/USART</a><ul>
+<li><a class="reference internal" href="#id1">UART</a></li>
+<li><a class="reference internal" href="#higher-level-protocol-layers">Higher level protocol layers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serial-terminal-emulator-software">Serial terminal emulator software</a></li>
+<li><a class="reference internal" href="#uart-communication-in-arduino">UART communication in Arduino</a><ul>
+<li><a class="reference internal" href="#serial-output">Serial output</a><ul>
+<li><a class="reference internal" href="#basic-serial-output-example">Basic serial output example</a></li>
+<li><a class="reference internal" href="#initialization">Initialization</a></li>
+<li><a class="reference internal" href="#the-serial-write-method">The <cite>Serial.write()</cite> method</a></li>
+<li><a class="reference internal" href="#the-serial-print-method">The <cite>Serial.print()</cite> method</a></li>
+<li><a class="reference internal" href="#the-serial-println-method">The <cite>Serial.println()</cite> method</a></li>
+<li><a class="reference internal" href="#serial-output-of-the-push-button-state">Serial output of the push button state</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serial-input">Serial input</a><ul>
+<li><a class="reference internal" href="#the-serial-read-method">The Serial.read() method</a></li>
+<li><a class="reference internal" href="#the-serial-readbytes-method">The Serial.readBytes() method</a></li>
+<li><a class="reference internal" href="#the-serial-readstring-method">The Serial.readString() method</a></li>
+<li><a class="reference internal" href="#the-serial-readstringuntil-method">The Serial.readStringUntil() method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#store-the-strings-in-program-memory">Store the strings in program memory</a></li>
+<li><a class="reference internal" href="#simple-command-line-interface">Simple command line interface</a></li>
+<li><a class="reference internal" href="#arduino-serial-port-buffer">Arduino serial port buffer</a></li>
+<li><a class="reference internal" href="#connecting-two-arduino-s-using-uart">Connecting two Arduino’s using UART</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#arduino-control-via-c-application">Arduino Control via C# application</a><ul>
+<li><a class="reference internal" href="#designing-a-simple-communication-protocol-on-top-of-uart">Designing a simple communication protocol on top of UART</a></li>
+<li><a class="reference internal" href="#consistent-overhead-byte-stuffing-cobs">Consistent Overhead Byte Stuffing (COBS)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-serial-port-in-c">Using the serial port in C#</a><ul>
+<li><a class="reference internal" href="#delegates">Delegates</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+<li><a class="reference internal" href="#using-the-serial-port-in-c-system-io-ports">Using the serial port in C# (System.IO.Ports)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-example">Simple example</a><ul>
+<li><a class="reference internal" href="#arduino-software">Arduino software</a></li>
+<li><a class="reference internal" href="#c-software">C# software</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improved-example">Improved example</a><ul>
+<li><a class="reference internal" href="#debugger">Debugger</a></li>
+<li><a class="reference internal" href="#id2">Arduino software</a></li>
+<li><a class="reference internal" href="#id3">C# software</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-example">Advanced example</a><ul>
+<li><a class="reference internal" href="#id4">Arduino software</a></li>
+<li><a class="reference internal" href="#id5">C# software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L2_digital_io.html">Lesson 2: Digital I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+</ul>
+
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <span class="target" id="l9-communication"></span><div class="section" id="communication-protocols">
+<h1>Communication Protocols<a class="headerlink" href="#communication-protocols" title="Permalink to this headline">¶</a></h1>
+<p>A communication protocol is a system of rules governing how two entities are to communicate with each other. Often it is usefull to separate the protocol into various layers, governing different aspects of the communication. Some layers may be general in nature, and applicable to many systems, while others may be very application specific.</p>
+<blockquote>
+<div><p>Why do we need ports?
+<em>There was a dark era before some protocols are decided…</em></p>
+<a class="reference internal image-reference" href="../../_images/port_fuck.jpeg"><img alt="To avoid from mess" class="align-center" src="../../_images/port_fuck.jpeg" style="width: 1122.0px; height: 1394.0px;" /></a>
+</div></blockquote>
+<div class="section" id="uart-usart">
+<h2>UART/USART<a class="headerlink" href="#uart-usart" title="Permalink to this headline">¶</a></h2>
+<p>pin numbers, where to use, baud rate, sync vs async</p>
+<p>Basically, as most of you know, you are uploading your sketches to the Arduino using a USB cable.  The general name of the underlying protocol that is used is <a class="reference external" href="https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter">UART</a> (or sometimes more generally referred to as  <a class="reference external" href="https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter">USART</a>).</p>
+<p>The USB employs a complicated communication protocol, but drivers on the PC end, and a chip on the Arduino end converts this to a simple UART protocol.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>TODO: Explain the basics of the operation of UART and USART.</p>
+</div>
+<div class="section" id="id1">
+<h3>UART<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The UART operates whitout a common clock signal for synchronization, hence the asynchronous part of the name. The sender and receiver is syncronized by means of start and stop signals as part of the data stream.</p>
+</div>
+<div class="section" id="higher-level-protocol-layers">
+<h3>Higher level protocol layers<a class="headerlink" href="#higher-level-protocol-layers" title="Permalink to this headline">¶</a></h3>
+<p>The UART as a communication protocol is very basic and puts few constraints on how information should be transmitted. A higher level applicaton specific communication protocol is needed in order to use the UART in a reliable communication system.</p>
+</div>
+</div>
+<div class="section" id="serial-terminal-emulator-software">
+<h2>Serial terminal emulator software<a class="headerlink" href="#serial-terminal-emulator-software" title="Permalink to this headline">¶</a></h2>
+<p>Both the standard Arduino IDE, and Visual studio code (with PlatformIO) has built in serial terminal emulators. If however you require more advanced features, different software might be more appropriate.</p>
+<p>Minicom is a popular GNU/Linux serial terminal. Refer to the manual for your distribution for instructions on how to install it.</p>
+<p>PuTTY is a popular alternative for Windows. You may download it at <a class="reference external" href="https://www.putty.org/">putty.org</a>.</p>
+</div>
+<div class="section" id="uart-communication-in-arduino">
+<h2>UART communication in Arduino<a class="headerlink" href="#uart-communication-in-arduino" title="Permalink to this headline">¶</a></h2>
+<p>This section covers the communication between Arduino and a PC using the single hardware UART available on the Arduino Uno.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On the Arduino Uno, pins 0 and 1 are used for communication with the computer. Connecting anything to these pins can interfere with that communication, including causing failed uploads to the board.</p>
+</div>
+<p>The Arduino functions associated with writing data to the serial port that we will be using in this tutorial are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/begin/">Serial.begin()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/write/">Serial.write()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/print/">Serial.print()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/println/">Serial.println()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/availableforwrite/">Serial.availableForWrite()</a></p></li>
+</ul>
+<p>The Arduino functions associated with reading data from the serial port that we will be using in this tutorial are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/read/">Serial.read()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/readbytes/">Serial.readBytes()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/readstring/">Serial.readString()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/readstringuntil/">Serial.readStringUntil()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/available/">Serial.available()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/communication/serial/settimeout/">Serial.setTimeout()</a></p></li>
+</ul>
+<div class="section" id="serial-output">
+<h3>Serial output<a class="headerlink" href="#serial-output" title="Permalink to this headline">¶</a></h3>
+<p>This section covers the basics of transmission of data from Arduino to a serial terminal on your PC.</p>
+<div class="section" id="basic-serial-output-example">
+<h4>Basic serial output example<a class="headerlink" href="#basic-serial-output-example" title="Permalink to this headline">¶</a></h4>
+<p>The following example illustates how to transmit “Hello world” over the serial port:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"> </span><span class="c1">// open the serial port at 9600 bps</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// text written what you want to see</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"> </span><span class="c1">// delay 0.5 seconds before the sending</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="initialization">
+<h4>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h4>
+<p>Before you can use the <code class="code ccode c docutils literal notranslate"><span class="pre">Serial</span></code> object in Arduino it must be initialized with some configuration. Often you will simply see: <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.begin(9600)</span></code>. This configures the serial port for 9600 bits per second, 8 data bits, one start bit, no parity bit, and one stop bit. This configuration is rather common, and thus it is also the default, when you specify nothing. If you want to be explicit, you may use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">,</span><span class="n">SERIAL_8N1</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Although the bit configuration is often left alone, it is common to adapt the baudrate (in this context the baudrate is the number of bits per second). In order to specifiy the next higher standard baudrate of 19200, you may use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">19200</span><span class="p">,</span><span class="n">SERIAL_8N1</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If you wish to use parity, or adjust the number of data bits, there are many predefined configurations. E.g.:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">19200</span><span class="p">,</span><span class="n">SERIAL_5E2</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Unless you understand the implications, and know that you need something else, it is probably best to stay with the default configuration.</p>
+</div>
+<p>The explanation for the semingly arbritary baudrate of 9600 lies in the first applications of this kind of communication systems. Old mechanical teletypewriters operated at 75 baud, and thus some of the first modems also used that speed. Later modems used 150 baud, then 300 baud, and then 1200, 2400, and 9600 baud. All baudrates are multiples of two, which simplified the design, and allowed one system to easily support multiple baudrates.</p>
+<p>Some baudrates that are communly supported include:</p>
+<ul class="simple">
+<li><p>9600</p></li>
+<li><p>19200</p></li>
+<li><p>38400</p></li>
+<li><p>57600</p></li>
+<li><p>115200</p></li>
+</ul>
+</div>
+<div class="section" id="the-serial-write-method">
+<h4>The <cite>Serial.write()</cite> method<a class="headerlink" href="#the-serial-write-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.write()</span></code> method writes binary data to the serial port. It is useful for low level writing, when you want the actual number, rather than it’s ASCII representation to be written to the terminal.</p>
+<p>In order to write a lower case “f” to the terminal you may use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">102</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>But if you want to write the number 102 (i.e. the integer 102, not the string “102”), such that it is displayed as “102” in the terminal, that number must first be converted to a string. The number is one byte, but it’s ASCII representation is three bytes:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">49</span><span class="p">);</span><span class="w"></span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">48</span><span class="p">);</span><span class="w"></span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.write()</span></code> metod stores the data to be transmitted in a buffer, before returning immediately. The actual transmission is handled by a ISR. If the buffer is full however, the method will block until there is sufficient free space. If you cannot afford the risk of the code blocking, you should use the method <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.availableForWrite()</span></code> to check if the buffer has free space before writing.</p>
+</div>
+<div class="section" id="the-serial-print-method">
+<h4>The <cite>Serial.print()</cite> method<a class="headerlink" href="#the-serial-print-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print()</span></code> method simplifies the writing of numbers, as it automatically converts them to ASCII. The following will print the number as ASCII:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="mi">102</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print()</span></code> method support a parameter specifying how to print a integer:</p>
+<ul class="simple">
+<li><p><code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print(154,</span> <span class="pre">BIN);</span></code> prints 10011010.</p></li>
+<li><p><code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print(154,</span> <span class="pre">OCT);</span></code> prints 232.</p></li>
+<li><p><code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print(154,</span> <span class="pre">DEC);</span></code> prints 154.</p></li>
+<li><p><code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print(154,</span> <span class="pre">HEX);</span></code> prints 9A.</p></li>
+</ul>
+<p>If the passed number is floating point, the second parameter is used to specify how many decimal places to use:</p>
+<ul class="simple">
+<li><p><code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print(1.2345,</span> <span class="pre">2);</span></code> prints 1.23.</p></li>
+</ul>
+</div>
+<div class="section" id="the-serial-println-method">
+<h4>The <cite>Serial.println()</cite> method<a class="headerlink" href="#the-serial-println-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.println()</span></code> method works in the same manner as <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print()</span></code> with the addition of a carrige return and line feed appended at the end.</p>
+</div>
+<div class="section" id="serial-output-of-the-push-button-state">
+<h4>Serial output of the push button state<a class="headerlink" href="#serial-output-of-the-push-button-state" title="Permalink to this headline">¶</a></h4>
+<p>Let’s write a program that takes the button state, and writes it on your serial monitor .</p>
+<p>This will look like that with your breadboard and Arduino:</p>
+<div class="figure align-center">
+<img alt="../../_images/buttonconnect.png" src="../../_images/buttonconnect.png" />
+</div>
+<p>The following code continously prints the state of the push button to the serial port:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">button_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">button_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">button_pin</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">button_state</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="serial-input">
+<h3>Serial input<a class="headerlink" href="#serial-input" title="Permalink to this headline">¶</a></h3>
+<p>When the Arduino receives data on the serial port the data is automatically stored in a buffer. When the buffer is full, Arduino ignores any new data until the buffer is drained. Several of the functions used to access this buffer, automatically frees the memory.</p>
+<div class="section" id="the-serial-read-method">
+<h4>The Serial.read() method<a class="headerlink" href="#the-serial-read-method" title="Permalink to this headline">¶</a></h4>
+<p>In order to read a single byte from the serial port we may use the <cite>Serial.read()</cite> method.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>It is pointless to read the serial port if no data is available, thus we use the <cite>Serial.available()</cite> method to check if there is data in the buffer first.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.read()</span></code> method returns “-1” if no data is available on the serial port. This can be used to check if the buffer is empty, but it can also be problematic if one wishes to use it for a binary communication protocol, where the binary code for “-1” could be part of the transmission.</p>
+<p>The following example shows how to read all keystrokes in the terminal, and feed back the ASCII code, as well as the character:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Press any key: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">        </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Data: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; : Tegn: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-serial-readbytes-method">
+<h4>The Serial.readBytes() method<a class="headerlink" href="#the-serial-readbytes-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readBytes()</span></code> method reads one or more bytes from the serial port, and stores them in a specified buffer. The method is blocking until the specified number of bytes are received, or a timeout occurs. The timeout delay is configured by the method <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.setTimeout()</span></code>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">readBytes</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The binary nature of this function makes it usefull for binary transfers, but more complicated to use for normal text.</p>
+<p>The following example reads a maximum of five bytes from the serial port. If five bytes are received, or a timeout occurs, the data is printed back on the serial port.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">max_rx_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">rx_data</span><span class="p">[</span><span class="n">max_rx_size</span><span class="p">];</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Set the timeout to 5 seconds.</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Type your message: &quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">readBytes</span><span class="p">(</span><span class="n">rx_data</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">rx_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">rx_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">rx_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">rx_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">rx_data</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-serial-readstring-method">
+<h4>The Serial.readString() method<a class="headerlink" href="#the-serial-readstring-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readString()</span></code> method reads one or more bytes from the serial port, and stores them i a specified buffer. The method takes no parameters, and returns on a timeout.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">()</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The following example reads data from the serial port until a timeout occurs.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Set the timeout to 5 seconds.</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Type your message: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;You typed: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-serial-readstringuntil-method">
+<h4>The Serial.readStringUntil() method<a class="headerlink" href="#the-serial-readstringuntil-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readStringUntil()</span></code> method reads data from the serial port until it reaches a termination character.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="n">terminator</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The following example reads data from the serial port until a newline character is received (i.e. you press ENTER), or a timeout occurs. The data is then written back to the serial port.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Set the timeout to 5 seconds.</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Type your message: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;You typed: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="store-the-strings-in-program-memory">
+<h3>Store the strings in program memory<a class="headerlink" href="#store-the-strings-in-program-memory" title="Permalink to this headline">¶</a></h3>
+<p>By default the strings you use in your writes to the serial port are stored in RAM. The SRAM in Atmega328P is only 2 kB. If you have lots of text that you wish to send to the serial port, this can quickly consume all of your memory.</p>
+<p>To overcome this issue you may store the strings in program memory. There are however some implications to consider.</p>
+<p>This fact may seem a bit confusing to anyone that is new to microcontrollers. After all the SRAM is volatile, all it’s content is deleted when you reset or power off the microcontroller. Then how can the strings survive the power cycle? The explanation for this is that the strings are stored in program memory, and copied into SRAM during the boot process of the controller. In other words they occupy the same amount of memory in both SRAM, and flash ROM.</p>
+<p>This is required because the CPU instruction to read RAM differ from the function (LPM) that read the flash ROM. Any function that supports normal variables will fail to access data from ROM.</p>
+<p>You may read more about the various memories in Arduino <a class="reference external" href="https://playground.arduino.cc/Learning/Memory/">here</a></p>
+<p>In order to tell the compiler to store data in program memory you may use the <cite>PROGMEM</cite> modifier:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">PROGMEM</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">testData</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">65535</span><span class="p">,</span><span class="w"> </span><span class="mi">32000</span><span class="p">,</span><span class="w"> </span><span class="mi">12000</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">12345</span><span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The following example illustrates how to store and retrieve some numbers, and one string from program memory:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/pgmspace.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">PROGMEM</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">testData</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">65535</span><span class="p">,</span><span class="w"> </span><span class="mi">32000</span><span class="p">,</span><span class="w"> </span><span class="mi">12000</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">12345</span><span class="p">};</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">testString</span><span class="p">[]</span><span class="w"> </span><span class="n">PROGMEM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;This string is stored in program memory.&quot;</span><span class="p">};</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">progmemInt</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">progmemChar</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">progmemInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgm_read_word_near</span><span class="p">(</span><span class="n">testData</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">progmemInt</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">strlen_P</span><span class="p">(</span><span class="n">testString</span><span class="p">);</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">progmemChar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgm_read_byte_near</span><span class="p">(</span><span class="n">testString</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">progmemChar</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If all you need is to write a string to the serial port, and you don’t want to waste memory the <cite>F()</cite> macro may be used:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="s">&quot;This string is constant, thus it is best to store it in FLASH&quot;</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+<p>You may read more about how to use the program memory to store data in the <a class="reference external" href="https://www.arduino.cc/reference/tr/language/variables/utilities/progmem/">Arduino reference</a></p>
+</div>
+<div class="section" id="simple-command-line-interface">
+<h3>Simple command line interface<a class="headerlink" href="#simple-command-line-interface" title="Permalink to this headline">¶</a></h3>
+<p>In order to interact with the software in the Arduino while it is running, we will create a simple command line interface.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;# &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">command</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;A&#39;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Kommandoen er A.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">command</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;B&#39;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Kommandoen er B.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Ugyldig kommando.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">       </span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;# &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="arduino-serial-port-buffer">
+<h3>Arduino serial port buffer<a class="headerlink" href="#arduino-serial-port-buffer" title="Permalink to this headline">¶</a></h3>
+<p>The Arduio uno has circular RX and TX buffers of 64 bytes. If the buffer is full, incoming data is discarded.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define SERIAL_TX_BUFFER_SIZE 64</span>
+<span class="cp">#define SERIAL_RX_BUFFER_SIZE 64</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-two-arduino-s-using-uart">
+<h3>Connecting two Arduino’s using UART<a class="headerlink" href="#connecting-two-arduino-s-using-uart" title="Permalink to this headline">¶</a></h3>
+<p>The following example shows how to communicate between two Ardiuno UNO’s using the UART. On each device pin 2 is used for reception (RX), and pin 3 is used for transmission (TX). The TX output of one device is connected to the RX input of the other.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/dual_arduino_uart_communication_bb.png"><img alt="../../_images/dual_arduino_uart_communication_bb.png" src="../../_images/dual_arduino_uart_communication_bb.png" style="width: 829.5px; height: 384.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * This program allows two Arduino Uno&#39;s to communicate with each other via UART.</span>
+<span class="cm"> * Because the Atmega 328 only contains a single hardware UART, we are using a software</span>
+<span class="cm"> * UART library.</span>
+<span class="cm"> * </span>
+<span class="cm"> * The USB is using the hardware UART for program upload, and general communication with a PC.</span>
+<span class="cm"> * The data that is sent on the USB UART will be retransmitted on the software UART, and any</span>
+<span class="cm"> * data received by the software UART will be retransmitted on the USB UART.</span>
+<span class="cm"> * </span>
+<span class="cm"> */</span><span class="w"></span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Add compile date and time, used for a unique identifier.</span>
+<span class="cm"> * This is useful when working with multiple Arduino&#39;s</span>
+<span class="cm"> * in order to not confuse yourself regarding which device </span>
+<span class="cm"> * you are currently dealing with.</span>
+<span class="cm"> */</span><span class="w"> </span>
+<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">compile_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__DATE__</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="n">__TIME__</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ditt navn&quot;</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// RX, TX</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">softSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Arduino UART kommunikasjonslink&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Bruker: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">user_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Komplieringstid: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">compile_date</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="arduino-control-via-c-application">
+<h2>Arduino Control via C# application<a class="headerlink" href="#arduino-control-via-c-application" title="Permalink to this headline">¶</a></h2>
+<p>In this lesson we will go through the design of a application that allows us to communicate between a desktop application written in C#, and a Arduino application written in C/C++. The communication link will be using the UART, but with some additional higher level application specific protocol layers.</p>
+<div class="section" id="designing-a-simple-communication-protocol-on-top-of-uart">
+<h3>Designing a simple communication protocol on top of UART<a class="headerlink" href="#designing-a-simple-communication-protocol-on-top-of-uart" title="Permalink to this headline">¶</a></h3>
+<p>Among the low level methods that are available to us are <cite>Serial.write()</cite>, and <cite>Serial.read()</cite>. The methods have the ability to send and receive one byte respectively. They do hovever not put any constraints on what the bytes are supposed to represent. The binary value 0b01001011 could represent a uppercase “K”, as it does in ASCII, but it could also be a command to turn on a LED, or read a analog input. It is up to the designer to decide.</p>
+<p>Even though you are free to do as you please, there are some approaches that are considered good practice, and that often lead to a more reliable communication system.</p>
+<p>The following listing is one typical organisation of the data packet:</p>
+<ul class="simple">
+<li><p>Start flag (single constant byte signifying start of transmission)</p></li>
+<li><p>Command byte (one or more bytes that informs the receiver on what the data represents)</p></li>
+<li><p>Length byte (the number of data bytes, or possibly the total number of bytes)</p></li>
+<li><p>Data byte (the actual data to transfer)</p></li>
+<li><p>Checksum or CRC (data used to verify the integrity of the transmitted data)</p></li>
+<li><p>End flag (single constant byte signifying end of transmission)</p></li>
+</ul>
+<p>For fixed lengt data packages the length byte is not needed. In simple applications the checksum is often omitted, and possibly also the start and end flags.</p>
+<p>For advanced applications there is a possible issue that the start, and end flags could appear as part of the data bytes. If each byte of the data could be anything, that means it could also be the flags no matter which value you choose to use. The flags are introduced to increase reliability, and this benefit is compromized if you do not reset the reception each time you receive a start flag. In order to overcome this issue one may use various forms of byte stuffing.</p>
+<p>For production code it is recommended to at least use the following organisation of the data even for simple applications:</p>
+<ul class="simple">
+<li><p>Start flag (single constant byte signifying start of transmission)</p></li>
+<li><p>Command byte (one or more bytes that informs the receiver on what the data represents)</p></li>
+<li><p>Data byte (the actual data to transfer)</p></li>
+<li><p>End flag (single constant byte signifying end of transmission)</p></li>
+</ul>
+<p>In the following examples we will try to start of even simpler however.</p>
+</div>
+<div class="section" id="consistent-overhead-byte-stuffing-cobs">
+<h3>Consistent Overhead Byte Stuffing (COBS)<a class="headerlink" href="#consistent-overhead-byte-stuffing-cobs" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Byte stuffing is a advanced topic, and will not be covered as part of the course. It is here for the students that are particulary curious.</p>
+</div>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing">https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing</a></p>
+</div>
+</div>
+<div class="section" id="using-the-serial-port-in-c">
+<h2>Using the serial port in C#<a class="headerlink" href="#using-the-serial-port-in-c" title="Permalink to this headline">¶</a></h2>
+<p>Before we go into the details of how to use the serial port, we should first try to understand the basic concept of delegates, and events.</p>
+<div class="section" id="delegates">
+<h3>Delegates<a class="headerlink" href="#delegates" title="Permalink to this headline">¶</a></h3>
+<p>A delegate in C# is a variable that holds a reference to a method. This is similar to the function pointer concept in C.</p>
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<p>A event could be any occurrence of something. The event system in C# is used to notify one part of the software about something that has happened in a different part of the software. This could for instance be a user pressing a button on the keyboard, or mouse, or it could be data received on the serial port.</p>
+<p>The event system works by the publisher-subscriber model. A publisher allows one or more subscribers to subscribe to the available events, when a event is raised, a method in the subscriber is called.</p>
+<p>The subscribers are added to the publisher by assigning methods to a delegate variable in the publisher.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">class</span><span class="w"> </span><span class="n">MainClass</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">var</span><span class="w"> </span><span class="n">video</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Video</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Back to the future&quot;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">            </span><span class="n">VideoEncoder</span><span class="w"> </span><span class="n">videoEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">VideoEncoder</span><span class="p">();</span><span class="w"></span>
+<span class="w">            </span><span class="n">var</span><span class="w"> </span><span class="n">smsServie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">SMS</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">VideoEncoded</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">smsServie</span><span class="p">.</span><span class="n">OnVideoEncoded</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">VideoEncodingStarted</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">smsServie</span><span class="p">.</span><span class="n">OnStartEncoding</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">video</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Programmet er ferdig.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get</span><span class="p">;</span><span class="w"> </span><span class="n">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">VideoEncoder</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">delegate</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">VideoEncodedEventHandler</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="w"> </span><span class="n">args</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">delegate</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">VideoEncodingStartedHandler</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">args</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">VideoEncodedEventHandler</span><span class="w"> </span><span class="n">VideoEncoded</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">VideoEncodingStartedHandler</span><span class="w"> </span><span class="n">VideoEncodingStarted</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">Encode</span><span class="p">(</span><span class="n">Video</span><span class="w"> </span><span class="n">video</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">OnVideoEncodingStarted</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Enkodar video..&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">video</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">protected</span><span class="w"> </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">Video</span><span class="w"> </span><span class="n">video</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">VideoEncoded</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">VideoEncoded</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">video</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">protected</span><span class="w"> </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncodingStarted</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">VideoEncodingStarted</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">VideoEncodingStarted</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
+<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">SMS</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnStartEncoding</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Kodinga har starta.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Sender SMS...&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-serial-port-in-c-system-io-ports">
+<h3>Using the serial port in C# (System.IO.Ports)<a class="headerlink" href="#using-the-serial-port-in-c-system-io-ports" title="Permalink to this headline">¶</a></h3>
+<p>When reading the serial port you have several options. You could use a blocking call that blocks until data is available on the serial port, or you could poll the serial port library to check if data is available. Finally you could register a event handler that is called when data is available.</p>
+</div>
+</div>
+<div class="section" id="simple-example">
+<h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
+<p>In this example we wil create a application to control an LED, and read a analog value from a potmeter connected to our Arduino.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/one_potmeter_and_one_led_bb.png"><img alt="../../_images/one_potmeter_and_one_led_bb.png" src="../../_images/one_potmeter_and_one_led_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
+</div>
+<div class="section" id="arduino-software">
+<h3>Arduino software<a class="headerlink" href="#arduino-software" title="Permalink to this headline">¶</a></h3>
+<p>Ideally you should not have to concern yourself with what kind of programming language will be used on one side of the communication link, when developing software on the other side. In our case that means that you should not need to know C# in order to develop the Arduino software, and you should not have to know C or Arduino in order to develop the C# software.</p>
+<p>For this to work you should write a protocol specification before you start developing the software. In this first approach the following protocol is implemented (please note that this is a very naive approach):</p>
+<p>Command: ‘led’ causes a LED on pin 9 to toggle. Command ‘voltage’ causes the Arduino to return the measured raw analog value on pin A0. No additional control data is transmitted, the controller does not return a confirmation message when it is told to toggle the LED, and the reception relies on a timeout insted of a end flag to signify complete data packet.</p>
+<p>One could also note that the data is transmitted as ASCII, which means that a number that ideally takes up one byte, will use two bytes. And also the length of the commands are many bytes, which introduces unnecessary overhead.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">potmeterInput_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">serialData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;voltage&quot;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="c-software">
+<h3>C# software<a class="headerlink" href="#c-software" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/arduino_comm_screenshot.png"><img alt="../../_images/arduino_comm_screenshot.png" src="../../_images/arduino_comm_screenshot.png" style="width: 263.0px; height: 173.0px;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="improved-example">
+<h2>Improved example<a class="headerlink" href="#improved-example" title="Permalink to this headline">¶</a></h2>
+<p>For this improved example we will be using an ASCII based communication protocol. I.e. the data that appear on the UART should be readable when converted to it’s character representation in the ASCII code. This introduces some overhead, but has the advantage that the protocol is easy to debug, and it is also testable using a simple UART serial terminal on a PC.</p>
+<ul class="simple">
+<li><p># - Start flag</p></li>
+<li><p>&lt;byte&gt;</p></li>
+<li><p>&lt;byte&gt;</p></li>
+<li><p>n - End flag</p></li>
+</ul>
+<div class="section" id="debugger">
+<h3>Debugger<a class="headerlink" href="#debugger" title="Permalink to this headline">¶</a></h3>
+<p>The serial port is often used to print debug messages. When developing an application that uses the serial port for other purposes, it is no longer available for debugging. Arduino UNO contains only one hardware UART, but you can extend your application with software UART’s.</p>
+<p>The following Arduino program implements a simple bridge between a software UART, and a hardware UART. The software is intended to run on a additional Arduino, to aid in debugging of the code on our primary Arduino. The hardware UART is connected to a PC using USB, while the software UART is connected the the Arduino under test. The allows the Aruino under test to send debug messages using a software UART of it’s own.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/one_potmeter_and_one_led_with_debugger_bb.png"><img alt="../../_images/one_potmeter_and_one_led_with_debugger_bb.png" src="../../_images/one_potmeter_and_one_led_with_debugger_bb.png" style="width: 883.5px; height: 660.0px;" /></a>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Add compile date and time, used for a unique identifier.</span>
+<span class="cm"> * This is useful when working with multiple Arduino&#39;s</span>
+<span class="cm"> * in order to not confuse yourself regarding which device </span>
+<span class="cm"> * you are currently dealing with.</span>
+<span class="cm"> */</span><span class="w"> </span>
+<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">compile_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__DATE__</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="n">__TIME__</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ditt navn&quot;</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// RX, TX</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">softSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Arduino UART softserial debugger&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Bruker: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">user_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Komplieringstid: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">compile_date</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Arduino software<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">potmeterInput_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// RX, TX</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* Soft serial for debugging purposes. */</span><span class="w"></span>
+<span class="w">  </span><span class="n">softSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Arduino remote.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">serialData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Mottok: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">serialData</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;voltage&quot;</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>C# software<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="advanced-example">
+<h2>Advanced example<a class="headerlink" href="#advanced-example" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/one_potmeter_and_three_led_bb.png"><img alt="../../_images/one_potmeter_and_three_led_bb.png" src="../../_images/one_potmeter_and_three_led_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
+</div>
+<div class="section" id="id4">
+<h3>Arduino software<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id5">
+<h3>C# software<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/adv_arduino_comm_screenshot.png"><img alt="../../_images/adv_arduino_comm_screenshot.png" src="../../_images/adv_arduino_comm_screenshot.png" style="width: 491.0px; height: 310.0px;" /></a>
+</div>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../../index.html">ELE102 Microcontroller course v1.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

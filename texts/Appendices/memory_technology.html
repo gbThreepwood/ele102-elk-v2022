@@ -142,20 +142,27 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_pwm_conditionals.html">Lesson 3: Analog Output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Lesson X.2 L2_additional</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/interrupts.html">Lesson X.8 Interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/functions.html">Lesson X.5 Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/low_power_operation.html">Lesson Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/ir_communication.html">Lesson Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/course_summary.html">Lesson Course summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -185,14 +192,14 @@
                 <div class="body">
                   
   <div class="section" id="memory-technology">
-<h1>Memory technology<a class="headerlink" href="#memory-technology" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Memory technology<a class="headerlink" href="#memory-technology" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="flash-memory">
 <h2>Flash memory<a class="headerlink" href="#flash-memory" title="Permalink to this headline">¶</a></h2>
 <p>Flash memory is a type of non volatile memory. Flash memory has it’s name from the requirement that one has to erase a whole block of memory if one or more bits of the block has to be changed from zero (0) to one (1). This is a so called <cite>Flash</cite> erase.</p>
 <p>Initially (or straight after a <cite>Flash</cite> erase) all the bits of a flash memory block are one (1), and you only program the ones that have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform <cite>Flash</cite> erase.</p>
 <p>There is no physical limitation that forces us to use a full block erase, but the memory is designed in this way (the transistors are connected in such a way that this is the only possibility). The reason for doing this is that the erase cycle is a relative slow operation, and thus there is a speed gain in erasing many bits at once.</p>
 <p>A Flash memory supporting single byte (or bit) erase is called a EEPROM. But in order to achieve this the circuit for each bit is more complex, and hence more expensive.</p>
-<p>Each bit in a Flash memory consists of one transistor, specifically a floating gate MOSFET. The floating gate holds a negative charge when the bit is programmed, and neutral charge when it is not programmed. The negative charge prevents current from flowing through the transistor when a read voltage is applied, thus zero current is interpreted as a logic zero (0) <span id="id1">[]</span>.</p>
+<p>Each bit in a Flash memory consists of one transistor, specifically a floating gate MOSFET. The floating gate holds a negative charge when the bit is programmed, and neutral charge when it is not programmed. The negative charge prevents current from flowing through the transistor when a read voltage is applied, thus zero current is interpreted as a logic zero (0) <span id="id2">[]</span>.</p>
 <iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/SlXb2aF_RRU" frameborder="0" allowfullscreen="1">&nbsp;</iframe><div class="section" id="nand-flash">
 <h3>NAND Flash<a class="headerlink" href="#nand-flash" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -242,7 +249,7 @@
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="id2"></span></div>
+<span class="target" id="id3"></span></div>
 </div>
 
 
@@ -275,7 +282,7 @@
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
       </footer>
       <!-- /footer -->
 

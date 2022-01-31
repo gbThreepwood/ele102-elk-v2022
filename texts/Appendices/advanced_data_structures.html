@@ -162,20 +162,27 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_pwm_conditionals.html">Lesson 3: Analog Output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Lesson X.2 L2_additional</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/interrupts.html">Lesson X.8 Interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/functions.html">Lesson X.5 Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/low_power_operation.html">Lesson Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/ir_communication.html">Lesson Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/course_summary.html">Lesson Course summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -205,7 +212,7 @@
                 <div class="body">
                   
   <div class="section" id="stacks-queues-and-lists">
-<h1>Stacks, queues and lists<a class="headerlink" href="#stacks-queues-and-lists" title="Permalink to this headline">¶</a></h1>
+<span id="stacks-queues-lists"></span><h1>Stacks, queues and lists<a class="headerlink" href="#stacks-queues-and-lists" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>In embedded systems with limited amounts of RAM you should typically avoid dynamic memory allocation. I.e. avoid the malloc() function. As an alternative to dynamic allocation, static allocation (i.e. compile time allocation) is possible. E.g by putting your data structures in an statically allocated array. Still for completeness several of the examples in this chapter uses dynamic memory allocation. High end microcontrollers, and especially microcontrollers running a operating system to manage memory could safely use this approach.</p>
@@ -315,10 +322,10 @@ not how you would do it in practice, it only serves to demonstrate the simplest
 possible list you could make.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value1</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value2</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">node_t</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">print_linked_list</span><span class="p">(</span><span class="n">node_t</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="p">){</span><span class="w"></span>
@@ -374,10 +381,10 @@ possible list you could make.</p>
 <h3>Linked list demo with various  useful functions<a class="headerlink" href="#linked-list-demo-with-various-useful-functions" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value1</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value2</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">node_t</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">print_linked_list</span><span class="p">(</span><span class="n">node_t</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="p">){</span><span class="w"></span>
@@ -511,11 +518,11 @@ next, and the previous element in the list.</p>
 <h3>Doubly linked list example<a class="headerlink" href="#doubly-linked-list-example" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value1</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value2</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">node_t</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">print_linked_list</span><span class="p">(</span><span class="n">node_t</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="p">){</span><span class="w"></span>
@@ -682,7 +689,7 @@ features. Typical examples include balancing of symbols, infix to postfix/prefix
 
 <span class="k">typedef</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stack_element_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">stack</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">stack</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">stack_element_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">top</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
@@ -690,7 +697,7 @@ features. Typical examples include balancing of symbols, infix to postfix/prefix
 
 <span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
 <span class="n">stack_element_t</span><span class="w"> </span><span class="n">stack_elements</span><span class="p">[</span><span class="n">stack_size</span><span class="p">];</span><span class="w"></span>
-<span class="k">struct</span> <span class="nc">stack</span><span class="w"> </span><span class="n">mystack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_elements</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_size</span><span class="p">};</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">stack</span><span class="w"> </span><span class="n">mystack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_elements</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_size</span><span class="p">};</span><span class="w"></span>
 
 
 <span class="n">stack_element_t</span><span class="w"> </span><span class="nf">pop</span><span class="p">(){</span><span class="w"></span>
@@ -765,7 +772,7 @@ features. Typical examples include balancing of symbols, infix to postfix/prefix
 
 <span class="k">typedef</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stack_element_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">stack_element_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">top</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
@@ -905,12 +912,12 @@ next received byte in the queue, while <code class="code ccode c docutils litera
 
 <span class="k">typedef</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">queue_data_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">queue_node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">queue_node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">queue_node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">  </span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">queue_node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">  </span>
 <span class="p">}</span><span class="w"> </span><span class="n">queue_node_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_node_t</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_node_t</span><span class="w"> </span><span class="o">*</span><span class="n">tail</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">queue_t</span><span class="p">;</span><span class="w"></span>
@@ -953,18 +960,18 @@ next received byte in the queue, while <code class="code ccode c docutils litera
 <p>When enqueueing a new element the following example will allocate the memory dynamically. It is not the recommended approach for systems with limited memory, you should at least add a limit for the maximum memory allocation.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">number</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">another_number</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">string</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">queue_data_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">queue_node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">queue_node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">queue_node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">  </span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">queue_node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">  </span>
 <span class="p">}</span><span class="w"> </span><span class="n">queue_node_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_node_t</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_node_t</span><span class="w"> </span><span class="o">*</span><span class="n">tail</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">queue_t</span><span class="p">;</span><span class="w"></span>
@@ -1121,7 +1128,7 @@ next received byte in the queue, while <code class="code ccode c docutils litera
 
 <span class="k">typedef</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">queue_item_t</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">queue_item_t</span><span class="w"> </span><span class="o">*</span><span class="n">items</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">max_size</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"></span>
@@ -1351,7 +1358,7 @@ If however we find a deleted node we simply continue our search.</p>
 <span class="cp">#define TABLE_SIZE 10</span>
 <span class="cp">#define DELETED_NODE ((person_t *)0x1)</span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">MAX_NAME</span><span class="p">];</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">person_t</span><span class="p">;</span><span class="w"></span>
@@ -1538,10 +1545,10 @@ element to the linked list at that location.</p>
 <span class="cp">#define MAX_NAME 32</span>
 <span class="cp">#define TABLE_SIZE 10</span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">person</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">person</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">MAX_NAME</span><span class="p">];</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">person</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">person</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">person_t</span><span class="p">;</span><span class="w"></span>
 
 <span class="n">person_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">hash_table</span><span class="p">[</span><span class="n">TABLE_SIZE</span><span class="p">];</span><span class="w"></span>
@@ -1825,10 +1832,10 @@ element to the linked list at that location.</p>
 <h2>Binary tree<a class="headerlink" href="#binary-tree" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">left</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="k">struct</span> <span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">right</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">left</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">right</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">node_t</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">delete_tree</span><span class="p">(</span><span class="n">node_t</span><span class="w"> </span><span class="o">*</span><span class="n">leaf</span><span class="p">){</span><span class="w"></span>
@@ -2014,7 +2021,7 @@ element to the linked list at that location.</p>
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
       </footer>
       <!-- /footer -->
 

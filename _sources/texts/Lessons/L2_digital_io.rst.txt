@@ -1,4 +1,4 @@
-.. _L3_Digital_IO:
+.. _L2_Digital_IO:
 
 *******************************************************
 Digital I/O, and serial port output
@@ -371,40 +371,6 @@ The following code shows how a digital input can be used to set the state of a d
 #. Make the necessary modifications to allow the push button to enable blinking of the LED. (Hint: only one of the :code:`digitalWrite` in your blink program should depend on the state of the push button).
 
 .. todo:: Add solution proposal after the lecture
-
-Understanding Pull-up / Pull-down resistors
--------------------------------------------
-
-As already discussed in terms of push buttons, when using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. For our convenience the Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.
-
-The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the input impedance. In practice a 10k resistor is often used. 
-
-.. The analog pins also have pull-up resistors, which work identically to pull-up resistors on the digital pins. They are enabled by issuing a command such as :code:`pinMode(A0, INPUT_PULLUP);  // set pull-up on analog pin 0`
-
-.. figure:: ../../../external/fig/Pull-up-and-Pull-down-Resistor.png
-   :alt: Arduino with pull-up, and pull-down resistors on push buttons
-   :align: center
-   
-   Source: `circuitdigest.com <https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor>`_
-
-.. Be aware however that turning on a pull-up will affect the values reported by analogRead(). The pull up should be disabled before you consider using a given pin as a analog input.
-
-The following figure depicts the connection of two push buttons to the Arduino. For the leftmost button the resistor in the figure pulls the input low, and the push button is connected in such a way that it can pull it up. For the button to the right the configuration is opposite.
-
-.. figure:: ../../fig/fritzing/arduino_two_pb_pull_up_pull_down_bb.png
-  :alt: Arduino with external LED, and two push buttons
-  :align: center
-  :scale: 50
-
-
-.. .. figure:: ../../fig/digital_input_demo_bb.png
-        :alt: Arduino with external LED, and external push button
-        :align: center
-        :scale: 50
-
-It is very important to realize that the default state of a digital input depends on whether the input is pulled up, or pulled down. If the input is pulled down by a resistor, and the push button pulls it up, then a push on the button will make the input logical **HIGH**. If on the other hand the input is pulled up by a resistor, and a push on the button pulls it down, pushing the button will make the input logical **LOW**
-
-It is not important which of the two you choose, because it is easy to invert the state in software. But it is important to realize the difference, in order to know when you have to invert it in software.
 
 
 Exercise: Logic operations on digital inputs

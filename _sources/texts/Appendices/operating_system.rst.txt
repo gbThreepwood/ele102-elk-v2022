@@ -1,4 +1,6 @@
-.. operating_system:
+:orphan:
+
+.. _operating_system:
 
 *************************
 Operating system

@@ -9,7 +9,7 @@ Welcome to ELE102 Microcontroller course!
 On this page we will publish new lecture notes every week, as the course is progressing. The lecture notes will contain the curriculum that you need to know for the exam, as well as some additional material for those of you who are eager for more in depth knowledge.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Lessons:
  
    Introduction <texts/Lessons/L0_Introduction_elk.rst>
@@ -17,20 +17,20 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 1a: What is a Microcontroller <texts/Lessons/L1a_UC_intro.rst>
    Lesson 1b: Introduction to Arduino <texts/Lessons/L1b_Arduino_intro.rst>
    Lesson 2: Digital I/O <texts/Lessons/L2_digital_io.rst>
-   Lesson 3: Analog Output (PWM) <texts/Lessons/L3_pwm_conditionals.rst>
-   
+   Lesson 3: Use of digital I/O and timing <texts/Lessons/L3_digital_io_and_timing.rst>
+   Lesson 4: Analog output (PWM) <texts/Lessons/L4_dac_pwm.rst>
+
 ..
-  Lesson 4: Analog Input (ADC) <texts/Lessons/L4_adc_conditionals.rst>
-  Lesson 5: Serial I/O - Functions - Loops <texts/Lessons/L5_serial_io_functions_loops.rst>
-  Lesson 6: Repetition <texts/Lessons/L6_repetition.rst>
-  Lesson 7: Motor Drive <texts/Lessons/L7_motor_drive.rst>
-  Lesson 8: Timers and Interrupts <texts/Lessons/L8_timer_interrupt.rst>
-  Lesson 9: LC-Display <texts/Lessons/L9_LC_display.rst>
-  Lesson 10: Communication Protocols <texts/Lessons/L10_communication.rst>
-  Lesson 11: Memory <texts/Lessons/L11_memory.rst>
-  Lesson 12: Visual Studio and Arduino <texts/Lessons/L12_VS_arduino.rst>
-  Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
-  
+   Lesson 5: Analog to digital conversion (ADC) <texts/Lessons/L5_adc.rst>
+   Lesson 6: Serial I/O <texts/Lessons/L6_serial_io.rst>
+   Lesson 7: Timers and interrupts <texts/Lessons/L7_timer_interrupt.rst>
+   Lesson 8: LC-Display <texts/Lessons/L8_LC_display.rst>
+   Lesson 9: Memory and MCU architecture <texts/Lessons/L9_memory_and_architecture.rst>
+   Lesson 10: Motor drive <texts/Lessons/L10_motor_drive.rst>
+   Lesson 11: Communication <texts/Lessons/L11_communication.rst>
+   Lesson 12: SPI and I2C <texts/Lessons/L12_spi_i2c.rst>
+   Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
+   Course summary <texts/Lessons/course_summary.rst>
    
 ..
    Introduction <texts/Lessons/L0_Introduction.rst>
@@ -39,7 +39,6 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 6 (divided): ADC - PWM - Interrupt <texts/Lessons/L6_interrupt_adc_dac.rst>
    Lesson 10 (gone): Real-Time Clock <texts/Lessons/L10_rtc.rst>
    Lesson 12: Microcontroller Architecture <texts/Lessons/L12_UC_architecture.rst>
-   Lesson 13: Project - Introduction <texts/Lessons/RC_car.rst>
 
  ..
    Lesson 4: Hands on Activities <texts/Lessons/L3_hands_on_act.rst>
@@ -55,10 +54,8 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 13: Project - Introduction <texts/Lessons/RC_car.rst>
    Lesson X.1 Interrupts <texts/Lessons/interrupts.rst>
    Lesson X.2 Functions <texts/Lessons/functions.rst>
-   Lesson X.3 Low power operation <texts/Lessons/low_power_operation.rst>
    Lesson X.4 Infrared remote <texts/Lessons/ir_communication.rst>
    Lesson X.5 Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
-   Lesson X.5 Course summary <texts/Lessons/course_summary.rst>
 
 .. These where duplicates
    Lesson 14: Project - Communication <texts/Lessons/RC_car.rst>
@@ -70,19 +67,50 @@ On this page we will publish new lecture notes every week, as the course is prog
 
 .. toctree::
    :maxdepth: 4
+   :caption: Additional material:
+
+   Additional material lesson 1 <texts/Lessons-additional/L1_additional.rst>
+   Additional material lesson 2 <texts/Lessons-additional/L2_additional.rst>
+   Additional material lesson 3 <texts/Lessons-additional/L3_additional.rst>
+   Additional material lesson 4 <texts/Lessons-additional/L4_additional.rst>
+
+.. 
+   Additional material lesson 5 <texts/Lessons-additional/L5_additional.rst>
+   Additional material lesson 6 <texts/Lessons-additional/L6_additional.rst>
+   Additional material lesson 7 <texts/Lessons-additional/L7_additional.rst>
+   Additional material lesson 8 <texts/Lessons-additional/L8_additional.rst>
+   Additional material lesson 9 <texts/Lessons-additional/L9_additional.rst>
+   Additional material lesson 10 <texts/Lessons-additional/L10_additional.rst>
+   Additional material lesson 11 <texts/Lessons-additional/L11_additional.rst>
+   Additional material lesson 12 <texts/Lessons-additional/L12_additional.rst>
+
+
+
+
+
+.. toctree::
+   :maxdepth: 4
    :caption: Projects:
 
    Mix <texts/Appendices/Additionals.rst>
-   Lesson X.2 L2_additional <texts/Lessons-additional/L2_additional.rst>
+   Infrared remote <texts/Projects/ir_communication.rst>
+   Cool Project: RC Car (Bluetooth or Joystick) <texts/Projects/RC_car.rst>
+   Cool Project: Simple Robot Arm (Bluetooth or Joystick) <texts/Projects/Robotarm.rst>
+
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Appendices:
+
+   Low power operation <texts/Appendices/low_power_operation.rst>
+   Lesson Stacks, Queues, Lists <texts/Appendices/stacks_queues_lists.rst>
+
+.. 
    Lesson X.8 Interrupts <texts/Lessons/interrupts.rst>
    Lesson X.5 Functions <texts/Lessons/functions.rst>
    Lesson Low power operation <texts/Lessons/low_power_operation.rst>
    Lesson Infrared remote <texts/Lessons/ir_communication.rst>
-   Lesson Stacks, Queues, Lists <texts/Lessons/stacks_queues_lists.rst>
    Lesson Course summary <texts/Lessons/course_summary.rst>
-   Cool Project: RC Car (Bluetooth or Joystick) <texts/Lessons/RC_car.rst>
-   Cool Project: Simple Robot Arm (Bluetooth or Joystick) <texts/Lessons/Robotarm.rst>
-
 
 .. todo:: Add more projects if we feel like it (and we can find the time to write them)
 ..    

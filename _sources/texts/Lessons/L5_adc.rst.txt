@@ -1,0 +1,205 @@
+.. _analog_to_digital_conversion:
+
+*******************************************************
+Analog to digital conversion (ADC)
+*******************************************************
+
+
+Introduction
+====================================
+
+.. Analog input and output concept in Arduino is a bit more challenging than digital. In this lecture, we will dive into it.
+
+.. todo:: Make an introduction of what is analog i/o, why do we need ADC/DAC?
+
+Analog to digital converters (ADC) and digital to analog converters (DAC) are
+the bridges between digital and analog worlds. The analog input or output range is
+determined by a reference voltage, :math:`V_{ref}`. Typically for an N-bit converter with
+unsigned digital I/O and unipolar analog range :math:`(0V .. +V_{ref})`, one step at the analog
+end, :math:`\Delta V_{LSB}`, is given by:
+
+.. math::
+    \Delta V_{LSB} = \frac{V_{ref}}{2^N}
+
+Similarly for a bipolar analog range :math:`(-V_{ref} .. +V_{ref})`, one step at the analog end is:
+
+.. math::
+    \Delta V_{LSB} = \frac{V_{ref}}{2^N}
+
+
+ADC: potentiometer, RGB LED, temperature sensor
+DAC: Quantization, PWM
+
+Analog to digital converter
+---------------------------
+
+An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. There are many important parameters one should understand when applying an A/D converter. This is only a summary of a few basic ones:
+
+* Resolution - The digital representation of the analog signal must use a finite number of bits, and this imposes limitations on the smallest possible change in the analog value that is detectable by the converter.
+* Sampling frequency - The conversion from analog to digital takes up a finite time, and this imposes limitation on how fast changes in the analog signals that are detectable.
+* `Aliasing <https://jeelabs.org/article/1620b>`_ - If the measured analog signal contains components with a frequency that is higher than half of the sampling frequency, there is a risk of aliasing. The risk is that the resulting digital representation contains frequency components that does not exist in the real analog signal.
+* Dymaic range -  The range of signal amplitudes that the ADC can resolve.
+
+For simple applications with values that vary slowly (e.g. temperature measurements), it might be sufficient to only take these parameters into account. For more demanding applications (e.g. real time current measurements in a motor drive), one should obtain a deeper knowledge of all the parameters that will impact the performance. 
+
+.. ref: https://web.ics.purdue.edu/~jricha14/Port_Stuff/PortA_ADC.htm
+
+But before that, let's talk about bit manipulation and binary operations. Detailed readinng `here <https://binaryupdates.com/bitwise-operations-in-embedded-programming/#Bitwise_Shift_Operators_ltlt_gtgt>`_.
+
+.. note::
+   Blackboard explanation.
+
+
+Temperature measurement using TMP36
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now, we will be reading the temperature from the TMP36 sensor that is included in the Arduino kit. The TMP36 has a voltage output linearly proportional to the temperature, and thus makes it easy to measure temperatures without any curve fitting that must be used with nonlinear sensing elements.
+
+
+The details of how the TMP36 operates are available in the `datasheet <https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf/>`_
+
+  
+.. figure:: ../../fig/temperature_sensor_bb.png
+        :align: center
+        :scale: 50
+
+
+.. code-block:: c
+                
+	void setup() { 
+		Serial.begin(9600); 
+	}
+
+	void loop() {
+		int sensorVal = analogRead(0);
+		float sensorVolt = (sensorVal/1024.0)*5;
+		float temperature = (sensorVolt - 0.5)*100;
+
+		Serial.print("Sensor verdi: ");
+		Serial.print(sensorVal);
+		Serial.print("\n");
+
+		Serial.print("Sensor spenning: ");
+		Serial.print(sensorVolt);
+		Serial.print("\n");
+
+		Serial.print("Sensor temperatur: ");
+		Serial.print(temperature);
+		Serial.print("\n");
+		delay(2000);
+
+		}
+
+
+
+Potentiometer as Analog Input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How does a dimmer light work? Well, you don't need a microcontroller for *just* changing the light luminosity, for sure. The key element you got to know here is a **potentiometer**. It simply divides the voltage on its two legs between the middle leg. You may or may not use the both legs depending on your purpose.
+
+
+.. figure:: ../../../external/fig/simple_pot_battery.png
+   :alt: Simple potentiometer circuit
+   :align: center
+
+
+You can use this potentiometer value for various different reasons. Now, assume that your microcontroller team is assigned to develop a simple heat display system. If the temperature is higher than 30 celcius, the display gives a warning. If it is between 20-30 celcius, everything is fine. If it is less than 20 celcius, then your display system warns again. To have a temperature sensor (in real life) and physically change the temperature of the room for the sake of test is not very efficient. *We all know* that temperature sensor gives an analog signal so I can trick the system using potentiometer. Let's change the temperature sensor with a potentiometer assuming that the potentiometer is the temperature sensor.
+
+
+.. figure:: ../../../external/fig/simple_pot_arduino.png
+   :alt: Simple potentiometer circuit with Arduino
+   :align: center
+
+.. note:: Check that the same code for the temperature sensor works!
+
+.. code-block:: c
+
+	void setup() {
+		Serial.begin(9600);
+	}
+
+	void loop() {
+		int sensorVal = analogRead(0);
+		float sensorVolt = (sensorVal/1024.0)*5;
+		float temperature = (sensorVolt - 0.5)*100;
+
+		Serial.print("Verdi: ");
+		Serial.print(sensorVal);
+		Serial.print("\t");
+
+		Serial.print("Spenning: ");
+		Serial.print(sensorVolt);
+		Serial.print("\t");
+
+		Serial.print("Temperatur: ");
+		Serial.print(temperature);
+		Serial.print("\n");
+
+		if(temperature >=30)
+			Serial.print("Warm");
+
+		else if((temperature >=20)&&(temperature <30))
+			Serial.print(":)");
+
+		else
+			Serial.print("Cold");
+
+		delay(1000);
+
+	}
+
+
+**Note** that you may want to change potentiometer ranging.
+
+        
+
+Voltage reference for the ADC
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. In the Arduino UNO this reference may be set to `DEFAULT`, `INTERNAL`, or `EXTERNAL`, for 5V, 1.1V or externally applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.
+
+.. code-block:: c
+
+        analogReference(EXTERNAL);
+
+The accuracy of the reference voltage directly affects the accuracy of the converted voltage, and this is one of the motives for using an external reference. A highly precise voltage can be used if high accuracy is required.
+
+..
+    Light intensity measurements using a phototransistor
+    ----------------------------------------------------
+
+    https://www.arduino.cc/documents/datasheets/HW5P-1.pdf
+
+
+    Voltage reference experiment using potentiometer
+    ------------------------------------------------
+
+    In this example we will be using two potentiometers, one for adjusting the voltage reference, and one for adjusting the input voltage to the ADC.
+
+
+Advanced Analog to Digital Conversion
+---------------------------------------
+
+In the ADC hardware of the Atmega328p, there are many different parameters that needs to be configured properly. Using the :code:`analogRead(analogPin)` Arduino function, we cannot reach most of the parameters. For example setting the ADC speed, resolution, conversion mode etc. The default settings are fine for basic usage, but there are many situations where you would have to go in to the details.
+
+Here is an example of the implementation of ADC without using built-in :code:`analogRead(analogPin)` function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let's understand it with the help of Atmega328p datasheet.
+
+.. literalinclude:: ../../../projects/ADC_full/ADC_full.ino
+   :language: c
+
+
+.. note::
+
+   ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. `Here, <https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html>`_ is a very nice summary of general ADC problems. 
+
+The ATmega controllers used for the Arduino contain an onboard 6 channel (8 channels on the Mini and Nano, 16 on the Mega) analog-to-digital (A/D) converter. The converter has 10 bit resolution, returning integers from 0 to 1023. The default input voltage range is 0 - 5V, thus 5V corresponds to 1023. By default the maximum sampling frequency of the Arduino UNO is 9615 Hz. It is however possible to increase this by modifying the ADC clock frequency.
+
+While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13).
+
+Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.
+
+
+.. warning:: 
+   The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.
+   
+   The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.
+

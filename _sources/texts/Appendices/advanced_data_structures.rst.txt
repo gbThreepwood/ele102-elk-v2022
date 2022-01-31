@@ -1,4 +1,6 @@
-.. stacks_queues_lists:
+:orphan:
+
+.. _stacks_queues_lists:
 
 ************************************
 Stacks, queues and lists

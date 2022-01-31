@@ -1,0 +1,16 @@
+*******************************************************
+Additional material for lesson 11
+*******************************************************
+
+
+
+ANSI Escape sequences
+---------------------
+If you wish to have control over the behaviour of your serial terminal, you may use Escape sequences.
+
+
+How to design a reliable communication protocol
+-----------------------------------------------
+
+The design of reliable communication protocols is a topic for a complete course on it's own, here I will only provide some general rules to help you avoid the most common pitfalls.
+

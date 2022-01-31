@@ -1,3 +1,5 @@
+:orphan:
+
 .. _L5_edge_conditional_func:
 
 .. note:: *12/02/2020 - 195mins*

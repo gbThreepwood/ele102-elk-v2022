@@ -53,8 +53,8 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Additional exercises" href="../Lessons-additional/L2_additional.html" />
-    <link rel="prev" title="Digital input and analog output" href="../Lessons/L3_pwm_conditionals.html" /> 
+    <link rel="next" title="Infrared (IR) communication" href="../Projects/ir_communication.html" />
+    <link rel="prev" title="Additional material for lesson 4" href="../Lessons-additional/L4_additional.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -102,8 +102,8 @@
               </li>
 
             
-              <li><a href="../Lessons/L3_pwm_conditionals.html" title="Digital input and analog output" accesskey="P">previous </a></li>
-              <li><a href="../Lessons-additional/L2_additional.html" title="Additional exercises" accesskey="N">next </a></li>
+              <li><a href="../Lessons-additional/L4_additional.html" title="Additional material for lesson 4" accesskey="P">previous </a></li>
+              <li><a href="../Projects/ir_communication.html" title="Infrared (IR) communication" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -145,7 +145,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_pwm_conditionals.html">Lesson 3: Analog Output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul class="current">
@@ -171,15 +179,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#simple-motor-drive-example-with-speed-control">Simple motor drive example with speed control</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Lesson X.2 L2_additional</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/interrupts.html">Lesson X.8 Interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/functions.html">Lesson X.5 Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/low_power_operation.html">Lesson Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/ir_communication.html">Lesson Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/course_summary.html">Lesson Course summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -198,12 +205,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../Lessons/L3_pwm_conditionals.html"
-                        title="previous chapter">Digital input and analog output</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../Lessons-additional/L2_additional.html"
-                        title="next chapter">Additional exercises</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../Lessons-additional/L4_additional.html"
+                          title="previous chapter">Additional material for lesson 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Projects/ir_communication.html"
+                          title="next chapter">Infrared (IR) communication</a></p>
+  </div>
   </div>
 </div> 
         
@@ -594,7 +605,7 @@
 \[\frac{4294967296}{1000 \cdot 60 \cdot 60 \cdot 24} = 49.7\]</div>
 <p>Thus we see that the counter will wrap around after approximately 50 days. This should be accounted for in applications where the controller is running continously for extended periods of time.</p>
 <p>The following code is excerpt from the Arduino library, and shows the implementation of the <cite>millis()</cite> function:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">millis</span><span class="p">()</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">millis</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">oldSREG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SREG</span><span class="p">;</span><span class="w"></span>
@@ -611,7 +622,7 @@
 </div>
 <p>If higher accuracy is required there is also a <cite>micros()</cite> function, returning the number of microseconds since the last reboot.</p>
 <p>The following code depicts the implementation of the <cite>micros()</cite> function:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">micros</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">micros</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">oldSREG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SREG</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
 
@@ -1231,8 +1242,8 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="../Lessons/L3_pwm_conditionals.html" title="Digital input and analog output" >previous</a></li>
-        <li><a href="../Lessons-additional/L2_additional.html" title="Additional exercises" >next</a></li>
+        <li><a href="../Lessons-additional/L4_additional.html" title="Additional material for lesson 4" >previous</a></li>
+        <li><a href="../Projects/ir_communication.html" title="Infrared (IR) communication" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
@@ -1244,7 +1255,7 @@
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
       </footer>
       <!-- /footer -->
 

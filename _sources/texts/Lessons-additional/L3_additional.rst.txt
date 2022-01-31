@@ -1,7 +1,32 @@
-Additional exercises for lesson 3
+*******************************************************
+Additional material for lesson 3
+*******************************************************
+
+
+Switch debounce methods
 =================================
 
+Switch bounce is the mechanical bouncing of the contacts in an electrical switch, causing what should be a single event to appear to be multiple events (e.g. multiple presses of a push button). It is a feature of most electical swiches, and causes problems when the switches are interfaced with fast digital electronics, such as microcontrollers. Many solutions have been developed to overcome these issues, and thus it is impossible to cover all of them. This chapter aims to provide you with some effective hardware and software solutions.
 
+.. warning:: The part about switch debounce is not ready.
+
+Measuring switch bounce using oscilloscope
+------------------------------------------
+
+
+Software solutions
+------------------
+
+Switch debounce in hardware is a effective solution, but additional hardware increases the cost and thus it is often possible to save some cost by implementing software debounce. Switch change may be detected by polling the state of the digital input, or the input may generate an interrupt to the CPU. Regardless of which metod one is using, care must be taken to not detect several push events because of bouncing.
+
+Polling is often the preferred method to detect push buttons, although constant polling does waste some CPU cycles. In applications such as battery operated devices, the microcontroller could be put into a sleep state in order to save power when it is not in use. A interrupt is often required to wake up the controller, but afterwards in could enter a polling mode for the inputs. In simple applications the polling could be acheived in the main loop, or by using a timer interrupt where the ISR polls the inputs. If the controller is running a operating system, it could also be possible to use a thread for the polling.
+
+The interrupt solution requires extra attention because the bouncing in some cases may cause the ISR to fire many times within a short time period. This can have a bad impact on the performance of the microcontroller. The solution will often be that the pin change interrupt is temporary disabled by the ISR on the first invocation. After some delay the interrupt is re-enabled.
+
+Because many applications require debouncing of more than one push button, it is often useful to create a library which provides a consistant way of adding debounce to the inputs that require this.
+
+
+In this section we will look at more sophisticated switch debounce techniques.
 
 The following function allows de-bouncing up to 8 digital inputs simultaneously:
 
@@ -21,88 +46,104 @@ The following function allows de-bouncing up to 8 digital inputs simultaneously:
     }
 
 
-Servo motor control
--------------------
-
-The frequency of the PWM signal is important to drive a servo motor. Even though the :code:`analogWrite(pin, value)` and :code:`myServo.write(pin,value)` produces PWM signals, their frequencies are different. You can change the :code:`analogWrite(pin, value)` function's frequency by setting the corresponding timers's prescalar. The timer concept is going to be talked in the next section.
-
-.. todo:: More PWM examples with LED and if...else
 
 
-Exercise: Servo and map function
----------------------------------
+..  The following function allows de-bouncing up to 8 digital inputs simultaneously:
 
-There are different types of motors which require different driving circuit. Sometimes driving a motor can be challenging but luckily Arduino community presents a plug-and-play option for *servo motor* s. There is an important concept behind driving a servo motor but this theoretical part is going to be examined in the following courses. In this course, we will focus on the programming aspect.
+    .. code-block:: c
 
-The purpose of this example is to control the position of this little motor you have using a potentiometer.
+        uint8_t switch_debounce(uint8_t current_state){
 
-.. warning:: The servo motor you have is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don't.
-   
-First of all, let's build the following circuit:
+            static uint8_t asserted = 0x00;
+            static uint8_t previous = 0x00;
 
-.. figure:: ../../../external/fig/servoconnection.jpg
-   :align: center
+            asserted |= (previous & current_state);
+            asserted &= (previous | current_state);
 
+            previous = current_state;
 
-Servo motors have three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to pin 9 on the board.
-
-The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input 0 on the board.
-
-.. code-block:: c
-   :caption: Servo control using potentiometer
-
-   #include <Servo.h>  // add servo library
-
-    Servo myservo;  // create servo object to control a servo
-
-    const int potPin = 0;  // analog pin used to connect the potentiometer
-    int val;    // variable to read the value from the analog pin
-
-    void setup() {
-        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+            return asserted;
         }
 
-        void loop() {
-        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
-        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
-        myservo.write(val);                  // sets the servo position according to the scaled value
-        delay(15);                           // waits for the servo to get there
-    }
 
 
-Attention that we are writing the potentiometer value directly as the servo angle. What if we want to *check* the value first and switch on an LED *if* it is in a desired range? Then the code will look like.
+Measure the bouncing using interrupt
+------------------------------------
+
+A oscilloscope is a good tool for evaluating the bouncing problemens of a push button. If you do not have access to a oscilloscope, it is also possible to use the controller itself to measure the bouncing. This method is less accurate, because the voltage levels during the bouncing period may vary, and only occationally cause spurious detection of button events.
+
+The following example is using a pin change interrupt to count the bouncing of the signal on a digital input. Note that the ISR fires on both rising and falling edge of the signal, thus you will at least trigger the ISR once on button push, and once on button release.
+
+.. literalinclude:: ../../../projects/interrupt/pin_change_switch_bounce_counter/src/main.cpp
+  :language: c
 
 
-.. code-block:: c
-   :caption: Controlling LED based on Servo angle
 
-    #include <Servo.h>  // add servo library
+Delay method
+------------
 
-    Servo myservo;  // create servo object to control a servo
+The following method checks for a rising edge on the digital input, and subsequently ignores any change of state for a given delay period. A important issue with this method is that the required delay period will vary depending on the type of switch that i used.
 
-    const int potPin = 0;  // analog pin used to connect the potentiometer
-    const int ledPin = 13; // output pin for the LED
+.. literalinclude:: ../../../projects/switch_debounce/delay_switch_debounce/src/main.cpp
+  :language: c
 
-    int val;    // variable to read the value from the analog pin
+Shift register method
+---------------------
 
-    void setup() {
-        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-        }
+The following example is intended to demonstrate the operation of the shift register debounce method, by printing the state of the shift register to the UART. The shift register method is in some ways superior to the delay method, because it will detect if the input is stable rather than simply detecting a edge, and ignoring the input for some period. The sampling delay for the shift register method may be much shorter than the delay for the delay method.
 
-        void loop() {
-        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
-        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
-        myservo.write(val);                  // sets the servo position according to the scaled value
-        if(val > 90)
-        {
-            digitalWrite(ledPin,HIGH);
-        }
-        else
-        {
-            digitalWrite(ledPin,LOW);
-        }
-        delay(15);                           // waits for the servo to get there
-    }
+.. literalinclude:: ../../../projects/switch_debounce/shift_register_switch_debounce/src/main.cpp
+  :language: c
 
-.. ref: https://www.allaboutcircuits.com/projects/using-the-arduinos-analog-io/
 
+Using a timer interrupt to poll the inputs
+-------------------------------------------
+
+The following example shows one way to poll three digital inputs using a timer interrupt. The :ccode:`get_button_event(push_button_t button)` function is included in order to abstract away the operation of the button event detect algorithm. This is a more complete example of how to use debouncing in an application, but it could certainly be improved. In particular the operation of the switch debounce could be hidden in a separate file (a library), and the events could be posted to a queue.
+
+.. literalinclude:: ../../../projects/switch_debounce/timer_polling_switch_debounce/src/main.cpp
+  :language: c
+
+Pin change interrupt debounce with smoothing capacitor
+------------------------------------------------------
+
+.. warning:: You should normally avoid the pin change interrupts for push buttons, unless you are absolutely sure that you need it. The aforementioned methods are simpler to implement, and more general in nature. The pin change interrupt is a specific feature of some of the AVR controllers.
+  
+  The problem with using interrupts with switch inputs is that bouncing will cause the ISR to fire multiple times, unless the ISR disables the interrupt on the first invocation. This complicates things, although it is certainly possible to do.
+
+
+Pin change interrupt debounce software only
+-------------------------------------------
+
+In this section we are demonstrating one way of detecting and debouncing inputs using pin change interrupts. The following algorithm is used:
+
+.. uml::
+
+  (*) --> "ISR fires on one of the inputs"
+  --> "Check wich input caused the interrupt"
+  --> "Set flag, or post message"
+  --> "Disable the pin change interrupt"
+  --> (*)
+
+.. uml::
+
+  (*) --> "Main loop or timer checks for new events"
+  If "New event" then
+  --> [Yes] "Store"
+  else
+  --> (*)
+  Endif
+
+  
+.. literalinclude:: ../../../projects/interrupt/pin_change_interrupt_switch_debounce/src/main.cpp
+  :language: c
+
+Creating a library for software debounce
+----------------------------------------
+
+
+
+
+
+Multi tasking on the microcontroller
+====================================

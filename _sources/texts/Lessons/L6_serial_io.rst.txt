@@ -1,0 +1,115 @@
+.. _L5_serial_io_conditional_func:
+
+******************************************************************
+Serial I/O, Conditionals, Functions, Loops
+******************************************************************
+
+
+Serial I/O
+============
+
+.. todo:: Focus on:
+    Character read/write via Serial monitor.
+    How to write fancy serial print.
+
+
+.. code-block:: c
+
+    #include <Servo.h>
+    int serialVal;
+
+    Servo myServo;
+
+    void setup() {
+    Serial.begin(9600);
+    myServo.attach(9);
+    }
+
+    void loop() {
+    if(Serial.available() > 0)
+    {
+        serialVal = Serial.read() - 48;
+        serialVal = map(serialVal, 0, 5, 0, 180);
+        Serial.println(serialVal);
+        myServo.write(serialVal);
+        
+    }
+
+    delay(10);
+
+    }
+
+
+
+Conditionals
+==========================
+Conditionals are used in order to carry out some actions under some circumstances. In other words, you use conditionals if you want to *do things* in some *conditions* and do some other things for some other conditions.
+
+.. image:: ../../../external/fig/ifElse.png
+        :align: center
+
+Let's do a bit of brain storming before implementing the conditionals: You want to turn on an LED if your system stays stays vertical. If your sytem is tilted, then you want to turn off the LED. Can you help me to draw the flow chart?
+
+**Practical example:** Tilt Sensor (if..else)
+
+
+In some cases, having too many if...else statements one another looks unpleasant. A more compact looking of your code is mode fruitful. Then, *switch..case* concept enters the game.
+
+.. image:: ../../../external/fig/switchCase.png
+        :align: center
+
+
+Let's do a bit more brain storming for switch..case: You want to make a program that asks to the user what s/he wants to do with an LED. If the user presses 1, turn on an LED. If they press 2, turn off LED. Also, in case they forget which number was on/off; if they press 3, there will be a help section. Can you help me to draw the flow chart?
+
+**Practical example:** Switch-case example
+
+
+.. seealso::
+   Very nice exercises about conditionals `here. <https://www.w3resource.com/c-programming-exercises/conditional-statement/index.php>`_
+
+
+Some additions on conditionals
+-------------------------------
+
+.. todo:: Talk about why choosing if...else wisely is important.
+
+  .. image:: ../../fig/if_else_1.jpeg
+          :alt: if...else 1
+          :align: center
+
+  .. image:: ../../fig/if_else_2.jpeg
+          :alt: if...else 2
+          :align: center
+
+  .. image:: ../../fig/if_else_3.jpeg
+          :alt: if...else 3
+          :align: center
+
+
+Exercise: Serial UI for LED control
+-----------------------------------
+
+Let's design a serial UI for controlling the button state.
+
+Design requirements:
+    
+- An LED is connected to pin number 3 will be controlled by keyboard inputs.
+- The user is allowed to enter **1**, **2** and **3** as input. If something else is entered, a help manual will appear.
+- Keyboard number 1 will turn on the LED.
+- Keyboard number 2 will turn off the LED.
+- Keyboard number 3 will give the help manual as shown in the figure.
+
+.. figure:: ../../../external/fig/led_serial_requirements.png
+   :align: center
+
+
+.. note:: The :code:`rx_byte = Serial.read();` will be useful.
+
+
+.. 
+    Solution:
+
+    .. literalinclude:: ../../../projects/led_serial/led_serial.ino
+        :language: c
+        :linenos:
+

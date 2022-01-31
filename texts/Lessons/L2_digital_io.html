@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Digital input and analog output" href="L3_pwm_conditionals.html" />
+    <link rel="next" title="Digital I/O, and timing" href="L3_digital_io_and_timing.html" />
     <link rel="prev" title="Arduino Introduction" href="L1b_Arduino_intro.html" /> 
   </head>
   <body role="document">
@@ -88,7 +88,6 @@
 <li><a class="reference internal" href="#digital-inputs">Digital inputs</a><ul>
 <li><a class="reference internal" href="#how-to-connect-a-button-to-the-arduino">How to connect a button to the Arduino</a></li>
 <li><a class="reference internal" href="#exercise-digital-output-of-digital-input-state">Exercise: Digital output of digital input state</a></li>
-<li><a class="reference internal" href="#understanding-pull-up-pull-down-resistors">Understanding Pull-up / Pull-down resistors</a></li>
 <li><a class="reference internal" href="#exercise-logic-operations-on-digital-inputs">Exercise: Logic operations on digital inputs</a></li>
 </ul>
 </li>
@@ -116,7 +115,7 @@
 
             
               <li><a href="L1b_Arduino_intro.html" title="Arduino Introduction" accesskey="P">previous </a></li>
-              <li><a href="L3_pwm_conditionals.html" title="Digital input and analog output" accesskey="N">next </a></li>
+              <li><a href="L3_digital_io_and_timing.html" title="Digital I/O, and timing" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -158,29 +157,60 @@
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 2: Digital I/O</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#arduino-program-structure">Arduino program structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#variable-types">Variable Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#atmega328-gpio-pins">Atmega328 GPIO pins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#digital-outputs">Digital outputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#digital-inputs">Digital inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#serial-port-output">Serial port output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arduino-program-structure">Arduino program structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-define-a-macro">Exercise: define a macro</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="L3_pwm_conditionals.html">Lesson 3: Analog Output (PWM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-types">Variable Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atmega328-gpio-pins">Atmega328 GPIO pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#digital-outputs">Digital outputs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#selecting-a-suitable-current-limiting-resistor-for-the-led">Selecting a suitable current limiting resistor for the LED</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#digital-inputs">Digital inputs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-connect-a-button-to-the-arduino">How to connect a button to the Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-digital-output-of-digital-input-state">Exercise: Digital output of digital input state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-logic-operations-on-digital-inputs">Exercise: Logic operations on digital inputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#serial-port-output">Serial port output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#serial-port-monitor-in-the-arduino-ide">Serial port monitor in the Arduino IDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serial-port-monitor-in-platformio">Serial port monitor in PlatformIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serial-port-monitor-in-tinkercad">Serial port monitor in TinkerCAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-print-some-numbers">Exercise: Print some numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-serial-output-of-digital-input">Exercise: Serial output of digital input</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-arithmetics">Simple arithmetics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-calculator-with-serial-port-output">Exercise: Calculator with serial port output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-count-to-10">Exercise: Count to 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-calculator-with-binary-display">Exercise: Calculator with binary display</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Lesson X.2 L2_additional</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Lesson X.8 Interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">Lesson X.5 Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Lesson Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Lesson Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Lesson Course summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -199,12 +229,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="L1b_Arduino_intro.html"
-                        title="previous chapter">Arduino Introduction</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="L3_pwm_conditionals.html"
-                        title="next chapter">Digital input and analog output</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="L1b_Arduino_intro.html"
+                          title="previous chapter">Arduino Introduction</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="L3_digital_io_and_timing.html"
+                          title="next chapter">Digital I/O, and timing</a></p>
+  </div>
   </div>
 </div> 
         
@@ -216,7 +250,7 @@
                 <div class="body">
                   
   <div class="section" id="digital-i-o-and-serial-port-output">
-<span id="l3-digital-io"></span><h1>Digital I/O, and serial port output<a class="headerlink" href="#digital-i-o-and-serial-port-output" title="Permalink to this headline">¶</a></h1>
+<span id="l2-digital-io"></span><h1>Digital I/O, and serial port output<a class="headerlink" href="#digital-i-o-and-serial-port-output" title="Permalink to this headline">¶</a></h1>
 <p>In this lesson we will cover how to deal with digital inputs, digital outputs, as well as how to send data out through the serial port.</p>
 <p>In addition to the microcontroller topics, we also need to cover some general programming concepts.</p>
 <p>The digital inputs and outputs (digital I/O) on the Arduino are what allow you to connect sensors, actuators, and other ICs to the Arduino . Learning how to use the inputs and outputs will allow you to use the Arduino to do some really useful things, such as reading switch inputs, lighting indicators, and controlling relay outputs.</p>
@@ -513,21 +547,6 @@
 <p>Add solution proposal after the lecture</p>
 </div>
 </div>
-<div class="section" id="understanding-pull-up-pull-down-resistors">
-<h3>Understanding Pull-up / Pull-down resistors<a class="headerlink" href="#understanding-pull-up-pull-down-resistors" title="Permalink to this headline">¶</a></h3>
-<p>As already discussed in terms of push buttons, when using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. For our convenience the Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.</p>
-<p>The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the input impedance. In practice a 10k resistor is often used.</p>
-<div class="figure align-center" id="id11">
-<img alt="Arduino with pull-up, and pull-down resistors on push buttons" src="../../_images/Pull-up-and-Pull-down-Resistor.png" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
-</div>
-<p>The following figure depicts the connection of two push buttons to the Arduino. For the leftmost button the resistor in the figure pulls the input low, and the push button is connected in such a way that it can pull it up. For the button to the right the configuration is opposite.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="../../_images/arduino_two_pb_pull_up_pull_down_bb.png"><img alt="Arduino with external LED, and two push buttons" src="../../_images/arduino_two_pb_pull_up_pull_down_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
-</div>
-<p>It is very important to realize that the default state of a digital input depends on whether the input is pulled up, or pulled down. If the input is pulled down by a resistor, and the push button pulls it up, then a push on the button will make the input logical <strong>HIGH</strong>. If on the other hand the input is pulled up by a resistor, and a push on the button pulls it down, pushing the button will make the input logical <strong>LOW</strong></p>
-<p>It is not important which of the two you choose, because it is easy to invert the state in software. But it is important to realize the difference, in order to know when you have to invert it in software.</p>
-</div>
 <div class="section" id="exercise-logic-operations-on-digital-inputs">
 <h3>Exercise: Logic operations on digital inputs<a class="headerlink" href="#exercise-logic-operations-on-digital-inputs" title="Permalink to this headline">¶</a></h3>
 <p>It is possible to instruct the CPU in the Atmega328 to perform logic operations on the state of the digital inputs (or for that matter any internal state, such as a variable). The following table list the basic logical operations which are supported by the compiler (and also by the CPU):</p>
@@ -749,7 +768,7 @@
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>The serial-monitor is basically a terminal. In order to use the serial-monitor with your board, you need to establish a UART communication link between the two. By now you should have realized that you are uploading your software to the Arduino via USB cable. This transmission is using the same protocol as you use when printing text in the serial monitor. The general name of this commonly used protocol is <a class="reference external" href="https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter">UART</a> (or sometimes the more general term <a class="reference external" href="https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter">USART</a> is used). It is a wide concept that requires more time to grasp the details. We will look into that in our <a class="reference internal" href="L10_communication.html#l9-communication"><span class="std std-ref">communication protocols</span></a> lesson later in the course.</p>
+<p>The serial-monitor is basically a terminal. In order to use the serial-monitor with your board, you need to establish a UART communication link between the two. By now you should have realized that you are uploading your software to the Arduino via USB cable. This transmission is using the same protocol as you use when printing text in the serial monitor. The general name of this commonly used protocol is <a class="reference external" href="https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter">UART</a> (or sometimes the more general term <a class="reference external" href="https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter">USART</a> is used). It is a wide concept that requires more time to grasp the details. We will look into that in our <a class="reference internal" href="L11_communication.html#l9-communication"><span class="std std-ref">communication protocols</span></a> lesson later in the course.</p>
 </div>
 </div>
 </div>
@@ -775,7 +794,7 @@
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L1b_Arduino_intro.html" title="Arduino Introduction" >previous</a></li>
-        <li><a href="L3_pwm_conditionals.html" title="Digital input and analog output" >next</a></li>
+        <li><a href="L3_digital_io_and_timing.html" title="Digital I/O, and timing" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
@@ -787,7 +806,7 @@
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
       </footer>
       <!-- /footer -->
 

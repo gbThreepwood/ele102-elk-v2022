@@ -1,4 +1,6 @@
-.. memory_technology:
+:orphan:
+
+.. _memory_technology:
 
 ************************
 Memory technology

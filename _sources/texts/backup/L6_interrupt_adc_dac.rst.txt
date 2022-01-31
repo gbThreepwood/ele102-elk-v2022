@@ -1,3 +1,5 @@
+:orphan:
+
 .. _L7_adc_pwm_interrupt:
 
 .. note:: *26/02/2020 - 195mins*

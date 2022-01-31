@@ -132,20 +132,27 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_pwm_conditionals.html">Lesson 3: Analog Output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L1_additional.html">Additional material lesson 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Lesson X.2 L2_additional</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/interrupts.html">Lesson X.8 Interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/functions.html">Lesson X.5 Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/low_power_operation.html">Lesson Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/ir_communication.html">Lesson Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/course_summary.html">Lesson Course summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Lessons/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -267,10 +274,10 @@
 <h3>Function pointer based implementation<a class="headerlink" href="#function-pointer-based-implementation" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-<span class="k">struct</span> <span class="nc">state</span><span class="p">;</span><span class="w"></span>
-<span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">state_fn</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="p">;</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">state_fn</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">state</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">state_fn</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="c1">// data</span>
@@ -278,21 +285,21 @@
 
 <span class="n">state_fn</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">bar</span><span class="p">;</span><span class="w"></span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nl">foo</span> <span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">struct</span> <span class="nc">state</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">state</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
@@ -342,7 +349,7 @@
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2022, Gizem Ateş &amp; Eirik Haustveit.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.3.2.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
       </footer>
       <!-- /footer -->
 
