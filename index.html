@@ -290,31 +290,33 @@
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#using-digital-inputs">Using digital inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#edge-detection">Edge detection</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#understanding-pull-up-pull-down-resistors">Understanding Pull-up / Pull-down resistors</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#hands-on-exercises">Hands-on Exercises</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-rising-and-falling-edge-detection">Exercise: Rising and falling edge detection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-rising-edge-counter">Exercise: Rising edge counter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#simple-button-press-counter">Simple button press counter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#simple-button-led-state-change">Simple button LED state change</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#switch-bouncing">Switch bouncing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#debounce-methods">Debounce methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-push-button-de-bouncing">Exercise: Push button de-bouncing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#stopwatch">Stopwatch</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#efficient-timing-in-the-microcontroller">Efficient timing in the microcontroller</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-blink-two-leds-at-different-frequencies">Exercise: blink two LEDs at different frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-blink-two-leds-at-different-frequencies">Exercise: Blink two LEDs at different frequencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-adjustable-blink-frequency">Exercise: Adjustable blink frequency</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#constant-frequency">Constant frequency</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#reducing-the-load-on-the-microcontroller">Reducing the load on the microcontroller</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#millis-overflow"><code class="code docutils literal notranslate"><span class="pre">millis()</span></code> overflow</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#switch-bouncing">Switch bouncing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#id7">Switch bouncing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#bounce-problem-edge-detection-demonstration">Bounce problem edge detection demonstration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#hardware-debounce-methods">Hardware debounce methods</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#software-debounce-methods">Software debounce methods</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#switch-debounce-for-the-edge-detection-demo">Switch debounce for the edge detection demo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-push-button-de-bouncing">Exercise: Push button de-bouncing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#stopwatch">Stopwatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-triple-button-triple-led">Exercise: Triple button, triple LED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#id10">Exercise: Push button de-bouncing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#id11">Stopwatch</a></li>
 </ul>
 </li>
 </ul>
@@ -334,11 +336,16 @@
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#no-input-no-output">No input no output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#no-output-but-with-input">No output but with input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#integer-return">Integer return</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-abstracting-away-your-hardware">Exercise: Abstracting away your hardware</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-pythagoras">Exercise: Pythagoras</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#function-for-debounce-of-multiple-bush-buttons">Function for debounce of multiple bush buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#function-for-debounce-of-multiple-push-buttons">Function for debounce of multiple push buttons</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#loops">Loops</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#while-loops">While loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#for-loops">For loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#do-while-loops">Do while loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#loop-example">Loop example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
 </ul>
 </li>
@@ -355,6 +362,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html">Additional material lesson 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html#simple-touch-to-if-else">Simple touch to If…Else</a></li>
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html#switch-debounce-methods">Switch debounce methods</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html#measuring-switch-bounce-using-oscilloscope">Measuring switch bounce using oscilloscope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html#software-solutions">Software solutions</a></li>

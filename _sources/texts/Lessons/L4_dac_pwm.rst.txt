@@ -256,6 +256,23 @@ The following code demonstrate how to define a function which is capable of retu
 The basic functions in C are only able to return a single value. You can return multiple values but it is a bit more advanced topic which require utilizing some features on the language which we have not discussed so far.
 
 
+Exercise: Abstracting away your hardware
+----------------------------------------
+
+In order to make it easy to reuse your code on multiple platforms, it can be useful to use functions to abstract away you hardware. E.g. instead of running :code:`digitalWrite(red_led, HIGH)` when you need to change a digital output for a LED, it is better to define a separate function :code:`red_led_on();` which perform this operation.
+
+.. code-block:: c
+
+    void red_led_on(){
+        digitalWrite(red_led, HIGH)
+    }
+
+If you move to a different platform instead of Arduino, it is likely that the function which modify a digital output will be different. E.g. on the STM32 HAL the function is :code:`HAL_GPIO_WritePin(GPIOA, RED_LED_PIN, GPIO_PIN_SET);`. For a large software project you could easily be modifying the state of the LED in multiple areas of your code. Thus there will me many places you would have to change. If you have abstracted the operation by a function however, the only place you have to change your code is inside this special function.
+
+#. Start by copying the switch debounce example discussed previously in to a new project.
+#. Modify the program so that it toggles the state of a LED when a button is pushed.
+#. Modify the program so that it toggles the state of a LED by use of two functions, :code:`red_led_on()`, and :code:`red_led_off()`. I.e. one function which turns on the LED, and another which turns it off.
+#. Add another function :code:`red_led_toggle()` which toggles the state of the LED. Update your software to use this new function.
 
 Exercise: Pythagoras
 ---------------------------------
@@ -280,10 +297,16 @@ Exercise: Pythagoras
 
 
 
-Function for debounce of multiple bush buttons
+Function for debounce of multiple push buttons
 -----------------------------------------------
 
 The previously discussed method for software switch debounce is a good candidate for placement in a function. Switch debounce is almost always needed when using mechanical push buttons on digital inputs, and it makes sense to have the code available for easy reuse. Additionally if designed properly a single function can be used for debounce of multiple digital inputs.
+
+The following source code listing illustrates how to perform multiple switch debounce in a slightly more elegant way than simply duplicating the single switch debounce code for each new button. Additionally the example illustrates the use of functions for checking for button events.
+
+.. note:: It is possible to improve this example by using some advanced features of the C language, i.e. it does not need all the repetitive code in all the btnx_press_event() functions. This will have to wait for a future lecture however.
+
+.. note:: Switch debouncing will be needed in almost every application which utilize push buttons. Hence you should settle upon some code which is easy to reuse for all you debouncing needs, and simply copy it in to the projects which need it.
 
 .. literalinclude:: ../../../projects/platformio/debounce/multi-switch-debounce/src/main.cpp
     :language: c
@@ -291,17 +314,173 @@ The previously discussed method for software switch debounce is a good candidate
 
 
 
+The example is built around the following function, which probably needs some explaining:
+
+.. code-block:: c
+
+    uint8_t switch_debounce(uint8_t current_state){
+
+        static uint8_t asserted = 0x00;
+        static uint8_t prev_state = 0x00;
+
+        btn_asserted_prev = asserted;
+
+        // Set the bits for the pressed buttons
+        asserted |= (prev_state & current_state);
+
+        // Clear the bits for the released buttons
+        asserted &= (prev_state | current_state);
+
+        // Update the history
+        prev_state = current_state;
+
+        // Exclusive or between previous and current assertion
+        // Only the bits which are different will stay high
+        btn_asserted_prev ^= asserted;
+
+        return asserted;
+    }
+
+The function is called periodically by:
+
+.. code-block:: c
+
+    btn_asserted = switch_debounce(btn1_state | (btn2_state << 1) | (btn3_state << 2));
+
+The function takes one :code:`uint8_t` as parameter. Each bit in this byte corresponds to a digital input which we want to debounce. In the function call the parameter is formed of the three bits which indicate the state of the three push buttons. We are using the bit left shift operator :code:`<<` to shift the bits of the button 2, and button 3 state, one, and two places respectively. The bitwise or operator :code:`|` is then used to merge them in to a single byte.
+
+After declaring some variables, the first line of interest is the following:
+
+.. code-block:: c
+    btn_asserted_prev = asserted;
+
+The purpose it to store the previously asserted button states. I.e. the :code:`asserted` variable holds the state (which is considered stable) of up to 8 push buttons, and before we update it, we first store the previous value. 
+
+The next statement is the following:
+
+.. code-block:: c
+
+    asserted |= (prev_state & current_state);
+
+The purpose is to compare the previous state of the push buttons to the current state. If the states are equal, and high, we set the corresponding bits in the :code:`asserted` variable.
+
+After setting the bits of the inputs that are high (and stable), we should also clear the inputs which are low (and stable). This is performed by the following statement:
+
+.. code-block:: c
+
+        asserted &= (prev_state | current_state);
+
+We use the bitwise or operator :code:`|` to make sure that only the bits which are zero in both the current, and previous state will be asserted as low.
+
+Further down we update the history in preparation for the next time the function is called:
+
+.. code-block:: c
+
+    prev_state = current_state;
+
+Finally we use the bitwise exclusive or operation :code:`^` between the currently asserted button states, and the previously asserted button states. This has the effect that only the bits that are different (the buttons which have changed state) remains high in :code:`btn_asserted_prev`. By checking the states of these bits, we can then determine if a button has changed state or not.
+
+.. code-block:: c
+
+    btn_asserted_prev ^= asserted;
+
+This variable is then used to detect the state change of a given input (0x04 = 0b100), input 3 in this example:
+
+.. code-block:: c
+
+    if(btn_asserted_prev & 0x04){
+
+
 Loops
 ================
 
-Loops are the mechanism by which our software is able to perform repetitive tasks.
+Loops are the mechanism by which our software is able to perform repetitive tasks. We have already been using a loop, our :code:`loop()` function. This loop is known as an infinite loop, as there is no condition in our software which will make it stop. Ofc it will stop if you reset your controller, or remove the power supply, but such conditions are outside the control of our software. Infinite loops are useful in application which should be performing some operation constantly, e.g. in order to be responsive to external events.
+
+For many applications however it is useful to have a loop which only execute the same code a limited number of times. This could be a given fixed number of times, or there could be some condition which will make the loop stop.
 
 
-.. todo:: Don't forget to start with introducing ARRAYs.
+.. .. todo:: Don't forget to start with introducing ARRAYs.
 
-.. todo:: Provide syntax for: FOR, WHILE, DO...WHILE, goto
+.. .. todo:: Provide syntax for: FOR, WHILE, DO...WHILE, goto
+
+While loops
+-----------
+
+The while loop executes as long as the condition inside the parentheses is true.
 
 .. code-block:: c
+
+    while(condition){
+
+    }
+
+
+For loops
+---------
+
+The for loop execute as long as a condition is true, but unlike the while loop it has a slightly more organized structure for counting. There is nothing the for loop can do, which the while loop can not do, but it can make your code more clean.
+
+The following example illustrates the use of the for loop for executing the same code 10 times.
+
+.. code-block:: c
+
+    for(uint8_t i = 0; i < 10; i++){
+        // Add code to execute here
+    }
+
+
+If you want to use a while loop to perform the same task, you would have to write:
+
+.. code-block:: c
+
+    uint8_t i = 0;
+    while(i < 10){
+        i++;
+        // Add code to execute here
+    }
+
+In the for loop the counter variable :code:`i` is updated after the code inside the loop is executed, hence if the counter variable is used by the code and you want the exact same operation as the for loop example, you must do the following:
+
+.. code-block:: c
+
+    uint8_t i = 0;
+    while(i < 10){
+        // Add code to execute here
+        i++;
+    }
+
+That is you must place the code that you are going to add above the increment of the counter (in the above code only the comment is moved).
+
+
+Do while loops
+--------------
+
+The do while loop is likely the least commonly used of the three types we discuss here. The difference between while, and do while, is that the latter is executed at least once. Again there is nothing preventing you from achieving the same result by using while, or for loops, but in some situations the do while loop will produce the most clean code.
+
+For our count to 10 example we can do:
+
+.. code-block:: c
+
+    uint8_t i = 0;
+    do {
+        // Add code to execute here
+        i++;
+    } while(i < 10);
+
+
+Loop example
+------------
+
+The following code listing demonstrate the three loop types discussed in the previous sections. As a bonus a fourth loop type based on the :code:`goto` keyword is also demonstrated, but this type is rarely used in practice.
+
+.. literalinclude:: ../../../projects/platformio/loops/loop-types-demo/src/main.cpp
+    :language: c
+    :linenos:
+
+
+
+.. 
+    .. code-block:: c
 
     const int redPin = 3;
     const int greenPin = 5;
@@ -337,7 +516,7 @@ Exercise: Blink a LED seven times
 ---------------------------------
 
 
-#. Write a loop which blinks a LED seven times and then stop. The loops should be placed in a separate function, which is called from :code:`setup()`. A count down should be printed to the serial port.
+#. Write a loop which blinks a LED seven times and then stop. The loop should be placed in a separate function, which is called from :code:`setup()`. A count down should be printed to the serial port.
 #. Extend the program to allow initiating the blinking by pushing a button. This time the function should be called from :code:`loop()`.
 
 

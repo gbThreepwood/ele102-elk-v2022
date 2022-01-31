@@ -89,11 +89,16 @@
 <li><a class="reference internal" href="#no-input-no-output">No input no output</a></li>
 <li><a class="reference internal" href="#no-output-but-with-input">No output but with input</a></li>
 <li><a class="reference internal" href="#integer-return">Integer return</a></li>
+<li><a class="reference internal" href="#exercise-abstracting-away-your-hardware">Exercise: Abstracting away your hardware</a></li>
 <li><a class="reference internal" href="#exercise-pythagoras">Exercise: Pythagoras</a></li>
-<li><a class="reference internal" href="#function-for-debounce-of-multiple-bush-buttons">Function for debounce of multiple bush buttons</a></li>
+<li><a class="reference internal" href="#function-for-debounce-of-multiple-push-buttons">Function for debounce of multiple push buttons</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#loops">Loops</a><ul>
+<li><a class="reference internal" href="#while-loops">While loops</a></li>
+<li><a class="reference internal" href="#for-loops">For loops</a></li>
+<li><a class="reference internal" href="#do-while-loops">Do while loops</a></li>
+<li><a class="reference internal" href="#loop-example">Loop example</a></li>
 <li><a class="reference internal" href="#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
 </ul>
 </li>
@@ -164,11 +169,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#no-input-no-output">No input no output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#no-output-but-with-input">No output but with input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#integer-return">Integer return</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-abstracting-away-your-hardware">Exercise: Abstracting away your hardware</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-pythagoras">Exercise: Pythagoras</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#function-for-debounce-of-multiple-bush-buttons">Function for debounce of multiple bush buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#function-for-debounce-of-multiple-push-buttons">Function for debounce of multiple push buttons</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#loops">Loops</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#while-loops">While loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#for-loops">For loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#do-while-loops">Do while loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loop-example">Loop example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
 </ul>
 </li>
@@ -419,6 +429,22 @@
 </div>
 <p>The basic functions in C are only able to return a single value. You can return multiple values but it is a bit more advanced topic which require utilizing some features on the language which we have not discussed so far.</p>
 </div>
+<div class="section" id="exercise-abstracting-away-your-hardware">
+<h3>Exercise: Abstracting away your hardware<a class="headerlink" href="#exercise-abstracting-away-your-hardware" title="Permalink to this headline">¶</a></h3>
+<p>In order to make it easy to reuse your code on multiple platforms, it can be useful to use functions to abstract away you hardware. E.g. instead of running <code class="code docutils literal notranslate"><span class="pre">digitalWrite(red_led,</span> <span class="pre">HIGH)</span></code> when you need to change a digital output for a LED, it is better to define a separate function <code class="code docutils literal notranslate"><span class="pre">red_led_on();</span></code> which perform this operation.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">red_led_on</span><span class="p">(){</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">red_led</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If you move to a different platform instead of Arduino, it is likely that the function which modify a digital output will be different. E.g. on the STM32 HAL the function is <code class="code docutils literal notranslate"><span class="pre">HAL_GPIO_WritePin(GPIOA,</span> <span class="pre">RED_LED_PIN,</span> <span class="pre">GPIO_PIN_SET);</span></code>. For a large software project you could easily be modifying the state of the LED in multiple areas of your code. Thus there will me many places you would have to change. If you have abstracted the operation by a function however, the only place you have to change your code is inside this special function.</p>
+<ol class="arabic simple">
+<li><p>Start by copying the switch debounce example discussed previously in to a new project.</p></li>
+<li><p>Modify the program so that it toggles the state of a LED when a button is pushed.</p></li>
+<li><p>Modify the program so that it toggles the state of a LED by use of two functions, <code class="code docutils literal notranslate"><span class="pre">red_led_on()</span></code>, and <code class="code docutils literal notranslate"><span class="pre">red_led_off()</span></code>. I.e. one function which turns on the LED, and another which turns it off.</p></li>
+<li><p>Add another function <code class="code docutils literal notranslate"><span class="pre">red_led_toggle()</span></code> which toggles the state of the LED. Update your software to use this new function.</p></li>
+</ol>
+</div>
 <div class="section" id="exercise-pythagoras">
 <h3>Exercise: Pythagoras<a class="headerlink" href="#exercise-pythagoras" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
@@ -426,151 +452,338 @@
 <li><p>Test the function with some data, and print the result to the serial port.</p></li>
 </ol>
 </div>
-<div class="section" id="function-for-debounce-of-multiple-bush-buttons">
-<h3>Function for debounce of multiple bush buttons<a class="headerlink" href="#function-for-debounce-of-multiple-bush-buttons" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="function-for-debounce-of-multiple-push-buttons">
+<h3>Function for debounce of multiple push buttons<a class="headerlink" href="#function-for-debounce-of-multiple-push-buttons" title="Permalink to this headline">¶</a></h3>
 <p>The previously discussed method for software switch debounce is a good candidate for placement in a function. Switch debounce is almost always needed when using mechanical push buttons on digital inputs, and it makes sense to have the code available for easy reuse. Additionally if designed properly a single function can be used for debounce of multiple digital inputs.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 5</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 6</span>
-<span class="linenos"> 7</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_sample_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">10</span>
-<span class="linenos">11</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">12</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">13</span><span class="w"> </span>
-<span class="linenos">14</span><span class="cm">/**</span>
-<span class="linenos">15</span><span class="cm"> * @brief Debounce up to 8 digital inputs</span>
-<span class="linenos">16</span><span class="cm"> *</span>
-<span class="linenos">17</span><span class="cm"> * This function must be called at regular intervals</span>
-<span class="linenos">18</span><span class="cm"> *  </span>
-<span class="linenos">19</span><span class="cm"> * @param current_state </span>
-<span class="linenos">20</span><span class="cm"> * @return uint8_t </span>
-<span class="linenos">21</span><span class="cm"> */</span><span class="w"></span>
-<span class="linenos">22</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">switch_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">current_state</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">25</span><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">26</span>
-<span class="linenos">27</span><span class="w">    </span><span class="c1">// Set the bits for the pressed buttons</span>
-<span class="linenos">28</span><span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">29</span>
-<span class="linenos">30</span><span class="w">    </span><span class="c1">// Clear the bits for the released buttons</span>
-<span class="linenos">31</span><span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="w">    </span><span class="c1">// Update the history</span>
-<span class="linenos">34</span><span class="w">    </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_state</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">35</span>
-<span class="linenos">36</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">37</span><span class="p">}</span><span class="w"></span>
-<span class="linenos">38</span>
-<span class="linenos">39</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos">40</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">btn1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">41</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">btn2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">42</span>
-<span class="linenos">43</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">44</span><span class="p">}</span><span class="w"></span>
-<span class="linenos">45</span>
-<span class="linenos">46</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos">47</span>
-<span class="linenos">48</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn1</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">49</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn2</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">50</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn3_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn3</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">51</span><span class="w">  </span>
-<span class="linenos">52</span><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">current_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
-<span class="linenos">53</span><span class="w"> </span>
-<span class="linenos">54</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_time_stamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">btn_sample_interval</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">55</span>
-<span class="linenos">56</span><span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btn_asserted</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">57</span><span class="w">    </span>
-<span class="linenos">58</span><span class="w">    </span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">switch_debounce</span><span class="p">(</span><span class="n">btn1_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn2_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn3_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">59</span>
-<span class="linenos">60</span><span class="w">    </span><span class="c1">// Exclusive or between previous and current assertion</span>
-<span class="linenos">61</span><span class="w">    </span><span class="c1">// Only the bits which are different will stay high</span>
-<span class="linenos">62</span><span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">btn_asserted</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">63</span>
-<span class="linenos">64</span><span class="w">    </span><span class="c1">// Check if button state has changed</span>
-<span class="linenos">65</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">66</span>
-<span class="linenos">67</span><span class="w">      </span><span class="c1">// Check if button state is high</span>
-<span class="linenos">68</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">69</span><span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn1 press event.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">70</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">71</span><span class="w">      </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
-<span class="linenos">72</span><span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn1 release event.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">73</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">74</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">75</span>
-<span class="linenos">76</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x02</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">77</span>
-<span class="linenos">78</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x02</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">79</span><span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn2 press event.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">80</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">81</span><span class="w">      </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
-<span class="linenos">82</span><span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn2 release event.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">83</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">84</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">85</span>
-<span class="linenos">86</span><span class="w">    </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_time_stamp</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">87</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">88</span><span class="p">}</span><span class="w"></span>
+<p>The following source code listing illustrates how to perform multiple switch debounce in a slightly more elegant way than simply duplicating the single switch debounce code for each new button. Additionally the example illustrates the use of functions for checking for button events.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is possible to improve this example by using some advanced features of the C language, i.e. it does not need all the repetitive code in all the btnx_press_event() functions. This will have to wait for a future lecture however.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Switch debouncing will be needed in almost every application which utilize push buttons. Hence you should settle upon some code which is easy to reuse for all you debouncing needs, and simply copy it in to the projects which need it.</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  5</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="c1">// Check the button states with a 10 ms time interval</span>
+<span class="linenos">  8</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_sample_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 13</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="cm">/**</span>
+<span class="linenos"> 16</span><span class="cm"> * @brief Debounce up to 8 digital inputs</span>
+<span class="linenos"> 17</span><span class="cm"> *</span>
+<span class="linenos"> 18</span><span class="cm"> * This function must be called at regular intervals</span>
+<span class="linenos"> 19</span><span class="cm"> *  </span>
+<span class="linenos"> 20</span><span class="cm"> * @param current_state </span>
+<span class="linenos"> 21</span><span class="cm"> * @return uint8_t </span>
+<span class="linenos"> 22</span><span class="cm"> */</span><span class="w"></span>
+<span class="linenos"> 23</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">switch_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">current_state</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 26</span><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="w">    </span><span class="c1">// Set the bits for the pressed buttons</span>
+<span class="linenos"> 31</span><span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="w">    </span><span class="c1">// Clear the bits for the released buttons</span>
+<span class="linenos"> 34</span><span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="c1">// Update the history</span>
+<span class="linenos"> 37</span><span class="w">    </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_state</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="c1">// Exclusive or between previous and current assertion</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="c1">// Only the bits which are different will stay high</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 45</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 46</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">btn1_press_event</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 51</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 53</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 56</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 57</span>
+<span class="linenos"> 58</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">btn1_release_event</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 61</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">)){</span><span class="w"></span>
+<span class="linenos"> 63</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 64</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 65</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 68</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">btn2_press_event</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x02</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x02</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 75</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 77</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 78</span>
+<span class="linenos"> 79</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 80</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">btn3_press_event</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x04</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x04</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 87</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 89</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 92</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 95</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">btn1</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 96</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">btn2</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 99</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">100</span>
+<span class="linenos">101</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">102</span><span class="w"> </span>
+<span class="linenos">103</span><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">current_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">104</span>
+<span class="linenos">105</span><span class="w">  </span><span class="c1">// Limit how often the button state is checked</span>
+<span class="linenos">106</span><span class="w">  </span><span class="c1">// This method is not good if it is important to detect the first edge of the button change</span>
+<span class="linenos">107</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_time_stamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">btn_sample_interval</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">108</span>
+<span class="linenos">109</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">110</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn2</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">111</span><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn3_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn3</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">112</span><span class="w">    </span>
+<span class="linenos">113</span><span class="w">    </span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">switch_debounce</span><span class="p">(</span><span class="n">btn1_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn2_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn3_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">114</span>
+<span class="linenos">115</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn1_press_event</span><span class="p">()){</span><span class="w"></span>
+<span class="linenos">116</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn1 press event.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">117</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">118</span>
+<span class="linenos">119</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn1_release_event</span><span class="p">()){</span><span class="w"></span>
+<span class="linenos">120</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn1 release event.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">121</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">122</span>
+<span class="linenos">123</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn2_press_event</span><span class="p">()){</span><span class="w"></span>
+<span class="linenos">124</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn2 press event.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">125</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">126</span>
+<span class="linenos">127</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">btn3_press_event</span><span class="p">()){</span><span class="w"></span>
+<span class="linenos">128</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;btn3 press event.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">129</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">130</span>
+<span class="linenos">131</span><span class="w">    </span><span class="n">prev_time_stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_time_stamp</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">132</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">133</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The example is built around the following function, which probably needs some explaining:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">switch_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">current_state</span><span class="p">){</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Set the bits for the pressed buttons</span>
+<span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Clear the bits for the released buttons</span>
+<span class="w">    </span><span class="n">asserted</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Update the history</span>
+<span class="w">    </span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_state</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Exclusive or between previous and current assertion</span>
+<span class="w">    </span><span class="c1">// Only the bits which are different will stay high</span>
+<span class="w">    </span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The function is called periodically by:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">btn_asserted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">switch_debounce</span><span class="p">(</span><span class="n">btn1_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn2_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">btn3_state</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The function takes one <code class="code docutils literal notranslate"><span class="pre">uint8_t</span></code> as parameter. Each bit in this byte corresponds to a digital input which we want to debounce. In the function call the parameter is formed of the three bits which indicate the state of the three push buttons. We are using the bit left shift operator <code class="code docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> to shift the bits of the button 2, and button 3 state, one, and two places respectively. The bitwise or operator <code class="code docutils literal notranslate"><span class="pre">|</span></code> is then used to merge them in to a single byte.</p>
+<p>After declaring some variables, the first line of interest is the following:</p>
+<p>The purpose it to store the previously asserted button states. I.e. the <code class="code docutils literal notranslate"><span class="pre">asserted</span></code> variable holds the state (which is considered stable) of up to 8 push buttons, and before we update it, we first store the previous value.</p>
+<p>The next statement is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">asserted</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The purpose is to compare the previous state of the push buttons to the current state. If the states are equal, and high, we set the corresponding bits in the <code class="code docutils literal notranslate"><span class="pre">asserted</span></code> variable.</p>
+<p>After setting the bits of the inputs that are high (and stable), we should also clear the inputs which are low (and stable). This is performed by the following statement:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">asserted</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">prev_state</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">current_state</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We use the bitwise or operator <code class="code docutils literal notranslate"><span class="pre">|</span></code> to make sure that only the bits which are zero in both the current, and previous state will be asserted as low.</p>
+<p>Further down we update the history in preparation for the next time the function is called:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">prev_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_state</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Finally we use the bitwise exclusive or operation <code class="code docutils literal notranslate"><span class="pre">^</span></code> between the currently asserted button states, and the previously asserted button states. This has the effect that only the bits that are different (the buttons which have changed state) remains high in <code class="code docutils literal notranslate"><span class="pre">btn_asserted_prev</span></code>. By checking the states of these bits, we can then determine if a button has changed state or not.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">asserted</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This variable is then used to detect the state change of a given input (0x04 = 0b100), input 3 in this example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">btn_asserted_prev</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x04</span><span class="p">){</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="loops">
 <h2>Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
-<p>Loops are the mechanism by which our software is able to perform repetitive tasks.</p>
-<div class="admonition-todo admonition" id="id8">
-<p class="admonition-title">Todo</p>
-<p>Don’t forget to start with introducing ARRAYs.</p>
-</div>
-<div class="admonition-todo admonition" id="id9">
-<p class="admonition-title">Todo</p>
-<p>Provide syntax for: FOR, WHILE, DO…WHILE, goto</p>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">redPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
-<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">greenPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
-<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">bluePin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
-
-<span class="kt">int</span><span class="w"> </span><span class="n">redVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">greenPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">bluePin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="c1">// int potVal = analogRead(A0);</span>
-<span class="c1">// Serial.println(potVal);</span>
-<span class="c1">// int pwmVal = map(potVal, 0, 1023, 0, 255);</span>
-
-<span class="k">for</span><span class="p">(</span><span class="n">redVal</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">redVal</span><span class="o">&lt;</span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">redVal</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
-<span class="w">    </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">redPin</span><span class="p">,</span><span class="w"> </span><span class="n">redVal</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">greenPin</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">bluePin</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<p>Loops are the mechanism by which our software is able to perform repetitive tasks. We have already been using a loop, our <code class="code docutils literal notranslate"><span class="pre">loop()</span></code> function. This loop is known as an infinite loop, as there is no condition in our software which will make it stop. Ofc it will stop if you reset your controller, or remove the power supply, but such conditions are outside the control of our software. Infinite loops are useful in application which should be performing some operation constantly, e.g. in order to be responsive to external events.</p>
+<p>For many applications however it is useful to have a loop which only execute the same code a limited number of times. This could be a given fixed number of times, or there could be some condition which will make the loop stop.</p>
+<div class="section" id="while-loops">
+<h3>While loops<a class="headerlink" href="#while-loops" title="Permalink to this headline">¶</a></h3>
+<p>The while loop executes as long as the condition inside the parentheses is true.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="p">(</span><span class="n">condition</span><span class="p">){</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="for-loops">
+<h3>For loops<a class="headerlink" href="#for-loops" title="Permalink to this headline">¶</a></h3>
+<p>The for loop execute as long as a condition is true, but unlike the while loop it has a slightly more organized structure for counting. There is nothing the for loop can do, which the while loop can not do, but it can make your code more clean.</p>
+<p>The following example illustrates the use of the for loop for executing the same code 10 times.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Add code to execute here</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If you want to use a while loop to perform the same task, you would have to write:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Add code to execute here</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In the for loop the counter variable <code class="code docutils literal notranslate"><span class="pre">i</span></code> is updated after the code inside the loop is executed, hence if the counter variable is used by the code and you want the exact same operation as the for loop example, you must do the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Add code to execute here</span>
+<span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>That is you must place the code that you are going to add above the increment of the counter (in the above code only the comment is moved).</p>
+</div>
+<div class="section" id="do-while-loops">
+<h3>Do while loops<a class="headerlink" href="#do-while-loops" title="Permalink to this headline">¶</a></h3>
+<p>The do while loop is likely the least commonly used of the three types we discuss here. The difference between while, and do while, is that the latter is executed at least once. Again there is nothing preventing you from achieving the same result by using while, or for loops, but in some situations the do while loop will produce the most clean code.</p>
+<p>For our count to 10 example we can do:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">do</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Add code to execute here</span>
+<span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loop-example">
+<h3>Loop example<a class="headerlink" href="#loop-example" title="Permalink to this headline">¶</a></h3>
+<p>The following code listing demonstrate the three loop types discussed in the previous sections. As a bonus a fourth loop type based on the <code class="code docutils literal notranslate"><span class="pre">goto</span></code> keyword is also demonstrated, but this type is rarely used in practice.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kt">void</span><span class="w"> </span><span class="nf">while_loop_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;While loop: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">13</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="kt">void</span><span class="w"> </span><span class="nf">for_loop_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;For loop: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="kt">void</span><span class="w"> </span><span class="nf">do_while_loop_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">  </span><span class="k">do</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Do while loop: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">33</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="cm">/**</span>
+<span class="linenos">36</span><span class="cm"> * Note: unless you are absolutely sure that it is the right choice it is better to avoid the goto/label approach.</span>
+<span class="linenos">37</span><span class="cm"> * It is somtimes used for error handling, but rarely a good choice for loops.</span>
+<span class="linenos">38</span><span class="cm"> */</span><span class="w"></span>
+<span class="linenos">39</span><span class="kt">void</span><span class="w"> </span><span class="nf">goto_loop_test</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="w">  </span><span class="nl">loop_label</span><span class="p">:</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;goto loop: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">    </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">46</span><span class="w">  </span>
+<span class="linenos">47</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">48</span><span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">loop_label</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">49</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">50</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">51</span>
+<span class="linenos">52</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">53</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">54</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">57</span>
+<span class="linenos">58</span><span class="w">  </span><span class="n">while_loop_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">59</span><span class="w">  </span><span class="n">for_loop_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">60</span><span class="w">  </span><span class="n">do_while_loop_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">61</span><span class="w">  </span><span class="n">goto_loop_test</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">64</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">65</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="exercise-blink-a-led-seven-times">
 <h3>Exercise: Blink a LED seven times<a class="headerlink" href="#exercise-blink-a-led-seven-times" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>Write a loop which blinks a LED seven times and then stop. The loops should be placed in a separate function, which is called from <code class="code docutils literal notranslate"><span class="pre">setup()</span></code>. A count down should be printed to the serial port.</p></li>
+<li><p>Write a loop which blinks a LED seven times and then stop. The loop should be placed in a separate function, which is called from <code class="code docutils literal notranslate"><span class="pre">setup()</span></code>. A count down should be printed to the serial port.</p></li>
 <li><p>Extend the program to allow initiating the blinking by pushing a button. This time the function should be called from <code class="code docutils literal notranslate"><span class="pre">loop()</span></code>.</p></li>
 </ol>
-<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>

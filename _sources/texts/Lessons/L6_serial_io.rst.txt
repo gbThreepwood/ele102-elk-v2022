@@ -64,8 +64,6 @@ Let's do a bit more brain storming for switch..case: You want to make a program 
 **Practical example:** Switch-case example
 
 
-.. seealso::
-   Very nice exercises about conditionals `here. <https://www.w3resource.com/c-programming-exercises/conditional-statement/index.php>`_
 
 
 Some additions on conditionals
