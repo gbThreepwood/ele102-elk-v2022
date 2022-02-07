@@ -6,7 +6,7 @@ Analog to digital conversion (ADC)
 
 In the previous lesson we discussed digital to analog conversion. In this lesson we consider the opposite process, where a analog signal is converted in to a digital representation.
 
-In order to be prepared for all the exercises in this lesson, the following connections should be made in advance:
+In order to be prepared for most of the exercises in this lesson, the following connections should be made in advance:
 
 .. figure:: ../../fig/fritzing/arduino_pb_led_pot_tmp36_bb.png
   :alt: Arduino with external LED, push buttons, potentiometer, and TMP32 temperature sensor.
@@ -183,7 +183,7 @@ By applying a fixed voltage between connector (1), and (2), the voltage at the s
 .. How does a dimmer light work? Well, you don't need a microcontroller for *just* changing the light luminosity, for sure. The key element you got to know here is a **potentiometer**. It simply divides the voltage on its two legs between the middle leg. You may or may not use the both legs depending on your purpose.
 
 
-.. figure:: ../../../external/fig/simple_pot_battery.png
+.. .. figure:: ../../../external/fig/simple_pot_battery.png
    :alt: Simple potentiometer circuit
    :align: center
 
@@ -194,7 +194,14 @@ You can use this potentiometer value for various different purposes. Now, assume
 
 For this example you should use the following circuit:
 
-.. figure:: ../../../external/fig/simple_pot_arduino.png
+.. figure:: ../../fig/fritzing/arduino_potmeter_bb.png
+   :alt: Simple potentiometer circuit with Arduino
+   :scale: 50
+   :align: center
+
+
+
+.. .. figure:: ../../../external/fig/simple_pot_arduino.png
    :alt: Simple potentiometer circuit with Arduino
    :align: center
 
@@ -206,6 +213,7 @@ For this example you should use the following circuit:
 	}
 
 	void loop() {
+
 		int sensorVal = analogRead(A0);
 		float sensorVolt = (sensorVal/1024.0)*5;
 		float temperature = (sensorVolt - 0.5)*100;
@@ -256,86 +264,131 @@ In this exercise you will expand the temperature reading example in to a program
 #. Extend the program with the code required to initiate blinking of the LED, and printing of the text "Temperature alarm!" to the serial port as soon as the temperature exceeds the limit. The alarm should not stop, even if the temperature goes back down again below the alarm limit.
 #. Add an alarm acknowledge push button function. If the button is pushed, and the temperature is below the alarm limit, the LED blink, and alarm message should go away. For this functionality debouncing is not needed, as acknowledging an already acknowledged alarm will not perform any action.
 
-Detailed look at the Atmega328p ADC
-===================================        
 
-In the ADC hardware of the Atmega328p, there are many different parameters that needs to be configured properly. For example setting the ADC speed, resolution, conversion mode etc. By using the :code:`analogRead(analogPin)` Arduino function without changing anything, we simply accept the parameters that the Arduino developers hav selected for us. The default settings are fine for basic usage, but there are many situations where you would have to go in to the details.
+Servo motor control
+===================
+
+.. The frequency of the PWM signal is important to drive a servo motor. Even though the :code:`analogWrite(pin, value)` and :code:`myServo.write(pin,value)` produces PWM signals, their frequencies are different. You can change the :code:`analogWrite(pin, value)` function's frequency by setting the corresponding timers's prescalar. The timer concept is going to be talked in the next section.
 
 
-Voltage reference for the ADC
------------------------------
+Servo motors is a category of motors designed specifically for accurate control of angular (or sometimes linear) position. There are many different variations of these motors, which require different types of driving circuits. Sometimes the driving can be challenging, but luckily Arduino kit includes a nearly plug-and-play solution.
 
-As discussed previously, the analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. The Atmega328p microcontroller has several options for where to obtain this reference. In the Arduino UNO library these reference options may be set by the :code:`analogReference()` function, which takes the parameters `DEFAULT`, `INTERNAL`, or `EXTERNAL`, for 5V, 1.1V or externally applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.
+
+
+Example: Servo and map function
+---------------------------------
+
+The servo motor in the Arduino kit is of the pulse width controlled type. That is, the control signal is a PWM signal, the actual motor control system is an electronic circuit placed inside the motor housing. The PWM is simply used as a way to inform the motor controller of what angular position you would like the motor to have. There is an internal position sensor inside the motor, which measures the shaft position, and a controller which compares this measured value to the commanded value.
+
+The PWM control signal switching frequency should be 50 Hz, and the pulse width (duty-cycle) determine the set point for angular position. A pulse width of 1 ms correspond to 0 degree, 1.5 ms correspond to 90 degree, while 2 ms correspond to 180 degree. This is not standardized however, and motors from other manufacturers might have different interpretation of the pulse widths.
+
+.. todo:: picture of the servo motor
+
+Note that there are a lot of details behind the operation of this motor, some of which will be covered in a future lecture. For now we will simply explore how to use the motor.
+
+
+The purpose of this example is to control the position of the motor using a potentiometer. In order to simplify the process of generating the required motor pulses, we will be using a library which provides a function to set the correct PWM output for a given numeric value corresponding to a desired angular position.
+
+The library is included by :code:`#include <Servo.h>`
+
+.. warning:: The servo motor in the Arduino kit is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don't!
+   
+First of all, let's build the following circuit:
+
+
+.. figure:: ../../fig/fritzing/arduino_servo_motor_bb.png
+  :alt: Arduino with push button, potmeter, and servomotor.
+  :align: center
+  :scale: 50
+
+
+.. .. figure:: ../../../external/fig/servoconnection.jpg
+
+The servo motor has three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to one of the pins which support PWM. Here we use pin 9.
+
+The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input A0 on the board.
+
+.. code-block:: c
+   :caption: Servo control using potentiometer
+
+    #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = A0;  // analog pin used to connect the potentiometer
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+    }
+
+    void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+        myservo.write(val);                  // sets the servo position according to the scaled value
+        delay(15);                           // waits for the servo to get there
+    }
+
+The :code:`map` function is discussed in the previous lesson, it involves relatively simple calculations and could easily be performed by:
 
 .. code-block:: c
 
-        analogReference(EXTERNAL);
+	val = (val*180)/1023;
 
-If you are only interested in measuring voltages from 0 - 2 V, a external reference of 2 V will provide better resolution than the default reference of 5 V.
+Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus :code:`val` has to be declared :code:`uint32_t`. The :code:`map()` function takes care of this by performing all calculations as 32 bit.
 
-The accuracy of the reference voltage directly affects the accuracy of the converted voltage, and this is another motive for using an external reference. By accuracy in this context we mean: how sure can you be that the voltage actually is 5 V, is it 5.00 V, or could it be 5.02 V? A highly precise reference voltage can be used if high accuracy is required.
-
-..
-    Light intensity measurements using a phototransistor
-    ----------------------------------------------------
-
-    https://www.arduino.cc/documents/datasheets/HW5P-1.pdf
-
-
-    Voltage reference experiment using potentiometer
-    ------------------------------------------------
-
-    In this example we will be using two potentiometers, one for adjusting the voltage reference, and one for adjusting the input voltage to the ADC.
-
-
-
-ADC conversion speed
---------------------
-
-The conversion speed is determined by the clock signal to the successive approximation register in the ADC. There is a maximum limit to this clock, after which the ADC starts misbehaving. The recommended maximum clock speed is 200 kHz, while the specified absolute maximum speed is 1 Mhz.
-
-In the Arduino library the clock is derived from the CPU clock by using a prescaler of 128
-
-.. math::
-	\frac{16 Mhz}{128} = 125 kHz
-
-Each conversion takes 13 ADC clock cycles, which yields a sample rate of:
-
-.. math::
-	\frac{125 kHz}{13} = 9615 Hz
-
-The conversion time is thus given by:
-
-.. math::
-	\frac{1}{9615} = 104 us
-
-This corresponds well with the conversion time stated in the documentation for the :code:`analogRead()` function in the Arduino library.
-
-Low level control of the Analog to Digital Conversion
+Exercise: Toggle position setting by pushing a button 
 -----------------------------------------------------
 
-Here is an example of the implementation of ADC without using built-in :code:`analogRead(analogPin)` function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let's understand it with the help of Atmega328p datasheet.
+This exercise builds upon the example from the previous section.
 
-.. literalinclude:: ../../../projects/ADC_full/ADC_full.ino
-   :language: c
-
-
-.. note::
-
-   ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. `Here, <https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html>`_ is a very nice summary of general ADC problems. 
-
-.. The ATmega controllers used for the Arduino contain an onboard 6 channel (8 channels on the Mini and Nano, 16 on the Mega) analog-to-digital (A/D) converter. The converter has 10 bit resolution, returning integers from 0 to 1023. The default input voltage range is 0 - 5V, thus 5V corresponds to 1023. By default the maximum sampling frequency of the Arduino UNO is 9615 Hz. It is however possible to increase this by modifying the ADC clock frequency.
-
-While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13). Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.
+#. Add the required code to detect the rising edge of a push button, including debouncing. Write a message to the serial port each time a debounced rising edge is detected.
+#. Use the rising edge to toggle the position of the servo motor in steps of 45 degrees. As soon as you reach 180 degree, the direction should change, i.e. you should step backwards from 180 towards zero with steps of 45 degree.
 
 
-.. warning:: 
-   The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.
-   
-   The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.
+Exercise: Check the potmeter value before commanding the servo motor
+--------------------------------------------------------------------
+
+.. Attention that we are writing the potentiometer value directly as the servo angle. What if we want to *check* the value first and switch on an LED *if* it is in a desired range? Then the code will look like.
+
+The following code example will light up a LED if the commanded value is above 90 degree. In this exercise the example should be expanded with some code which only initiate the movement if the user presses a push button.
+
+.. code-block:: c
+   :caption: Controlling LED based on Servo angle
+
+    #include <Servo.h>  // add servo library
+
+    Servo myservo;  // create servo object to control a servo
+
+    const int potPin = A0;  // analog pin used to connect the potentiometer
+    const int ledPin = 12; // output pin for the LED
+
+    int val;    // variable to read the value from the analog pin
+
+    void setup() {
+        myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+    }
+
+    void loop() {
+        val = analogRead(potPin);            // reads the value of the potentiometer (value between 0 and 1023)
+        val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+
+        myservo.write(val);                  // sets the servo position according to the scaled value
+
+        if(val > 90){
+            digitalWrite(ledPin, HIGH);
+        }
+        else{
+            digitalWrite(ledPin, LOW);
+        }
+        delay(15);                           // waits for the servo to get there
+    }
+
+.. ref: https://www.allaboutcircuits.com/projects/using-the-arduinos-analog-io/
 
 
-Increasing resolution by oversampling
--------------------------------------
+#. Make sure that the above code is operating as expected on you Arduino. The servo motor should follow you commands, and the LED should light up if the command is above 90 degree.
+#. Add code to continuously print the commanded servo angle to the serial port. Use :code:`millis()` to limit the printing to only once a second.
+#. Add, and test the code which is required to detect the rising edge of a push button.
+#. Protect the :code:`myservo.write()` method so that it is only called if the button is pushed.
 
-.. todo:: Explain how to use oversampling (and why it works)

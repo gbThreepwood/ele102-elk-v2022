@@ -44,6 +44,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -69,6 +70,24 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Additional material for lesson 5</a><ul>
+<li><a class="reference internal" href="#detailed-look-at-the-atmega328p-adc">Detailed look at the Atmega328p ADC</a><ul>
+<li><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
+<li><a class="reference internal" href="#adc-conversion-speed">ADC conversion speed</a></li>
+<li><a class="reference internal" href="#low-level-control-of-the-analog-to-digital-conversion">Low level control of the Analog to Digital Conversion</a></li>
+<li><a class="reference internal" href="#increasing-resolution-by-oversampling">Increasing resolution by oversampling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
 
             
               <li><a href="L4_additional.html" title="Additional material for lesson 4" accesskey="P">previous </a></li>
@@ -124,7 +143,16 @@
 <li class="toctree-l1"><a class="reference internal" href="L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L4_additional.html">Additional material lesson 4</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Additional material lesson 5</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Additional material lesson 5</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-look-at-the-atmega328p-adc">Detailed look at the Atmega328p ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adc-conversion-speed">ADC conversion speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#low-level-control-of-the-analog-to-digital-conversion">Low level control of the Analog to Digital Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#increasing-resolution-by-oversampling">Increasing resolution by oversampling</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -179,6 +207,104 @@
                   
   <div class="section" id="additional-material-for-lesson-5">
 <h1>Additional material for lesson 5<a class="headerlink" href="#additional-material-for-lesson-5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="detailed-look-at-the-atmega328p-adc">
+<h2>Detailed look at the Atmega328p ADC<a class="headerlink" href="#detailed-look-at-the-atmega328p-adc" title="Permalink to this headline">¶</a></h2>
+<p>In the ADC hardware of the Atmega328p, there are many different parameters that needs to be configured properly. For example setting the ADC speed, resolution, conversion mode etc. By using the <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> Arduino function without changing anything, we simply accept the parameters that the Arduino developers hav selected for us. The default settings are fine for basic usage, but there are many situations where you would have to go in to the details.</p>
+<div class="section" id="voltage-reference-for-the-adc">
+<h3>Voltage reference for the ADC<a class="headerlink" href="#voltage-reference-for-the-adc" title="Permalink to this headline">¶</a></h3>
+<p>As discussed previously, the analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. The Atmega328p microcontroller has several options for where to obtain this reference. In the Arduino UNO library these reference options may be set by the <code class="code docutils literal notranslate"><span class="pre">analogReference()</span></code> function, which takes the parameters <cite>DEFAULT</cite>, <cite>INTERNAL</cite>, or <cite>EXTERNAL</cite>, for 5V, 1.1V or externally applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">analogReference</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If you are only interested in measuring voltages from 0 - 2 V, a external reference of 2 V will provide better resolution than the default reference of 5 V.</p>
+<p>The accuracy of the reference voltage directly affects the accuracy of the converted voltage, and this is another motive for using an external reference. By accuracy in this context we mean: how sure can you be that the voltage actually is 5 V, is it 5.00 V, or could it be 5.02 V? A highly precise reference voltage can be used if high accuracy is required.</p>
+</div>
+<div class="section" id="adc-conversion-speed">
+<h3>ADC conversion speed<a class="headerlink" href="#adc-conversion-speed" title="Permalink to this headline">¶</a></h3>
+<p>The conversion speed is determined by the clock signal to the successive approximation register in the ADC. There is a maximum limit to this clock, after which the ADC starts misbehaving. The recommended maximum clock speed is 200 kHz, while the specified absolute maximum speed is 1 Mhz.</p>
+<p>In the Arduino library the clock is derived from the CPU clock by using a prescaler of 128</p>
+<div class="math notranslate nohighlight">
+\[\frac{16 Mhz}{128} = 125 kHz\]</div>
+<p>Each conversion takes 13 ADC clock cycles, which yields a sample rate of:</p>
+<div class="math notranslate nohighlight">
+\[\frac{125 kHz}{13} = 9615 Hz\]</div>
+<p>The conversion time is thus given by:</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{9615} = 104 us\]</div>
+<p>This corresponds well with the conversion time stated in the documentation for the <code class="code docutils literal notranslate"><span class="pre">analogRead()</span></code> function in the Arduino library.</p>
+</div>
+<div class="section" id="low-level-control-of-the-analog-to-digital-conversion">
+<h3>Low level control of the Analog to Digital Conversion<a class="headerlink" href="#low-level-control-of-the-analog-to-digital-conversion" title="Permalink to this headline">¶</a></h3>
+<p>Here is an example of the implementation of ADC without using built-in <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let’s understand it with the help of Atmega328p datasheet.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define BAUDRATE 9600</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_ports</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="nf">read_ADC</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">init_adc</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">BAUDRATE</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">adc_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;ADC value:&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adc_val</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">REFS0</span><span class="p">);</span><span class="w"> </span><span class="c1">//default Ch-0; Vref = 5V</span>
+<span class="w">  </span><span class="c1">//ADMUX = ADMUX | 0x20;   // set for Left Justified</span>
+<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADEN</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADATE</span><span class="p">);</span><span class="w"> </span><span class="c1">//auto-trigger OFF -- EXERCISE:how to write in hexadecimal?</span>
+<span class="w">  </span><span class="n">ADCSRB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">uint16_t</span><span class="w"> </span><span class="nf">adc_read</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pin</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w">     </span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// select the corresponding channel 0~7</span>
+<span class="w">  </span><span class="c1">// ANDing with &#39;7′ will always keep the value of pin between 0 and 7</span>
+<span class="w">  </span><span class="n">pin</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mb">0b00000111</span><span class="p">;</span><span class="w">  </span><span class="c1">// AND operation with 7 // pin &amp;= 0x07 // pin = pin &amp; 7</span>
+<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADMUX</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xF8</span><span class="p">)</span><span class="o">|</span><span class="n">pin</span><span class="p">;</span><span class="w"> </span><span class="c1">// setting MUX[0:3]</span>
+
+<span class="w">  </span><span class="c1">// start single convertion</span>
+<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// wait for conversion to complete</span>
+<span class="w">  </span><span class="c1">// ADSC becomes &#39;0′ again</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x10</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// until the flag is reset again // while(ADCSRA &amp; (1 &lt;&lt; ADSC))</span>
+<span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADCL</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">ADCH</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">));</span><span class="w"> </span><span class="c1">//10-bit data</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. <a class="reference external" href="https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html">Here,</a> is a very nice summary of general ADC problems.</p>
+</div>
+<p>While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13). Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.</p>
+<p>The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.</p>
+</div>
+</div>
+<div class="section" id="increasing-resolution-by-oversampling">
+<h3>Increasing resolution by oversampling<a class="headerlink" href="#increasing-resolution-by-oversampling" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Explain how to use oversampling (and why it works)</p>
+</div>
+</div>
+</div>
 </div>
 
 

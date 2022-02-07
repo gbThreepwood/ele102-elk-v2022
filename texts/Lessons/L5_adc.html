@@ -90,11 +90,10 @@
 <li><a class="reference internal" href="#exercise-temperature-alarm-challenging">Exercise: Temperature alarm (challenging)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#detailed-look-at-the-atmega328p-adc">Detailed look at the Atmega328p ADC</a><ul>
-<li><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
-<li><a class="reference internal" href="#adc-conversion-speed">ADC conversion speed</a></li>
-<li><a class="reference internal" href="#low-level-control-of-the-analog-to-digital-conversion">Low level control of the Analog to Digital Conversion</a></li>
-<li><a class="reference internal" href="#increasing-resolution-by-oversampling">Increasing resolution by oversampling</a></li>
+<li><a class="reference internal" href="#servo-motor-control">Servo motor control</a><ul>
+<li><a class="reference internal" href="#example-servo-and-map-function">Example: Servo and map function</a></li>
+<li><a class="reference internal" href="#exercise-toggle-position-setting-by-pushing-a-button">Exercise: Toggle position setting by pushing a button</a></li>
+<li><a class="reference internal" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor">Exercise: Check the potmeter value before commanding the servo motor</a></li>
 </ul>
 </li>
 </ul>
@@ -166,11 +165,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#exercise-temperature-alarm-challenging">Exercise: Temperature alarm (challenging)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#detailed-look-at-the-atmega328p-adc">Detailed look at the Atmega328p ADC</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adc-conversion-speed">ADC conversion speed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#low-level-control-of-the-analog-to-digital-conversion">Low level control of the Analog to Digital Conversion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#increasing-resolution-by-oversampling">Increasing resolution by oversampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#servo-motor-control">Servo motor control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-servo-and-map-function">Example: Servo and map function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-toggle-position-setting-by-pushing-a-button">Exercise: Toggle position setting by pushing a button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor">Exercise: Check the potmeter value before commanding the servo motor</a></li>
 </ul>
 </li>
 </ul>
@@ -238,7 +236,7 @@
   <div class="section" id="analog-to-digital-conversion-adc">
 <span id="analog-to-digital-conversion"></span><h1>Analog to digital conversion (ADC)<a class="headerlink" href="#analog-to-digital-conversion-adc" title="Permalink to this headline">¶</a></h1>
 <p>In the previous lesson we discussed digital to analog conversion. In this lesson we consider the opposite process, where a analog signal is converted in to a digital representation.</p>
-<p>In order to be prepared for all the exercises in this lesson, the following connections should be made in advance:</p>
+<p>In order to be prepared for most of the exercises in this lesson, the following connections should be made in advance:</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/arduino_pb_led_pot_tmp36_bb.png"><img alt="Arduino with external LED, push buttons, potentiometer, and TMP32 temperature sensor." src="../../_images/arduino_pb_led_pot_tmp36_bb.png" style="width: 511.5px; height: 661.5px;" /></a>
 </div>
@@ -370,19 +368,17 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <h3>Example: Potentiometer as Analog Input<a class="headerlink" href="#example-potentiometer-as-analog-input" title="Permalink to this headline">¶</a></h3>
 <p>A potentiometer is a type of variable resistor with 3 connections. Two of the connections are placed at the extreme ends of the resistor, for ease of discussion we will name them connector (1), and (2). I.e. the resistance between pins (1), and (2) is always equal to the maximum resistance of the variable resistor. The third connector (3) is connected to a sliding contact, which moves along the resistor. At one extreme end this sliding connector is at (or close to) connector (1), at the other extreme it is at connector (2).</p>
 <p>By applying a fixed voltage between connector (1), and (2), the voltage at the sliding contact (3) will vary linearly with the rotation of the potentiometer knob.</p>
-<div class="figure align-center">
-<img alt="Simple potentiometer circuit" src="../../_images/simple_pot_battery.png" />
-</div>
 <p>You can use this potentiometer value for various different purposes. Now, assume that your microcontroller team is assigned to develop a simple heat display system. If the temperature is higher than 30 celcius, the display gives a warning. If it is between 20-30 celcius, everything is fine. If it is less than 20 celcius, then your display system warns again. To have a temperature sensor (in real life) and physically change the temperature of the room for the sake of test is not very efficient. <em>We all know</em> that temperature sensor gives an analog signal so I can test the system using a potentiometer to emulate the sensor.</p>
 <p>For this example you should use the following circuit:</p>
 <div class="figure align-center">
-<img alt="Simple potentiometer circuit with Arduino" src="../../_images/simple_pot_arduino.png" />
+<a class="reference internal image-reference" href="../../_images/arduino_potmeter_bb.png"><img alt="Simple potentiometer circuit with Arduino" src="../../_images/arduino_potmeter_bb.png" style="width: 484.5px; height: 661.5px;" /></a>
 </div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
 <span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVal</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">sensorVolt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
@@ -438,102 +434,107 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 </ol>
 </div>
 </div>
-<div class="section" id="detailed-look-at-the-atmega328p-adc">
-<h2>Detailed look at the Atmega328p ADC<a class="headerlink" href="#detailed-look-at-the-atmega328p-adc" title="Permalink to this headline">¶</a></h2>
-<p>In the ADC hardware of the Atmega328p, there are many different parameters that needs to be configured properly. For example setting the ADC speed, resolution, conversion mode etc. By using the <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> Arduino function without changing anything, we simply accept the parameters that the Arduino developers hav selected for us. The default settings are fine for basic usage, but there are many situations where you would have to go in to the details.</p>
-<div class="section" id="voltage-reference-for-the-adc">
-<h3>Voltage reference for the ADC<a class="headerlink" href="#voltage-reference-for-the-adc" title="Permalink to this headline">¶</a></h3>
-<p>As discussed previously, the analog to digital converter uses a voltage reference for comparison with the analog signal it is converting. The Atmega328p microcontroller has several options for where to obtain this reference. In the Arduino UNO library these reference options may be set by the <code class="code docutils literal notranslate"><span class="pre">analogReference()</span></code> function, which takes the parameters <cite>DEFAULT</cite>, <cite>INTERNAL</cite>, or <cite>EXTERNAL</cite>, for 5V, 1.1V or externally applied voltage to the AREF-pin respectively. The selected reference voltage will be the maximum input voltage for the ADC, i.e. the voltage that will correspond to the digital value of 1023.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">analogReference</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-<p>If you are only interested in measuring voltages from 0 - 2 V, a external reference of 2 V will provide better resolution than the default reference of 5 V.</p>
-<p>The accuracy of the reference voltage directly affects the accuracy of the converted voltage, and this is another motive for using an external reference. By accuracy in this context we mean: how sure can you be that the voltage actually is 5 V, is it 5.00 V, or could it be 5.02 V? A highly precise reference voltage can be used if high accuracy is required.</p>
-</div>
-<div class="section" id="adc-conversion-speed">
-<h3>ADC conversion speed<a class="headerlink" href="#adc-conversion-speed" title="Permalink to this headline">¶</a></h3>
-<p>The conversion speed is determined by the clock signal to the successive approximation register in the ADC. There is a maximum limit to this clock, after which the ADC starts misbehaving. The recommended maximum clock speed is 200 kHz, while the specified absolute maximum speed is 1 Mhz.</p>
-<p>In the Arduino library the clock is derived from the CPU clock by using a prescaler of 128</p>
-<div class="math notranslate nohighlight">
-\[\frac{16 Mhz}{128} = 125 kHz\]</div>
-<p>Each conversion takes 13 ADC clock cycles, which yields a sample rate of:</p>
-<div class="math notranslate nohighlight">
-\[\frac{125 kHz}{13} = 9615 Hz\]</div>
-<p>The conversion time is thus given by:</p>
-<div class="math notranslate nohighlight">
-\[\frac{1}{9615} = 104 us\]</div>
-<p>This corresponds well with the conversion time stated in the documentation for the <code class="code docutils literal notranslate"><span class="pre">analogRead()</span></code> function in the Arduino library.</p>
-</div>
-<div class="section" id="low-level-control-of-the-analog-to-digital-conversion">
-<h3>Low level control of the Analog to Digital Conversion<a class="headerlink" href="#low-level-control-of-the-analog-to-digital-conversion" title="Permalink to this headline">¶</a></h3>
-<p>Here is an example of the implementation of ADC without using built-in <code class="code docutils literal notranslate"><span class="pre">analogRead(analogPin)</span></code> function. There are different ways of bitwise operations. It is better to be consistent in using one way but here we would like to see different ways. Let’s understand it with the help of Atmega328p datasheet.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-
-<span class="cp">#define BAUDRATE 9600</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">init_ports</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="nf">read_ADC</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">);</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">init_adc</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">BAUDRATE</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">adc_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;ADC value:&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adc_val</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">init_adc</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">REFS0</span><span class="p">);</span><span class="w"> </span><span class="c1">//default Ch-0; Vref = 5V</span>
-<span class="w">  </span><span class="c1">//ADMUX = ADMUX | 0x20;   // set for Left Justified</span>
-<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADEN</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADATE</span><span class="p">);</span><span class="w"> </span><span class="c1">//auto-trigger OFF -- EXERCISE:how to write in hexadecimal?</span>
-<span class="w">  </span><span class="n">ADCSRB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">uint16_t</span><span class="w"> </span><span class="nf">adc_read</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pin</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w">     </span>
-<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span>
-<span class="w">  </span><span class="c1">// select the corresponding channel 0~7</span>
-<span class="w">  </span><span class="c1">// ANDing with &#39;7′ will always keep the value of pin between 0 and 7</span>
-<span class="w">  </span><span class="n">pin</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mb">0b00000111</span><span class="p">;</span><span class="w">  </span><span class="c1">// AND operation with 7 // pin &amp;= 0x07 // pin = pin &amp; 7</span>
-<span class="w">  </span><span class="n">ADMUX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADMUX</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xF8</span><span class="p">)</span><span class="o">|</span><span class="n">pin</span><span class="p">;</span><span class="w"> </span><span class="c1">// setting MUX[0:3]</span>
-
-<span class="w">  </span><span class="c1">// start single convertion</span>
-<span class="w">  </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ADSC</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">// wait for conversion to complete</span>
-<span class="w">  </span><span class="c1">// ADSC becomes &#39;0′ again</span>
-<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x10</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// until the flag is reset again // while(ADCSRA &amp; (1 &lt;&lt; ADSC))</span>
-<span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ADCL</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">ADCH</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">));</span><span class="w"> </span><span class="c1">//10-bit data</span>
-<span class="w">  </span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>ADC is a demanding topic also requires basic signal processing knowledge. One should read about possible errors before computing a serious analog to digital conversion. <a class="reference external" href="https://www.maximintegrated.com/en/design/technical-documents/tutorials/6/641.html">Here,</a> is a very nice summary of general ADC problems.</p>
-</div>
-<p>While the main function of the analog pins for most Arduino users is to read analog sensors, the analog pins also have all the functionality of general purpose input/output (GPIO) pins (the same as digital pins 0 - 13). Consequently, if a user needs more general purpose input output pins, and all the analog pins are not in use, the analog pins may be used for GPIO.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The analogRead function will not work correctly if a pin has been previously set to an output, so if this is the case, set it back to an input before using analogRead. Similarly if the pin has been set to HIGH as an output, the pull-up resistor will be set, when switched back to an input.</p>
-<p>The ATmega datasheet also cautions against switching analog pins in close temporal proximity to making A/D readings (analogRead) on other analog pins. This can cause electrical noise and introduce jitter in the analog system. It may be desirable, after manipulating analog pins (in digital mode), to add a short delay before using analogRead() to read other analog pins.</p>
-</div>
-</div>
-<div class="section" id="increasing-resolution-by-oversampling">
-<h3>Increasing resolution by oversampling<a class="headerlink" href="#increasing-resolution-by-oversampling" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="servo-motor-control">
+<h2>Servo motor control<a class="headerlink" href="#servo-motor-control" title="Permalink to this headline">¶</a></h2>
+<p>Servo motors is a category of motors designed specifically for accurate control of angular (or sometimes linear) position. There are many different variations of these motors, which require different types of driving circuits. Sometimes the driving can be challenging, but luckily Arduino kit includes a nearly plug-and-play solution.</p>
+<div class="section" id="example-servo-and-map-function">
+<h3>Example: Servo and map function<a class="headerlink" href="#example-servo-and-map-function" title="Permalink to this headline">¶</a></h3>
+<p>The servo motor in the Arduino kit is of the pulse width controlled type. That is, the control signal is a PWM signal, the actual motor control system is an electronic circuit placed inside the motor housing. The PWM is simply used as a way to inform the motor controller of what angular position you would like the motor to have. There is an internal position sensor inside the motor, which measures the shaft position, and a controller which compares this measured value to the commanded value.</p>
+<p>The PWM control signal switching frequency should be 50 Hz, and the pulse width (duty-cycle) determine the set point for angular position. A pulse width of 1 ms correspond to 0 degree, 1.5 ms correspond to 90 degree, while 2 ms correspond to 180 degree. This is not standardized however, and motors from other manufacturers might have different interpretation of the pulse widths.</p>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
-<p>Explain how to use oversampling (and why it works)</p>
+<p>picture of the servo motor</p>
 </div>
+<p>Note that there are a lot of details behind the operation of this motor, some of which will be covered in a future lecture. For now we will simply explore how to use the motor.</p>
+<p>The purpose of this example is to control the position of the motor using a potentiometer. In order to simplify the process of generating the required motor pulses, we will be using a library which provides a function to set the correct PWM output for a given numeric value corresponding to a desired angular position.</p>
+<p>The library is included by <code class="code docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;Servo.h&gt;</span></code></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The servo motor in the Arduino kit is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don’t!</p>
+</div>
+<p>First of all, let’s build the following circuit:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/arduino_servo_motor_bb.png"><img alt="Arduino with push button, potmeter, and servomotor." src="../../_images/arduino_servo_motor_bb.png" style="width: 694.5px; height: 661.5px;" /></a>
+</div>
+<p>The servo motor has three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to one of the pins which support PWM. Here we use pin 9.</p>
+<p>The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input A0 on the board.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
+
+<span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
+
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">potPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w">  </span><span class="c1">// analog pin used to connect the potentiometer</span>
+<span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">;</span><span class="w">    </span><span class="c1">// variable to read the value from the analog pin</span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">// attaches the servo on pin 9 to the servo object</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">potPin</span><span class="p">);</span><span class="w">            </span><span class="c1">// reads the value of the potentiometer (value between 0 and 1023)</span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1023</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span><span class="w">     </span><span class="c1">// scale it to use it with the servo (value between 0 and 180)</span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">);</span><span class="w">                  </span><span class="c1">// sets the servo position according to the scaled value</span>
+<span class="w">     </span><span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w">                           </span><span class="c1">// waits for the servo to get there</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">map</span></code> function is discussed in the previous lesson, it involves relatively simple calculations and could easily be performed by:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="o">*</span><span class="mi">180</span><span class="p">)</span><span class="o">/</span><span class="mi">1023</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus <code class="code docutils literal notranslate"><span class="pre">val</span></code> has to be declared <code class="code docutils literal notranslate"><span class="pre">uint32_t</span></code>. The <code class="code docutils literal notranslate"><span class="pre">map()</span></code> function takes care of this by performing all calculations as 32 bit.</p>
+</div>
+<div class="section" id="exercise-toggle-position-setting-by-pushing-a-button">
+<h3>Exercise: Toggle position setting by pushing a button<a class="headerlink" href="#exercise-toggle-position-setting-by-pushing-a-button" title="Permalink to this headline">¶</a></h3>
+<p>This exercise builds upon the example from the previous section.</p>
+<ol class="arabic simple">
+<li><p>Add the required code to detect the rising edge of a push button, including debouncing. Write a message to the serial port each time a debounced rising edge is detected.</p></li>
+<li><p>Use the rising edge to toggle the position of the servo motor in steps of 45 degrees. As soon as you reach 180 degree, the direction should change, i.e. you should step backwards from 180 towards zero with steps of 45 degree.</p></li>
+</ol>
+</div>
+<div class="section" id="exercise-check-the-potmeter-value-before-commanding-the-servo-motor">
+<h3>Exercise: Check the potmeter value before commanding the servo motor<a class="headerlink" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor" title="Permalink to this headline">¶</a></h3>
+<p>The following code example will light up a LED if the commanded value is above 90 degree. In this exercise the example should be expanded with some code which only initiate the movement if the user presses a push button.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
+
+<span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
+
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">potPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w">  </span><span class="c1">// analog pin used to connect the potentiometer</span>
+<span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"> </span><span class="c1">// output pin for the LED</span>
+
+<span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">;</span><span class="w">    </span><span class="c1">// variable to read the value from the analog pin</span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">// attaches the servo on pin 9 to the servo object</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">potPin</span><span class="p">);</span><span class="w">            </span><span class="c1">// reads the value of the potentiometer (value between 0 and 1023)</span>
+<span class="w">     </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1023</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span><span class="w">     </span><span class="c1">// scale it to use it with the servo (value between 0 and 180)</span>
+
+<span class="w">     </span><span class="n">myservo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">);</span><span class="w">                  </span><span class="c1">// sets the servo position according to the scaled value</span>
+
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">90</span><span class="p">){</span><span class="w"></span>
+<span class="w">         </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">     </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">     </span><span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w">                           </span><span class="c1">// waits for the servo to get there</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Make sure that the above code is operating as expected on you Arduino. The servo motor should follow you commands, and the LED should light up if the command is above 90 degree.</p></li>
+<li><p>Add code to continuously print the commanded servo angle to the serial port. Use <code class="code docutils literal notranslate"><span class="pre">millis()</span></code> to limit the printing to only once a second.</p></li>
+<li><p>Add, and test the code which is required to detect the rising edge of a push button.</p></li>
+<li><p>Protect the <code class="code docutils literal notranslate"><span class="pre">myservo.write()</span></code> method so that it is only called if the button is pushed.</p></li>
+</ol>
 </div>
 </div>
 </div>
