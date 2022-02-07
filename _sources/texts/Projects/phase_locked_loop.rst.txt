@@ -1,0 +1,13 @@
+.. _phase_locked_loop:
+
+****************************
+Phase locked loop (PLL)
+****************************
+
+
+
+Lock on a sine wave sampled on the ADC
+======================================
+
+In this section we will consider the design of a PLL for locking on to a sine wave of 50 Hz, which is sampled by the ADC.
+

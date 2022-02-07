@@ -262,7 +262,8 @@ A mechanical switch will often generate spurious open/close transitions in a sho
 
 The graph to the right in the following figure illustrates the spurious changes in voltage level at the node between the resistor and the switch.
  
-.. figure:: ../../../external/fig/switch_bounce.png
+.. 
+   figure:: ../../../external/fig/switch_bounce.png
    :alt: Switch bounce
    :align: center
     
@@ -280,7 +281,8 @@ If a software debounce solution is desired, one possibility is to check the butt
 
 Hardware solutions include analog filters using resistors and capacitors, or digital circuits as illustrated in the following figure:
 
-.. figure:: ../../../external/fig/Shift-register_and_a_nand_gate_as_a_debouncer.png
+.. 
+   figure:: ../../../external/fig/Shift-register_and_a_nand_gate_as_a_debouncer.png
    :align: center
 
    Source: `https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/ <https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/>`_

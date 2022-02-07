@@ -2,6 +2,8 @@
 Additional material for lesson 3
 *******************************************************
 
+.. _conditionals_easy:
+
 Simple touch to If...Else
 ===========================
 

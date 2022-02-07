@@ -79,9 +79,9 @@ The Arduino functions associated with timing that we will be using in this tutor
 In embedded systems it is often required to write code that has some delay between executing different parts of the code. For very simple applications it might be sufficient to use code that simply blocks until a given amount of time has passed. The `delay()` function is an example of such a function, it will block for the given number of milliseconds, before execution continues with the next line of instructions. For more sophisticated applications you might need the microcontroller to delay something, while still executing something else as fast as possible. Or you might have two operations which requires different delays. E.g. consider the simple example of blinking two LEDs at different rates. 
 
 Operation
----------
+~~~~~~~~~~~
 
-The Atmega 328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.
+The Atmega328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.
 
 The `millis()` function returns the the number of milliseconds since the last time the controller was restarted. It is using a 32-bit unsigned integer to store the counter value, thus the maximum value is given by:
 
@@ -99,7 +99,7 @@ If higher accuracy is required there is also a `micros()` function, returning th
 
 
 Usage
------
+~~~~~~~
 
 We have already seen how the `delay()` function is used in the simple LED blink example. The `millis()` function allows us to do more interesting and useful delay implementations, where different parts of the code may execute while we are waiting for the required time to pass.
 

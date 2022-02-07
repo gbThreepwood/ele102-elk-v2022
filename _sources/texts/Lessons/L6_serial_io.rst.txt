@@ -64,24 +64,26 @@ Let's do a bit more brain storming for switch..case: You want to make a program 
 **Practical example:** Switch-case example
 
 
+.. seealso:: 
+	Do you know how a beautiful if...else look like? Check this out :ref:`conditionals_easy`.
 
+..
+        Some additions on conditionals
+        -------------------------------
 
-Some additions on conditionals
--------------------------------
+        .. todo:: Talk about why choosing if...else wisely is important.
 
-.. todo:: Talk about why choosing if...else wisely is important.
+        .. image:: ../../fig/if_else_1.jpeg
+                :alt: if...else 1
+                :align: center
 
-  .. image:: ../../fig/if_else_1.jpeg
-          :alt: if...else 1
-          :align: center
+        .. image:: ../../fig/if_else_2.jpeg
+                :alt: if...else 2
+                :align: center
 
-  .. image:: ../../fig/if_else_2.jpeg
-          :alt: if...else 2
-          :align: center
-
-  .. image:: ../../fig/if_else_3.jpeg
-          :alt: if...else 3
-          :align: center
+        .. image:: ../../fig/if_else_3.jpeg
+                :alt: if...else 3
+                :align: center
 
 
 Exercise: Serial UI for LED control

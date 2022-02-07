@@ -142,6 +142,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -149,6 +150,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -161,6 +163,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -200,17 +204,17 @@
 <div class="figure align-center">
 <img alt="../../_images/switchFailure.png" src="../../_images/switchFailure.png" />
 </div>
-<div class="figure align-center" id="id4">
+<div class="figure align-center" id="id2">
 <img alt="../../_images/edgedetection.jpg" src="../../_images/edgedetection.jpg" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.programmingelectronics.com/tutorial-18-state-change-detection-and-the-modulo-operator-old-version">programmingelectronics.com</a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.programmingelectronics.com/tutorial-18-state-change-detection-and-the-modulo-operator-old-version">programmingelectronics.com</a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="understanding-pull-up-pull-down-resistors">
 <h3>Understanding Pull-up / Pull-down resistors<a class="headerlink" href="#understanding-pull-up-pull-down-resistors" title="Permalink to this headline">¶</a></h3>
 <p>As already discussed in terms of push buttons, when using digital inputs it is often required to add resistors to either pull up, or pull down the potential at the input. This is required because the input impedance of the digital input is very high, and the state may change randomly if it is not forced to a known state. For our convenience the Atmega 328 used in the Arduino UNO has internal pull up resistors that may be enabled or disabled in software. Alternatively you may add external resistors.</p>
 <p>The size of the resistors is not critical, but it should not be selected on random either. A to small resistor may cause excessive current, while a to large resistor will defeat the purpose of trying to pull towards a given potential. I.e. the resistor value should be far away from the value of the input impedance. In practice a 10k resistor is often used.</p>
-<div class="figure align-center" id="id5">
+<div class="figure align-center" id="id3">
 <img alt="Arduino with pull-up, and pull-down resistors on push buttons" src="../../_images/Pull-up-and-Pull-down-Resistor.png" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://circuitdigest.com/tutorial/pull-up-and-pull-down-resistor">circuitdigest.com</a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>The following figure depicts the connection of two push buttons to the Arduino. For the leftmost button the resistor in the figure pulls the input low, and the push button is connected in such a way that it can pull it up. For the button to the right the configuration is opposite.</p>
 <div class="figure align-center">
@@ -286,9 +290,9 @@
 <div class="section" id="debounce-of-mechanical-switch">
 <h3>Debounce of mechanical switch<a class="headerlink" href="#debounce-of-mechanical-switch" title="Permalink to this headline">¶</a></h3>
 <p>A mechanical switch will often generate spurious open/close transitions in a short period after it has been activated. It is a risk that these spurious transitions are interpreted as multiple signals from the switch. In order to avoid these problems some form of debounce remedy should be applied. This could be a hardware solution, a software solution or a combination of the two.</p>
-<div class="figure align-center" id="id6">
+<div class="figure align-center" id="id4">
 <img alt="../../_images/switch_bounce.png" src="../../_images/switch_bounce.png" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.best-microcontroller-projects.com/easy_switch_debounce.html">https://www.best-microcontroller-projects.com/easy_switch_debounce.html</a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.best-microcontroller-projects.com/easy_switch_debounce.html">https://www.best-microcontroller-projects.com/easy_switch_debounce.html</a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>If a software solution is desired, one possibility is to check the button state twice, within a short time windows. I.e. check, delay, check again.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
@@ -342,9 +346,9 @@
 </pre></div>
 </div>
 <p>Hardware solutions include analog filters using resitors and capacitors, as well as using a SR-latch.</p>
-<div class="figure align-center" id="id7">
+<div class="figure align-center" id="id5">
 <img alt="../../_images/Shift-register_and_a_nand_gate_as_a_debouncer.png" src="../../_images/Shift-register_and_a_nand_gate_as_a_debouncer.png" />
-<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/">https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/</a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/">https://www.e-tinkers.com/2021/05/the-simplest-button-debounce-solution/</a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>The following function allows de-bouncing up to 8 digital inputs simultanously</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">switch_debounce</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">current_state</span><span class="p">){</span><span class="w"></span>
@@ -522,9 +526,6 @@
 <h2>Switch bouncing<a class="headerlink" href="#switch-bouncing" title="Permalink to this headline">¶</a></h2>
 <p>A mechanical switch will often generate spurious open/close transitions in a short period after it has been activated. It is a risk that these spurious transitions are interpreted as multiple signals from the switch. In order to avoid these problems some form of debounce remedy should be applied. This could be a hardware solution, a software solution or a combination of the two.</p>
 <p>The graph to the right in the following figure illustrates the spurious changes in voltage level at the node between the resistor and the switch.</p>
-<div class="figure align-center">
-<img alt="Switch bounce" src="../../_images/switch_bounce.png" />
-</div>
 <div class="section" id="debounce-methods">
 <h3>Debounce methods<a class="headerlink" href="#debounce-methods" title="Permalink to this headline">¶</a></h3>
 <p>If a software debounce solution is desired, one possibility is to check the button state twice, within a short time windows. I.e. check, delay, check again. The following source code listing illustrates one possibility:</p>
@@ -568,9 +569,6 @@
 </pre></div>
 </div>
 <p>Hardware solutions include analog filters using resistors and capacitors, or digital circuits as illustrated in the following figure:</p>
-<div class="figure align-center">
-<img alt="../../_images/Shift-register_and_a_nand_gate_as_a_debouncer.png" src="../../_images/Shift-register_and_a_nand_gate_as_a_debouncer.png" />
-</div>
 <p>The button state is <em>clocked</em> in to the d flip-flops, and only when all the flip-flops have registered the same state the output will change. This solution is typically found in programmable logic, but it is rather expensive to realise by using discrete components.</p>
 <p>A really efficient and reliable debounce circuit can be built bu using a SR-latch in conjunction with a SPDT switch. In one position the switch is connected to the <em>set</em> input, while the other position of the switch is connected to <em>reset</em> input of the latch. That way you do not have to consider the time you expect the bouncing to last, or the duration between each of the spurious voltage pulses.</p>
 </div>

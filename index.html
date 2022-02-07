@@ -126,6 +126,7 @@
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -133,6 +134,7 @@
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -145,6 +147,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="texts/Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Appendices/assembly_programming.html">Assembly programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -314,6 +318,7 @@
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#exercise-stopwatch">Exercise: Stopwatch</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html#rough-timing-in-arduino">Rough Timing in Arduino</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a><ul>
@@ -342,7 +347,33 @@
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#for-loops">For loops</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#do-while-loops">Do while loops</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#loop-example">Loop example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-blink-a-colorful-led-n-times">Exercise: Blink a colorful LED n-times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html#exercise-blink-a-colorful-led-n-times-with-user-input">Exercise: Blink a colorful LED n-times with user input</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L5_adc.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#analog-to-digital-converter">Analog to digital converter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#successive-approximation-sar-adc">Successive Approximation (SAR) ADC.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#important-parameters-for-adc-operation">Important parameters for ADC operation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L5_adc.html#using-the-adc-in-arduino">Using the ADC in Arduino</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-print-raw-adc-value-to-serial-port">Exercise: print raw ADC value to serial port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#example-temperature-measurement-using-tmp36">Example: Temperature measurement using TMP36</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-change-the-unit-of-temperature-measurement">Exercise: Change the unit of temperature measurement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#example-potentiometer-as-analog-input">Example: Potentiometer as Analog Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-potentiometer-adjustable-blink-rate">Exercise: Potentiometer adjustable blink rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-temperature-alarm-challenging">Exercise: Temperature alarm (challenging)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L5_adc.html#detailed-look-at-the-atmega328p-adc">Detailed look at the Atmega328p ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#voltage-reference-for-the-adc">Voltage reference for the ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#adc-conversion-speed">ADC conversion speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#low-level-control-of-the-analog-to-digital-conversion">Low level control of the Analog to Digital Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#increasing-resolution-by-oversampling">Increasing resolution by oversampling</a></li>
 </ul>
 </li>
 </ul>
@@ -407,6 +438,7 @@
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L4_additional.html#using-the-tilt-sensor">Using the tilt sensor</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -488,6 +520,37 @@
 <li class="toctree-l3"><a class="reference internal" href="texts/Appendices/stacks_queues_lists.html#dynamic-queue-arduino-example">Dynamic queue Arduino example</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Appendices/assembly_programming.html">Assembly programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/assembly_programming.html#disassembly-of-your-project">Disassembly of your project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/assembly_programming.html#better-disassembly">Better disassembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/assembly_programming.html#disassembly-in-platformio">Disassembly in PlatformIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/assembly_programming.html#inline-assembly">Inline assembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/assembly_programming.html#mixing-c-and-assembly">Mixing C and assembly</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/assembly_programming.html#bare-metal-project">Bare metal project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/assembly_programming.html#platformio">PlatformIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/assembly_programming.html#pure-assembly">Pure assembly</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/assembly_programming.html#interrupts">Interrupts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Appendices/digital_filters.html">Digital filters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#efficiency">Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#moving-average">Moving average</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#finite-impulse-response-fir-filter">Finite impulse response (FIR) filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#infinite-impulse-response-iir-filter">Infinite impulse response (IIR) filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/digital_filters.html#lowpass-filter-floating-point-version">Lowpass filter (Floating point version)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Appendices/digital_filters.html#notch-filter">Notch filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#cascaded-integrator-comb-cic">Cascaded integrator comb (CIC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Appendices/digital_filters.html#kalman-filter">Kalman filter</a></li>
 </ul>
 </li>
 </ul>

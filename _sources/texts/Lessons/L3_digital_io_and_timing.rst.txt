@@ -294,6 +294,12 @@ In this exercise a similar program should be designed without the use of :code:`
 #. Write a program which blinks one LED at a frequency of 1 Hz.
 #. Extend the program to blink the other LED at a frequency of 5 Hz.
 
+The following code listing provides one possible solution:
+
+.. literalinclude:: ../../../projects/platformio/timing/dual-led-blink-millis/src/main.cpp
+    :language: c
+    :linenos:
+
 
 Exercise: Adjustable blink frequency
 -------------------------------------------------
@@ -302,6 +308,15 @@ In this exercise we are going to adjust the blink frequency of two LEDs independ
 
 #. Write the necessary code to allow a push button to step through the blink frequencies 2 Hz, 1 Hz, 0.5 Hz, 0.25 Hz. After reaching the lowest frequency it should wrap around.
 #. Extend the program with a second LED which should be controlled independently of the first.
+
+
+The following code listing provides one possible solution. Notice how the same logic is applied twice for the two push buttons. Repetitive code usually indicate that your solution is not optimal. It will likely be possible to make the solution more generic, and applicable to an arbitrary number of inputs and outputs. We will explore this in a future lecture.
+
+.. note:: The following solution proposal does not take the push button bouncing problem in to account. Thus you should pay attention to the output in the serial monitor, in might jump thorough several frequency steps on each button push.
+
+.. literalinclude:: ../../../projects/platformio/timing/dual-led-blink-millis-pb-control/src/main.cpp
+    :language: c
+    :linenos:
 
 
 
@@ -548,6 +563,16 @@ Since we now know some ways of eliminating the glitches (or jitter) on the butto
 
 
 .. note:: Note that this is not necessarily a perfect solution. If you press and release the button so fast that the program cannot catch :code:`digitalRead(button_pin)` line - since the microcontroller reads memory line by line - then you miss a button press. This will likely not be a problem for manual push buttons (unless your microcontroller executes a lot of code between each time it reads the digital input), but it might be a problem if you try to use the stopwatch for timing of something which is faster than a human hand. E.g. if you want to determine the speed of you bicycle, and try to measure the interval between pulses from a sensor on the wheel. The solution for fast signals is to use the *interrupt* system. This will be covered in a future lecture.
+
+Rough Timing in Arduino
+========================
+
+The Arduino functions associated with timing are:
+
+- `delay() <https://www.arduino.cc/reference/en/language/functions/time/delay/>`_
+- `delayMicroseconds() <https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/>`_
+- `millis() <https://www.arduino.cc/reference/en/language/functions/time/millis/>`_
+- `micros() <https://www.arduino.cc/reference/en/language/functions/time/micros/>`_
 
 
 .. According to our new plan array will be discussed in lecture 6.

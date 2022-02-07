@@ -77,7 +77,14 @@
 <li><a class="reference internal" href="#debounce-of-mechanical-switch">Debounce of mechanical switch</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rough-timing-in-arduino">Rough Timing in Arduino</a></li>
+<li><a class="reference internal" href="#rough-timing-in-arduino">Rough Timing in Arduino</a><ul>
+<li><a class="reference internal" href="#operation">Operation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#exercise-stopwatch">Exercise: Stopwatch</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -129,6 +136,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -136,6 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -148,6 +157,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -211,7 +222,9 @@
 <li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/micros/">micros()</a></p></li>
 </ul>
 <p>In embedded systems it is often required to write code that has some delay between executing different parts of the code. For very simple applications it might be sufficient to use code that simply blocks until a given amount of time has passed. The <cite>delay()</cite> function is an example of such a function, it will block for the given number of milliseconds, before execution continues with the next line of instructions. For more sophisticated applications you might need the microcontroller to delay something, while still executing something else as fast as possible. Or you might have two operations which requires different delays. E.g. consider the simple example of blinking two LEDs at different rates.</p>
-<p>The Atmega 328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.</p>
+<div class="section" id="operation">
+<h3>Operation<a class="headerlink" href="#operation" title="Permalink to this headline">¶</a></h3>
+<p>The Atmega328 has several built in hardware timers (two 8-bit and one 16-bit). These timers allow for many advanced timing applications. The Arduino library utilizes one of these timers for a counter that counts the number of microseconds since the last time the controller was restarted. Several functions are available for utilization of this counter value.</p>
 <p>The <cite>millis()</cite> function returns the the number of milliseconds since the last time the controller was restarted. It is using a 32-bit unsigned integer to store the counter value, thus the maximum value is given by:</p>
 <div class="math notranslate nohighlight">
 \[2^{32} = 4294967296\]</div>
@@ -220,7 +233,12 @@
 \[\frac{4294967296}{1000 \cdot 60 \cdot 60 \cdot 24} = 49.7\]</div>
 <p>Thus we see that the counter will wrap around after approximately 50 days. This should be accounted for in applications where the controller is running continuously for extended periods of time, but in many cases it will only cause a small glitch in the timing at the instant of wrap around.</p>
 <p>If higher accuracy is required there is also a <cite>micros()</cite> function, returning the number of microseconds since the last reboot. Keep in mind that the maximum duration that the 32-bit register can store is significantly lower. Alternatively for maximum accuracy one of the unused hardware timers can be dedicated for your purpose.</p>
+</div>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
 <p>We have already seen how the <cite>delay()</cite> function is used in the simple LED blink example. The <cite>millis()</cite> function allows us to do more interesting and useful delay implementations, where different parts of the code may execute while we are waiting for the required time to pass.</p>
+<div class="section" id="exercise-stopwatch">
+<h4>Exercise: Stopwatch<a class="headerlink" href="#exercise-stopwatch" title="Permalink to this headline">¶</a></h4>
 <p>In this exercise we will develop a stop watch.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/digital_input_and_output_for_stop_watch_bb.png"><img alt="Digital input and output for stop watch" src="../../_images/digital_input_and_output_for_stop_watch_bb.png" style="width: 477.0px; height: 660.0px;" /></a>
@@ -288,6 +306,8 @@
 <span class="w">  </span><span class="c1">// wait 1 millisecond</span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>

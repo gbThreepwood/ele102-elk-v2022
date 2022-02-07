@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="next" title="Analog to digital conversion (ADC)" href="L5_adc.html" />
     <link rel="prev" title="Digital I/O, and timing" href="L3_digital_io_and_timing.html" /> 
   </head>
   <body role="document">
@@ -100,7 +100,8 @@
 <li><a class="reference internal" href="#for-loops">For loops</a></li>
 <li><a class="reference internal" href="#do-while-loops">Do while loops</a></li>
 <li><a class="reference internal" href="#loop-example">Loop example</a></li>
-<li><a class="reference internal" href="#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
+<li><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times">Exercise: Blink a colorful LED n-times</a></li>
+<li><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times-with-user-input">Exercise: Blink a colorful LED n-times with user input</a></li>
 </ul>
 </li>
 </ul>
@@ -112,7 +113,7 @@
 
             
               <li><a href="L3_digital_io_and_timing.html" title="Digital I/O, and timing" accesskey="P">previous </a></li>
-              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
+              <li><a href="L5_adc.html" title="Analog to digital conversion (ADC)" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -181,11 +182,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#for-loops">For loops</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#do-while-loops">Do while loops</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#loop-example">Loop example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-led-seven-times">Exercise: Blink a LED seven times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times">Exercise: Blink a colorful LED n-times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times-with-user-input">Exercise: Blink a colorful LED n-times with user input</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -193,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -205,6 +209,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -230,8 +236,8 @@
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
-                          title="next chapter">Additional material for lesson 1</a></p>
+    <p class="topless"><a href="L5_adc.html"
+                          title="next chapter">Analog to digital conversion (ADC)</a></p>
   </div>
   </div>
 </div> 
@@ -245,56 +251,85 @@
                   
   <div class="section" id="analog-output-digital-to-analog-conversion">
 <span id="dac-pwm"></span><h1>Analog output (digital to analog conversion)<a class="headerlink" href="#analog-output-digital-to-analog-conversion" title="Permalink to this headline">¶</a></h1>
+<p>Real world and Arduino world works different. In this world <em>everything</em> you experience are continuous. What you see, what you hear, what you speak, what you taste and smell. However, the Arduino world is discrete. Everything happening are defined with 1s and 0s.</p>
+<div class="figure align-center" id="id5">
+<img alt="DAC" src="../../_images/What-is-Analog-to-Digital-Converter.png" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.electrical4u.com/analog-to-digital-converter/">https://www.electrical4u.com</a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-center" id="id6">
+<img alt="DAC" src="../../_images/arduino_adc_dac_example.png" />
+<p class="caption"><span class="caption-text">Source: <a class="reference external" href="https://www.tinkercad.com/things/bHU1CyP8TTu-adc-dac-with-arduino-by-ruzo">ADC DAC in Arduino (by Ruzo)</a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<p>In this lecture, we will talk about how to convert something digital into something analog.</p>
 <div class="section" id="digital-to-analog-converter">
 <h2>Digital to analog converter<a class="headerlink" href="#digital-to-analog-converter" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="id1">
-<p class="admonition-title">Todo</p>
-<p>Add graph of discrete samples, and DAC output.</p>
+<p>A digital to analog converter is a device which converts a digital representation of a signal in to a real physical signal, typically a voltage. The digital representation is just a number, which has discrete steps in it’s value, while the analog signal is capable of continuous variation <a class="footnote-reference brackets" href="#f10" id="id1">1</a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><em>Language is discrete, feelings are not</em></p>
+<p>One may think about this analog-digital trade off as an art of categorization. When I say <em>everything</em> in this world is continuous, I mean it. Let’s do a bit psychological brainstorming, shall we? Think about your feelings. When you experience something that makes you happy, you describe/express it with a word: Happy. What if you are really happy? Well, you can emphasize your word (very happy) or categorize and redefine your happiness with another word: Amused. If that’s not enough, you can always increase your precision: (very amused) or thrilled.</p>
+<p>What is important in here is not the language but the limitation of the language (which has a discrete characteristics) when you want to express your feelings (which has a continuous characteristics). It is never the exact representation of what really feel when you speak it out. This leads me to the conclusion that you will always lose when you trade off between analog and digital.</p>
+<div class="figure align-center" id="id7">
+<img alt="../../_images/emotions-wheel.png" src="../../_images/emotions-wheel.png" />
+<p class="caption"><span class="caption-text">Digital to Analog Conversion of feelings. The <em>language</em> is discrete.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>Source: <a class="reference external" href="https://www.simplemost.com/feeling-wheel-will-help-better-describe-emotions/">https://www.simplemost.com/feeling-wheel-will-help-better-describe-emotions/</a></p>
 </div>
-<p>A digital to analog converter is a device which converts a digital representation of a signal in to a real physical signal, typically a voltage. The digital representation is just a number, which has discrete steps in it’s value, while the analog signal is capable of continuous variation <a class="footnote-reference brackets" href="#f10" id="id2">1</a>.</p>
-<p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="f10"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
-<dd><p>In reality the digital representation is also analog. It is analog in the sense that the computer exists in a analog universe, but it does not matter if the computer uses 0 V and 5 V, 0 V and 3.3 V, or some other voltage levels to represent the binary values. Either way the interpretation of the digital value should be the same.</p>
-</dd>
-</dl>
+</div>
+<p>So, you can think about expressing your feelings with words as ANALOG-TO-DIGITAL conversion. Understanding what someone feel when they told you as DIGITAL-TO-ANALOG conversion.</p>
+</div>
 </div>
 <div class="section" id="pulse-width-modulation-pwm">
 <h2>Pulse Width Modulation (PWM)<a class="headerlink" href="#pulse-width-modulation-pwm" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="id3">
-<p class="admonition-title">Todo</p>
-<p>Graph over PWM curve</p>
-</div>
+<p>Let’s go back to the Arduino world. <strong>There is NO ANALOG OUTPUT in Arduino</strong>. What? What about <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite">analogWrite()</a> ?</p>
+<p>We need to talk.</p>
 <p>What is Modulation?</p>
 <p>What is a pulse?</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Blackboard explanation.</p>
+<div class="figure align-center" id="id8">
+<img alt="../../_images/pwm_duty_cycle.png" src="../../_images/pwm_duty_cycle.png" />
+<p class="caption"><span class="caption-text">PWM and duty cycle</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
+<p>There are two primary components that define a PWM signal’s behavior:</p>
+<p><strong>Duty cycle:</strong> A duty cycle is the fraction of one period when a system or signal is active. We typically express a duty cycle as a ratio or percentage. A period is the time it takes for a signal to conclude a full ON-OFF cycle.</p>
+<p><strong>Frequency:</strong> The rate at which something repeats or occurs over a particular period. In other words, the rate at which a vibration happens that creates a wave, e.g., sound, radio, or light waves, typically calculated per second.</p>
+<div class="math notranslate nohighlight">
+\[Duty Cycle = Pulse Width (sec) * Repetition Frequency (Hz) * 100 = \frac{t_{HIGH}}{t_{HIGH} + t_{LOW}} * 100\]</div>
+<p><em>Question:</em> How does the frequecy of the PWM signal affect the produced <em>analog</em> signal?</p>
 <div class="section" id="analog-output-by-pwm">
 <h3>Analog output by PWM<a class="headerlink" href="#analog-output-by-pwm" title="Permalink to this headline">¶</a></h3>
-<p>As already discussed, analog output from a microcontroller (or any digital system) is performed by means of a Digital to Analog Converter (DAC). The Atmega328p of the Arduino UNO does not have a dedicated DAC built in to the device, but it has another feature which allows us to perform a crude digital to analog conversion <a class="footnote-reference brackets" href="#f11" id="id4">2</a>. The feature is known as pulse width modulation, and basically means that we are switching one of the digital outputs on and off quickly, but with variation in the durations the output stays high and low. This allows us to control the average output voltage. By using some external components for filtering, this pulsating voltage can be converted to a steady voltage with a value corresponding to the average of the PWM signal.</p>
+<p>As already discussed, analog output from a microcontroller (or any digital system) is performed by means of a Digital to Analog Converter (DAC). The Atmega328p of the Arduino UNO does not have a dedicated DAC built in to the device, but it has another feature which allows us to perform a crude digital to analog conversion <a class="footnote-reference brackets" href="#f11" id="id2">2</a>. The feature is known as pulse width modulation, and basically means that we are switching one of the digital outputs on and off quickly, but with variation in the durations the output stays high and low. This allows us to control the average output voltage. By using some external components for filtering, this pulsating voltage can be converted to a steady voltage with a value corresponding to the average of the PWM signal.</p>
 <p>You may wonder why pulse width modulation is a special feature in the microcontroller, only available on some pins. As you know from the previous lessons, any GPIO pin is capable of switching between the two voltage states representing <em>high</em>, and <em>low</em> (5 V, and 0 V on the Arduino UNO). It is indeed possible to generate PWM on any GPIO, and there are examples on situations where switching a generic GPIO in this way is desirable. The problem is that this switching is controlled by the software, taking up a certain amount of the available CPU time. If the switching frequency is supposed to be high, it will leave little room for the microcontroller to be working on other tasks besides the PWM. Additionally having multiple PWM outputs in this way increases the load even further. For this reason dedicated hardware support for PWM in included on some pins of the microcontroller. You simply configure the PWM, and the output will be running continuously with your settings, until it is changed from software. The reason only some pins have PWM is simply to reduce cost, there are other more powerful microcontrollers which support PWM on any pin.</p>
-<p>Alternatively if you need “real” analog output you may use an external chip, that the Arduino may control by a digital bus such as I2C.</p>
-<p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="f11"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
-<dd><p>In reality the PWM DAC does not necessarily have to be considered a crude way to convert from digital to analog. It all depends on the switching frequency, and the analog filtering which is applied.</p>
-</dd>
-</dl>
+<p>Alternatively if you need “real” analog output you may use an external chip (such as <a class="reference external" href="https://learn.adafruit.com/mcp4725-12-bit-dac-tutorial/using-with-arduino?view=all">MCP4725 12-Bit DAC</a>, that the Arduino may control by a digital bus such as I2C.</p>
 </div>
 <div class="section" id="operation-of-a-pulse-width-modulator">
 <h3>Operation of a pulse width modulator<a class="headerlink" href="#operation-of-a-pulse-width-modulator" title="Permalink to this headline">¶</a></h3>
 <p>In this section we will cover the basics of how the PWM-outputs on the Atmega328p are operating.</p>
-<div class="admonition-todo admonition" id="id5">
-<p class="admonition-title">Todo</p>
-<p>Figure from datasheet</p>
-</div>
 <p>The Arduino function associated with analog output signals that we will be using in this tutorial are:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/">analogWrite()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/">analogWrite(pin, value)</a></p></li>
 </ul>
 <p>The function in the Arduino library used to output a PWM signal is <code class="code docutils literal notranslate"><span class="pre">analogWrite(pin,</span> <span class="pre">value)</span></code>. <em>pin</em> is the pin number used for the PWM output. <em>value</em> is a number proportional to the duty cycle of the signal. When value = 0, the signal is always off. When value = 255, the signal is always on. On the Arduino UNO, the PWM function is available on pins 3, 5, 6, 9, 10, and 11. The frequency of the PWM signal on most pins is approximately 490 Hz. On the Uno and similar boards, pins 5 and 6 have a frequency of approximately 980 Hz. Pins 3 and 11 on the Arduino Leonardo also run at 980 Hz. The Arduino library does not support changing this frequency, but it is possible to do so by directly manipulating the registers of the Atmega328p hardware.</p>
+<div class="figure align-center" id="id9">
+<img alt="../../_images/pwm_adjust_freq_duty.png" src="../../_images/pwm_adjust_freq_duty.png" />
+<p class="caption"><span class="caption-text">PWM adjusting the frequency and duty cycle.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-center" id="id10">
+<img alt="../../_images/pwm_pins.png" src="../../_images/pwm_pins.png" />
+<p class="caption"><span class="caption-text">PWM outputs on Arduino and Atmega328</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>PWM is a complex topic and requires a good understanding of the microcontroller that you are working with. The <code class="code docutils literal notranslate"><span class="pre">analogWrite()</span></code> makes the life easier for you but it is important to know that the PWM produced by this command is not the only PWM type exist. By manipulating the timers and registers in your microcontroller, you can obtain various PWM signals. Two main PWM techniques are:</p>
+<ol class="arabic simple">
+<li><p><strong>Fast PWM:</strong> In the simplest PWM mode, the timer repeatedly counts from 0 to 255. (aka Edge-aligned)</p></li>
+<li><p><strong>Phase-Correct PWM:</strong> In this mode, the timer counts from 0 to 255 and then back down to 0. (aka Center-aligned)</p></li>
+</ol>
+<div class="figure align-center" id="id11">
+<img alt="../../_images/pwm_modes.png" src="../../_images/pwm_modes.png" />
+<p class="caption"><span class="caption-text">PWM modes. See more at <a class="reference external" href="http://www.righto.com/2009/07/secrets-of-arduino-pwm.html">secrets of Arduino PWM</a>.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<p>Please see that in fast PWM when the duty cycle changes, the center position of the pulse changes position (therefore the phase changes). With phase correct PWM when the duty cycle changes, the center position of the pulse remains constant (and therefore the phase remains constant). This is particularly important in fine DC-motor speed regulations, sound signal producing etc. where you don’t want sharp edges on your sampled signal. On the other hand, sharp edges are almost a must in servo-motor control.</p>
+</div>
 </div>
 <div class="section" id="mapping-signals-with-different-dynamic-range">
 <h3>Mapping signals with different dynamic range<a class="headerlink" href="#mapping-signals-with-different-dynamic-range" title="Permalink to this headline">¶</a></h3>
@@ -340,7 +375,7 @@
 <p class="admonition-title">Note</p>
 <p>Logic Analyzer, or scope demonstration.</p>
 </div>
-<div class="admonition-todo admonition" id="id6">
+<div class="admonition-todo admonition" id="id3">
 <p class="admonition-title">Todo</p>
 <p>Add solution after the lecture</p>
 </div>
@@ -350,17 +385,11 @@
 <li><p>Extend the program such that after reaching maximum intensity, another push of the button resets the intensity back to 0.</p></li>
 <li><p>Extend the program such that while one LED is stepping down, the other is stepping up in intensity. After reaching maximum (or minimum) intensity, the direction should change.</p></li>
 </ol>
-<p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id7">3</a></span></dt>
-<dd><p>Arduino Cookbook by Michael Margolis Chapter 2.</p>
-</dd>
-</dl>
 </div>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<p><em>Functions</em> are used to organize the actions performed by your software into functional blocks. Functions package functionality into well-defined <em>inputs</em> (information given to a function) and <em>outputs</em> (information provided by a function) that make it easier to structure, maintain, and reuse your code. You are already familiar with the two functions that are in every Arduino firmware: <code class="code docutils literal notranslate"><span class="pre">setup</span></code> and <code class="code docutils literal notranslate"><span class="pre">loop</span></code>. You create a function by declaring its return type (the information it provides), its name, and any optional parameters (values that the function will receive when it is called). <a class="footnote-reference brackets" href="#f2" id="id7">3</a></p>
+<p><em>Functions</em> are used to organize the actions performed by your software into functional blocks. Functions package functionality into well-defined <em>inputs</em> (information given to a function) and <em>outputs</em> (information provided by a function) that make it easier to structure, maintain, and reuse your code. You are already familiar with the two functions that are in every Arduino firmware: <code class="code docutils literal notranslate"><span class="pre">setup</span></code> and <code class="code docutils literal notranslate"><span class="pre">loop</span></code>. You create a function by declaring its return type (the information it provides), its name, and any optional parameters (values that the function will receive when it is called). <a class="footnote-reference brackets" href="#f2" id="id4">3</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The terms functions and methods are used to refer to well-defined blocks of code that can be called as a single entity by other parts of a program. The C language refers to these as functions. Object-oriented languages such as C++ that expose functionality through classes tend to use the term method. Arduino uses a mix of styles (the example sketches tend to use C-like style, libraries tend to be written to expose C++ class methods). We will normally use the term <em>function</em>, unless the code is exposed through a class. Don’t worry; if that distinction is not clear to you, treat both terms as the same.</p>
@@ -793,12 +822,28 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="exercise-blink-a-led-seven-times">
-<h3>Exercise: Blink a LED seven times<a class="headerlink" href="#exercise-blink-a-led-seven-times" title="Permalink to this headline">¶</a></h3>
-<ol class="arabic simple">
-<li><p>Write a loop which blinks a LED seven times and then stop. The loop should be placed in a separate function, which is called from <code class="code docutils literal notranslate"><span class="pre">setup()</span></code>. A count down should be printed to the serial port.</p></li>
-<li><p>Extend the program to allow initiating the blinking by pushing a button. This time the function should be called from <code class="code docutils literal notranslate"><span class="pre">loop()</span></code>.</p></li>
-</ol>
+<div class="section" id="exercise-blink-a-colorful-led-n-times">
+<h3>Exercise: Blink a colorful LED n-times<a class="headerlink" href="#exercise-blink-a-colorful-led-n-times" title="Permalink to this headline">¶</a></h3>
+<p>No copy paste this time. Can you make this to work? Observe different colors.</p>
+<div class="figure align-center">
+<img alt="../../_images/rgb_led_func.png" src="../../_images/rgb_led_func.png" />
+</div>
+</div>
+<div class="section" id="exercise-blink-a-colorful-led-n-times-with-user-input">
+<h3>Exercise: Blink a colorful LED n-times with user input<a class="headerlink" href="#exercise-blink-a-colorful-led-n-times-with-user-input" title="Permalink to this headline">¶</a></h3>
+<p>Extend the previous example by asking the user how many times s/he wants the LED to blink. Instead of printing the total number of blinks, print out the blink number in every iteration.</p>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f10"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>In reality the digital representation is also analog. It is analog in the sense that the computer exists in a analog universe, but it does not matter if the computer uses 0 V and 5 V, 0 V and 3.3 V, or some other voltage levels to represent the binary values. Either way the interpretation of the digital value should be the same.</p>
+</dd>
+<dt class="label" id="f11"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>In reality the PWM DAC does not necessarily have to be considered a crude way to convert from digital to analog. It all depends on the switching frequency, and the analog filtering which is applied.</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p>Arduino Cookbook by Michael Margolis Chapter 2.</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -823,7 +868,7 @@
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L3_digital_io_and_timing.html" title="Digital I/O, and timing" >previous</a></li>
-        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
+        <li><a href="L5_adc.html" title="Analog to digital conversion (ADC)" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

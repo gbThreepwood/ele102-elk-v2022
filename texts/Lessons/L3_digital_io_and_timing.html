@@ -102,6 +102,7 @@
 <li><a class="reference internal" href="#exercise-stopwatch">Exercise: Stopwatch</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#rough-timing-in-arduino">Rough Timing in Arduino</a></li>
 </ul>
 </li>
 </ul>
@@ -181,9 +182,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#exercise-stopwatch">Exercise: Stopwatch</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#rough-timing-in-arduino">Rough Timing in Arduino</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -191,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L2_additional.html">Additional material lesson 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -203,6 +207,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -485,6 +491,57 @@
 <li><p>Write a program which blinks one LED at a frequency of 1 Hz.</p></li>
 <li><p>Extend the program to blink the other LED at a frequency of 5 Hz.</p></li>
 </ol>
+<p>The following code listing provides one possible solution:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1">// 1/1Hz = 1 s = 1000 ms</span>
+<span class="linenos"> 9</span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">led1_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">10</span><span class="c1">// 1/5Hz = 0.2 s = 200 ms</span>
+<span class="linenos">11</span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">led2_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="kt">void</span><span class="w"> </span><span class="nf">led1_omvendt</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led1</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led1</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">15</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="kt">void</span><span class="w"> </span><span class="nf">led2_omvendt</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led2</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led2</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">19</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">26</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">29</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">led1_delay</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">36</span>
+<span class="linenos">37</span><span class="w">    </span><span class="n">led1_omvendt</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">    </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_timestamp</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">40</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">led2_delay</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="w">    </span><span class="n">led2_omvendt</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">    </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_timestamp</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">46</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="exercise-adjustable-blink-frequency">
 <h3>Exercise: Adjustable blink frequency<a class="headerlink" href="#exercise-adjustable-blink-frequency" title="Permalink to this headline">¶</a></h3>
@@ -493,6 +550,113 @@
 <li><p>Write the necessary code to allow a push button to step through the blink frequencies 2 Hz, 1 Hz, 0.5 Hz, 0.25 Hz. After reaching the lowest frequency it should wrap around.</p></li>
 <li><p>Extend the program with a second LED which should be controlled independently of the first.</p></li>
 </ol>
+<p>The following code listing provides one possible solution. Notice how the same logic is applied twice for the two push buttons. Repetitive code usually indicate that your solution is not optimal. It will likely be possible to make the solution more generic, and applicable to an arbitrary number of inputs and outputs. We will explore this in a future lecture.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following solution proposal does not take the push button bouncing problem in to account. Thus you should pay attention to the output in the serial monitor, in might jump thorough several frequency steps on each button push.</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  5</span>
+<span class="linenos">  6</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  7</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="kt">void</span><span class="w"> </span><span class="nf">led1_omvendt</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 10</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led1</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led1</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 11</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="kt">void</span><span class="w"> </span><span class="nf">led2_omvendt</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 14</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led2</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led2</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 15</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 16</span>
+<span class="linenos"> 17</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 18</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led1</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 19</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led2</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 22</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 25</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_old_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 28</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2_old_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 29</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">led1_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 30</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">led2_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">led1_delay</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="n">led1_omvendt</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="n">old_timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_timestamp</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 40</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">current_timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">led2_delay</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="n">led2_omvendt</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="n">old_timestamp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_timestamp</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 47</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn1_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn1_pin</span><span class="p">);</span><span class="w"> </span><span class="c1">// Invert the read, since PB pulls the digital input low</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn1_state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">btn1_old_state</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">HIGH</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">btn1_state</span><span class="p">){</span><span class="w"> </span><span class="c1">// Button state is high</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span><span class="w">      </span><span class="cm">/**</span>
+<span class="linenos"> 56</span><span class="cm">       * Step through the frequencies 2 Hz, 1 Hz, 0.5 Hz and 0.25 Hz </span>
+<span class="linenos"> 57</span><span class="cm">       * 2 Hz equals a period of 500 ms, i.e. 250 ms on time, and 250 ms</span>
+<span class="linenos"> 58</span><span class="cm">       * off time for the LED.</span>
+<span class="linenos"> 59</span><span class="cm">       */</span><span class="w"></span>
+<span class="linenos"> 60</span><span class="w">      </span><span class="n">led1_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">led1_delay</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 61</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">led1_delay</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 62</span><span class="w">        </span><span class="n">led1_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 63</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Setting LED1 f = &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 66</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="mf">1000.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">led1_delay</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 67</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot; Hz&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 70</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="n">btn1_old_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btn1_state</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 72</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">btn2_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">btn2_pin</span><span class="p">);</span><span class="w"> </span><span class="c1">// Invert the read, since PB pulls the digital input low</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">btn2_state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">btn2_old_state</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 77</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">HIGH</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">btn2_state</span><span class="p">){</span><span class="w"> </span><span class="c1">// Button state is high</span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span><span class="w">      </span><span class="cm">/**</span>
+<span class="linenos"> 81</span><span class="cm">       * Step through the frequencies 2 Hz, 1 Hz, 0.5 Hz and 0.25 Hz </span>
+<span class="linenos"> 82</span><span class="cm">       * 2 Hz equals a period of 500 ms, i.e. 250 ms on time, and 250 ms</span>
+<span class="linenos"> 83</span><span class="cm">       * off time for the LED.</span>
+<span class="linenos"> 84</span><span class="cm">       */</span><span class="w"></span>
+<span class="linenos"> 85</span><span class="w">      </span><span class="n">led2_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">led2_delay</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 86</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">led2_delay</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">){</span><span class="w"></span>
+<span class="linenos"> 87</span><span class="w">        </span><span class="n">led2_delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 88</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Setting LED2 f = &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 91</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="mf">1000.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">led2_delay</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 92</span><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot; Hz&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 95</span>
+<span class="linenos"> 96</span><span class="w">    </span><span class="n">btn2_old_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btn2_state</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 97</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="constant-frequency">
 <h3>Constant frequency<a class="headerlink" href="#constant-frequency" title="Permalink to this headline">¶</a></h3>
@@ -819,6 +983,16 @@
 <p>Note that this is not necessarily a perfect solution. If you press and release the button so fast that the program cannot catch <code class="code docutils literal notranslate"><span class="pre">digitalRead(button_pin)</span></code> line - since the microcontroller reads memory line by line - then you miss a button press. This will likely not be a problem for manual push buttons (unless your microcontroller executes a lot of code between each time it reads the digital input), but it might be a problem if you try to use the stopwatch for timing of something which is faster than a human hand. E.g. if you want to determine the speed of you bicycle, and try to measure the interval between pulses from a sensor on the wheel. The solution for fast signals is to use the <em>interrupt</em> system. This will be covered in a future lecture.</p>
 </div>
 </div>
+</div>
+<div class="section" id="rough-timing-in-arduino">
+<h2>Rough Timing in Arduino<a class="headerlink" href="#rough-timing-in-arduino" title="Permalink to this headline">¶</a></h2>
+<p>The Arduino functions associated with timing are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/delay/">delay()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/">delayMicroseconds()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/millis/">millis()</a></p></li>
+<li><p><a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/time/micros/">micros()</a></p></li>
+</ul>
 </div>
 </div>
 
