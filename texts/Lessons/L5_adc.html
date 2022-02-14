@@ -54,7 +54,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Serial I/O, Conditionals, Functions, Loops" href="L6_serial_io.html" />
+    <link rel="next" title="Serial I/O" href="L6_serial_io.html" />
     <link rel="prev" title="Analog output (digital to analog conversion)" href="L4_dac_pwm.html" /> 
   </head>
   <body role="document">
@@ -108,7 +108,7 @@
 
             
               <li><a href="L4_dac_pwm.html" title="Analog output (digital to analog conversion)" accesskey="P">previous </a></li>
-              <li><a href="L6_serial_io.html" title="Serial I/O, Conditionals, Functions, Loops" accesskey="N">next </a></li>
+              <li><a href="L6_serial_io.html" title="Serial I/O" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -179,14 +179,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L10_motor_drive.html">Lesson 10: Motor drive</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L11_communication.html">Lesson 11: Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L12_spi_i2c.html">Lesson 12: SPI and I2C</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L13_repetition.html">Lesson 13: Repetition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Course summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -242,7 +234,7 @@
   <div>
     <h4>Next topic</h4>
     <p class="topless"><a href="L6_serial_io.html"
-                          title="next chapter">Serial I/O, Conditionals, Functions, Loops</a></p>
+                          title="next chapter">Serial I/O</a></p>
   </div>
   </div>
 </div> 
@@ -276,7 +268,7 @@ the bridges between digital and analog worlds.</p>
 </ul>
 <div class="section" id="analog-to-digital-converter">
 <h3>Analog to digital converter<a class="headerlink" href="#analog-to-digital-converter" title="Permalink to this headline">¶</a></h3>
-<p>An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. It measures the <a href="#id1"><span class="problematic" id="id2">:underlined:`ratio`</span></a> of an analog input value to a reference value and express it in a form of digital value. Many different technologies exits for this purpose, where each one has it’s own advantages and disadvantages. The following is a list of the more common types:</p>
+<p>An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. It measures the <span class="underlined">ratio</span> of an analog input value to a reference value and express it in a form of digital value. Many different technologies exits for this purpose, where each one has it’s own advantages and disadvantages. The following is a list of the more common types:</p>
 <ul class="simple">
 <li><p>Successive Approximation (SAR) ADC.</p></li>
 <li><p>Delta-sigma (ΔΣ) ADC.</p></li>
@@ -499,8 +491,8 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 </div>
 <p>The servo motor has three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to one of the pins which support PWM. Here we use pin 9.</p>
 <p>The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input A0 on the board.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
 
 <span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
@@ -543,8 +535,8 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <div class="section" id="exercise-check-the-potmeter-value-before-commanding-the-servo-motor">
 <h3>Exercise: Check the potmeter value before commanding the servo motor<a class="headerlink" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor" title="Permalink to this headline">¶</a></h3>
 <p>The following code example will light up a LED if the commanded value is above 90 degree. In this exercise the example should be expanded with some code which only initiate the movement if the user presses a push button.</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
 
 <span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
@@ -605,7 +597,7 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L4_dac_pwm.html" title="Analog output (digital to analog conversion)" >previous</a></li>
-        <li><a href="L6_serial_io.html" title="Serial I/O, Conditionals, Functions, Loops" >next</a></li>
+        <li><a href="L6_serial_io.html" title="Serial I/O" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

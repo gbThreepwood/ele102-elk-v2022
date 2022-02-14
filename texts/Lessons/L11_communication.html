@@ -52,9 +52,7 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="SPI and I2C" href="L12_spi_i2c.html" />
-    <link rel="prev" title="Motor Drive" href="L10_motor_drive.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -110,8 +108,6 @@
               </li>
 
             
-              <li><a href="L10_motor_drive.html" title="Motor Drive" accesskey="P">previous </a></li>
-              <li><a href="L12_spi_i2c.html" title="SPI and I2C" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -147,7 +143,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
@@ -157,43 +153,6 @@
 <li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L10_motor_drive.html">Lesson 10: Motor drive</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 11: Communication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#arduino-control-via-c-application">Arduino Control via C# application</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#designing-a-simple-communication-protocol-on-top-of-uart">Designing a simple communication protocol on top of UART</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#consistent-overhead-byte-stuffing-cobs">Consistent Overhead Byte Stuffing (COBS)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#using-the-serial-port-in-c">Using the serial port in C#</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#delegates">Delegates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#using-the-serial-port-in-c-system-io-ports">Using the serial port in C# (System.IO.Ports)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#simple-example">Simple example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#arduino-software">Arduino software</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#c-software">C# software</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#improved-example">Improved example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#debugger">Debugger</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Arduino software</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">C# software</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#advanced-example">Advanced example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Arduino software</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">C# software</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="L12_spi_i2c.html">Lesson 12: SPI and I2C</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L13_repetition.html">Lesson 13: Repetition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Course summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -241,16 +200,6 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="L10_motor_drive.html"
-                          title="previous chapter">Motor Drive</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="L12_spi_i2c.html"
-                          title="next chapter">SPI and I2C</a></p>
-  </div>
   </div>
 </div> 
         
@@ -593,8 +542,6 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="L10_motor_drive.html" title="Motor Drive" >previous</a></li>
-        <li><a href="L12_spi_i2c.html" title="SPI and I2C" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
