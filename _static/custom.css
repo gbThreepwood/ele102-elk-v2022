@@ -10,3 +10,8 @@
 .toggle .header.open:after {
     content: " ▼";
 }
+
+span.underlined {
+    text-decoration: underline;
+}
+

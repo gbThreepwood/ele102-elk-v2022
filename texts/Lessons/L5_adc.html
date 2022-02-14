@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -53,7 +54,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="next" title="Serial I/O, Conditionals, Functions, Loops" href="L6_serial_io.html" />
     <link rel="prev" title="Analog output (digital to analog conversion)" href="L4_dac_pwm.html" /> 
   </head>
   <body role="document">
@@ -78,6 +79,7 @@
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li><a class="reference internal" href="#analog-to-digital-converter">Analog to digital converter</a></li>
 <li><a class="reference internal" href="#successive-approximation-sar-adc">Successive Approximation (SAR) ADC.</a></li>
+<li><a class="reference internal" href="#quantization">Quantization</a></li>
 <li><a class="reference internal" href="#important-parameters-for-adc-operation">Important parameters for ADC operation</a></li>
 </ul>
 </li>
@@ -92,6 +94,7 @@
 </li>
 <li><a class="reference internal" href="#servo-motor-control">Servo motor control</a><ul>
 <li><a class="reference internal" href="#example-servo-and-map-function">Example: Servo and map function</a></li>
+<li><a class="reference internal" href="#exercise-control-the-servo-position-based-on-light-on-phototransistor">Exercise: Control the servo position based on light on phototransistor</a></li>
 <li><a class="reference internal" href="#exercise-toggle-position-setting-by-pushing-a-button">Exercise: Toggle position setting by pushing a button</a></li>
 <li><a class="reference internal" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor">Exercise: Check the potmeter value before commanding the servo motor</a></li>
 </ul>
@@ -105,7 +108,7 @@
 
             
               <li><a href="L4_dac_pwm.html" title="Analog output (digital to analog conversion)" accesskey="P">previous </a></li>
-              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
+              <li><a href="L6_serial_io.html" title="Serial I/O, Conditionals, Functions, Loops" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -153,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#analog-to-digital-converter">Analog to digital converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#successive-approximation-sar-adc">Successive Approximation (SAR) ADC.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quantization">Quantization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#important-parameters-for-adc-operation">Important parameters for ADC operation</a></li>
 </ul>
 </li>
@@ -167,12 +171,22 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#servo-motor-control">Servo motor control</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#example-servo-and-map-function">Example: Servo and map function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-control-the-servo-position-based-on-light-on-phototransistor">Exercise: Control the servo position based on light on phototransistor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-toggle-position-setting-by-pushing-a-button">Exercise: Toggle position setting by pushing a button</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor">Exercise: Check the potmeter value before commanding the servo motor</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L10_motor_drive.html">Lesson 10: Motor drive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L11_communication.html">Lesson 11: Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L12_spi_i2c.html">Lesson 12: SPI and I2C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L13_repetition.html">Lesson 13: Repetition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Course summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -181,6 +195,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L6_additional.html">Additional material lesson 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L7_additional.html">Additional material lesson 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L8_additional.html">Additional material lesson 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L9_additional.html">Additional material lesson 9</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L10_additional.html">Additional material lesson 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L11_additional.html">Additional material lesson 11</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L12_additional.html">Additional material lesson 12</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -220,8 +241,8 @@
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
-                          title="next chapter">Additional material for lesson 1</a></p>
+    <p class="topless"><a href="L6_serial_io.html"
+                          title="next chapter">Serial I/O, Conditionals, Functions, Loops</a></p>
   </div>
   </div>
 </div> 
@@ -255,7 +276,7 @@ the bridges between digital and analog worlds.</p>
 </ul>
 <div class="section" id="analog-to-digital-converter">
 <h3>Analog to digital converter<a class="headerlink" href="#analog-to-digital-converter" title="Permalink to this headline">¶</a></h3>
-<p>An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. Many different technologies exits for this purpose, where each one has it’s own advantages and disadvantages. The following is a list of the more common types:</p>
+<p>An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. It measures the <a href="#id1"><span class="problematic" id="id2">:underlined:`ratio`</span></a> of an analog input value to a reference value and express it in a form of digital value. Many different technologies exits for this purpose, where each one has it’s own advantages and disadvantages. The following is a list of the more common types:</p>
 <ul class="simple">
 <li><p>Successive Approximation (SAR) ADC.</p></li>
 <li><p>Delta-sigma (ΔΣ) ADC.</p></li>
@@ -275,6 +296,26 @@ the bridges between digital and analog worlds.</p>
 <p>The digital signal which is required to control the DAC in such a way that it outputs a voltage approximately equal to the sampled voltage, is then used as the digital representation of this analog voltage. The end of conversion (EOC) signal informs the processor that the conversion process is completed.</p>
 <p>It should be obvious from the above explanation that the analog to digital converter needs some time to complete the conversion process. The time it takes to complete one conversion is one of the fundamental parameters describing an ADC.</p>
 </div>
+<div class="section" id="quantization">
+<h3>Quantization<a class="headerlink" href="#quantization" title="Permalink to this headline">¶</a></h3>
+<p>Quantization is the main step in digitizing an analog signal. Basically, categorize an analog signal into subset of digital values which can be expressed in desired resolution. Let’s have a look at a quantized sinusoidal signal in 4-bits resolution.</p>
+<div class="figure align-center">
+<img alt="../../_images/quantization.jpg" src="../../_images/quantization.jpg" />
+</div>
+<ul class="simple">
+<li><p><em>Sampling depth</em> is the minimum smallest analog value change that is detectable.</p></li>
+<li><p><em>Sampling rate</em> is the number of samples taken for quantization.</p></li>
+</ul>
+<p><strong>Note that</strong>  as we discussed before that we cannot every possible analog output in digital world (as we encounter conversion error), we cannot measure every possible analog input with an infinite precision, either.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Considering the fact that your reference analog voltage is 5V and you are using 10-bit ADC converter in Atmega328p, what is the minimum analog voltage difference you can distinguish?</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Do you think if there is any limitation of how fast/slow you can sample a signal? What is the advantages and disadvantages of sampling fast/slow?</p>
+</div>
+</div>
 <div class="section" id="important-parameters-for-adc-operation">
 <h3>Important parameters for ADC operation<a class="headerlink" href="#important-parameters-for-adc-operation" title="Permalink to this headline">¶</a></h3>
 <p>There are many important parameters one should understand when applying an A/D converter. Even if a particular ADC is selected, there are still many parameters that can be adjusted within the ADC depending on how you intend to use it. The following is a summary of a few basic ones:</p>
@@ -292,7 +333,8 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 \[\Delta V_{LSB} = \frac{V_{ref}}{2^N}\]</div>
 <p>Similarly for a bipolar analog range <span class="math notranslate nohighlight">\((-V_{ref} .. +V_{ref})\)</span>, one step at the analog end is:</p>
 <div class="math notranslate nohighlight">
-\[\Delta V_{LSB} = \frac{V_{ref}}{2^N}\]</div>
+\[\Delta V_{LSB} = \frac{V_{ref+} - V_{ref-}}{2^N}\]</div>
+<p>Another important thing is that the ADC is super slow process in 16 Mhz (about 62 ns) levels. For comparison, <code class="code docutils literal notranslate"><span class="pre">digitalRead()</span></code> takes 4.9us whereas <code class="code docutils literal notranslate"><span class="pre">analogRead()</span></code> 104us! For now, we keep the ADC in our main process but there are other ways to optimize your program when you need to include such a bulky process in your applications.</p>
 </div>
 </div>
 <div class="section" id="using-the-adc-in-arduino">
@@ -441,9 +483,8 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <h3>Example: Servo and map function<a class="headerlink" href="#example-servo-and-map-function" title="Permalink to this headline">¶</a></h3>
 <p>The servo motor in the Arduino kit is of the pulse width controlled type. That is, the control signal is a PWM signal, the actual motor control system is an electronic circuit placed inside the motor housing. The PWM is simply used as a way to inform the motor controller of what angular position you would like the motor to have. There is an internal position sensor inside the motor, which measures the shaft position, and a controller which compares this measured value to the commanded value.</p>
 <p>The PWM control signal switching frequency should be 50 Hz, and the pulse width (duty-cycle) determine the set point for angular position. A pulse width of 1 ms correspond to 0 degree, 1.5 ms correspond to 90 degree, while 2 ms correspond to 180 degree. This is not standardized however, and motors from other manufacturers might have different interpretation of the pulse widths.</p>
-<div class="admonition-todo admonition" id="id1">
-<p class="admonition-title">Todo</p>
-<p>picture of the servo motor</p>
+<div class="figure align-center">
+<img alt="../../_images/logicServoWrite.png" src="../../_images/logicServoWrite.png" />
 </div>
 <p>Note that there are a lot of details behind the operation of this motor, some of which will be covered in a future lecture. For now we will simply explore how to use the motor.</p>
 <p>The purpose of this example is to control the position of the motor using a potentiometer. In order to simplify the process of generating the required motor pulses, we will be using a library which provides a function to set the correct PWM output for a given numeric value corresponding to a desired angular position.</p>
@@ -452,14 +493,14 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <p class="admonition-title">Warning</p>
 <p>The servo motor in the Arduino kit is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don’t!</p>
 </div>
-<p>First of all, let’s build the following circuit:</p>
+<p>First of all, let’s build the following circuit. Notice that there is a capacitor connected between 5 V, and ground. The purpose is to stabilize the voltage in case the servo motor pulls large transient currents. <strong>Make sure you connect this capacitor with correct polarity</strong>.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/arduino_servo_motor_bb.png"><img alt="Arduino with push button, potmeter, and servomotor." src="../../_images/arduino_servo_motor_bb.png" style="width: 694.5px; height: 661.5px;" /></a>
 </div>
 <p>The servo motor has three wires: power, ground, and signal. The power wire is typically red, and should be connected to the 5V pin on the Arduino or Genuino board. The ground wire is typically black or brown and should be connected to a ground pin on the board. The signal pin is typically yellow or orange and should be connected to one of the pins which support PWM. Here we use pin 9.</p>
 <p>The potentiometer should be wired so that its two outer pins are connected to power (+5V) and ground, and its middle pin is connected to analog input A0 on the board.</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Servo control using potentiometer</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
 
 <span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
@@ -484,7 +525,12 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="o">*</span><span class="mi">180</span><span class="p">)</span><span class="o">/</span><span class="mi">1023</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus <code class="code docutils literal notranslate"><span class="pre">val</span></code> has to be declared <code class="code docutils literal notranslate"><span class="pre">uint32_t</span></code>. The <code class="code docutils literal notranslate"><span class="pre">map()</span></code> function takes care of this by performing all calculations as 32 bit.</p>
+<p>Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus <code class="code docutils literal notranslate"><span class="pre">val</span></code> has to be declared <code class="code docutils literal notranslate"><span class="pre">uint32_t</span></code>, or some other mechanism must be employed to ensure that the intermediate result is stored using 32 bits of memory. The <code class="code docutils literal notranslate"><span class="pre">map()</span></code> function takes care of this by performing all calculations using 32 bit.</p>
+</div>
+<div class="section" id="exercise-control-the-servo-position-based-on-light-on-phototransistor">
+<h3>Exercise: Control the servo position based on light on phototransistor<a class="headerlink" href="#exercise-control-the-servo-position-based-on-light-on-phototransistor" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise we will use the ADC to digitize the voltage from a phototransistor of the type <em>HW5P-1</em>, and use the value returned from the ADC to control the position of a servo motor.</p>
+<p>The HW5P-1 phototransistor has two connections, collector and emitter. The base is the light sensitive element of the component, and thus no electrical base connection is available. The long lead is the emitter, and the short one is the collector. In order to use the transistor for light intensity measurements, it should be connected in series with a resistor of 1 - 2 kOhm in the collector, or emitter.</p>
 </div>
 <div class="section" id="exercise-toggle-position-setting-by-pushing-a-button">
 <h3>Exercise: Toggle position setting by pushing a button<a class="headerlink" href="#exercise-toggle-position-setting-by-pushing-a-button" title="Permalink to this headline">¶</a></h3>
@@ -497,8 +543,8 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <div class="section" id="exercise-check-the-potmeter-value-before-commanding-the-servo-motor">
 <h3>Exercise: Check the potmeter value before commanding the servo motor<a class="headerlink" href="#exercise-check-the-potmeter-value-before-commanding-the-servo-motor" title="Permalink to this headline">¶</a></h3>
 <p>The following code example will light up a LED if the commanded value is above 90 degree. In this exercise the example should be expanded with some code which only initiate the movement if the user presses a push button.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Controlling LED based on Servo angle</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Servo.h&gt;</span><span class="c1">  // add servo library</span><span class="cp"></span>
 
 <span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="n">myservo</span><span class="p">;</span><span class="w">  </span><span class="c1">// create servo object to control a servo</span>
@@ -559,7 +605,7 @@ end, <span class="math notranslate nohighlight">\(\Delta V_{LSB}\)</span>, is gi
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L4_dac_pwm.html" title="Analog output (digital to analog conversion)" >previous</a></li>
-        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
+        <li><a href="L6_serial_io.html" title="Serial I/O, Conditionals, Functions, Loops" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

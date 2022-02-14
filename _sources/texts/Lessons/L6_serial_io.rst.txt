@@ -1,17 +1,350 @@
-.. _L5_serial_io_conditional_func:
+.. _L5_serial_io:
 
 ******************************************************************
-Serial I/O, Conditionals, Functions, Loops
-******************************************************************
-
-
 Serial I/O
+******************************************************************
+
+.. role:: ccode(code)
+        :language: c
+
+
+In this lesson we will focus on advanced usage of the serial port library in the Arduino. We will not go in to details about how the serial port operate *under the hood*, but some basic knowledge is necessary for you to understand the limitations (and if possible how to overcome them).
+
+Introduction
+=============
+.. pin numbers, where to use, baud rate, sync vs async
+
+
+When communicating with the Arduino UNO we are using a low level protocol known by the acronym `UART <https://www.wikiwand.com/en/Universal_asynchronous_receiver-transmitter>`_ (or sometimes more generally referred to as  `USART <https://www.wikiwand.com/en/Universal_synchronous_and_asynchronous_receiver-transmitter>`_). 
+
+The USB uses a different (and more complex) communication protocol, but drivers on the PC end, and a chip on the Arduino end converts this to a simple UART protocol.
+
+
+The UART operates without a common clock signal for synchronization, hence the asynchronous part of the name. The sender and receiver are synchronized by means of start and stop signals as part of the data stream. For this to work it is important that the sender and receiver both are configured to use the same communication speed, known as the *baud rate* [#f1]_.
+
+We have already used the :code:`Serial.begin(9600);`, which configured the baud rate to 9600. The baud rate specifies the number of information units (symbols) which are transferred each second. In the UART a symbol is only *1*, or *0*, thus the baud rate is the same as the bit rate. It is important however to distinguish between the two, as there are many transmission systems which utilize more than two symbols. It is also important to realize that the UART protocol has some overhead (for synchronization purposes it has to transmit more than just the information you want to transfer), thus the actual number of information bits per second will be less than the baud rate setting.
+
+
+.. rubric:: Footnotes
+.. [#f1] Baud rate is named after the french engineer Émile Baudot (1845 - 1903), who was involved in the development of the telegraph. He also developed the baudot code, which could be considered an early predecessor of ASCII.
+
+Higher level protocol layers
+----------------------------
+
+The UART as a communication protocol is very basic and puts few constraints on how information should be transmitted. A higher level application specific communication protocol will often be needed in order to use the UART in a reliable communication system. I.e. any binary data can be transmitted over the UART, but depending on the application only certain sequences of data could be valid. A higher level protocol is thus needed to check if the data is valid.
+
+
+The serial monitor
+===================
+
+The serial monitor typically interpret the binary data it receives as characters, and print them on the display. It will also typically transmit whatever you type on your keyboard to the UART. Characters are typically encoded using ASCII, or unicode. If you are transmitting data which is not valid characters the display on the serial monitor will quickly become confusing and meaningless.
+
+The Arduino Serial library
+===========================
+
+This section covers the communication between Arduino and a PC using the single hardware UART available on the Arduino Uno.
+
+.. warning::
+
+    It is important to note that the Arduino UNO only has one serial port, which is used for the communication of your software, as well as for uploading new software to your board. Also note that pins 0 and 1 are used for communication with the computer. Connecting anything to these pins can interfere with the serial port communication, including causing failed uploads to the board.
+
+The Arduino functions associated with writing data to the serial port that we will be using in this lesson are:
+
+- `Serial.begin() <https://www.arduino.cc/reference/en/language/functions/communication/serial/begin/>`_
+
+- `Serial.write() <https://www.arduino.cc/reference/en/language/functions/communication/serial/write/>`_
+- `Serial.print() <https://www.arduino.cc/reference/en/language/functions/communication/serial/print/>`_
+- `Serial.println() <https://www.arduino.cc/reference/en/language/functions/communication/serial/println/>`_
+- `Serial.availableForWrite() <https://www.arduino.cc/reference/en/language/functions/communication/serial/availableforwrite/>`_
+
+The Arduino functions associated with reading data from the serial port that we will be using in this lesson are:
+
+- `Serial.read() <https://www.arduino.cc/reference/en/language/functions/communication/serial/read/>`_
+- `Serial.readBytes() <https://www.arduino.cc/reference/en/language/functions/communication/serial/readbytes/>`_
+- `Serial.readString() <https://www.arduino.cc/reference/en/language/functions/communication/serial/readstring/>`_
+- `Serial.readStringUntil() <https://www.arduino.cc/reference/en/language/functions/communication/serial/readstringuntil/>`_
+- `Serial.available() <https://www.arduino.cc/reference/en/language/functions/communication/serial/available/>`_
+- `Serial.setTimeout() <https://www.arduino.cc/reference/en/language/functions/communication/serial/settimeout/>`_
+
+
+..
+        Serial output
+        -------------
+
+        This section covers the basics of transmission of data from Arduino to a serial terminal on your PC.
+
+        Basic serial output example
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        The following example illustrates how to transmit "Hello world" over the serial port:
+
+        .. code-block:: c
+
+            void setup() {
+                Serial.begin(9600); // open the serial port at 9600 bps
+            }
+
+            void loop() {
+                Serial.println("Hello world"); // text written what you want to see      
+                delay(500); // delay 0.5 seconds before the sending
+            }
+
+
+
+Serial output
+=============
+
+By serial output in this context we mean data which is transmitted from the Arduino, and received by your PC. We have already been using the serial port for basic printing of data from the Arduino in order to better understand how our program behaves. Now we will explore this in somewhat more detail.
+
+Initialization
+--------------
+
+Before you can use the :ccode:`Serial` object in Arduino it must be initialized with some configuration. Often you will simply see: :ccode:`Serial.begin(9600)`. This configures the serial port for 9600 bits per second, 8 data bits, one start bit, no parity bit, and one stop bit. This configuration is rather common, and thus it is also the default, when you specify nothing. If you want to be explicit about the start, parity and stop bits, you may use:
+
+.. code-block:: c
+
+        Serial.begin(9600,SERIAL_8N1);
+
+Although the bit configuration is often left alone, it is common to adapt the baudrate (remember that in this context the baudrate is the number of bits per second), depending on the requirement of the application. In order to specify the next higher *standard* baudrate of 19200 (which is :math:`9600 \cdot 2`), you may use:
+
+.. code-block:: c
+
+        Serial.begin(19200,SERIAL_8N1);
+
+If you wish to use parity, or adjust the number of data bits, there are many predefined configurations. E.g.:
+
+.. code-block:: c
+       
+        Serial.begin(19200,SERIAL_5E2);
+
+.. warning::
+        Unless you understand the implications, and know that you need something else, it is probably best to stay with the default configuration.
+
+The explanation for the seemingly arbitrary baudrate of 9600 (and it's multiples) lies in the first applications of this kind of communication systems. Old mechanical teletypewriters operated at 75 baud, and thus some of the first modems also used that speed. Later modems used 150 baud, then 300 baud, and then 1200, 2400, and 9600 baud. The goal was to have baudrates which where multiples of 2, as this simplified the design, and allowed one system to easily support multiple baudrates.
+
+Some baudrates that are commonly supported include:
+
+* 9600
+* 19200
+* 38400
+* 57600
+* 115200
+* 230400
+
+In some cases only some distinct baud rates are supported, while in other cases any arbitrary number can be chosen. For the Atmega328P on the Arduino UNO the baud rate depends on the CPU clock (16 MHz), as well as some settings which divides this clock by a number. You have a lot of freedom in which baud rate to select, but unless you absolutely need to choose something unusual it is best to stick with one of the standard values.
+
+The :ccode:`Serial.write()` method
+-----------------------------------
+
+The :ccode:`Serial.write()` method writes binary data to the serial port. It is useful for low level writing, when you want the actual number, rather than it's ASCII representation to be written to the terminal.
+
+E.g. in order to write a lower case "f" to the terminal you may use:
+
+.. code-block:: c
+
+    Serial.write(102);
+
+or:
+
+.. code-block:: c
+
+    Serial.write("f");
+
+But if you want to write the number 102 (i.e. the integer 102, not the string "102"), such that it is displayed as "102" in the terminal, that number must first be converted to a string. The number is one byte, but it's ASCII representation is three bytes:
+
+.. code-block:: c
+    
+    Serial.write(49);
+    Serial.write(48);
+    Serial.write(50);
+
+The :ccode:`Serial.write()` method stores the data to be transmitted in a buffer, before returning immediately. The actual transmission is handled by a ISR. If the buffer is full however, the method will block until there is sufficient free space. If you cannot afford the risk of the code blocking, you should use the method :ccode:`Serial.availableForWrite()` to check if the buffer has free space before writing.
+ 
+The :ccode:`Serial.print()` method
+----------------------------------
+
+The :ccode:`Serial.print()` method simplifies the writing of numbers, as it automatically converts them to ASCII. The following will print the number as ASCII:
+
+.. code-block:: c
+
+    Serial.print(102);
+
+The :ccode:`Serial.print()` method support a parameter specifying how to print a integer:
+
+* :ccode:`Serial.print(154, BIN);` prints 10011010.
+* :ccode:`Serial.print(154, OCT);` prints 232.
+* :ccode:`Serial.print(154, DEC);` prints 154.
+* :ccode:`Serial.print(154, HEX);` prints 9A.
+
+If the passed number is floating point, the second parameter is used to specify how many decimal places to use:
+
+* :ccode:`Serial.print(1.2345, 2);` prints 1.23.
+ 
+The :ccode:`Serial.println()` method
+------------------------------------
+
+The :ccode:`Serial.println()` method works in the same manner as :ccode:`Serial.print()` with the addition of a carrige return and line feed appended at the end.
+
+
+ASCII table (and Unicode)
+--------------------------
+
+It is very important to understand how characters are encoded in a computer. As you should know from previous courses, one of the most common coding schemes is known as ASCII (American Standard Code for Information Interchange). 
+
+.. figure:: ../../../external/fig/ascii/ASCII-table-wide.svg
+   :alt: ASCII table
+   :align: center
+
+   Source: https://commons.wikimedia.org/wiki/File:ASCII-Table-wide.svg
+
+Since ASCII only support the fundamental characters of the english alphabet, another coding scheme known as unicode is used with the goal of supporting all the characters in any language in use by humans (so far it supports more than 130000 characters). Unlike ASCII which uses 7 bit to encode a character, unicode uses various coding schemes. One common scheme known as UTF-8 (8-bit Unicode Transformation Format), encodes the symbols supported by ASCII using 8 bit, while other symbols useequire 16-bit, 24-bit, or 32-bit, depending on the symbol.
+
+E.g. the UTF-8 encoding for the norwegian character 'Ø' (Latin Capital Letter O With Stroke) is the bytes 0xC3 0x98.
+
+
+
+Example: Serial output of the push button state
+-----------------------------------------------
+
+Let's write a program that takes the button state, and writes it on your serial monitor .
+
+This will look like that with your breadboard and Arduino:
+
+.. figure:: ../../../external/fig/buttonconnect.png
+   :align: center
+
+The following code continuously prints the state of the push button to the serial port:
+
+
+.. code-block:: c
+    
+    #include <Arduino.h>
+    
+    uint8_t button_pin = 2;
+    
+    void setup() {
+    
+      pinMode(button_pin, INPUT);
+    
+      Serial.begin(9600);
+    }
+    
+    void loop() {
+      uint8_t button_state = digitalRead(button_pin);
+      Serial.println(button_state);
+      delay(1);
+    }
+      
+
+Serial input
 ============
 
-.. todo:: Focus on:
+When the Arduino receives data on the serial port the data is automatically stored in a buffer. When the buffer is full, Arduino ignores any new data until the buffer is drained. Several of the functions used to access this buffer, automatically frees the memory.
+
+The :ccode:`Serial.read()` method
+---------------------------------
+
+In order to read a single byte from the serial port we may use the :ccode:`Serial.read()` method.
+    
+.. code-block:: c
+
+    Serial.read();
+
+It is pointless to read the serial port if no data is available, thus we use the :ccode:`Serial.available()` method to check if there is data in the buffer first.
+
+.. code-block:: c
+
+    Serial.available();
+
+The :ccode:`Serial.read()` method returns "-1" if no data is available on the serial port. This could have been used to check if the buffer is empty, but it can also be problematic if one wishes to use it for a binary communication protocol, where the binary code for "-1" could be part of the transmission. Thus it is better to use the :ccode:`Serial.available()` method.
+
+The following example shows how to read all keystrokes in the terminal, and feed back the ASCII code, as well as the character:
+
+.. code-block:: c
+    
+    #include <Arduino.h>
+    
+    void setup() {
+      Serial.begin(9600);
+      Serial.println("Press any key: ");
+    }
+    
+    void loop() {
+    
+        uint8_t data;
+        
+        if(Serial.available()){
+            data = Serial.read();
+            Serial.print("Data: ");
+            Serial.print(data);
+            Serial.print(" : Tegn: ");
+            Serial.write(data);
+            Serial.print("\n");
+        }
+    }
+
+
+The :ccode:`Serial.readBytes()` method
+--------------------------------------
+
+The :ccode:`Serial.readBytes()` method reads one or more bytes from the serial port, and stores them in a specified buffer. The method is blocking until the specified number of bytes are received, or a timeout occurs. The timeout delay is configured by the method :ccode:`Serial.setTimeout()`.
+
+.. code-block:: c
+        
+        Serial.readBytes(buffer, length)
+
+The binary nature of this function makes it usefull for binary transfers, but more complicated to use for normal text.
+
+The following example reads a maximum of five bytes from the serial port. If five bytes are received, or a timeout occurs, the data is printed back on the serial port.
+
+.. literalinclude:: ../../../projects/serial_read_bytes/src/main.cpp 
+        :language: c
+
+The :ccode:`Serial.readString()` method
+---------------------------------------
+
+The :ccode:`Serial.readString()` method reads one or more bytes from the serial port, and stores them i a specified buffer. The method takes no parameters, and returns on a timeout.
+
+.. code-block:: c
+
+    Serial.readString()
+
+The following example reads data from the serial port until a timeout occurs.
+
+.. literalinclude:: ../../../projects/serial_read_string/src/main.cpp 
+        :language: c
+
+The :ccode:`Serial.readStringUntil()` method
+--------------------------------------------
+
+The :ccode:`Serial.readStringUntil()` method reads data from the serial port until it reaches a termination character.
+
+.. code-block:: c
+    
+    Serial.readStringUntil(terminator)
+
+The following example reads data from the serial port until a newline character is received (i.e. you press ENTER), or a timeout occurs. The data is then written back to the serial port.
+
+.. literalinclude:: ../../../projects/serial_read_string_until/src/main.cpp 
+        :language: c
+
+
+
+Switch-case
+============
+
+The switch case structure is an alternative to :ccode:`if`, and :ccode:`else if` which can provide better structure when we have a large number of choices. In terms of serial communication it can be used to take different actions depending on what you receive on the serial port.
+
+
+
+Exercise: Servo motor control
+-----------------------------
+
+..  .. todo:: Focus on:
     Character read/write via Serial monitor.
     How to write fancy serial print.
 
+The following code listing shows how to 
 
 .. code-block:: c
 
@@ -21,69 +354,31 @@ Serial I/O
     Servo myServo;
 
     void setup() {
-    Serial.begin(9600);
-    myServo.attach(9);
+
+        Serial.begin(9600);
+        myServo.attach(9);
+
     }
 
     void loop() {
-    if(Serial.available() > 0)
-    {
-        serialVal = Serial.read() - 48;
-        serialVal = map(serialVal, 0, 5, 0, 180);
-        Serial.println(serialVal);
-        myServo.write(serialVal);
-        
+
+        if(Serial.available() > 0)
+        {
+            serialVal = Serial.read() - 48;
+            serialVal = map(serialVal, 0, 5, 0, 180);
+            Serial.println(serialVal);
+            myServo.write(serialVal);
+
+        }
+
+        delay(10);
+
     }
 
-    delay(10);
-
-    }
-
-
-
-Conditionals
-==========================
-Conditionals are used in order to carry out some actions under some circumstances. In other words, you use conditionals if you want to *do things* in some *conditions* and do some other things for some other conditions.
-
-.. image:: ../../../external/fig/ifElse.png
-        :align: center
-
-Let's do a bit of brain storming before implementing the conditionals: You want to turn on an LED if your system stays stays vertical. If your sytem is tilted, then you want to turn off the LED. Can you help me to draw the flow chart?
-
-**Practical example:** Tilt Sensor (if..else)
-
-
-In some cases, having too many if...else statements one another looks unpleasant. A more compact looking of your code is mode fruitful. Then, *switch..case* concept enters the game.
-
-.. image:: ../../../external/fig/switchCase.png
-        :align: center
-
-
-Let's do a bit more brain storming for switch..case: You want to make a program that asks to the user what s/he wants to do with an LED. If the user presses 1, turn on an LED. If they press 2, turn off LED. Also, in case they forget which number was on/off; if they press 3, there will be a help section. Can you help me to draw the flow chart?
-
-**Practical example:** Switch-case example
-
-
-.. seealso:: 
-	Do you know how a beautiful if...else look like? Check this out :ref:`conditionals_easy`.
-
-..
-        Some additions on conditionals
-        -------------------------------
-
-        .. todo:: Talk about why choosing if...else wisely is important.
-
-        .. image:: ../../fig/if_else_1.jpeg
-                :alt: if...else 1
-                :align: center
-
-        .. image:: ../../fig/if_else_2.jpeg
-                :alt: if...else 2
-                :align: center
-
-        .. image:: ../../fig/if_else_3.jpeg
-                :alt: if...else 3
-                :align: center
+#. Make a sketch of how you are going to wire the servo motor to the Arduino UNO.
+#. Copy the code listing, and upload it to your board.
+#. Open a serial monitor, and test the program.
+#. Write a few paragraphs which describe the operation of the program in detail. Include what are the valid input parameters, what is the resolution in the motor control, and why to we subtract 48.
 
 
 Exercise: Serial UI for LED control

@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -127,6 +128,15 @@
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L8_LC_display.html">Lesson 8: LC-Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html">Lesson 10: Motor drive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L11_communication.html">Lesson 11: Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html">Lesson 12: SPI and I2C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L13_repetition.html">Lesson 13: Repetition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/course_summary.html">Course summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -135,6 +145,13 @@
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html">Additional material lesson 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html">Additional material lesson 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L8_additional.html">Additional material lesson 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L9_additional.html">Additional material lesson 9</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L10_additional.html">Additional material lesson 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L11_additional.html">Additional material lesson 11</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L12_additional.html">Additional material lesson 12</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -357,6 +374,7 @@
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L5_adc.html#introduction">Introduction</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#analog-to-digital-converter">Analog to digital converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#successive-approximation-sar-adc">Successive Approximation (SAR) ADC.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#quantization">Quantization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#important-parameters-for-adc-operation">Important parameters for ADC operation</a></li>
 </ul>
 </li>
@@ -371,8 +389,163 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L5_adc.html#servo-motor-control">Servo motor control</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#example-servo-and-map-function">Example: Servo and map function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-control-the-servo-position-based-on-light-on-phototransistor">Exercise: Control the servo position based on light on phototransistor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-toggle-position-setting-by-pushing-a-button">Exercise: Toggle position setting by pushing a button</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L5_adc.html#exercise-check-the-potmeter-value-before-commanding-the-servo-motor">Exercise: Check the potmeter value before commanding the servo motor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#higher-level-protocol-layers">Higher level protocol layers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-monitor">The serial monitor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-arduino-serial-library">The Arduino Serial library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#serial-output">Serial output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#initialization">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-write-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.write()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-print-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.print()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-println-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.println()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#ascii-table-and-unicode">ASCII table (and Unicode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#example-serial-output-of-the-push-button-state">Example: Serial output of the push button state</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#serial-input">Serial input</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-read-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.read()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-readbytes-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readBytes()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-readstring-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readString()</span></code> method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#the-serial-readstringuntil-method">The <code class="code ccode c docutils literal notranslate"><span class="pre">Serial.readStringUntil()</span></code> method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#switch-case">Switch-case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#exercise-servo-motor-control">Exercise: Servo motor control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L6_serial_io.html#exercise-serial-ui-for-led-control">Exercise: Serial UI for LED control</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#timing-in-microcontrollers">Timing in Microcontrollers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#timers-in-arduino">Timers in Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#different-timer-purposes">Different Timer purposes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#interrupts-in-arduino">Interrupts in Arduino</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#external-interrupts">External Interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#exercise-using-external-interrupts-to-count-switch-bouncing">Exercise: Using external interrupts to count switch bouncing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#internal-interrupts">Internal Interrupts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#no-more-delay">No more delay()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L7_timer_interrupt.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L8_LC_display.html">Lesson 8: LC-Display</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#operation-of-the-hitachi-hd44780-display-controller">Operation of the Hitachi HD44780 display controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#arduino-control-of-hitachi-hd44780-compatible-display">Arduino control of Hitachi HD44780 compatible display</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#display-uptime-in-seconds-on-uart-and-lcd">Display uptime in seconds on UART and LCD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#display-voltage-value-from-potmeter">Display voltage value from potmeter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#splash-screen-and-scrolling-text">Splash screen and scrolling text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#display-data-from-uart">Display data from UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#display-data-in-different-formats">Display data in different formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#voltmeter-with-selectable-scaling">Voltmeter with selectable scaling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#graphic-lc-display">Graphic LC-display</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#lcd-and-interrupt-class-activity-codes">LCD and Interrupt Class Activity Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L8_LC_display.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html">Lesson 10: Motor drive</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#the-theory-beind-the-dc-motor">The theory beind the DC-Motor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#dc-motor-drive">DC-motor drive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#motor-speed-adjusting-by-pwm">Motor Speed Adjusting by PWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#motor-direction-setting-by-switching">Motor Direction Setting by Switching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#simple-motor-drive-example-using-single-transistor">Simple motor drive example using single transistor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#motor-drive-using-the-l293d">Motor drive using the L293D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#motor-drive-example-using-the-l293d">Motor drive example using the L293D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#advanced-motor-drive-example">Advanced motor drive example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#motor-drive-assignment">Motor drive assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#servo-motor-drive">Servo Motor Drive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#switching-frequency">Switching frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#servo-motor-library">Servo motor library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#servo-motor-drive-example">Servo motor drive example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L10_motor_drive.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L11_communication.html">Lesson 11: Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L11_communication.html#arduino-control-via-c-application">Arduino Control via C# application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#designing-a-simple-communication-protocol-on-top-of-uart">Designing a simple communication protocol on top of UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#consistent-overhead-byte-stuffing-cobs">Consistent Overhead Byte Stuffing (COBS)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L11_communication.html#using-the-serial-port-in-c">Using the serial port in C#</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#delegates">Delegates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#using-the-serial-port-in-c-system-io-ports">Using the serial port in C# (System.IO.Ports)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L11_communication.html#simple-example">Simple example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#arduino-software">Arduino software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#c-software">C# software</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L11_communication.html#improved-example">Improved example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#debugger">Debugger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#id1">Arduino software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#id2">C# software</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L11_communication.html#advanced-example">Advanced example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#id3">Arduino software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L11_communication.html#id4">C# software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html">Lesson 12: SPI and I2C</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#inter-integrated-circuit-i2c">Inter Integrated Circuit (I2C)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#i2c-operation">I2C operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#system-management-bus-smbus">System Management Bus (SMBus)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#i2c-in-arduino">I2C in Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#connecting-two-arduino-s-using-i2c">Connecting two Arduino’s using I2C</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#serial-peripheral-interface-spi">Serial Peripheral Interface (SPI)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#spi-operation">SPI operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#spi-in-arduino">SPI in Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/L12_spi_i2c.html#spi-i-o-port-expander">SPI I/O port expander</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/L13_repetition.html">Lesson 13: Repetition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons/course_summary.html">Course summary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#digital-input-and-output">Digital input and output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#uart">UART</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#analog-input">Analog input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#pulse-width-modulation-output">Pulse width modulation output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#exam-problems-v2019">Exam problems V2019</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/course_summary.html#oppgave-3">Oppgåve 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#exam-problems-h2019">Exam problems H2019</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/course_summary.html#id2">Oppgåve 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#exam-problems-v2018">Exam problems V2018</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/course_summary.html#oppgpave-3">Oppgpåve 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons/course_summary.html#exam-problems-v2017">Exam problems V2017</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons/course_summary.html#oppgpave-4">Oppgpåve 4</a></li>
 </ul>
 </li>
 </ul>
@@ -443,6 +616,49 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html">Additional material lesson 6</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#serial-terminal-emulator-software">Serial terminal emulator software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#store-the-strings-in-program-memory">Store the strings in program memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#simple-command-line-interface">Simple command line interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#arduino-serial-port-buffer">Arduino serial port buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#connecting-two-arduino-s-using-uart">Connecting two Arduino’s using UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L6_additional.html#conditionals">Conditionals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html">Additional material lesson 7</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#timing-in-microcontrollers">Timing in Microcontrollers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#timer-with-external-clock-signal">Timer with external clock signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#interrupts-in-arduino">Interrupts in Arduino</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#external-interrupts">External Interrupts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#practical-exercises">Practical exercises</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#external-interrupt-request-0-and-1">External interrupt request 0 and 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#pin-change-interrupts">Pin change interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#pin-change-interrupt-example">Pin change interrupt example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#internal-interrupts">Internal Interrupts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#timer-controlled-interrupts">Timer controlled interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#timer-1-interrupt-example">Timer 1 interrupt example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#watchdog-timer-interrupt">Watchdog timer interrupt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texts/Lessons-additional/L7_additional.html#detailed-look-at-the-operation-of-the-interrupt-system">Detailed look at the operation of the interrupt system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L8_additional.html">Additional material lesson 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L9_additional.html">Additional material lesson 9</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L10_additional.html">Additional material lesson 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L11_additional.html">Additional material lesson 11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L11_additional.html#ansi-escape-sequences">ANSI Escape sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texts/Lessons-additional/L11_additional.html#how-to-design-a-reliable-communication-protocol">How to design a reliable communication protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="texts/Lessons-additional/L12_additional.html">Additional material lesson 12</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">

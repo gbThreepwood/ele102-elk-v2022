@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -52,7 +53,9 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Communication Protocols" href="L11_communication.html" />
+    <link rel="prev" title="Memory" href="L9_memory_and_architecture.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -109,6 +112,8 @@
               </li>
 
             
+              <li><a href="L9_memory_and_architecture.html" title="Memory" accesskey="P">previous </a></li>
+              <li><a href="L11_communication.html" title="Communication Protocols" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -144,7 +149,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
@@ -153,6 +158,35 @@
 <li class="toctree-l1"><a class="reference internal" href="L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 10: Motor drive</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-theory-beind-the-dc-motor">The theory beind the DC-Motor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dc-motor-drive">DC-motor drive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#motor-speed-adjusting-by-pwm">Motor Speed Adjusting by PWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motor-direction-setting-by-switching">Motor Direction Setting by Switching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-motor-drive-example-using-single-transistor">Simple motor drive example using single transistor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motor-drive-using-the-l293d">Motor drive using the L293D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motor-drive-example-using-the-l293d">Motor drive example using the L293D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-motor-drive-example">Advanced motor drive example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motor-drive-assignment">Motor drive assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#servo-motor-drive">Servo Motor Drive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#switching-frequency">Switching frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#servo-motor-library">Servo motor library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#servo-motor-drive-example">Servo motor drive example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="L11_communication.html">Lesson 11: Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L12_spi_i2c.html">Lesson 12: SPI and I2C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L13_repetition.html">Lesson 13: Repetition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_summary.html">Course summary</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -161,6 +195,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L3_additional.html">Additional material lesson 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L4_additional.html">Additional material lesson 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L5_additional.html">Additional material lesson 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L6_additional.html">Additional material lesson 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L7_additional.html">Additional material lesson 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L8_additional.html">Additional material lesson 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L9_additional.html">Additional material lesson 9</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L10_additional.html">Additional material lesson 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L11_additional.html">Additional material lesson 11</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L12_additional.html">Additional material lesson 12</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -193,6 +234,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="L9_memory_and_architecture.html"
+                          title="previous chapter">Memory</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="L11_communication.html"
+                          title="next chapter">Communication Protocols</a></p>
+  </div>
   </div>
 </div> 
         
@@ -1007,6 +1058,8 @@ EMERGENCY_STOP : motor_control(0, 0);"/>
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
+        <li><a href="L9_memory_and_architecture.html" title="Memory" >previous</a></li>
+        <li><a href="L11_communication.html" title="Communication Protocols" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

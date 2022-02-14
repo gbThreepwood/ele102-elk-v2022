@@ -37,7 +37,7 @@ The analog to digital converter has many applications, some of which include:
 Analog to digital converter
 ---------------------------
 
-An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. Many different technologies exits for this purpose, where each one has it's own advantages and disadvantages. The following is a list of the more common types:
+An A/D converter (analog to digital converter) is a device that converts a analog signal into an approximate digital representation. It measures the :underlined:`ratio` of an analog input value to a reference value and express it in a form of digital value. Many different technologies exits for this purpose, where each one has it's own advantages and disadvantages. The following is a list of the more common types:
 
 * Successive Approximation (SAR) ADC.
 * Delta-sigma (ΔΣ) ADC.
@@ -60,6 +60,23 @@ The analog value is sampled, and a constant voltage sample is held in the sample
 The digital signal which is required to control the DAC in such a way that it outputs a voltage approximately equal to the sampled voltage, is then used as the digital representation of this analog voltage. The end of conversion (EOC) signal informs the processor that the conversion process is completed.
 
 It should be obvious from the above explanation that the analog to digital converter needs some time to complete the conversion process. The time it takes to complete one conversion is one of the fundamental parameters describing an ADC.
+
+Quantization
+-------------
+Quantization is the main step in digitizing an analog signal. Basically, categorize an analog signal into subset of digital values which can be expressed in desired resolution. Let's have a look at a quantized sinusoidal signal in 4-bits resolution.
+
+.. figure:: ../../../external/fig/quantization.jpg
+        :align: center
+
+- *Sampling depth* is the minimum smallest analog value change that is detectable.
+
+- *Sampling rate* is the number of samples taken for quantization.
+
+**Note that**  as we discussed before that we cannot every possible analog output in digital world (as we encounter conversion error), we cannot measure every possible analog input with an infinite precision, either. 
+
+.. seealso:: Considering the fact that your reference analog voltage is 5V and you are using 10-bit ADC converter in Atmega328p, what is the minimum analog voltage difference you can distinguish?
+
+.. seealso:: Do you think if there is any limitation of how fast/slow you can sample a signal? What is the advantages and disadvantages of sampling fast/slow?
 
 Important parameters for ADC operation
 --------------------------------------
@@ -88,7 +105,10 @@ end, :math:`\Delta V_{LSB}`, is given by:
 Similarly for a bipolar analog range :math:`(-V_{ref} .. +V_{ref})`, one step at the analog end is:
 
 .. math::
-    \Delta V_{LSB} = \frac{V_{ref}}{2^N}
+    \Delta V_{LSB} = \frac{V_{ref+} - V_{ref-}}{2^N}
+
+
+Another important thing is that the ADC is super slow process in 16 Mhz (about 62 ns) levels. For comparison, :code:`digitalRead()` takes 4.9us whereas :code:`analogRead()` 104us! For now, we keep the ADC in our main process but there are other ways to optimize your program when you need to include such a bulky process in your applications.
 
 
 Using the ADC in Arduino
@@ -282,7 +302,8 @@ The servo motor in the Arduino kit is of the pulse width controlled type. That i
 
 The PWM control signal switching frequency should be 50 Hz, and the pulse width (duty-cycle) determine the set point for angular position. A pulse width of 1 ms correspond to 0 degree, 1.5 ms correspond to 90 degree, while 2 ms correspond to 180 degree. This is not standardized however, and motors from other manufacturers might have different interpretation of the pulse widths.
 
-.. todo:: picture of the servo motor
+.. figure:: ../../../external/fig/logicServoWrite.png
+        :align: center
 
 Note that there are a lot of details behind the operation of this motor, some of which will be covered in a future lecture. For now we will simply explore how to use the motor.
 
@@ -293,7 +314,7 @@ The library is included by :code:`#include <Servo.h>`
 
 .. warning:: The servo motor in the Arduino kit is quite fragile. If you try to rotate with hand or hold it while it is trying to rotate, then you may damage the gear box in it.  Please don't!
    
-First of all, let's build the following circuit:
+First of all, let's build the following circuit. Notice that there is a capacitor connected between 5 V, and ground. The purpose is to stabilize the voltage in case the servo motor pulls large transient currents. **Make sure you connect this capacitor with correct polarity**.
 
 
 .. figure:: ../../fig/fritzing/arduino_servo_motor_bb.png
@@ -335,7 +356,15 @@ The :code:`map` function is discussed in the previous lesson, it involves relati
 
 	val = (val*180)/1023;
 
-Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus :code:`val` has to be declared :code:`uint32_t`. The :code:`map()` function takes care of this by performing all calculations as 32 bit.
+Note that the above calculation require that the intermediate calculations are 32 bit, since 1023*180 yields a number to large to be stored in 16 bits. Thus :code:`val` has to be declared :code:`uint32_t`, or some other mechanism must be employed to ensure that the intermediate result is stored using 32 bits of memory. The :code:`map()` function takes care of this by performing all calculations using 32 bit.
+
+
+Exercise: Control the servo position based on light on phototransistor
+----------------------------------------------------------------------
+
+In this exercise we will use the ADC to digitize the voltage from a phototransistor of the type *HW5P-1*, and use the value returned from the ADC to control the position of a servo motor.
+
+The HW5P-1 phototransistor has two connections, collector and emitter. The base is the light sensitive element of the component, and thus no electrical base connection is available. The long lead is the emitter, and the short one is the collector. In order to use the transistor for light intensity measurements, it should be connected in series with a resistor of 1 - 2 kOhm in the collector, or emitter.
 
 Exercise: Toggle position setting by pushing a button 
 -----------------------------------------------------
