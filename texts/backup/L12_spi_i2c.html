@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Communication Protocols &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <title>SPI and I2C &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -73,34 +73,7 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">Communication Protocols</a><ul>
-<li><a class="reference internal" href="#arduino-control-via-c-application-uart">Arduino Control via C# application (UART)</a><ul>
-<li><a class="reference internal" href="#designing-a-simple-communication-protocol-on-top-of-uart">Designing a simple communication protocol on top of UART</a></li>
-<li><a class="reference internal" href="#consistent-overhead-byte-stuffing-cobs">Consistent Overhead Byte Stuffing (COBS)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#using-the-serial-port-in-c">Using the serial port in C#</a><ul>
-<li><a class="reference internal" href="#delegates">Delegates</a></li>
-<li><a class="reference internal" href="#events">Events</a></li>
-<li><a class="reference internal" href="#using-the-serial-port-in-c-system-io-ports">Using the serial port in C# (System.IO.Ports)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#simple-example">Simple example</a><ul>
-<li><a class="reference internal" href="#arduino-software">Arduino software</a></li>
-<li><a class="reference internal" href="#c-software">C# software</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improved-example">Improved example</a><ul>
-<li><a class="reference internal" href="#debugger">Debugger</a></li>
-<li><a class="reference internal" href="#id1">Arduino software</a></li>
-<li><a class="reference internal" href="#id2">C# software</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#advanced-example">Advanced example</a><ul>
-<li><a class="reference internal" href="#id3">Arduino software</a></li>
-<li><a class="reference internal" href="#id4">C# software</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">SPI and I2C</a><ul>
 <li><a class="reference internal" href="#inter-integrated-circuit-i2c">Inter Integrated Circuit (I2C)</a><ul>
 <li><a class="reference internal" href="#i2c-operation">I2C operation</a></li>
 <li><a class="reference internal" href="#system-management-bus-smbus">System Management Bus (SMBus)</a></li>
@@ -116,13 +89,13 @@
 <li><a class="reference internal" href="#serial-peripheral-interface-spi">Serial Peripheral Interface (SPI)</a><ul>
 <li><a class="reference internal" href="#spi-operation">SPI operation</a></li>
 <li><a class="reference internal" href="#spi-in-arduino">SPI in Arduino</a><ul>
-<li><a class="reference internal" href="#id5">Master</a></li>
-<li><a class="reference internal" href="#id6">Slave</a></li>
+<li><a class="reference internal" href="#id1">Master</a></li>
+<li><a class="reference internal" href="#id2">Slave</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#spi-i-o-port-expander">SPI I/O port expander</a><ul>
-<li><a class="reference internal" href="#id7">Master</a></li>
-<li><a class="reference internal" href="#id8">Slave</a></li>
+<li><a class="reference internal" href="#id3">Master</a></li>
+<li><a class="reference internal" href="#id4">Slave</a></li>
 </ul>
 </li>
 </ul>
@@ -171,16 +144,16 @@
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L2_digital_io.html">Lesson 2: Digital I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L0_Introduction_elk.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/software_hardware_preparations.html">Software and hardware preparations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L1b_Arduino_intro.html">Lesson 1b: Introduction to Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L2_digital_io.html">Lesson 2: Digital I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L3_digital_io_and_timing.html">Lesson 3: Use of digital I/O and timing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -236,317 +209,8 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <span class="target" id="l9-communication"></span><div class="section" id="communication-protocols">
-<h1>Communication Protocols<a class="headerlink" href="#communication-protocols" title="Permalink to this headline">¶</a></h1>
-<p>A communication protocol is a system of rules governing how two entities are to communicate with each other. Often it is usefull to separate the protocol into various layers, governing different aspects of the communication. Some layers may be general in nature, and applicable to many systems, while others may be very application specific.</p>
-<blockquote>
-<div><p>Why do we need ports?
-<em>There was a dark era before some protocols are decided…</em></p>
-<a class="reference internal image-reference" href="../../_images/port_fuck.jpeg"><img alt="To avoid from mess" class="align-center" src="../../_images/port_fuck.jpeg" style="width: 1122.0px; height: 1394.0px;" /></a>
-</div></blockquote>
-<div class="section" id="arduino-control-via-c-application-uart">
-<h2>Arduino Control via C# application (UART)<a class="headerlink" href="#arduino-control-via-c-application-uart" title="Permalink to this headline">¶</a></h2>
-<p>In this lesson we will go through the design of a application that allows us to communicate between a desktop application written in C#, and a Arduino application written in C/C++. The communication link will be using the UART, but with some additional higher level application specific protocol layers.</p>
-<div class="section" id="designing-a-simple-communication-protocol-on-top-of-uart">
-<h3>Designing a simple communication protocol on top of UART<a class="headerlink" href="#designing-a-simple-communication-protocol-on-top-of-uart" title="Permalink to this headline">¶</a></h3>
-<p>Among the low level methods that are available to us are <cite>Serial.write()</cite>, and <cite>Serial.read()</cite>. The methods have the ability to send and receive one byte respectively. They do hovever not put any constraints on what the bytes are supposed to represent. The binary value 0b01001011 could represent a uppercase “K”, as it does in ASCII, but it could also be a command to turn on a LED, or read a analog input. It is up to the designer to decide.</p>
-<p>Even though you are free to do as you please, there are some approaches that are considered good practice, and that often lead to a more reliable communication system.</p>
-<p>The following listing is one typical organisation of the data packet:</p>
-<ul class="simple">
-<li><p>Start flag (single constant byte signifying start of transmission)</p></li>
-<li><p>Command byte (one or more bytes that informs the receiver on what the data represents)</p></li>
-<li><p>Length byte (the number of data bytes, or possibly the total number of bytes)</p></li>
-<li><p>Data byte (the actual data to transfer)</p></li>
-<li><p>Checksum or CRC (data used to verify the integrity of the transmitted data)</p></li>
-<li><p>End flag (single constant byte signifying end of transmission)</p></li>
-</ul>
-<p>For fixed lengt data packages the length byte is not needed. In simple applications the checksum is often omitted, and possibly also the start and end flags.</p>
-<p>For advanced applications there is a possible issue that the start, and end flags could appear as part of the data bytes. If each byte of the data could be anything, that means it could also be the flags no matter which value you choose to use. The flags are introduced to increase reliability, and this benefit is compromized if you do not reset the reception each time you receive a start flag. In order to overcome this issue one may use various forms of byte stuffing.</p>
-<p>For production code it is recommended to at least use the following organisation of the data even for simple applications:</p>
-<ul class="simple">
-<li><p>Start flag (single constant byte signifying start of transmission)</p></li>
-<li><p>Command byte (one or more bytes that informs the receiver on what the data represents)</p></li>
-<li><p>Data byte (the actual data to transfer)</p></li>
-<li><p>End flag (single constant byte signifying end of transmission)</p></li>
-</ul>
-<p>In the following examples we will try to start of even simpler however.</p>
-</div>
-<div class="section" id="consistent-overhead-byte-stuffing-cobs">
-<h3>Consistent Overhead Byte Stuffing (COBS)<a class="headerlink" href="#consistent-overhead-byte-stuffing-cobs" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Byte stuffing is a advanced topic, and will not be covered as part of the course. It is here for the students that are particulary curious.</p>
-</div>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing">https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing</a></p>
-</div>
-</div>
-<div class="section" id="using-the-serial-port-in-c">
-<h2>Using the serial port in C#<a class="headerlink" href="#using-the-serial-port-in-c" title="Permalink to this headline">¶</a></h2>
-<p>Before we go into the details of how to use the serial port, we should first try to understand the basic concept of delegates, and events.</p>
-<div class="section" id="delegates">
-<h3>Delegates<a class="headerlink" href="#delegates" title="Permalink to this headline">¶</a></h3>
-<p>A delegate in C# is a variable that holds a reference to a method. This is similar to the function pointer concept in C.</p>
-</div>
-<div class="section" id="events">
-<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
-<p>A event could be any occurrence of something. The event system in C# is used to notify one part of the software about something that has happened in a different part of the software. This could for instance be a user pressing a button on the keyboard, or mouse, or it could be data received on the serial port.</p>
-<p>The event system works by the publisher-subscriber model. A publisher allows one or more subscribers to subscribe to the available events, when a event is raised, a method in the subscriber is called.</p>
-<p>The subscribers are added to the publisher by assigning methods to a delegate variable in the publisher.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
-
-<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">class</span><span class="w"> </span><span class="n">MainClass</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="n">var</span><span class="w"> </span><span class="n">video</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Video</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Back to the future&quot;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
-<span class="w">            </span><span class="n">VideoEncoder</span><span class="w"> </span><span class="n">videoEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">VideoEncoder</span><span class="p">();</span><span class="w"></span>
-<span class="w">            </span><span class="n">var</span><span class="w"> </span><span class="n">smsServie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">SMS</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">VideoEncoded</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">smsServie</span><span class="p">.</span><span class="n">OnVideoEncoded</span><span class="p">;</span><span class="w"></span>
-<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">VideoEncodingStarted</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">smsServie</span><span class="p">.</span><span class="n">OnStartEncoding</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">            </span><span class="n">videoEncoder</span><span class="p">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">video</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Programmet er ferdig.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
-
-<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get</span><span class="p">;</span><span class="w"> </span><span class="n">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">VideoEncoder</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">delegate</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">VideoEncodedEventHandler</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="w"> </span><span class="n">args</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">delegate</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">VideoEncodingStartedHandler</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">args</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">VideoEncodedEventHandler</span><span class="w"> </span><span class="n">VideoEncoded</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">VideoEncodingStartedHandler</span><span class="w"> </span><span class="n">VideoEncodingStarted</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">Encode</span><span class="p">(</span><span class="n">Video</span><span class="w"> </span><span class="n">video</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="n">OnVideoEncodingStarted</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Enkodar video..&quot;</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">            </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">video</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">protected</span><span class="w"> </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">Video</span><span class="w"> </span><span class="n">video</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">VideoEncoded</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="n">VideoEncoded</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">VideoEventArgs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Video</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">video</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="n">protected</span><span class="w"> </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncodingStarted</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">VideoEncodingStarted</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="n">VideoEncodingStarted</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">using</span><span class="w"> </span><span class="n">System</span><span class="p">;</span><span class="w"></span>
-<span class="n">namespace</span><span class="w"> </span><span class="n">EventsDelegatesTest</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">public</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">SMS</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnStartEncoding</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Kodinga har starta.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="n">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnVideoEncoded</span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">EventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Sender SMS...&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="using-the-serial-port-in-c-system-io-ports">
-<h3>Using the serial port in C# (System.IO.Ports)<a class="headerlink" href="#using-the-serial-port-in-c-system-io-ports" title="Permalink to this headline">¶</a></h3>
-<p>When reading the serial port you have several options. You could use a blocking call that blocks until data is available on the serial port, or you could poll the serial port library to check if data is available. Finally you could register a event handler that is called when data is available.</p>
-</div>
-</div>
-<div class="section" id="simple-example">
-<h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
-<p>In this example we wil create a application to control an LED, and read a analog value from a potmeter connected to our Arduino.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="../../_images/one_potmeter_and_one_led_bb.png"><img alt="../../_images/one_potmeter_and_one_led_bb.png" src="../../_images/one_potmeter_and_one_led_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
-</div>
-<div class="section" id="arduino-software">
-<h3>Arduino software<a class="headerlink" href="#arduino-software" title="Permalink to this headline">¶</a></h3>
-<p>Ideally you should not have to concern yourself with what kind of programming language will be used on one side of the communication link, when developing software on the other side. In our case that means that you should not need to know C# in order to develop the Arduino software, and you should not have to know C or Arduino in order to develop the C# software.</p>
-<p>For this to work you should write a protocol specification before you start developing the software. In this first approach the following protocol is implemented (please note that this is a very naive approach):</p>
-<p>Command: ‘led’ causes a LED on pin 9 to toggle. Command ‘voltage’ causes the Arduino to return the measured raw analog value on pin A0. No additional control data is transmitted, the controller does not return a confirmation message when it is told to toggle the LED, and the reception relies on a timeout insted of a end flag to signify complete data packet.</p>
-<p>One could also note that the data is transmitted as ASCII, which means that a number that ideally takes up one byte, will use two bytes. And also the length of the commands are many bytes, which introduces unnecessary overhead.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">potmeterInput_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
-<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">serialData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">  </span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">){</span><span class="w"></span>
-<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;voltage&quot;</span><span class="p">){</span><span class="w"></span>
-<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="c-software">
-<h3>C# software<a class="headerlink" href="#c-software" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="../../_images/arduino_comm_screenshot.png"><img alt="../../_images/arduino_comm_screenshot.png" src="../../_images/arduino_comm_screenshot.png" style="width: 263.0px; height: 173.0px;" /></a>
-</div>
-</div>
-</div>
-<div class="section" id="improved-example">
-<h2>Improved example<a class="headerlink" href="#improved-example" title="Permalink to this headline">¶</a></h2>
-<p>For this improved example we will be using an ASCII based communication protocol. I.e. the data that appear on the UART should be readable when converted to it’s character representation in the ASCII code. This introduces some overhead, but has the advantage that the protocol is easy to debug, and it is also testable using a simple UART serial terminal on a PC.</p>
-<ul class="simple">
-<li><p># - Start flag</p></li>
-<li><p>&lt;byte&gt;</p></li>
-<li><p>&lt;byte&gt;</p></li>
-<li><p>n - End flag</p></li>
-</ul>
-<div class="section" id="debugger">
-<h3>Debugger<a class="headerlink" href="#debugger" title="Permalink to this headline">¶</a></h3>
-<p>The serial port is often used to print debug messages. When developing an application that uses the serial port for other purposes, it is no longer available for debugging. Arduino UNO contains only one hardware UART, but you can extend your application with software UART’s.</p>
-<p>The following Arduino program implements a simple bridge between a software UART, and a hardware UART. The software is intended to run on a additional Arduino, to aid in debugging of the code on our primary Arduino. The hardware UART is connected to a PC using USB, while the software UART is connected the the Arduino under test. The allows the Aruino under test to send debug messages using a software UART of it’s own.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="../../_images/one_potmeter_and_one_led_with_debugger_bb.png"><img alt="../../_images/one_potmeter_and_one_led_with_debugger_bb.png" src="../../_images/one_potmeter_and_one_led_with_debugger_bb.png" style="width: 883.5px; height: 660.0px;" /></a>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
-
-<span class="cm">/*</span>
-<span class="cm"> * Add compile date and time, used for a unique identifier.</span>
-<span class="cm"> * This is useful when working with multiple Arduino&#39;s</span>
-<span class="cm"> * in order to not confuse yourself regarding which device </span>
-<span class="cm"> * you are currently dealing with.</span>
-<span class="cm"> */</span><span class="w"> </span>
-<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">compile_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__DATE__</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="n">__TIME__</span><span class="p">;</span><span class="w"></span>
-
-<span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ditt navn&quot;</span><span class="p">;</span><span class="w"></span>
-
-<span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// RX, TX</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">softSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Arduino UART softserial debugger&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Bruker: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">user_name</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Komplieringstid: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">compile_date</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
-<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
-<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">softSerial</span><span class="p">.</span><span class="n">read</span><span class="p">());</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id1">
-<h3>Arduino software<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
-
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">redLED_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">potmeterInput_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span><span class="w"></span>
-
-<span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// RX, TX</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="cm">/* Soft serial for debugging purposes. */</span><span class="w"></span>
-<span class="w">  </span><span class="n">softSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Arduino remote.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span><span class="w"></span>
-<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">serialData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Mottok: &quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">softSerial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">serialData</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">){</span><span class="w"></span>
-<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">redLED_pin</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">serialData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;voltage&quot;</span><span class="p">){</span><span class="w"></span>
-<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="n">potmeterInput_pin</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id2">
-<h3>C# software<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="advanced-example">
-<h2>Advanced example<a class="headerlink" href="#advanced-example" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="../../_images/one_potmeter_and_three_led_bb.png"><img alt="../../_images/one_potmeter_and_three_led_bb.png" src="../../_images/one_potmeter_and_three_led_bb.png" style="width: 477.0px; height: 661.5px;" /></a>
-</div>
-<div class="section" id="id3">
-<h3>Arduino software<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id4">
-<h3>C# software<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="../../_images/adv_arduino_comm_screenshot.png"><img alt="../../_images/adv_arduino_comm_screenshot.png" src="../../_images/adv_arduino_comm_screenshot.png" style="width: 491.0px; height: 310.0px;" /></a>
-</div>
-</div>
-</div>
+  <div class="section" id="spi-and-i2c">
+<span id="l12-spi-i2c"></span><h1>SPI and I2C<a class="headerlink" href="#spi-and-i2c" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="inter-integrated-circuit-i2c">
 <h2>Inter Integrated Circuit (I2C)<a class="headerlink" href="#inter-integrated-circuit-i2c" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
@@ -707,8 +371,8 @@ Use your thesis</p>
 <p class="admonition-title">Warning</p>
 <p>This code is not ready</p>
 </div>
-<div class="section" id="id5">
-<h4>Master<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id1">
+<h4>Master<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
 
@@ -835,8 +499,8 @@ Use your thesis</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id6">
-<h4>Slave<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id2">
+<h4>Slave<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Direct register manipluation is outside the curriculum of the course, thus you do not have to fully understand this code. You may simply use it on one Arduino device, in order to test the master code on another Arduino device.</p>
@@ -938,8 +602,8 @@ Use your thesis</p>
 <h3>SPI I/O port expander<a class="headerlink" href="#spi-i-o-port-expander" title="Permalink to this headline">¶</a></h3>
 <p>A I/O port expander is a device that provides more digital I/O pins for the microcontroller, accessible using bus communication. Often this will be a specially made integrated circuit, such as the MCP23S17. It is possible to emulate the features of this chip using software on the Arduino.</p>
 <p>In this example we will be using SPI to control the LED’s, and read the push buttons on one Arduino from another.</p>
-<div class="section" id="id7">
-<h4>Master<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id3">
+<h4>Master<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -952,8 +616,8 @@ Use your thesis</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h4>Slave<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id4">
+<h4>Slave<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Direct register manipluation is outside the curriculum of the course, thus you do not have to fully understand this code. You may simply use it on one Arduino device, and consider the Arduino running this code to be a simulation of a I/O expansion chip.</p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Timers and Interrupts &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <title>Interrupts and timers &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -45,6 +45,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -52,7 +53,9 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="prev" title="Serial I/O" href="L6_serial_io.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -72,19 +75,26 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">Timers and Interrupts</a><ul>
-<li><a class="reference internal" href="#timing-in-microcontrollers">Timing in Microcontrollers</a><ul>
-<li><a class="reference internal" href="#timers-in-arduino">Timers in Arduino</a></li>
-<li><a class="reference internal" href="#different-timer-purposes">Different Timer purposes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a><ul>
+<li><a class="reference internal" href="#">Interrupts and timers</a><ul>
+<li><a class="reference internal" href="#interrupts">Interrupts</a><ul>
+<li><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a></li>
 <li><a class="reference internal" href="#external-interrupts">External Interrupts</a></li>
+<li><a class="reference internal" href="#exercise-change-the-trigger-criteria">Exercise: change the trigger criteria</a></li>
+<li><a class="reference internal" href="#exercise-led-blink-start-stop">Exercise: Led blink start/stop</a></li>
+<li><a class="reference internal" href="#demo-external-interrupt-on-rising-edge-of-both-pins">Demo: external interrupt on rising edge of both pins</a></li>
 <li><a class="reference internal" href="#exercise-using-external-interrupts-to-count-switch-bouncing">Exercise: Using external interrupts to count switch bouncing</a></li>
+<li><a class="reference internal" href="#pin-change-interrupts">Pin change Interrupts</a></li>
 <li><a class="reference internal" href="#internal-interrupts">Internal Interrupts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#no-more-delay">No more delay()</a></li>
+<li><a class="reference internal" href="#timers">Timers</a><ul>
+<li><a class="reference internal" href="#timers-in-arduino">Timers in Arduino</a></li>
+<li><a class="reference internal" href="#different-timer-purposes">Different Timer purposes</a></li>
+<li><a class="reference internal" href="#timer-interrupts">Timer interrupts</a></li>
+<li><a class="reference internal" href="#using-a-library-to-control-timer-1">Using a library to control timer 1</a></li>
+<li><a class="reference internal" href="#exercise-rgb-led-blinking">Exercise: RGB led blinking</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
@@ -94,6 +104,8 @@
               </li>
 
             
+              <li><a href="L6_serial_io.html" title="Serial I/O" accesskey="P">previous </a></li>
+              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -129,7 +141,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
@@ -139,6 +151,29 @@
 <li class="toctree-l1"><a class="reference internal" href="L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 7: Timers and interrupts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#interrupts">Interrupts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-interrupts">External Interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-change-the-trigger-criteria">Exercise: change the trigger criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-led-blink-start-stop">Exercise: Led blink start/stop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#demo-external-interrupt-on-rising-edge-of-both-pins">Demo: external interrupt on rising edge of both pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-using-external-interrupts-to-count-switch-bouncing">Exercise: Using external interrupts to count switch bouncing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pin-change-interrupts">Pin change Interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#internal-interrupts">Internal Interrupts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#timers">Timers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#timers-in-arduino">Timers in Arduino</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#different-timer-purposes">Different Timer purposes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timer-interrupts">Timer interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-a-library-to-control-timer-1">Using a library to control timer 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-rgb-led-blinking">Exercise: RGB led blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -166,8 +201,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -186,6 +219,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="L6_serial_io.html"
+                          title="previous chapter">Serial I/O</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
+                          title="next chapter">Additional material for lesson 1</a></p>
+  </div>
   </div>
 </div> 
         
@@ -196,14 +239,332 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="timers-and-interrupts">
-<h1>Timers and Interrupts<a class="headerlink" href="#timers-and-interrupts" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="interrupts-and-timers">
+<span id="l7-timer-interrupt"></span><h1>Interrupts and timers<a class="headerlink" href="#interrupts-and-timers" title="Permalink to this headline">¶</a></h1>
+<p>This lesson covers the two important and often related concepts of interrupts and timers in microcontrollers.</p>
+<div class="section" id="interrupts">
+<h2>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h2>
 <p>A interrupt is some form of external signal that interrupts the main process. When an interrupt occurs the current execution state of the main process is stored, before a different process (the ISR, or interrupt service routine) takes over. When the interrupt service routine has completed, execution control is returned to the main process.</p>
-<p>Interrupts are useful for making the system responsive to external events while avoiding constant polling of the possible external event sources. The ISR may simply set a flag, or publish a message in a event queue such that the main process can take appropirate action when it is ready to do so.</p>
-<p>The first section of this lecture describes how and when the interrupts are preferable over polling techniques. The following sections explain how the interrupt mechanism works. The second half of the lecture notes, starting with the section “Management of Interrupts,” describes the common problems and programming mistakes and their solutions in utilizing interrupts in typical microcontroller applications.</p>
-<div class="section" id="timing-in-microcontrollers">
-<h2>Timing in Microcontrollers<a class="headerlink" href="#timing-in-microcontrollers" title="Permalink to this headline">¶</a></h2>
-<p>A timer is a specialized type of clock which is used to measure time intervals. A timer that counts from zero upwards for measuring time elapsed is often called a stopwatch. It is a device that counts down from a specified time interval and used to generate a time delay, for example, an hourglass is a timer.</p>
+<p>Interrupts are useful for making the system responsive to external events while avoiding constant polling of the possible external event sources. Sometimes the ISR may simply set a flag, or publish a message in a event queue such that the main process can take appropriate action when it is ready to do so.</p>
+<div class="section" id="interrupts-in-arduino">
+<h3>Interrupts in Arduino<a class="headerlink" href="#interrupts-in-arduino" title="Permalink to this headline">¶</a></h3>
+<p>There are some important keynotes <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/">About Interrupt Service Routines</a>.</p>
+<p>Properties of ISR (Interrupt Service Routine):</p>
+<ol class="arabic simple">
+<li><p>Global variables used in an ISR must be <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>.</p></li>
+<li><p>Should normally be fast and short functions.</p></li>
+<li><p>No delay in the ISR.</p></li>
+<li><p>Interrupts are disabled while the ISR is executed. They can be enabled, but this should normally be avoided.</p></li>
+<li><p>An ISR cannot have parameters - no input argument, no output return.</p></li>
+<li><p>Stops <strong>everything</strong> in the main function.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">millis()</span></code> doesn’t work properly, <code class="code docutils literal notranslate"><span class="pre">delayMicroseconds()</span></code> works since it does not rely on interrupts.</p></li>
+</ol>
+<p>Interrupts can be:</p>
+<ul class="simple">
+<li><p>Internal</p></li>
+<li><p>External: digital pins, or communication channels (UART/SPI/I2C)</p></li>
+</ul>
+<p>Interrupts can be enabled or disabled globally, i.e all interrupt sources can be enabled or disabled. This can be useful if it is important that some part of your code is able to run without interruption. There could be a multitude of reasons why your code should run without interruption. One possible reason is if the code is very timing critical, once it is started it has to execute as fast as possible. Another possibility could be that your code is manipulating some part of memory which some ISR is also manipulating. If your code is only half way through the manipulation when the ISR starts doing some other operation to the same memory (e.g. the same variable), the result will be unpredictable. This is known as a race condition.</p>
+<ul class="simple">
+<li><p>Enable interrupts by calling the function: <code class="code ccode c docutils literal notranslate"><span class="pre">interrupts()</span></code>, or: <code class="code ccode c docutils literal notranslate"><span class="pre">sei()</span></code></p></li>
+<li><p>Disable interrupts by calling the function: <code class="code ccode c docutils literal notranslate"><span class="pre">noInterrupts()</span></code>, or: <code class="code ccode c docutils literal notranslate"><span class="pre">cli()</span></code></p></li>
+</ul>
+<p>Note that interrupts are enabled by default when your program starts.</p>
+</div>
+<div class="section" id="external-interrupts">
+<h3>External Interrupts<a class="headerlink" href="#external-interrupts" title="Permalink to this headline">¶</a></h3>
+<p>There are multiple options for how an external interrupt is triggered. This can be configured by the Arduino library, but since it is really a hardware feature of the microcontroller the supported features may vary from one Arduino type to the next. Generally there are five conditions for triggering interrupts in the Arduino library, but only the first four are supported by the Atmega328p of the Arduino UNO:</p>
+<ol class="arabic simple">
+<li><p>Change: When signal change (sensitive to both rising and falling edge).</p></li>
+<li><p>Rising: On a rising edge (the signal going from low to high, or from 0v to 5v).</p></li>
+<li><p>Falling: On a falling edge (the signal going from high to low, or from 5v to 0v).</p></li>
+<li><p>Low: Low is a continuous trigger whenever the signal is low, or 0v. I.e. if the voltage is low, the ISR will fire again as soon as it completes.</p></li>
+<li><p>High: High is a continuous trigger whenever the signal is high, or 5v. (Not supported in Arduino UNO)</p></li>
+</ol>
+<p>An external interrupt is configured by the function call:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">some_pin_number</span><span class="p">),</span><span class="w"> </span><span class="n">ISR_function_callback</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The first parameter to the <code class="code ccode c docutils literal notranslate"><span class="pre">attachInterrupt()</span></code> function is the interrupt number. In order to have a more flexible and readable code, you should use the function <code class="code ccode c docutils literal notranslate"><span class="pre">digitalPinToInterrupt()</span></code> to translate the pin number to the interrupt number. The second parameter, which is named <code class="code ccode c docutils literal notranslate"><span class="pre">ISR_function_callback</span></code> in the above example, is the name of a function that you have defined. Any valid function name can be provided, and it should not include the parentheses that you normally use when calling a function. This function will be called whenever the interrupt is triggered. Finally the <code class="code ccode c docutils literal notranslate"><span class="pre">mode</span></code> parameter is used to select which events on the external pin will cause the interrupt to trigger. As described previously, the following modes are available: <code class="code ccode c docutils literal notranslate"><span class="pre">CHANGE</span></code>, <code class="code ccode c docutils literal notranslate"><span class="pre">RISING</span></code>, <code class="code ccode c docutils literal notranslate"><span class="pre">FALLING</span></code>, <code class="code ccode c docutils literal notranslate"><span class="pre">LOW</span></code>, <code class="code ccode c docutils literal notranslate"><span class="pre">HIGH</span></code>.</p>
+<p>In order to disable the interrupt the following function call is used:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">detachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">some_pin_number</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exercise-change-the-trigger-criteria">
+<h3>Exercise: change the trigger criteria<a class="headerlink" href="#exercise-change-the-trigger-criteria" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise you will change the criteria for how the external interrupt is triggered, and experience the effect it has on the behaviour of you program. You should use pull-up resistors, and allow the bush button to pull down the logic level of the input pin. This will allow you to more easily test the continuous trigger on logic low.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">interrupt_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="kt">void</span><span class="w"> </span><span class="nf">external_interrupt_routine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="n">interrupt_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">),</span><span class="w"> </span><span class="n">external_interrupt_routine</span><span class="p">,</span><span class="w"> </span><span class="n">CHANGE</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">21</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">isr_flag</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Counter: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt_counter</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="w">    </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">31</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Upload and test the provided code.</p></li>
+<li><p>Try all the different trigger modes which are supported. Take note on the behaviour of the counter in each case.</p></li>
+<li><p>Extend the program with the ability to toggle the state of a LED on the rising edge interrupt.</p></li>
+</ol>
+</div>
+<div class="section" id="exercise-led-blink-start-stop">
+<h3>Exercise: Led blink start/stop<a class="headerlink" href="#exercise-led-blink-start-stop" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Write a program to blink a normal, or RBG-LED using <code class="code ccode c docutils literal notranslate"><span class="pre">millis()</span></code> for the delay.</p></li>
+<li><p>Modify the code such that the blinking should stop immediately as soon as a button is pressed, and should continue again as soon as it is released. Use an external interrupt to detect the rising and falling edge of the push button.</p></li>
+</ol>
+</div>
+<div class="section" id="demo-external-interrupt-on-rising-edge-of-both-pins">
+<h3>Demo: external interrupt on rising edge of both pins<a class="headerlink" href="#demo-external-interrupt-on-rising-edge-of-both-pins" title="Permalink to this headline">¶</a></h3>
+<p>The following example illustrates how to enable the ISR on both of the external interrupt pins. The ISR toggles an external LED, as well as increasing the value of a variable in order to keep track of how many times the ISR has been executed. Due to mechanical switch bouncing, the ISR can sometimes fire multiple times on each push of the button.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">interrupt1_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">10</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">interrupt2_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="kt">void</span><span class="w"> </span><span class="nf">interrupt1_routine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">  </span><span class="n">interrupt1_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">15</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="kt">void</span><span class="w"> </span><span class="nf">interrupt2_routine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">  </span><span class="n">interrupt2_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">20</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">),</span><span class="w"> </span><span class="n">interrupt1_routine</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interrupt2_pin</span><span class="p">),</span><span class="w"> </span><span class="n">interrupt2_routine</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">34</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">prev_timestamp_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">37</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">status_print_interval_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">current_timestamp_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">42</span>
+<span class="linenos">43</span><span class="w">  </span><span class="k">if</span><span class="p">((</span><span class="n">current_timestamp_ms</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prev_timestamp_ms</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">status_print_interval_ms</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Counter 1: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt1_counter</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">46</span>
+<span class="linenos">47</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Counter 2: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">48</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt2_counter</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">49</span>
+<span class="linenos">50</span><span class="w">    </span><span class="n">prev_timestamp_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_timestamp_ms</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">51</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">52</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Instead of continuously printing the counter value with a interval of 1 second, it is also possible to only print it after a ISR has been executed:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">interrupt1_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">10</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">interrupt2_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="kt">void</span><span class="w"> </span><span class="nf">interrupt1_routine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">  </span><span class="n">interrupt1_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">19</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="kt">void</span><span class="w"> </span><span class="nf">interrupt2_routine</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">  </span><span class="n">interrupt2_counter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="w">  </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">26</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">),</span><span class="w"> </span><span class="n">interrupt1_routine</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">  </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interrupt2_pin</span><span class="p">),</span><span class="w"> </span><span class="n">interrupt2_routine</span><span class="p">,</span><span class="w"> </span><span class="n">RISING</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">40</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">isr_flag</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Counter 1: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">46</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt1_counter</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Counter 2: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">49</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">interrupt2_counter</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="w">    </span><span class="n">isr_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">52</span>
+<span class="linenos">53</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">54</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exercise-using-external-interrupts-to-count-switch-bouncing">
+<h3>Exercise: Using external interrupts to count switch bouncing<a class="headerlink" href="#exercise-using-external-interrupts-to-count-switch-bouncing" title="Permalink to this headline">¶</a></h3>
+<p>In order to determine how much your switch is actually bouncing, it is possible to use an external interrupt pin. The previous example illustrates this to some extent, but in this exercise you will develop a program which can be used to test the quality of your push buttons.</p>
+<ol class="arabic simple">
+<li><p>Connect a push button to one of the external interrupt pins (pin 2, or 3 on the Arduino UNO).</p></li>
+<li><p>Configure the ISR to trigger on both rising and falling edge of the signal on the pin. Test by toggling a LED inside the ISR.</p></li>
+<li><p>Increment two variables inside the ISR, one for rising, and one for falling edge. Add code inside your <code class="code docutils literal notranslate"><span class="pre">loop()</span></code> to print the value of the variables to the UART whenever they have changed. Do not use <code class="code docutils literal notranslate"><span class="pre">Serial.print</span></code> inside the ISR.</p></li>
+<li><p>Add some code to keep track of the maximum number of times the switch has bounced. I.e. compare the current number of bounces to the previous maximum, and update if required. For this to work you must somehow determine when to stop counting. I.e. if you press the button twice (even if you do it quickly) it should count as two pushes, not as bouncing.</p></li>
+<li><p>Add some code to keep track of the timing between each time the ISR is executed. Print the time interval ot the UART.</p></li>
+</ol>
+</div>
+<div class="section" id="pin-change-interrupts">
+<h3>Pin change Interrupts<a class="headerlink" href="#pin-change-interrupts" title="Permalink to this headline">¶</a></h3>
+<p>The external interrupts are only available on pin 2, and 3 on the Arduino UNO (this is a limitation of the microcontroller). The Atmega328p also support a feature known as pin change interrupt on all digital inputs. The pin change interrupt will cause an interrupt if any of the enabled pins in a group is changed. I.e. the same ISR will run regardless of which pin in the group has changed. This is not as flexible as the <em>external interrupt</em>, but it can still be useful. In many cases the first job of the pin change ISR will be to check (E.g. <code class="code ccode c docutils literal notranslate"><span class="pre">digitalRead</span></code>) which pin generated the interrupt request.</p>
+<p>The following example illustrates how to use the pin change interrupts on pin 8, 9 and 10. Since the feature is not supported by the Arduino library we have to access some hardware registers directly. Refer to the datasheet of the Atmega328p for understanding the purposes of each of the bits in the configuration registers.</p>
+<p>A special function is defined for configuration of the pin change interrupt system. Without going in to the details, this function can be copied, and used to configure pin 8, 9, and 10 for pin change interrupt.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">configure_pin_change_interrupt</span><span class="p">(){</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"> </span><span class="c1">// Enable pin change interrupt on PCINT0 to PCINT7</span>
+
+<span class="w">  </span><span class="cm">/**</span>
+<span class="cm">   * Pin 8 -&gt; PB0 -&gt; PCINT0</span>
+<span class="cm">   * Pin 9 -&gt; PB1 -&gt; PCINT1</span>
+<span class="cm">   * Pin 10 -&gt; PB2 -&gt; PCINT2</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//PCMSK2;</span>
+<span class="w">  </span><span class="c1">//PCMSK1;</span>
+<span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT0</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Further down in the code the function <code class="code ccode c docutils literal notranslate"><span class="pre">ISR</span> <span class="pre">(PCINT0_vect)</span> <span class="pre">{</span></code> is the definition of the ISR which execute when the pin change interrupt is triggered.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">interrupt3_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led1_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led2_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="kt">void</span><span class="w"> </span><span class="nf">configure_pin_change_interrupt</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w">  </span><span class="n">PCICR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCIE0</span><span class="p">);</span><span class="w"> </span><span class="c1">// Enable pin change interrupt on PCINT0 to PCINT7</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="w">  </span><span class="cm">/**</span>
+<span class="linenos">15</span><span class="cm">   * Pin 8 -&gt; PB0 -&gt; PCINT0</span>
+<span class="linenos">16</span><span class="cm">   * Pin 9 -&gt; PB1 -&gt; PCINT1</span>
+<span class="linenos">17</span><span class="cm">   * Pin 10 -&gt; PB2 -&gt; PCINT2</span>
+<span class="linenos">18</span><span class="cm">   */</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">  </span><span class="c1">//PCMSK2;</span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1">//PCMSK1;</span>
+<span class="linenos">21</span><span class="w">  </span><span class="n">PCMSK0</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT2</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">PCINT0</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interrupt3_pin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">  </span>
+<span class="linenos">30</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">  </span><span class="n">configure_pin_change_interrupt</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">36</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">  </span><span class="c1">// Do nothing here...</span>
+<span class="linenos">40</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT0_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">port_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PINB</span><span class="p">;</span><span class="w"> </span><span class="c1">// Read the status of the input port B</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">port_state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x07</span><span class="p">)</span><span class="w"> </span><span class="c1">// Only concider the lower 3 bits</span>
+<span class="linenos">47</span><span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">48</span><span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">6</span><span class="o">:</span><span class="w"> </span><span class="c1">// We are using pull up resistors, hence the state will be 0b110, or 6 when pin 8 is low</span>
+<span class="linenos">49</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led1_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">50</span><span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">51</span><span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="o">:</span><span class="w"> </span><span class="c1">// 0b101</span>
+<span class="linenos">52</span><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led2_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">53</span><span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">54</span><span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="w"> </span><span class="c1">// 0b011</span>
+<span class="linenos">55</span><span class="w">    </span>
+<span class="linenos">56</span><span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">57</span><span class="w">  </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="linenos">58</span><span class="w">    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">59</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">60</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT1_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">63</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">64</span>
+<span class="linenos">65</span><span class="n">ISR</span><span class="w"> </span><span class="p">(</span><span class="n">PCINT2_vect</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">66</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="internal-interrupts">
+<h3>Internal Interrupts<a class="headerlink" href="#internal-interrupts" title="Permalink to this headline">¶</a></h3>
+<p>Internal interrupt are interrupt which are initiated by some internal hardware of the microcontroller. One example is the timer based interrupts, which are issued on some event from one of the hardware timers. E.g. when a certain time limit has expired. This particular interrupt type will be covered in the section about timers.</p>
+</div>
+</div>
+<div class="section" id="timers">
+<h2>Timers<a class="headerlink" href="#timers" title="Permalink to this headline">¶</a></h2>
+<p>A timer in this context is a specialized type of hardware peripheral which is used to measure time intervals. On the fundamental level the hardware timers are built around counters, which count on the edges of some external clock signal. A timer that counts from zero upwards and stops on some external event, for measuring time elapsed until the event is often called a stopwatch. On the other hand, a device that counts down from a specified initial time, and generates an event when it reaches zero is a timer.</p>
 <p>A counter is a device that stores (and sometimes displays) the number of times a particular event or process occurred, with respect to a clock signal. It is used to count the events happening outside the microcontroller. In electronics, counters can be implemented quite easily using register-type circuits such as a flip-flop. <a class="footnote-reference brackets" href="#f2" id="id1">2</a></p>
 <p>Timers are counters that can be programmed to perform a variety of functions. Following are the typical operation modes and possible applications of timers:</p>
 <p><strong>1. Programmed operation:</strong> A timer can be used as an alarm clock to generate predetermined time delays. The  microprocessor sets the count limit or initializes the counter and enables the count operation. The timer generates an interrupt when the count limit is reached indicating the end of the programmed delay period. This mode of operation utilizes the internal clock and it does not require an external connection.</p>
@@ -213,25 +574,24 @@
 <p><strong>1. Maximum clock frequency</strong> determines the timing resolution. The internal clock frequencies available for timer operations depend on the microprocessor clock.</p>
 <p><strong>2. Number of counter bits</strong> determines the count range or the maximum time period that can be measured.
 <strong>3. Functionality:</strong> Having a programmable timer does not necessarily mean that it will support all operation modes and gating or triggering options. You need to read the timer description to find out whether it is useful for your application or not. You may as well need additional features such as buffering of timer count results for motor speed measurements. A timer with buffered outputs can store the count result at the end of every motor revolution and re-start the counting process immediately.</p>
-<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions. The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled. The program written for the processor includes the necessary statements to restart the watchdog timer periodically. If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason. In this case, the watchdog timer resets the processor, forcing initialization of all microcontrollerfunctions <a class="footnote-reference brackets" href="#f1" id="id2">1</a>.</p>
+<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions. The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled. The program written for the processor includes the necessary statements to restart the watchdog timer periodically. If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason. In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions <a class="footnote-reference brackets" href="#f1" id="id2">1</a>.</p>
 <div class="section" id="timers-in-arduino">
 <h3>Timers in Arduino<a class="headerlink" href="#timers-in-arduino" title="Permalink to this headline">¶</a></h3>
-<p>All timers depends on the system clock of your Arduino system. Normally the system clock is 16MHz</p>
-<p>The timer hardware can be configured with some special timer registers. In the Arduino firmware all timers were configured to a 1kHz frequency and interrupts are gerally enabled.</p>
-<p>Timer0:
+<p>Normally the timers are clocked by the system clock of your Atmega328p. The system clock is 16MHz, but a prescaler is available to divide this clock by some configurable constant in order to have a slower timing operation. The timer hardware is configured by means of some special timer registers. In the Arduino firmware all timers were configured to a 1kHz frequency and interrupts are generally enabled.</p>
+<p><strong>Timer0:</strong>
 Timer0 is a 8bit timer.
 In the Arduino world timer0 is been used for the timer functions, like [delay() 811](<a class="reference external" href="http://arduino.cc/en/Reference/Delay">http://arduino.cc/en/Reference/Delay</a>),[ millis() 1.8k](<a class="reference external" href="http://arduino.cc/en/Reference/Millis">http://arduino.cc/en/Reference/Millis</a>) and[ micros() 804](<a class="reference external" href="http://arduino.cc/en/Reference/Micros">http://arduino.cc/en/Reference/Micros</a>). If you change timer0 registers, this may influence the Arduino timer function. So you should know what you are doing.</p>
-<p>Timer1:
+<p><strong>Timer1:</strong>
 Timer1 is a 16bit timer.
 In the Arduino world the [Servo library 1.3k](<a class="reference external" href="http://arduino.cc/en/Reference/Servo">http://arduino.cc/en/Reference/Servo</a>) uses timer1 on Arduino Uno (timer5 on Arduino Mega).</p>
-<p>Timer2:
+<p><strong>Timer2:</strong>
 Timer2 is a 8bit timer like timer0.
 In the Arduino work the [tone() 1.1k](<a class="reference external" href="http://arduino.cc/en/Reference/Tone">http://arduino.cc/en/Reference/Tone</a>) function uses timer2.</p>
 <p>Timer3, Timer4, Timer5:
 Timer 3,4,5 are only available on Arduino Mega boards. These timers are all 16bit timers. <a class="footnote-reference brackets" href="#f3" id="id3">3</a></p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference external" href="https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072">Arduino timers for *super nerd*s</a>.</p>
+<p><a class="reference external" href="https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072">Arduino timers for *super nerd*s</a>, if you would like to know all the low level details of the timers.</p>
 </div>
 </div>
 <div class="section" id="different-timer-purposes">
@@ -250,158 +610,53 @@ Pins 9 and 10: controlled by timer1
 Pins 11 and 3: controlled by timer2</p>
 <p>Servo Library uses Timer1. You can’t use PWM on Pin 9, 10 when you use the Servo Library on an Arduino</p>
 </div>
-</div>
-<div class="section" id="interrupts-in-arduino">
-<h2>Interrupts in Arduino<a class="headerlink" href="#interrupts-in-arduino" title="Permalink to this headline">¶</a></h2>
-<p>There are some important keynotes <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/">About Interrupt Service Routines</a> in Arduino.</p>
-<p>Properties of ISR (Interrupt Service Routine):</p>
-<ol class="arabic simple">
-<li><p>Global variables used in an ISR must be <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>.</p></li>
-<li><p>Must be fast and short functions.</p></li>
-<li><p>No delay in the interrupt.</p></li>
-<li><p>An ISR cannot have parameters - no input argument, no output return.</p></li>
-<li><p>Stops <strong>everything</strong> in the main function.</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">millis()</span></code> doesn’t work properly, <code class="code docutils literal notranslate"><span class="pre">delayMicroseconds()</span></code> works since it does not use any counter.</p></li>
-</ol>
-<p>Can be:</p>
-<ul class="simple">
-<li><p>Internal</p></li>
-<li><p>External: digital pins, or communication channels (UART/SPI/I2C)</p></li>
-</ul>
-<p>In Arduino interrupts, you can set how the interrupts are been triggered. There are five types of triggering Arduino interrupts:</p>
-<ul class="simple">
-<li><p>Change: When signal change even if signal rise or signal fall or if the signal is in low state at 0 or if the signal is in high state trigger 5v.</p></li>
-</ul>
-<ol class="arabic simple">
-<li><p>Rising: On a rising edge the signal going from low to high means signal triggering from 0v to 5v.</p></li>
-<li><p>Falling: On a falling edge the signal going from high to low means signal is triggering from 5v to 0v.</p></li>
-<li><p>Low: Low is a continuous trigger whenever the signal is low in other words the signal is on 0v.</p></li>
-<li><p>High: High is a continuous trigger whenever the signal is high in other words the signal is on 5v. (Not in Arduino UNO)</p></li>
-</ol>
-<p>The syntax which are going to be attach interrupt and specify the pin e.g. pin number 2 than ISR is the function which is going to be call and mode tells that whenever the interrupts is been triggered.</p>
-<div class="section" id="external-interrupts">
-<h3>External Interrupts<a class="headerlink" href="#external-interrupts" title="Permalink to this headline">¶</a></h3>
-<p>Created by sensors (via communication channels) or buttons.</p>
-<p>An external interrupt is defined as:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">pin</span><span class="p">),</span><span class="w"> </span><span class="n">ISR</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"></span>
-</pre></div>
-</div>
-<p><strong>Practical exercise:</strong> Modify the RGB-LED code such that the blinking should stop immediately as soon as the button is pressed and should continue again as soon as it is released.</p>
-<p>Although we are using the <code class="code docutils literal notranslate"><span class="pre">delay()</span></code> function in almost everywhere, it is a very dangerous function. It halts any processing completely. No reading of sensors, mathematical calculations, or pin manipulation can go on during delay function.</p>
-<p><strong>Exercise for home:</strong> Modify the interrupt code without using delay functions. There is a very nice project using an LCD in <a class="reference external" href="https://www.youtube.com/watch?v=TD-J7LgrsBQ">this link</a>.</p>
-</div>
-<div class="section" id="exercise-using-external-interrupts-to-count-switch-bouncing">
-<h3>Exercise: Using external interrupts to count switch bouncing<a class="headerlink" href="#exercise-using-external-interrupts-to-count-switch-bouncing" title="Permalink to this headline">¶</a></h3>
-<p>In order to determine how much your switch is actually bouncing, it is possible to use an external interrupt pin.</p>
-<ol class="arabic simple">
-<li><p>Connect a push button to one of the external interrupt pins (pin 2, or 3 on the Arduino UNO).</p></li>
-<li><p>Configure the ISR to trigger on rising (or falling) edge of the signal on the pin. Test by toggling a LED inside the ISR.</p></li>
-<li><p>Increment a variable inside the ISR, and print the value of the variable from your <code class="code docutils literal notranslate"><span class="pre">loop()</span></code> at regular intervals. Do not use <code class="code docutils literal notranslate"><span class="pre">Serial.print</span></code> inside the ISR.</p></li>
-</ol>
-</div>
-<div class="section" id="internal-interrupts">
-<h3>Internal Interrupts<a class="headerlink" href="#internal-interrupts" title="Permalink to this headline">¶</a></h3>
-<p>Timer based interrupts.</p>
-<p>All timers depends on the system clock of your Arduino system. Normally the system clock is 16MHz, but for the Arduino Pro 3,3V it is 8Mhz. So be careful when writing your own timer functions.
-The timer hardware can be configured with some special timer registers. In the Arduino firmware all timers were configured to a 1kHz frequency and interrupts are gerally enabled.</p>
+<div class="section" id="timer-interrupts">
+<h3>Timer interrupts<a class="headerlink" href="#timer-interrupts" title="Permalink to this headline">¶</a></h3>
+<p>On the Atmega328p the timer clock signal is normally derived from the system clock, but typically scaled down to a lower rate. The system clock is 16 MHz on the Arduino UNO, but for the Arduino Pro 3,3V it is 8Mhz. The timer hardware can be configured with some special timer registers. In the Arduino firmware all timers are configured to a 1kHz frequency and interrupts are generally enabled.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Since internal timers are created by changing the Timer behaviour through the timer register, we will not cover it here. This subject requires at least intermediate embedded programming skills and datasheet reading. However, this is one of the most important topics in the embedded systems. For those who are willing to learn this topic should know about setup and Use of the Timers* (<a class="reference external" href="http://ww1.microchip.com/downloads/en/AppNotes/Atmel-2505-Setup-and-Use-of-AVR-Timers_ApplicationNote_AVR130.pdf">AVR130: Setup and Use the AVR Timers</a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="code docutils literal notranslate"><span class="pre">interrupts()</span></code> and <code class="code docutils literal notranslate"><span class="pre">noInterrupts()</span></code> for the critical parts of the code. - <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/">https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/</a></p>
-</div>
-<p><strong>Practical Exercise:</strong> Let’s write a program with an RGB light, blinking each LED for 1 second (reg, green, blue, white) and repeat it infinitely. Also, attach a button that stops blinking of all LEDs. Do not use any interrupt knowledge at first and let’s see what happens. Afterwards, define your button as an interrupt and see what changes.</p>
+<p>Modification of timer behaviour through register manipulation is rather advanced, and will not be covered here. This subject requires at least intermediate embedded programming skills and datasheet reading. However, this is an important topic to know for the embedded systems developer. For those who are willing to learn this topic the following application note could be useful: <a class="reference external" href="http://ww1.microchip.com/downloads/en/AppNotes/Atmel-2505-Setup-and-Use-of-AVR-Timers_ApplicationNote_AVR130.pdf">AVR130: Setup and Use the AVR Timers</a>.</p>
 </div>
 </div>
-<div class="section" id="no-more-delay">
-<h2>No more delay()<a class="headerlink" href="#no-more-delay" title="Permalink to this headline">¶</a></h2>
-<p>Using delay() to control timing is probably one of the very first things you learned when experimenting with the Arduino. Timing with delay() is simple and straightforward, but it does cause problems down the road when you want to add additional functionality. The problem is that delay() is a “busy wait” that monopolizes the processor.</p>
-<p>During a delay() call, you can’t respond to inputs, you can’t process any data and you can’t change any outputs. The delay() ties up 100% of the processor.  So, if any part of your code uses a delay(), everything else is dead in the water for the duration.</p>
-<p>Blink without delay:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
-<span class="cm"> http://www.arduino.cc/en/Tutorial/BlinkWithoutDelay</span>
-<span class="cm">*/</span><span class="w"></span>
-
-<span class="c1">// constants won&#39;t change. Used here to</span>
-<span class="c1">// set pin numbers:</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">13</span><span class="p">;</span><span class="w">      </span><span class="c1">// the number of the LED pin</span>
-
-<span class="c1">// Variables will change:</span>
-<span class="kt">int</span><span class="w"> </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">             </span><span class="c1">// ledState used to set the LED</span>
-<span class="kt">long</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// will store last time LED was updated</span>
-
-<span class="c1">// the follow variables is a long because the time, measured in miliseconds,</span>
-<span class="c1">// will quickly become a bigger number than can be stored in an int.</span>
-<span class="kt">long</span><span class="w"> </span><span class="n">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">           </span><span class="c1">// interval at which to blink (milliseconds)</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="c1">// set the digital pin as output:</span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="c1">// here is where you&#39;d put code that needs to be running all the time.</span>
-
-<span class="c1">// check to see if it&#39;s time to blink the LED; that is, if the</span>
-<span class="c1">// difference between the current time and last time you blinked</span>
-<span class="c1">// the LED is bigger than the interval at which you want to</span>
-<span class="c1">// blink the LED.</span>
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currentMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
-
-<span class="k">if</span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// save the last time you blinked the LED</span>
-<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// if the LED is off turn it on and vice-versa:</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"></span>
-<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// set the LED with the ledState of the variable:</span>
-<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="section" id="using-a-library-to-control-timer-1">
+<h3>Using a library to control timer 1<a class="headerlink" href="#using-a-library-to-control-timer-1" title="Permalink to this headline">¶</a></h3>
+<p>Since direct register manipulation is cumbersome, and also typically specific to only one, or a limited number of specific hardware platforms, it is often preferable to use a library to configure the timers. In this section we will cover the <em>TimerOne</em> library, which allows us to configure timer 1.</p>
+<p>The analog write function for pin 9, and 10 on the Arduino depends on timer 1. If you are using these libraries you will not be able to use those pins for PWM (at least it will not be reliable).</p>
+<p>The following code listing shows how to blink a led at a rate of 1 Hz, using the TimerOne library:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TimerOne.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">led_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="kt">void</span><span class="w"> </span><span class="nf">led_toggle_function</span><span class="p">(){</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led_pin</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">led_pin</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led_pin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">  </span>
+<span class="linenos">13</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">500000</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">led_toggle_function</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1">// No need to do anything here...</span>
+<span class="linenos">21</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Blink without delay (extended):</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// These variables store the flash pattern</span>
-<span class="c1">// and the current state of the LED</span>
-
-<span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">13</span><span class="p">;</span><span class="w">      </span><span class="c1">// the number of the LED pin</span>
-<span class="kt">int</span><span class="w"> </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">             </span><span class="c1">// ledState used to set the LED</span>
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// will store last time LED was updated</span>
-<span class="kt">long</span><span class="w"> </span><span class="n">OnTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w">           </span><span class="c1">// milliseconds of on-time</span>
-<span class="kt">long</span><span class="w"> </span><span class="n">OffTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">750</span><span class="p">;</span><span class="w">          </span><span class="c1">// milliseconds of off-time</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="c1">// set the digital pin as output:</span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="c1">// check to see if it&#39;s time to change the state of the LED</span>
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currentMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
-
-<span class="k">if</span><span class="p">((</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">OnTime</span><span class="p">))</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">  </span><span class="c1">// Turn it off</span>
-<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w">  </span><span class="c1">// Remember the time</span>
-<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w">  </span><span class="c1">// Update the actual LED</span>
-<span class="p">}</span><span class="w"></span>
-<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">OffTime</span><span class="p">))</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w">  </span><span class="c1">// turn it on</span>
-<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w">   </span><span class="c1">// Remember the time</span>
-<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w">   </span><span class="c1">// Update the actual LED</span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
+<p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.initialize(500000);</span></code> method sets the timeout to <span class="math notranslate nohighlight">\(500000\)</span> microsecond, or <span class="math notranslate nohighlight">\(0.5\)</span> seconds. The maximum value for the time period is <span class="math notranslate nohighlight">\(8388480\)</span> microseconds, or about <span class="math notranslate nohighlight">\(8.3\)</span> seconds.</p>
+<p>The timer can be started (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.start()</span></code>), stopped (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.stop()</span></code>), and restarted (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.restart()</span></code>) on demand by the application.</p>
+</div>
+<div class="section" id="exercise-rgb-led-blinking">
+<h3>Exercise: RGB led blinking<a class="headerlink" href="#exercise-rgb-led-blinking" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Write a program which blinks a RGB lamp, blinking each LED for 1 second (reg, green, blue, white) and repeat it infinitely. The blink frequency should be 5 Hz. Do not use any interrupt or hardware timer knowledge at first and let’s see what can be done to solve the problem. (you may use <code class="code ccode c docutils literal notranslate"><span class="pre">millis()</span></code>)</p></li>
+<li><p>Attach a button that stops blinking of all LEDs.</p></li>
+<li><p>Modify (or rewrite) your program to use the TimerOne library for the timing, and define your button as an external interrupt.</p></li>
+<li><p>Write a short summary of the advantages and disadvantages for each of your two solutions.</p></li>
+</ol>
 </div>
 </div>
 <div class="section" id="summary">
@@ -437,17 +692,17 @@ The timer hardware can be configured with some special timer registers. In the A
 <span class="k">volatile</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span><span class="w"></span>
-<span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">),</span><span class="w"> </span><span class="n">blink</span><span class="p">,</span><span class="w"> </span><span class="n">CHANGE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">),</span><span class="w"> </span><span class="n">blink</span><span class="p">,</span><span class="w"> </span><span class="n">CHANGE</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">blink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">state</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">state</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -457,18 +712,18 @@ The timer hardware can be configured with some special timer registers. In the A
 <span class="k">volatile</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
-<span class="n">pinMode</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span><span class="w"></span>
-<span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">),</span><span class="w"> </span><span class="n">blink</span><span class="p">,</span><span class="w"> </span><span class="n">CHANGE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">interruptPin</span><span class="p">),</span><span class="w"> </span><span class="n">blink</span><span class="p">,</span><span class="w"> </span><span class="n">CHANGE</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">blink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">state</span><span class="p">;</span><span class="w"></span>
-<span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">state</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -506,6 +761,8 @@ The timer hardware can be configured with some special timer registers. In the A
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
+        <li><a href="L6_serial_io.html" title="Serial I/O" >previous</a></li>
+        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

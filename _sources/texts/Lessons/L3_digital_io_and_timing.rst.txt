@@ -575,39 +575,4 @@ The Arduino functions associated with timing are:
 - `micros() <https://www.arduino.cc/reference/en/language/functions/time/micros/>`_
 
 
-.. According to our new plan array will be discussed in lecture 6.
-
-    Exercise: Triple button, triple LED
-    -----------------------------------
-
-
-    .. .. todo:: Start with regular long way with 2 buttons+2LED first.
-
-    .. When you have similar identities to be defined, changed, manipulated etc. you can use **arrays**. Here you have 3 button and 3 LED requested. With arrays, a better way:
-
-    .. code-block:: c
-
-        const int inputPins[] = {2,3,4};
-        const int ledPins[] = {9,10,11};
-        void setup(){
-            for(int i = 0; i < 3; i++){
-                pinMode(ledPins[i], OUTPUT);
-                delay(1);
-                pinMode(inputPins[i], INPUT);
-                delay(1);
-            }
-            Serial.begin(9600);
-        }
-        void loop(){
-            for(int i = 0; i < 3; i++){
-                int val = digitalRead(inputPins[i]);
-                if (val == LOW){
-                    digitalWrite(ledPins[i], HIGH);
-                }
-                else{
-                    digitalWrite(ledPins[i], LOW);
-                }
-            }
-        }   
-
 

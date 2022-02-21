@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Introduction to C programming &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <title>Synchroscope (synchronoscope) &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -45,6 +45,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -72,14 +73,17 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">Introduction to C programming</a><ul>
-<li><a class="reference internal" href="#hello-world">Hello world</a></li>
-<li><a class="reference internal" href="#variable-data-types">Variable data types</a></li>
-<li><a class="reference internal" href="#operators">Operators</a></li>
-<li><a class="reference internal" href="#conditionals">Conditionals</a></li>
-<li><a class="reference internal" href="#loops">Loops</a></li>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#standard-library">Standard library</a></li>
+<li><a class="reference internal" href="#">Synchroscope (synchronoscope)</a><ul>
+<li><a class="reference internal" href="#theory">Theory</a></li>
+<li><a class="reference internal" href="#hardware-and-software-implementation">Hardware and software implementation</a><ul>
+<li><a class="reference internal" href="#methods-to-determine-voltage-frequency-and-phase-relation">Methods to determine voltage, frequency and  phase relation</a></li>
+<li><a class="reference internal" href="#zero-crossing-based-synchroscope">Zero crossing based synchroscope</a></li>
+<li><a class="reference internal" href="#dft-based-synchroscope">DFT based synchroscope</a></li>
+<li><a class="reference internal" href="#pll-based-synchroscope">PLL based synchroscope</a></li>
+<li><a class="reference internal" href="#least-squares-based-synchroscope">Least squares based synchroscope</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#laboratory-experiment">Laboratory experiment</a></li>
 </ul>
 </li>
 </ul>
@@ -152,15 +156,15 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -189,29 +193,60 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="introduction-to-c-programming">
-<span id="id1"></span><h1>Introduction to C programming<a class="headerlink" href="#introduction-to-c-programming" title="Permalink to this headline">¶</a></h1>
-<p>This chapter attempts to briefly cover the essensials of the C programming language, without any Arduino specific details.</p>
-<div class="section" id="hello-world">
-<h2>Hello world<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="synchroscope-synchronoscope">
+<span id="digital-asynchroscope"></span><h1>Synchroscope (synchronoscope)<a class="headerlink" href="#synchroscope-synchronoscope" title="Permalink to this headline">¶</a></h1>
+<p>A synchroscope is used to determine the phase relation between two AC power supplies. Usually in order to determine if it is safe to connect the power supplies. E.g. after a generator in a hydro power plant is started and it has come up to a speed in which it is producing approximately 50 Hz AC voltage, the sinusoidal waveform will likely not be in phase with the rest of the power grid to which is should be connected. If the frequencies does not match perfectly (it is highly unlikely that it will) the phase relation will continuously change, and the two AC networks can be safely connected when the phase difference is small enough.</p>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>Consider the following two equations for the voltage generated by two independent generators:</p>
+<div class="math notranslate nohighlight">
+\[v_{G1}(t) = \hat{V}_{G1} \sin(\omega_{G1} t + \Phi_{G1})\]</div>
+<div class="math notranslate nohighlight">
+\[v_{G2}(t) = \hat{V}_{G1} \sin(\omega_{G2} t + \Phi_{G2})\]</div>
+<p>For safe interconnection, the two functions must have the same value (the voltage must me equal, i.e. there must be no voltage difference):</p>
+<div class="math notranslate nohighlight">
+\[\hat{V}_{G1} \sin(\omega_{G1} t + \Phi_{G1}) = \hat{V}_{G1} \sin(\omega_{G2} t + \Phi_{G2})\]</div>
+<p>The four criteria for interconnection of two three phase AC power networks are:</p>
+<ul class="simple">
+<li><p>Equal voltage (<span class="math notranslate nohighlight">\(\hat{V}_{G1} = \hat{V}_{G2}\)</span>)</p></li>
+<li><p>Equal frequency (<span class="math notranslate nohighlight">\(\omega_{G1} = \omega_{G2}\)</span>)</p></li>
+<li><p>Equal phase sequence (connected correctly)</p></li>
+<li><p>Equal phase (overlapping of the sine waves in each phase, i.e. <span class="math notranslate nohighlight">\(\Phi_{G1} = \Phi_{G2}\)</span>)</p></li>
+</ul>
 </div>
-<div class="section" id="variable-data-types">
-<h2>Variable data types<a class="headerlink" href="#variable-data-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hardware-and-software-implementation">
+<h2>Hardware and software implementation<a class="headerlink" href="#hardware-and-software-implementation" title="Permalink to this headline">¶</a></h2>
+<p>For the software implementation a singe project supporting multiple methods has been developed.</p>
+<div class="section" id="methods-to-determine-voltage-frequency-and-phase-relation">
+<h3>Methods to determine voltage, frequency and  phase relation<a class="headerlink" href="#methods-to-determine-voltage-frequency-and-phase-relation" title="Permalink to this headline">¶</a></h3>
+<p>There are many possibilities for determination of the phase relation between two sine waves, some of which include:</p>
+<ul class="simple">
+<li><p>Zero cross detection</p></li>
+<li><p>Measurement of the voltage difference</p></li>
+<li><p>Single frequency DFT</p></li>
+<li><p>Full DFT (FFT), with some algorithm for determining the fundamental component</p></li>
+<li><p>Phase locked loop (PLL)</p></li>
+<li><p>Least squares phasor estimation</p></li>
+</ul>
+<p>Not all methods are suitable for synchronization of AC power grid waveforms. The method must be able to cope with waveforms of slightly different frequencies, and it must be able to handle noise.</p>
 </div>
-<div class="section" id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zero-crossing-based-synchroscope">
+<h3>Zero crossing based synchroscope<a class="headerlink" href="#zero-crossing-based-synchroscope" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="conditionals">
-<h2>Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dft-based-synchroscope">
+<h3>DFT based synchroscope<a class="headerlink" href="#dft-based-synchroscope" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="loops">
-<h2>Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pll-based-synchroscope">
+<h3>PLL based synchroscope<a class="headerlink" href="#pll-based-synchroscope" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="least-squares-based-synchroscope">
+<h3>Least squares based synchroscope<a class="headerlink" href="#least-squares-based-synchroscope" title="Permalink to this headline">¶</a></h3>
+<p>The least squares method is a popular method for phasor estimation. Since the phasor contains the information we need (voltage magnitude and phase), we can estimate the instantaneous voltage phasor for each of the two generators, and use this information for calculation of the phase difference.</p>
 </div>
-<div class="section" id="standard-library">
-<h2>Standard library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="laboratory-experiment">
+<h2>Laboratory experiment<a class="headerlink" href="#laboratory-experiment" title="Permalink to this headline">¶</a></h2>
+<p>In order to verify the applicability of the method, a laboratory experiment has been performed using two small synchronous generators.</p>
 </div>
 </div>
 

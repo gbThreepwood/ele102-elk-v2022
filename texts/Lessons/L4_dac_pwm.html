@@ -103,6 +103,7 @@
 <li><a class="reference internal" href="#loop-example">Loop example</a></li>
 <li><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times">Exercise: Blink a colorful LED n-times</a></li>
 <li><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times-with-user-input">Exercise: Blink a colorful LED n-times with user input</a></li>
+<li><a class="reference internal" href="#exercise-serial-ui-for-led-control">Exercise: Serial UI for LED control</a></li>
 </ul>
 </li>
 </ul>
@@ -185,12 +186,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#loop-example">Loop example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times">Exercise: Blink a colorful LED n-times</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-colorful-led-n-times-with-user-input">Exercise: Blink a colorful LED n-times with user input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-serial-ui-for-led-control">Exercise: Serial UI for LED control</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -218,8 +221,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -841,6 +842,25 @@
 <div class="section" id="exercise-blink-a-colorful-led-n-times-with-user-input">
 <h3>Exercise: Blink a colorful LED n-times with user input<a class="headerlink" href="#exercise-blink-a-colorful-led-n-times-with-user-input" title="Permalink to this headline">¶</a></h3>
 <p>Extend the previous example by asking the user how many times s/he wants the LED to blink. Instead of printing the total number of blinks, print out the blink number in every iteration.</p>
+</div>
+<div class="section" id="exercise-serial-ui-for-led-control">
+<span id="serial-ui-for-led-control"></span><h3>Exercise: Serial UI for LED control<a class="headerlink" href="#exercise-serial-ui-for-led-control" title="Permalink to this headline">¶</a></h3>
+<p>Let’s design a serial UI for controlling the button state.</p>
+<p>Design requirements:</p>
+<ul class="simple">
+<li><p>An LED is connected to pin number 3 will be controlled by keyboard inputs.</p></li>
+<li><p>The user is allowed to enter <strong>1</strong>, <strong>2</strong> and <strong>3</strong> as input. If something else is entered, a help manual will appear.</p></li>
+<li><p>Keyboard number 1 will turn on the LED.</p></li>
+<li><p>Keyboard number 2 will turn off the LED.</p></li>
+<li><p>Keyboard number 3 will give the help manual as shown in the figure.</p></li>
+</ul>
+<div class="figure align-center">
+<img alt="../../_images/led_serial_requirements.png" src="../../_images/led_serial_requirements.png" />
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">rx_byte</span> <span class="pre">=</span> <span class="pre">Serial.read();</span></code> will be useful.</p>
+</div>
 <p class="rubric">Footnotes</p>
 <dl class="footnote brackets">
 <dt class="label" id="f10"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

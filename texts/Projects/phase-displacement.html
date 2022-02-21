@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Introduction to C programming &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <title>Peak or zero crossing detector &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -45,6 +45,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -72,16 +73,8 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">Introduction to C programming</a><ul>
-<li><a class="reference internal" href="#hello-world">Hello world</a></li>
-<li><a class="reference internal" href="#variable-data-types">Variable data types</a></li>
-<li><a class="reference internal" href="#operators">Operators</a></li>
-<li><a class="reference internal" href="#conditionals">Conditionals</a></li>
-<li><a class="reference internal" href="#loops">Loops</a></li>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#standard-library">Standard library</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Peak or zero crossing detector</a></li>
+<li><a class="reference internal" href="#discrete-fourier-transform-dft">Discrete fourier transform (DFT)</a></li>
 </ul>
 
                 </ul>
@@ -152,15 +145,15 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Additionals.html">Mix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/ir_communication.html">Infrared remote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Projects/Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/Additionals.html">Mix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ir_communication.html">Infrared remote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RC_car.html">Cool Project: RC Car (Bluetooth or Joystick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Robotarm.html">Cool Project: Simple Robot Arm (Bluetooth or Joystick)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Appendices:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="low_power_operation.html">Low power operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -189,30 +182,24 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="introduction-to-c-programming">
-<span id="id1"></span><h1>Introduction to C programming<a class="headerlink" href="#introduction-to-c-programming" title="Permalink to this headline">¶</a></h1>
-<p>This chapter attempts to briefly cover the essensials of the C programming language, without any Arduino specific details.</p>
-<div class="section" id="hello-world">
-<h2>Hello world<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+  <p>If the two signals have equal amplitude the displacement can be measured as the difference between the two. By subtracting one sine wave from the other, a new signal will emerge, with zero amplitude for zero phase displacement.</p>
+<div class="section" id="peak-or-zero-crossing-detector">
+<h1>Peak or zero crossing detector<a class="headerlink" href="#peak-or-zero-crossing-detector" title="Permalink to this headline">¶</a></h1>
 </div>
-<div class="section" id="variable-data-types">
-<h2>Variable data types<a class="headerlink" href="#variable-data-types" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="conditionals">
-<h2>Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="loops">
-<h2>Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="standard-library">
-<h2>Standard library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h2>
-</div>
+<div class="section" id="discrete-fourier-transform-dft">
+<h1>Discrete fourier transform (DFT)<a class="headerlink" href="#discrete-fourier-transform-dft" title="Permalink to this headline">¶</a></h1>
+<p>If you know the frequency of the signal that you would like to measure, a single frequency DFT can be used to detect the phase difference.</p>
+<p>For each of the signals the following equations will provide the phase relative to a reference:</p>
+<div class="math notranslate nohighlight">
+\[x_i = \sum_{n = 0}^{N - 1} \cos(f \cdot t_n) \cdot x_n\]</div>
+<div class="math notranslate nohighlight">
+\[x_q = \sum_{n = 0}^{N - 1} \sin(f \cdot t_n) \cdot x_n\]</div>
+<div class="math notranslate nohighlight">
+\[\theta = \textnormal{arctan2}(x_i, x_q)\]</div>
+<p>If both signals have the same reference, the phase difference can be computed by:</p>
+<div class="math notranslate nohighlight">
+\[\varphi = \theta_1 - \theta_2\]</div>
+<p>The reference for each signal will be the instant we start the sampling. This is not important however, since we are only looking at the difference.</p>
 </div>
 
 

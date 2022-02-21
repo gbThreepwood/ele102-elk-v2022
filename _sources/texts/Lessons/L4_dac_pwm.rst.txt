@@ -600,6 +600,28 @@ Exercise: Blink a colorful LED n-times with user input
 --------------------------------------------------------
 Extend the previous example by asking the user how many times s/he wants the LED to blink. Instead of printing the total number of blinks, print out the blink number in every iteration.
 
+.. _Serial_UI_for_LED_control:
+
+Exercise: Serial UI for LED control
+-----------------------------------
+
+Let's design a serial UI for controlling the button state.
+
+Design requirements:
+    
+- An LED is connected to pin number 3 will be controlled by keyboard inputs.
+- The user is allowed to enter **1**, **2** and **3** as input. If something else is entered, a help manual will appear.
+- Keyboard number 1 will turn on the LED.
+- Keyboard number 2 will turn off the LED.
+- Keyboard number 3 will give the help manual as shown in the figure.
+
+.. figure:: ../../../external/fig/led_serial_requirements.png
+   :align: center
+
+
+.. note:: The :code:`rx_byte = Serial.read();` will be useful.
+
+
 
 .. rubric:: Footnotes
 

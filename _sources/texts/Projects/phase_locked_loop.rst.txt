@@ -241,7 +241,6 @@ The following code listing illustrates how the sine wave generation is performed
 It should be noted that although the method is relatively efficient at generating a continuous waveform, it is not in general a good substitute for the slow sine and cosine functions available in various math libraries. The efficiency comes from the use in the iterative control loop, where the sine wave is approximated at small time steps. I.e. you do not know the sine of some arbitrary angle until you have stepped through all the other angles up to that point.
 
 
-
 .. literalinclude:: ../../../projects/platformio/dsp/integration-sine-wave-generator/src/main.cpp
     :language: c
     :linenos:
@@ -262,6 +261,35 @@ CORDIC
 
 Coordinate rotation digital computer (CORDIC) is a efficient algorithm for calculation of various mathematical functions.
 
+
+Sine approximation by quadratic functions
+-----------------------------------------
+
+The time values can be normalized to 0 to 1, by:
+
+.. math::
+
+    t = x \cdot \frac{1}{2\pi}
+
+In order to wrap around after t reaches 1, we can subtract the integer version of t:
+
+.. code-block::c
+
+    t = t - (int)t
+
+
+.. code-block::c
+
+    float sine_approx(float theta){
+
+        float t = theta * 1/(2*PI);
+
+        t = t - (int)t;
+        if(t < 0.5)
+            return -16*t*t + 8*t;
+        else
+            return 16*t*t - 16*t - 8*t + 8;
+    }
 
 Example: Lock on a 5 Hz sine wave from a signal generator
 =========================================================

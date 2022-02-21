@@ -172,3 +172,105 @@ Creating a library for software debounce
 Multi tasking on the microcontroller
 ====================================
 
+
+Although we are using the :code:`delay()` function in almost everywhere, it is a very dangerous function. It halts any processing completely. No reading of sensors, mathematical calculations, or pin manipulation can go on during delay function.
+
+    
+**Exercise for home:** Modify the interrupt code without using delay functions. There is a very nice project using an LCD in `this link <https://www.youtube.com/watch?v=TD-J7LgrsBQ>`_.
+
+
+No more delay()
+-----------------
+Using delay() to control timing is probably one of the very first things you learned when experimenting with the Arduino. Timing with delay() is simple and straightforward, but it does cause problems down the road when you want to add additional functionality. The problem is that delay() is a "busy wait" that monopolizes the processor. 
+
+During a delay() call, you can’t respond to inputs, you can't process any data and you can’t change any outputs. The delay() ties up 100% of the processor.  So, if any part of your code uses a delay(), everything else is dead in the water for the duration.
+
+Blink without delay:
+
+.. code-block:: c
+
+    /*
+     http://www.arduino.cc/en/Tutorial/BlinkWithoutDelay
+    */
+
+    // constants won't change. Used here to 
+    // set pin numbers:
+    const int ledPin =  13;      // the number of the LED pin
+
+    // Variables will change:
+    int ledState = LOW;             // ledState used to set the LED
+    long previousMillis = 0;        // will store last time LED was updated
+
+    // the follow variables is a long because the time, measured in miliseconds,
+    // will quickly become a bigger number than can be stored in an int.
+    long interval = 1000;           // interval at which to blink (milliseconds)
+
+    void setup() {
+    // set the digital pin as output:
+    pinMode(ledPin, OUTPUT);      
+    }
+
+    void loop()
+    {
+    // here is where you'd put code that needs to be running all the time.
+
+    // check to see if it's time to blink the LED; that is, if the 
+    // difference between the current time and last time you blinked 
+    // the LED is bigger than the interval at which you want to 
+    // blink the LED.
+    unsigned long currentMillis = millis();
+    
+    if(currentMillis - previousMillis > interval) {
+        // save the last time you blinked the LED 
+        previousMillis = currentMillis;   
+
+        // if the LED is off turn it on and vice-versa:
+        if (ledState == LOW)
+        ledState = HIGH;
+        else
+        ledState = LOW;
+
+        // set the LED with the ledState of the variable:
+        digitalWrite(ledPin, ledState);
+    }
+    }
+
+
+Blink without delay (extended):
+
+.. code-block:: c
+
+    // These variables store the flash pattern
+    // and the current state of the LED
+
+    int ledPin =  13;      // the number of the LED pin
+    int ledState = LOW;             // ledState used to set the LED
+    unsigned long previousMillis = 0;        // will store last time LED was updated
+    long OnTime = 250;           // milliseconds of on-time
+    long OffTime = 750;          // milliseconds of off-time
+
+    void setup() 
+    {
+    // set the digital pin as output:
+    pinMode(ledPin, OUTPUT);      
+    }
+
+    void loop()
+    {
+    // check to see if it's time to change the state of the LED
+    unsigned long currentMillis = millis();
+    
+    if((ledState == HIGH) && (currentMillis - previousMillis >= OnTime))
+    {
+        ledState = LOW;  // Turn it off
+        previousMillis = currentMillis;  // Remember the time
+        digitalWrite(ledPin, ledState);  // Update the actual LED
+    }
+    else if ((ledState == LOW) && (currentMillis - previousMillis >= OffTime))
+    {
+        ledState = HIGH;  // turn it on
+        previousMillis = currentMillis;   // Remember the time
+        digitalWrite(ledPin, ledState);	  // Update the actual LED
+    }
+    }
+

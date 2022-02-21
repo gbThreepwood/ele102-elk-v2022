@@ -88,7 +88,10 @@
 <li><a class="reference internal" href="#creating-a-library-for-software-debounce">Creating a library for software debounce</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#multi-tasking-on-the-microcontroller">Multi tasking on the microcontroller</a></li>
+<li><a class="reference internal" href="#multi-tasking-on-the-microcontroller">Multi tasking on the microcontroller</a><ul>
+<li><a class="reference internal" href="#no-more-delay">No more delay()</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -144,6 +147,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L4_dac_pwm.html">Lesson 4: Analog output (PWM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul class="current">
@@ -163,7 +167,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-library-for-software-debounce">Creating a library for software debounce</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#multi-tasking-on-the-microcontroller">Multi tasking on the microcontroller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-tasking-on-the-microcontroller">Multi tasking on the microcontroller</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#no-more-delay">No more delay()</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="L4_additional.html">Additional material lesson 4</a></li>
@@ -187,8 +194,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/digital_filters.html">Digital filters</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -692,6 +697,97 @@ Endif"/>
 </div>
 <div class="section" id="multi-tasking-on-the-microcontroller">
 <h2>Multi tasking on the microcontroller<a class="headerlink" href="#multi-tasking-on-the-microcontroller" title="Permalink to this headline">¶</a></h2>
+<p>Although we are using the <code class="code docutils literal notranslate"><span class="pre">delay()</span></code> function in almost everywhere, it is a very dangerous function. It halts any processing completely. No reading of sensors, mathematical calculations, or pin manipulation can go on during delay function.</p>
+<p><strong>Exercise for home:</strong> Modify the interrupt code without using delay functions. There is a very nice project using an LCD in <a class="reference external" href="https://www.youtube.com/watch?v=TD-J7LgrsBQ">this link</a>.</p>
+<div class="section" id="no-more-delay">
+<h3>No more delay()<a class="headerlink" href="#no-more-delay" title="Permalink to this headline">¶</a></h3>
+<p>Using delay() to control timing is probably one of the very first things you learned when experimenting with the Arduino. Timing with delay() is simple and straightforward, but it does cause problems down the road when you want to add additional functionality. The problem is that delay() is a “busy wait” that monopolizes the processor.</p>
+<p>During a delay() call, you can’t respond to inputs, you can’t process any data and you can’t change any outputs. The delay() ties up 100% of the processor.  So, if any part of your code uses a delay(), everything else is dead in the water for the duration.</p>
+<p>Blink without delay:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> http://www.arduino.cc/en/Tutorial/BlinkWithoutDelay</span>
+<span class="cm">*/</span><span class="w"></span>
+
+<span class="c1">// constants won&#39;t change. Used here to</span>
+<span class="c1">// set pin numbers:</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">13</span><span class="p">;</span><span class="w">      </span><span class="c1">// the number of the LED pin</span>
+
+<span class="c1">// Variables will change:</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">             </span><span class="c1">// ledState used to set the LED</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// will store last time LED was updated</span>
+
+<span class="c1">// the follow variables is a long because the time, measured in miliseconds,</span>
+<span class="c1">// will quickly become a bigger number than can be stored in an int.</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">           </span><span class="c1">// interval at which to blink (milliseconds)</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="c1">// set the digital pin as output:</span>
+<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="c1">// here is where you&#39;d put code that needs to be running all the time.</span>
+
+<span class="c1">// check to see if it&#39;s time to blink the LED; that is, if the</span>
+<span class="c1">// difference between the current time and last time you blinked</span>
+<span class="c1">// the LED is bigger than the interval at which you want to</span>
+<span class="c1">// blink the LED.</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currentMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// save the last time you blinked the LED</span>
+<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// if the LED is off turn it on and vice-versa:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// set the LED with the ledState of the variable:</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Blink without delay (extended):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// These variables store the flash pattern</span>
+<span class="c1">// and the current state of the LED</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">13</span><span class="p">;</span><span class="w">      </span><span class="c1">// the number of the LED pin</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">             </span><span class="c1">// ledState used to set the LED</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// will store last time LED was updated</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">OnTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="p">;</span><span class="w">           </span><span class="c1">// milliseconds of on-time</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">OffTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">750</span><span class="p">;</span><span class="w">          </span><span class="c1">// milliseconds of off-time</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="c1">// set the digital pin as output:</span>
+<span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="c1">// check to see if it&#39;s time to change the state of the LED</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currentMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
+
+<span class="k">if</span><span class="p">((</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">OnTime</span><span class="p">))</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span><span class="w">  </span><span class="c1">// Turn it off</span>
+<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w">  </span><span class="c1">// Remember the time</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w">  </span><span class="c1">// Update the actual LED</span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">ledState</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentMillis</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">OffTime</span><span class="p">))</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HIGH</span><span class="p">;</span><span class="w">  </span><span class="c1">// turn it on</span>
+<span class="w">    </span><span class="n">previousMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentMillis</span><span class="p">;</span><span class="w">   </span><span class="c1">// Remember the time</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span><span class="w">   </span><span class="c1">// Update the actual LED</span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
