@@ -26,11 +26,11 @@
   }
 </style>
 
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -54,7 +54,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="next" title="LC-Display" href="L8_LC_display.html" />
     <link rel="prev" title="Serial I/O" href="L6_serial_io.html" /> 
   </head>
   <body role="document">
@@ -80,7 +80,6 @@
 <li><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a></li>
 <li><a class="reference internal" href="#external-interrupts">External Interrupts</a></li>
 <li><a class="reference internal" href="#exercise-change-the-trigger-criteria">Exercise: change the trigger criteria</a></li>
-<li><a class="reference internal" href="#exercise-led-blink-start-stop">Exercise: Led blink start/stop</a></li>
 <li><a class="reference internal" href="#demo-external-interrupt-on-rising-edge-of-both-pins">Demo: external interrupt on rising edge of both pins</a></li>
 <li><a class="reference internal" href="#exercise-using-external-interrupts-to-count-switch-bouncing">Exercise: Using external interrupts to count switch bouncing</a></li>
 <li><a class="reference internal" href="#pin-change-interrupts">Pin change Interrupts</a></li>
@@ -92,9 +91,12 @@
 <li><a class="reference internal" href="#different-timer-purposes">Different Timer purposes</a></li>
 <li><a class="reference internal" href="#timer-interrupts">Timer interrupts</a></li>
 <li><a class="reference internal" href="#using-a-library-to-control-timer-1">Using a library to control timer 1</a></li>
+<li><a class="reference internal" href="#exercise-user-timer-isr-for-polling-digital-inputs">Exercise: User timer ISR for polling digital inputs</a></li>
 <li><a class="reference internal" href="#exercise-rgb-led-blinking">Exercise: RGB led blinking</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#recursive-functions">Recursive functions</a></li>
+<li><a class="reference internal" href="#random">Random</a></li>
 <li><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
@@ -105,7 +107,7 @@
 
             
               <li><a href="L6_serial_io.html" title="Serial I/O" accesskey="P">previous </a></li>
-              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
+              <li><a href="L8_LC_display.html" title="LC-Display" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -156,7 +158,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#interrupts-in-arduino">Interrupts in Arduino</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#external-interrupts">External Interrupts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-change-the-trigger-criteria">Exercise: change the trigger criteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exercise-led-blink-start-stop">Exercise: Led blink start/stop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#demo-external-interrupt-on-rising-edge-of-both-pins">Demo: external interrupt on rising edge of both pins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-using-external-interrupts-to-count-switch-bouncing">Exercise: Using external interrupts to count switch bouncing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pin-change-interrupts">Pin change Interrupts</a></li>
@@ -168,12 +169,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#different-timer-purposes">Different Timer purposes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timer-interrupts">Timer interrupts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-a-library-to-control-timer-1">Using a library to control timer 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-user-timer-isr-for-polling-digital-inputs">Exercise: User timer ISR for polling digital inputs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exercise-rgb-led-blinking">Exercise: RGB led blinking</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#recursive-functions">Recursive functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#random">Random</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -226,8 +231,8 @@
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
-                          title="next chapter">Additional material for lesson 1</a></p>
+    <p class="topless"><a href="L8_LC_display.html"
+                          title="next chapter">LC-Display</a></p>
   </div>
   </div>
 </div> 
@@ -246,22 +251,46 @@
 <h2>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h2>
 <p>A interrupt is some form of external signal that interrupts the main process. When an interrupt occurs the current execution state of the main process is stored, before a different process (the ISR, or interrupt service routine) takes over. When the interrupt service routine has completed, execution control is returned to the main process.</p>
 <p>Interrupts are useful for making the system responsive to external events while avoiding constant polling of the possible external event sources. Sometimes the ISR may simply set a flag, or publish a message in a event queue such that the main process can take appropriate action when it is ready to do so.</p>
+<a class="reference internal image-reference" href="../../_images/check-phone.gif"><img alt="../../_images/check-phone.gif" src="../../_images/check-phone.gif" style="width: 49%;" /></a>
+<a class="reference internal image-reference" href="../../_images/phone-rings.gif"><img alt="../../_images/phone-rings.gif" src="../../_images/phone-rings.gif" style="width: 45%;" /></a>
+<p>——————————–POLLING———————————–VS———————————-INTERRUPT—————————-</p>
+<p>An interrupt is a signal that tells the processor to immediately stop what it is doing and handle some high priority processing.  That high priority processing is called an Interrupt Handler. An interrupt handler is like any other void function.  If you write one and attach it to an interrupt, it will get called whenever that interrupt signal is triggered.  When you return from the interrupt handler, the processor goes back to continue what it was doing before. <a class="footnote-reference brackets" href="#f4" id="id1">1</a></p>
+<p>Interrupts can be generated from several sources:</p>
+<ol class="arabic simple">
+<li><p>Timer interrupts from one of the Arduino timers.</p></li>
+<li><p>External Interrupts from a change in state of one of the external interrupt pins.</p></li>
+<li><p>Pin-change interrupts from a change in state of any one of a group of pins.</p></li>
+</ol>
+<p>Using interrupts, you don’t need to write loop code to continuously check for the high priority interrupt condition.  You don’t have to worry about sluggish response or missed button presses due to long-running subroutines.</p>
+<p>The processor will automagically stop whatever it is doing when the interrupt occurs and call your interrupt handler.  You just need to write code to respond to the interrupt whenever it happens. <a class="footnote-reference brackets" href="#f4" id="id2">1</a></p>
+<p>Types of Interrupts
+There are two types of interrupts:</p>
+<p><strong>Hardware Interrupt:</strong> It happens when an external event occurs like an external interrupt pin changes its state from LOW to HIGH or HIGH to LOW.</p>
+<p><strong>Software Interrupt:</strong> It happens according to the instruction from the software. For example Timer interrupts are software interrupt.</p>
+<div class="myownstyle admonition">
+<p class="admonition-title"><strong>Start with an exercise</strong></p>
+<p>Use 3 LEDs attached to pin numbers 9,10,11. Turn them on one by one. When all are turned on, turn them of one by one in reverse order as shown in the GIF below. Wait 1 second every time you reverse the order.</p>
+<div class="figure align-default">
+<img alt="../../_images/led-on-off-in-order.gif" src="../../_images/led-on-off-in-order.gif" />
+</div>
+<p>Now attach a button to the pin number 2 and update your code such that a counter will count everytime you press the button. Observe any problems?</p>
+</div>
 <div class="section" id="interrupts-in-arduino">
 <h3>Interrupts in Arduino<a class="headerlink" href="#interrupts-in-arduino" title="Permalink to this headline">¶</a></h3>
 <p>There are some important keynotes <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/">About Interrupt Service Routines</a>.</p>
 <p>Properties of ISR (Interrupt Service Routine):</p>
 <ol class="arabic simple">
-<li><p>Global variables used in an ISR must be <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>.</p></li>
-<li><p>Should normally be fast and short functions.</p></li>
+<li><p>Global variables used in an ISR must be declared <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>.</p></li>
+<li><p>ISR should normally be fast and short functions.</p></li>
 <li><p>No delay in the ISR.</p></li>
-<li><p>Interrupts are disabled while the ISR is executed. They can be enabled, but this should normally be avoided.</p></li>
+<li><p>Interrupts are disabled while the ISR is executed. They can be enabled, but this should normally be avoided as it might have unpredictable consequences.</p></li>
 <li><p>An ISR cannot have parameters - no input argument, no output return.</p></li>
 <li><p>Stops <strong>everything</strong> in the main function.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">millis()</span></code> doesn’t work properly, <code class="code docutils literal notranslate"><span class="pre">delayMicroseconds()</span></code> works since it does not rely on interrupts.</p></li>
 </ol>
 <p>Interrupts can be:</p>
 <ul class="simple">
-<li><p>Internal</p></li>
+<li><p>Internal: Timers, ADC conversion complete, hardware faults, etc.</p></li>
 <li><p>External: digital pins, or communication channels (UART/SPI/I2C)</p></li>
 </ul>
 <p>Interrupts can be enabled or disabled globally, i.e all interrupt sources can be enabled or disabled. This can be useful if it is important that some part of your code is able to run without interruption. There could be a multitude of reasons why your code should run without interruption. One possible reason is if the code is very timing critical, once it is started it has to execute as fast as possible. Another possibility could be that your code is manipulating some part of memory which some ISR is also manipulating. If your code is only half way through the manipulation when the ISR starts doing some other operation to the same memory (e.g. the same variable), the result will be unpredictable. This is known as a race condition.</p>
@@ -289,6 +318,10 @@
 <p>In order to disable the interrupt the following function call is used:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">detachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">some_pin_number</span><span class="p">))</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="myownstyle admonition">
+<p class="admonition-title"><strong>Continue the exercise</strong></p>
+<p>Now solve the count problem with interrupts.</p>
 </div>
 </div>
 <div class="section" id="exercise-change-the-trigger-criteria">
@@ -332,9 +365,6 @@
 <li><p>Try all the different trigger modes which are supported. Take note on the behaviour of the counter in each case.</p></li>
 <li><p>Extend the program with the ability to toggle the state of a LED on the rising edge interrupt.</p></li>
 </ol>
-</div>
-<div class="section" id="exercise-led-blink-start-stop">
-<h3>Exercise: Led blink start/stop<a class="headerlink" href="#exercise-led-blink-start-stop" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Write a program to blink a normal, or RBG-LED using <code class="code ccode c docutils literal notranslate"><span class="pre">millis()</span></code> for the delay.</p></li>
 <li><p>Modify the code such that the blinking should stop immediately as soon as a button is pressed, and should continue again as soon as it is released. Use an external interrupt to detect the rising and falling edge of the push button.</p></li>
@@ -565,16 +595,16 @@
 <div class="section" id="timers">
 <h2>Timers<a class="headerlink" href="#timers" title="Permalink to this headline">¶</a></h2>
 <p>A timer in this context is a specialized type of hardware peripheral which is used to measure time intervals. On the fundamental level the hardware timers are built around counters, which count on the edges of some external clock signal. A timer that counts from zero upwards and stops on some external event, for measuring time elapsed until the event is often called a stopwatch. On the other hand, a device that counts down from a specified initial time, and generates an event when it reaches zero is a timer.</p>
-<p>A counter is a device that stores (and sometimes displays) the number of times a particular event or process occurred, with respect to a clock signal. It is used to count the events happening outside the microcontroller. In electronics, counters can be implemented quite easily using register-type circuits such as a flip-flop. <a class="footnote-reference brackets" href="#f2" id="id1">2</a></p>
+<p>A counter is a device that stores (and sometimes displays) the number of times a particular event or process occurred, with respect to a clock signal. It is used to count the events happening outside the microcontroller. In electronics, counters can be implemented quite easily using register-type circuits such as a flip-flop. <a class="footnote-reference brackets" href="#f2" id="id3">3</a></p>
 <p>Timers are counters that can be programmed to perform a variety of functions. Following are the typical operation modes and possible applications of timers:</p>
 <p><strong>1. Programmed operation:</strong> A timer can be used as an alarm clock to generate predetermined time delays. The  microprocessor sets the count limit or initializes the counter and enables the count operation. The timer generates an interrupt when the count limit is reached indicating the end of the programmed delay period. This mode of operation utilizes the internal clock and it does not require an external connection.</p>
 <p><strong>2. Gated or triggered operation:</strong> The count operation is controlled by an external signal. There may be several options to start and to stop the counter. In gated mode, the counter is enabled while the external signal is active. A multi-purpose timer allows independent selection of events that start and stop the counter. These events can be a rising or falling edge of the external trigger signal or an internal start/stop command issued by the microprocessor itself. The timer can be programmed to generate an interrupt when the counter stops. The common applications of gated or triggered operation involve any kind of time measurements, such as, measuring revolution time of a motor to detect its rotation speed, or quantification of time-encoded signals.</p>
 <p><strong>3. Clocked operation:</strong> The counter clock is supplied by an external signal while the count operation is enabled by the microprocessor or another timer. The typical applications include quantization of frequency-encoded signals, or position information generated by linear or rotational encoders.</p>
 <p>The specifications for a timer are directly related to the requirements of the application:</p>
 <p><strong>1. Maximum clock frequency</strong> determines the timing resolution. The internal clock frequencies available for timer operations depend on the microprocessor clock.</p>
-<p><strong>2. Number of counter bits</strong> determines the count range or the maximum time period that can be measured.
-<strong>3. Functionality:</strong> Having a programmable timer does not necessarily mean that it will support all operation modes and gating or triggering options. You need to read the timer description to find out whether it is useful for your application or not. You may as well need additional features such as buffering of timer count results for motor speed measurements. A timer with buffered outputs can store the count result at the end of every motor revolution and re-start the counting process immediately.</p>
-<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions. The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled. The program written for the processor includes the necessary statements to restart the watchdog timer periodically. If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason. In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions <a class="footnote-reference brackets" href="#f1" id="id2">1</a>.</p>
+<p><strong>2. Number of counter bits</strong> determines the count range or the maximum time period that can be measured.</p>
+<p><strong>3. Functionality:</strong> Having a programmable timer does not necessarily mean that it will support all operation modes and gating or triggering options. You need to read the timer description to find out whether it is useful for your application or not. You may as well need additional features such as buffering of timer count results for motor speed measurements. A timer with buffered outputs can store the count result at the end of every motor revolution and re-start the counting process immediately.</p>
+<p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions. The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled. The program written for the processor includes the necessary statements to restart the watchdog timer periodically. If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason. In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions <a class="footnote-reference brackets" href="#f1" id="id4">2</a>.</p>
 <div class="section" id="timers-in-arduino">
 <h3>Timers in Arduino<a class="headerlink" href="#timers-in-arduino" title="Permalink to this headline">¶</a></h3>
 <p>Normally the timers are clocked by the system clock of your Atmega328p. The system clock is 16MHz, but a prescaler is available to divide this clock by some configurable constant in order to have a slower timing operation. The timer hardware is configured by means of some special timer registers. In the Arduino firmware all timers were configured to a 1kHz frequency and interrupts are generally enabled.</p>
@@ -588,7 +618,7 @@ In the Arduino world the [Servo library 1.3k](<a class="reference external" href
 Timer2 is a 8bit timer like timer0.
 In the Arduino work the [tone() 1.1k](<a class="reference external" href="http://arduino.cc/en/Reference/Tone">http://arduino.cc/en/Reference/Tone</a>) function uses timer2.</p>
 <p>Timer3, Timer4, Timer5:
-Timer 3,4,5 are only available on Arduino Mega boards. These timers are all 16bit timers. <a class="footnote-reference brackets" href="#f3" id="id3">3</a></p>
+Timer 3,4,5 are only available on Arduino Mega boards. These timers are all 16bit timers. <a class="footnote-reference brackets" href="#f3" id="id5">4</a></p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference external" href="https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072">Arduino timers for *super nerd*s</a>, if you would like to know all the low level details of the timers.</p>
@@ -616,6 +646,10 @@ Pins 11 and 3: controlled by timer2</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Modification of timer behaviour through register manipulation is rather advanced, and will not be covered here. This subject requires at least intermediate embedded programming skills and datasheet reading. However, this is an important topic to know for the embedded systems developer. For those who are willing to learn this topic the following application note could be useful: <a class="reference external" href="http://ww1.microchip.com/downloads/en/AppNotes/Atmel-2505-Setup-and-Use-of-AVR-Timers_ApplicationNote_AVR130.pdf">AVR130: Setup and Use the AVR Timers</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="code docutils literal notranslate"><span class="pre">interrupts()</span></code> and <code class="code docutils literal notranslate"><span class="pre">noInterrupts()</span></code> for the critical parts of the code. - <a class="reference external" href="https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/">https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/</a></p>
 </div>
 </div>
 <div class="section" id="using-a-library-to-control-timer-1">
@@ -649,6 +683,18 @@ Pins 11 and 3: controlled by timer2</p>
 <p>The <code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.initialize(500000);</span></code> method sets the timeout to <span class="math notranslate nohighlight">\(500000\)</span> microsecond, or <span class="math notranslate nohighlight">\(0.5\)</span> seconds. The maximum value for the time period is <span class="math notranslate nohighlight">\(8388480\)</span> microseconds, or about <span class="math notranslate nohighlight">\(8.3\)</span> seconds.</p>
 <p>The timer can be started (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.start()</span></code>), stopped (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.stop()</span></code>), and restarted (<code class="code ccode c docutils literal notranslate"><span class="pre">Timer1.restart()</span></code>) on demand by the application.</p>
 </div>
+<div class="section" id="exercise-user-timer-isr-for-polling-digital-inputs">
+<h3>Exercise: User timer ISR for polling digital inputs<a class="headerlink" href="#exercise-user-timer-isr-for-polling-digital-inputs" title="Permalink to this headline">¶</a></h3>
+<p>This exercise is a little bit challenging, but demonstrate a very relevant problem and common use case for a timer.</p>
+<ol class="arabic simple">
+<li><p>Use the TimerOne library to generate an interrupt with a interval of 5 millisecond.</p></li>
+<li><p>Use the timer ISR to poll the state of three push buttons.</p></li>
+<li><p>Store the state of the push buttons, and compare them to the previous state. If the state remains stable for two invocations of the ISR, they should be considered valid (i.e. debounced).</p></li>
+<li><p>Write a function <code class="code ccode c docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">get_btn_rising_edge_event(uint8_t</span> <span class="pre">btn)</span></code> which returns true the first time it is called for a given button, after the button has had a rising edge. The function must reset a rising edge detected flag back to zero after invocation, in order to ensure that successive calls does not return true unless the flag has again been set by the ISR.</p></li>
+<li><p>Write a function <code class="code ccode c docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">get_btn_falling_edge_event(uint8_t</span> <span class="pre">btn)</span></code> which returns true the first time it is called for a given button, after the button has had a falling edge.</p></li>
+<li><p>Add a routine to <code class="code ccode c docutils literal notranslate"><span class="pre">loop()</span></code> which prints a message on rising, and falling edge of each push button.</p></li>
+</ol>
+</div>
 <div class="section" id="exercise-rgb-led-blinking">
 <h3>Exercise: RGB led blinking<a class="headerlink" href="#exercise-rgb-led-blinking" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
@@ -657,6 +703,110 @@ Pins 11 and 3: controlled by timer2</p>
 <li><p>Modify (or rewrite) your program to use the TimerOne library for the timing, and define your button as an external interrupt.</p></li>
 <li><p>Write a short summary of the advantages and disadvantages for each of your two solutions.</p></li>
 </ol>
+</div>
+</div>
+<div class="section" id="recursive-functions">
+<h2>Recursive functions<a class="headerlink" href="#recursive-functions" title="Permalink to this headline">¶</a></h2>
+<p>Since we know conditionals, functions, loops and arrays we can talk about common paradigm in programming languages: <strong>Recursive Functions</strong>. There are still discussions about whether recursive functions are bad or good, they are staple in procedural programming languages (like C, Fortran, Pascal) and also commonly used in object-oriented programming languages (like C++, C#, Python).</p>
+<p>By definition a recursive function is one that calls back to itself. The most common example might be the Fibonacci.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">ledPin</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+<span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">loop</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">fibonacci</span><span class="p">(</span><span class="nb">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>The good</strong> about recursive functions are generally shorter and more elegant. <strong>The bad</strong> sides of the recursion is mainly that recursive functions are less efficient than their iterative counterparts. Additionally, they are subject to the perils of stack overflows, which is <em>probably the most common</em> error in early programming languages that happens when program tries to use more memory space than the call stack has available.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://stackoverflow.com/">https://stackoverflow.com</a> is the number one website for programmers!</p>
+</div>
+<p>From Arduino perspective, the situation is 50/50. Recursive functions are resource intensive and we don’t like using any resources (neither memory nor power) on microcontrollers. An embedded software project has to do a resource budget. However, recursive functions are easy to implement and comprehend. Particularly sensor applications where there is a data to be manipulated based on previous readings, recursive functions can be an option.</p>
+<p>One last thing to note, it does not take too long to fill the 2KBytes memory of Arduino. If you need to recurse too much than you may need to free some memory. We will not get into details of it since it has too many branches when it comes to embedded systems programming. Particularly Run-time performance constraints and Memory constraints are acknowledged as the most effort requiring skills in all software applications. Since these are the most critical points in microcontrollers, embedded system software development is scientifically approved the <a class="reference external" href="https://en.wikipedia.org/wiki/COCOMO">most difficult of programming skills to master</a>.</p>
+</div>
+<div class="section" id="random">
+<h2>Random<a class="headerlink" href="#random" title="Permalink to this headline">¶</a></h2>
+<p>What is random? Is there such a thing?</p>
+<p>The arduino <code class="code docutils literal notranslate"><span class="pre">random()</span></code> function created <a class="reference external" href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator">Pseudorandom number</a>. However, it is not truely random. It creates random numbers based on an initial value. This initial value is the <code class="code docutils literal notranslate"><span class="pre">time(0)</span></code> where Arduino is first powered.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">long</span><span class="w"> </span><span class="n">randNumber</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// print a random number from 0 to 299</span>
+<span class="w">  </span><span class="n">randNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="mi">300</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">randNumber</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// print a random number from 10 to 19</span>
+<span class="w">  </span><span class="n">randNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">randNumber</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>It is quite a special subject in all programming languages. By providing different <em>seed</em> s. It is a bit of an issue in C# to create truely random but we are slightly luckier on the Arduino side.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// if analog input pin 0 is unconnected, random analog</span>
+<span class="w">  </span><span class="c1">// noise will cause the call to randomSeed() to generate</span>
+<span class="w">  </span><span class="c1">// different seed numbers each time the sketch runs.</span>
+<span class="w">  </span><span class="c1">// randomSeed() will then shuffle the random function.</span>
+<span class="w">  </span><span class="n">randomSeed</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">randomSeed(analogRead(0));</span></code> creates a random seed based on the noise signal on A0 pin.</p>
+<p>Check this out:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">long</span><span class="w"> </span><span class="n">randNumber</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// randomSeed(5);</span>
+<span class="w">  </span><span class="n">randomSeed</span><span class="p">(</span><span class="n">analogRead</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// print a random number from 0 to 299</span>
+<span class="w">  </span><span class="n">randNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="mi">300</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">randNumber</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// print a random unsigned int</span>
+<span class="w">  </span><span class="n">randNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">randNumber</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// print a random number from 10 to 19</span>
+<span class="w">  </span><span class="n">randNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">randNumber</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="summary">
@@ -729,13 +879,16 @@ Pins 11 and 3: controlled by timer2</p>
 </div>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dt class="label" id="f4"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://learn.adafruit.com/multi-tasking-the-arduino-part-2/what-is-an-interrupt">https://learn.adafruit.com/multi-tasking-the-arduino-part-2/what-is-an-interrupt</a></p>
+</dd>
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
 <dd><p>Izmir Institute of Technology - Department of Electrical and Electronics Engineering <em>EE443 - Embedded Systems lecture notes - 2013</em></p>
 </dd>
-<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p><a class="reference external" href="https://www.tutorialspoint.com/embedded_systems/es_timer_counter.htm">https://www.tutorialspoint.com/embedded_systems/es_timer_counter.htm</a></p>
 </dd>
-<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
 <dd><p><a class="reference external" href="https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072">https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072</a></p>
 </dd>
 </dl>
@@ -762,7 +915,7 @@ Pins 11 and 3: controlled by timer2</p>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L6_serial_io.html" title="Serial I/O" >previous</a></li>
-        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
+        <li><a href="L8_LC_display.html" title="LC-Display" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

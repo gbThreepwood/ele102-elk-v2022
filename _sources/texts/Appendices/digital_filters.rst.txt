@@ -25,6 +25,8 @@ Finite impulse response (FIR) filter
 Infinite impulse response (IIR) filter
 ======================================
 
+.. https://www.advsolned.com/iir-filters-practical-guide/
+
 .. Source: https://www.industrial-electronics.com/DAQ//understngng_dsp_6.html
 
 A infinite impulse response (IIR) filter as the name implies, has a theoretically infinite impulse response. This is due to feedback from the output back in to the input of the filter. In practice the impulse response will die off after a while due to limitations to the smallest value that can be stored in the memory of the computer performing the filtering.
@@ -53,3 +55,87 @@ Cascaded integrator comb (CIC)
 
 Kalman filter
 =============
+
+A Kalman filter uses a iterative mathematical process to quickly estimate the true value of some measurement which contains random noise or uncertainty.
+
+If you have a measurement which varies due to noise but in reality is constant, the average of the measurement will likely be closer to the real value than any given sample. The averaging process however will require a lot of samples before it stabilizes close to the real value, with a Kalman filter this will be much faster.
+
+Single value estimation
+------------------------
+
+The Kalman filter is effective for estimation of multiple values simultaneously, but initially we will describe how to estimate a single value.
+
+- Calculate the Kalman gain
+- Calculate the current estimate
+- Calculate the uncertainty (often referred to as the error) in the estimate.
+
+
+The Kalman gain is the ratio of the error in the estimate, to the sum of the errors in estimate and measurement.
+
+.. math::
+
+    K_k = \frac{\epsilon_{est}}{\epsilon_{est} + \epsilon_{meas}}
+
+If the Kalman gain :math:`K_k` is high (close to 1) it means that our measurements are accurate with respect to our estimates. I.e. the fraction is approximately equal to:
+
+.. math::
+    
+    K_k = \frac{\epsilon_{est}}{\epsilon_{est} + \epsilon_{meas}} \approx \frac{\epsilon_{est}}{\epsilon_{est}}  
+
+If this is the case we put more emphasis on the measurements than we do on the previous estimate. The estimate for the current iteration is computed by:
+
+.. todo: verify that zk is really the standard symbol for the measurement
+
+.. math::
+
+    \hat{x}_k = \hat{x}_{k - 1} + K_k (z_k - \hat{x}_{k - 1})
+
+Where :math:`z_k` is the measurement for the current iteration, :math:`\hat{x}_k` is the estimate for the current iteration, and :math:`\hat{x}_{k - 1}` is the estimate for the previous iteration. A high Kalman gain means that we consider the difference between measurement and previous estimate to be important, and allow it to have a large impact on our current estimate. As the estimate improves however, we put less emphasis on the difference between estimate and measurement.
+
+
+.. math::
+
+    \epsilon_{est(k)} = (1 - K_k) \epsilon_{est(k - 1)}
+
+
+Temperature measurement using single sensor
+-------------------------------------------
+
+
+Multi dimensional models
+------------------------
+
+.. math::
+
+    x_k = A x_{k - 1} + B u_k + \omega_k
+
+E.g. a state matrix for position and velocity in the x direction could look like:
+
+.. math::
+
+    x =
+    \begin{bmatrix}
+    x \\
+    \dot{x}
+    \end{bmatrix}
+
+
+.. math::
+
+    x =
+    \begin{bmatrix}
+    x \\
+    y \\
+    z \\
+    \dot{x} \\
+    \dot{y} \\
+    \dot{z}
+    \end{bmatrix}
+
+
+
+
+Temperature measurement using multiple sensors
+----------------------------------------------
+
+In this example we will combine the measurements from multiple temperature sensors, in order to obtain a better estimate of the actual temperature than we would obtain from the filtered value of a single temperature sensor.

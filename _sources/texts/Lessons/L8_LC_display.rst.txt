@@ -4,8 +4,7 @@
 LC-Display
 *****************
 
-.. note::
-   Write down Vcc,Vee,Vdd,Vss.
+.. .. note:: Write down Vcc,Vee,Vdd,Vss.
 
 
 .. role:: ccode(code)
@@ -21,24 +20,46 @@ Operation of the Hitachi HD44780 display controller
 
 The Hitachi HD44780 is a display controller for character displays, which includes support for ASCII, Japanese, and some additional symbols :cite:`hitachiHD44780Datasheet1998`. Many LC-displays, and vacuum fluorescent displays (VFD) controllers are compatible with the HD44780.
 
-For simple display applications where one only needs to display text, this kind of display is a popular option.
+For simple display applications where one only needs to display text, this kind of display is a popular option. The display is available from multiple manufactures, and with varying size. I.e. with variation in the number of character which can be displayed.
+
+
+Electrical interface
+--------------------
+
+The electrical interface to the HD44780 compatible LC-display consists of several digital control signals, 4 or 8 wires with data, and a clock signal.
+
+- RS - Register select. Select between the data, and the command registers. When RS is low we are in command mode.
+- R/W - Read/write. Selects between reading and writing to the LCD controller. Reading is often not used, and the pin is simply tied low (to ground) for write mode.
+- EN - Enable. The enable signal is the clock signal where the controller asserts the state of the data inputs.
+- Bit 0 to Bin 7 is the data input pins. In 4 bit mode only bit 4 to bit 7 is in use.
+
+Communication protocols
+-----------------------
+
+The communication protocol for the HD44780 compatible LC-display is relatively simple, and uses dedicated wires for switching between read and write mode, as well as for switching between command and data mode.
+
 
 
 Arduino control of Hitachi HD44780 compatible display
 ======================================================
 
-Arduino comes with a official HD44780 library, which we will be using in the following sections. There are however several more capable libraries available, if you feel that this library is too limiting.
 
-.. note:: Even though the library is official, you may still have to install it. The steps for installation will wary depending on which platform you are using (PlatformIO, or official Arduino IDE).
+.. .. note:: Even though the library is official, you may still have to install it. The steps for installation will wary depending on which platform you are using (PlatformIO, or official Arduino IDE).
 
-The following code will create a instance of the `LiquidCrystal` object called `lcd`. We will be using the `lcd` instance in the examples to follow.
+Arduino comes with a official HD44780 library, but there are several more capable libraries available. In this lesson we will be using the LiquidCrystal library by *F Malpartida*, which is compatible with the original Arduino LiquidCrystal library but faster and with more features.
+
+.. figure:: ../../fig/screenshots/platformio-liquid-crystal-library.png
+  :alt: LiquidCrystal library installation.
+  :align: center
+
+Once the library is installed the following code will create a instance of the `LiquidCrystal` object called `lcd`. We will be using the `lcd` instance in the examples to follow.
 
 .. code-block:: c
 
     const uint8_t rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
     LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-The LCD library functions we will be using in this tutorial are:
+Some of the LCD library methods we will be using in this lesson include:
 
 - `lcd.begin() <https://www.arduino.cc/en/Reference/LiquidCrystalBegin>`_
 - `lcd.write() <https://www.arduino.cc/en/Reference/LiquidCrystalWrite>`_
@@ -55,13 +76,46 @@ In the following examples we will be using this circuit:
     :scale: 50
     :align: center
 
+Electrical test
+---------------
+
+Adjust the resistance of the potmeter until black squares are clearly visible on the top row of the LC-display. The bottom row should remain blank. Try to exceed the optimum value and observe that black squares appear in both rows, but make sure to only have squares in one row before you proceed with the firmware tests. 
+
+The backlight of the LC-display should be illuminated.
+
+Software test
+----------------
+
+In order to verify the operation of our LC-display, a very simple firmware will be used for the initial test.
+
+
+.. literalinclude:: ../../../projects/platformio/lc-display/hello-lc-display/src/main.cpp
+    :language: c
+
+
+The first two lines of interest provides meaningful names to some pin numbers, and instantiate the :ccode:`LiquidCrystal` object:
+
+.. code-block:: c
+
+    const uint8_t rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
+    LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+Further down in the :ccode:`setup()` function, the LCD driver is initialized and configured for a 16x2 character display by the method :ccode:`lcd.begin(16, 2);`. Finally the method :ccode:`lcd.print("Hello, world!");` prints the text "Hello, world!" to the display. The cursor is automatically advanced as each character is transferred to the display.
+
+Exercises and examples
+======================
+
+This section contains examples on how to use the LC-display, and various exercises which allows you to practice the use of the display.
+
 Display uptime in seconds on UART and LCD
 ------------------------------------------
 
-In the following example the current uptime in seconds is displayed on the LCD, as well as on the UART. There is one important difference to note between the two, as the cursor on the LCD is moved back with the :ccode:`setCursor()` method, while the cursor in your serial terminal is always moving forward.
+In the following example the current uptime in seconds is displayed on the LCD, as well as on the UART. There is one important difference to note between the two, as the cursor on the LCD is moved back with the :ccode:`setCursor()` method, while the cursor in your serial terminal is always moving forward. As you can probably realize a set cursor method for your serial monitor would be a useful addition in many cases. This is unfortunately not supported by the basic serial monitors in the Arduino IDE, or PlatformIO. It is possible to use more advanced serial monitors which supports this, but it will not be discussed in this lesson.
 
 .. literalinclude:: ../../../projects/lc_display_uptime/src/main.cpp
     :language: c
+
+It should be noted that since the :ccode:`setCursor()` method only move the cursor without deleting the text on the display, it is possible that some old and irrelevant text remains in the display after you try to print some new value. For the uptime example in this section it will not be a problem since the uptime is always increasing, but consider the case where you sometimes would print a number with fewer digits than the previous number. Some of the digits in the old number would remain in the display, and the reading would thus be incorrect. There are several possible solutions to this problem, one of which is to simply clear the display before printing some new value. This is achieved by calling the method :ccode:`lcd.clear();` This is demonstrated in the next section.
 
 
 Display voltage value from potmeter
@@ -71,6 +125,28 @@ In this example we will read a analog value from a potmeter connected to `A0`. T
 
 .. literalinclude:: ../../../projects/lc_display_potmeter_value/src/main.cpp
     :language: c
+
+
+Exercise: thermometer
+----------------------
+
+
+In this exercise you will develop a thermometer which displays the temperature on a LC-display, as well as on the UART. You will use the `TMP36 <https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf>`_ sensor which is included in the Arduino kit.
+
+The following wiring of the LC-display and thermometer can be used. Here the LC-display is rotated 180 degrees with respect to the previous examples. This makes the orientation of the display correct with respect to the orientatin of the Arduino, but also makes the wiring more cumbersome.
+
+.. figure:: ../../fig/fritzing/arduino_lc-display-thermometer_bb.png
+    :scale: 50
+    :align: center
+
+
+#. Write the code required to read the temperature once every second and print the value to the UART. Use :ccode:`millis()` instead of :ccode:`delay()`.
+#. Add the code required to print the temperature on the LC-display.
+#. Cooperate with one of your classmates, and wire up two temperature sensors to the same Arduino UNO. Print the value of both sensors simultaneously to the LC-display. One of the sensors could be used for measuring the outside temperature, while the other measures the inside temperature (as in a classical electrical temperature sensor for your home).
+#. The temperature sensors in the Arduino kit (TMP36) are not very accurate. The datasheet states a +/- 2 degree accuracy over the specified temperature range. If this inaccuracy has a normal distribution, higher accuracy could be obtained by averaging the temperature reading over multiple samples. Write the code required to take the average over 20 samples.
+ 
+..   #. **Optionally:** add a cable to one of your temperature sensors so it can be placed outside, while the other sensor remains inside.
+     #. **Optionally:** add a Matlab/Python/C# program to your PC which receives the data from the UART on your temperature sensing Arduino, and write the received data to a file. Create a graph of the temperature variation over time. Try to have the program running for a few days, monitoring the temperature inside, and outside of your apartment.
 
 
 Splash screen and scrolling text
@@ -130,60 +206,23 @@ The following source code implements the state machine, as well as the additiona
 .. literalinclude:: ../../../projects/lc_display_voltmeter/src/main.cpp
     :language: c 
 
-Graphic LC-display
-==================
 
-.. note:: Graphic LC-displays are outside the curriculum of the course, and only mentioned briefly for completeness.
+Adding custom character to the display
+--------------------------------------
 
-Graphic LC-displays are often controlled by writing to a memory. Each bit it the memory may control a whole pixel on simple displays, or parts of a pixel (e.g. its brightness, or color), on more complex displays.
+A HD44780 compatible display is capable of storing up to 8 custom characters. These characters are stored in a volatile memory, and must be transferred to the LC-display after each power cycle. The characters will be accessible like any normal character, on the addresses 0x00 to 0x07. If you look carefully on the LC-display, you may observe that each character is printed in a rectangle which is 5 pixels wide, and 8 pixel tall. We have :math:`5 \cdot 8 = 40` pixels. Each custom character uses 8 bytes of memory, where each byte stores one row of 5 pixels. The bits 0 to 4 in each byte are used to set the respective pixels high or low, while the bits 5 - 7 are not used.
 
-For simple displays each bit of the memory turns a pixel on or off.
+The following code demonstrates how to use the LiquidCrystal library for defining of custom characters. In the example several battery icon characters are defined, which could be useful to indicate the battery status of some battery powered device.
+
+.. literalinclude:: ../../../projects/platformio/lc-display/custom-character-lc-display/src/main.cpp
+    :language: c
+    :linenos:
+
+You will sometimes see creative combination of multiple pixel blocks in order to create more spectacular characters (or simple drawings). Since the character memory can be updated while the display is running, the 8 custom character limitation can be overcome by having more character defined in the microcontroller firmware, and transfer them when they are needed.
 
 .. rubric:: Footnotes
 
 .. [#f1] A LC-display is often erroneously referred to as a LCD-display. This kind of cognitive error is known as RAS syndrome (redundant acronym syndrome syndrome).
-
-LCD and Interrupt Class Activity Codes
-======================================
-
-Here are the codes of the class activity. The aim is to get rid of the :code:`delay(ms)` and use the time in a wiser way. The example is taken from `EEenhusiast <https://eeenthusiast.com/arduino-delay-function-tutorial-on-software-interrupts-timer-library-alternatives-to-delay/>`_. So let's get started.
-
-We have LCD circuit already built from the previous examples. We also attached a potentiometer to pin :code:`A0`. We would like to read the analog value from this potentiometer and display in on LCD immediately. 
-
-In the working principle of the LCD, you have to :code:`print` the characters and :code:`clear` the LCD afterwards. Otherwise, you will have a blended display. You can try it out by yourself only with :code:`lcd.print()` and removing the :code:`lcd.clear()` in your code.
-
-There is one important point in printing/clearing the LCD. If you clear the display so quickly, then you have a flicker problem. That's why, it is better to wait a little before clearing the screen for a better display quality. The following code is the simplest way to do it.
-
-.. literalinclude:: ../../../projects/LCD_Interrupts_1/LCD_Interrupts_1.ino
-    :language: c 
-
-This code works perfectly in such a simple program. However, delays are always enemies of bigger programs. :code:`delay(ms)` stops all other executions, such as pin read/write, calculations, communications with the other sensors etc. Basically it halts the whole process in the specified period of time. That's why delays are one of the biggest problems in efficiency.
-
-Insted of using a :code:`delay(ms)` function, we can use :code:`millis()` function. We can set a time interval and execute the routine in everr interval of time. Here is the same code without using any delay function.
-
-.. literalinclude:: ../../../projects/LCD_Interrupts_2/LCD_Interrupts_2.ino
-    :language: c 
-
-Now, you can execute any other processes in your main function without adding an extra waiting time.
-
-However, this is still not the efficient way. There is another process that takes a lot of time in the main process. We can do in in another way since there is a hidden "delay" or a "wait" in this process. Yes, I am talking about :code:`analogRead(A0)`. 
-
-ADC is a pretty slow process compated to many other processes that you execute on a microcontroller. Actually, you don't have to wait the whole time of the conversion. You can instead set an ISR (Interrupt Service Routine) and pull the data in a specified period of time. The next code shows how it is done.
-
-.. literalinclude:: ../../../projects/LCD_Interrupts_3/LCD_Interrupts_3.ino
-    :language: c 
-
-
-As you can see, we moved the ADC process in an ISR function. We call this ISR function in every 100000 microseconds (as we specified in the :code:`setup()` function.
-
-Yet, there is one more step to increase efficiency here. We can merge the wait time for LCD to clear and the conversion time for the analogRead. If we get rid of the waiting setup with the millis() function and move this process intp the ISR, we can achive this objective. Here is the code for that.
-
-.. literalinclude:: ../../../projects/LCD_Interrupts_4/LCD_Interrupts_4.ino
-    :language: c 
-
-
-Here you see a long long delay. This is only to demonstrate other processes that you may do inside your main function. It wouldn't be nice to leave the main function completely empty but it doesn't have any purpose at all. Also, see that the :code:`delay(ms)` function is only be cut off with an interrupt routine.
-
 
 Bibliography
 ============

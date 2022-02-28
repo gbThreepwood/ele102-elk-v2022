@@ -26,11 +26,11 @@
   }
 </style>
 
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -45,6 +45,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -82,7 +83,13 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#cascaded-integrator-comb-cic">Cascaded integrator comb (CIC)</a></li>
-<li><a class="reference internal" href="#kalman-filter">Kalman filter</a></li>
+<li><a class="reference internal" href="#kalman-filter">Kalman filter</a><ul>
+<li><a class="reference internal" href="#single-value-estimation">Single value estimation</a></li>
+<li><a class="reference internal" href="#temperature-measurement-using-single-sensor">Temperature measurement using single sensor</a></li>
+<li><a class="reference internal" href="#multi-dimensional-models">Multi dimensional models</a></li>
+<li><a class="reference internal" href="#temperature-measurement-using-multiple-sensors">Temperature measurement using multiple sensors</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -137,6 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L8_LC_display.html">Lesson 8: LC-Display</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -340,6 +348,58 @@
 </div>
 <div class="section" id="kalman-filter">
 <h2>Kalman filter<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">¶</a></h2>
+<p>A Kalman filter uses a iterative mathematical process to quickly estimate the true value of some measurement which contains random noise or uncertainty.</p>
+<p>If you have a measurement which varies due to noise but in reality is constant, the average of the measurement will likely be closer to the real value than any given sample. The averaging process however will require a lot of samples before it stabilizes close to the real value, with a Kalman filter this will be much faster.</p>
+<div class="section" id="single-value-estimation">
+<h3>Single value estimation<a class="headerlink" href="#single-value-estimation" title="Permalink to this headline">¶</a></h3>
+<p>The Kalman filter is effective for estimation of multiple values simultaneously, but initially we will describe how to estimate a single value.</p>
+<ul class="simple">
+<li><p>Calculate the Kalman gain</p></li>
+<li><p>Calculate the current estimate</p></li>
+<li><p>Calculate the uncertainty (often referred to as the error) in the estimate.</p></li>
+</ul>
+<p>The Kalman gain is the ratio of the error in the estimate, to the sum of the errors in estimate and measurement.</p>
+<div class="math notranslate nohighlight">
+\[K_k = \frac{\epsilon_{est}}{\epsilon_{est} + \epsilon_{meas}}\]</div>
+<p>If the Kalman gain <span class="math notranslate nohighlight">\(K_k\)</span> is high (close to 1) it means that our measurements are accurate with respect to our estimates. I.e. the fraction is approximately equal to:</p>
+<div class="math notranslate nohighlight">
+\[K_k = \frac{\epsilon_{est}}{\epsilon_{est} + \epsilon_{meas}} \approx \frac{\epsilon_{est}}{\epsilon_{est}}\]</div>
+<p>If this is the case we put more emphasis on the measurements than we do on the previous estimate. The estimate for the current iteration is computed by:</p>
+<div class="math notranslate nohighlight">
+\[\hat{x}_k = \hat{x}_{k - 1} + K_k (z_k - \hat{x}_{k - 1})\]</div>
+<p>Where <span class="math notranslate nohighlight">\(z_k\)</span> is the measurement for the current iteration, <span class="math notranslate nohighlight">\(\hat{x}_k\)</span> is the estimate for the current iteration, and <span class="math notranslate nohighlight">\(\hat{x}_{k - 1}\)</span> is the estimate for the previous iteration. A high Kalman gain means that we consider the difference between measurement and previous estimate to be important, and allow it to have a large impact on our current estimate. As the estimate improves however, we put less emphasis on the difference between estimate and measurement.</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{est(k)} = (1 - K_k) \epsilon_{est(k - 1)}\]</div>
+</div>
+<div class="section" id="temperature-measurement-using-single-sensor">
+<h3>Temperature measurement using single sensor<a class="headerlink" href="#temperature-measurement-using-single-sensor" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="multi-dimensional-models">
+<h3>Multi dimensional models<a class="headerlink" href="#multi-dimensional-models" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[x_k = A x_{k - 1} + B u_k + \omega_k\]</div>
+<p>E.g. a state matrix for position and velocity in the x direction could look like:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}x =
+\begin{bmatrix}
+x \\
+\dot{x}
+\end{bmatrix}\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}x =
+\begin{bmatrix}
+x \\
+y \\
+z \\
+\dot{x} \\
+\dot{y} \\
+\dot{z}
+\end{bmatrix}\end{split}\]</div>
+</div>
+<div class="section" id="temperature-measurement-using-multiple-sensors">
+<h3>Temperature measurement using multiple sensors<a class="headerlink" href="#temperature-measurement-using-multiple-sensors" title="Permalink to this headline">¶</a></h3>
+<p>In this example we will combine the measurements from multiple temperature sensors, in order to obtain a better estimate of the actual temperature than we would obtain from the filtered value of a single temperature sensor.</p>
+</div>
 </div>
 </div>
 

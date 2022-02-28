@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Understanding the organization of the micocontroller memory &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
+    <title>&lt;no title&gt; &mdash; ELE102 Microcontroller course v1.1.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -26,11 +26,11 @@
   }
 </style>
 
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -68,27 +68,6 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown visible-xs">
-                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
-                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
-                <ul>
-<li><a class="reference internal" href="#">Understanding the organization of the micocontroller memory</a><ul>
-<li><a class="reference internal" href="#determine-ram-memory-usage">Determine RAM memory usage</a></li>
-<li><a class="reference internal" href="#using-the-eeprom">Using the EEPROM</a><ul>
-<li><a class="reference internal" href="#manage-the-memory-stucture-for-complex-projects">Manage the memory stucture for complex projects</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#using-external-memory">Using external memory</a><ul>
-<li><a class="reference internal" href="#external-eeprom">External EEPROM</a></li>
-<li><a class="reference internal" href="#sd-card">SD-card</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-                </ul>
-              </li>
 
             
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
@@ -137,6 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L6_serial_io.html">Lesson 6: Serial I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons/L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons/L8_LC_display.html">Lesson 8: LC-Display</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -192,47 +172,7 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="understanding-the-organization-of-the-micocontroller-memory">
-<span id="microcontroller-memory"></span><h1>Understanding the organization of the micocontroller memory<a class="headerlink" href="#understanding-the-organization-of-the-micocontroller-memory" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="determine-ram-memory-usage">
-<h2>Determine RAM memory usage<a class="headerlink" href="#determine-ram-memory-usage" title="Permalink to this headline">¶</a></h2>
-<p>In many applications it is not possible to determine the RAM usage during compile time. It might depend on the amount of external input that the micocontroller receives.</p>
-<p>The compiler defines some symbols that may be used to compute the RAM usage at run time.</p>
-<p><cite>__heap_start</cite>
-<cite>__brkval</cite></p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">extern</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__bss_end</span><span class="p">;</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__heap_start</span><span class="p">;</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">__brkval</span><span class="p">;</span><span class="w"></span>
-<span class="kt">int</span><span class="w"> </span><span class="nf">freeMemory</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">free_memory</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">if</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">__brkval</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">free_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="o">&amp;</span><span class="n">free_memory</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="o">&amp;</span><span class="n">__bss_end</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="k">else</span><span class="w"></span>
-<span class="w">    </span><span class="n">free_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="o">&amp;</span><span class="n">free_memory</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">__brkval</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">free_memory</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="using-the-eeprom">
-<h2>Using the EEPROM<a class="headerlink" href="#using-the-eeprom" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="manage-the-memory-stucture-for-complex-projects">
-<h3>Manage the memory stucture for complex projects<a class="headerlink" href="#manage-the-memory-stucture-for-complex-projects" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="using-external-memory">
-<h2>Using external memory<a class="headerlink" href="#using-external-memory" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="external-eeprom">
-<h3>External EEPROM<a class="headerlink" href="#external-eeprom" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="sd-card">
-<h3>SD-card<a class="headerlink" href="#sd-card" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-</div>
-
+  <span class="target" id="microcontroller-memory"></span>
 
                 </div>
               </div>

@@ -26,11 +26,11 @@
   }
 </style>
 
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -45,6 +45,7 @@
     <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
@@ -52,7 +53,9 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="prev" title="Interrupts and timers" href="L7_timer_interrupt.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -73,18 +76,27 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">LC-Display</a><ul>
-<li><a class="reference internal" href="#operation-of-the-hitachi-hd44780-display-controller">Operation of the Hitachi HD44780 display controller</a></li>
+<li><a class="reference internal" href="#operation-of-the-hitachi-hd44780-display-controller">Operation of the Hitachi HD44780 display controller</a><ul>
+<li><a class="reference internal" href="#electrical-interface">Electrical interface</a></li>
+<li><a class="reference internal" href="#communication-protocols">Communication protocols</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#arduino-control-of-hitachi-hd44780-compatible-display">Arduino control of Hitachi HD44780 compatible display</a><ul>
+<li><a class="reference internal" href="#electrical-test">Electrical test</a></li>
+<li><a class="reference internal" href="#software-test">Software test</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises-and-examples">Exercises and examples</a><ul>
 <li><a class="reference internal" href="#display-uptime-in-seconds-on-uart-and-lcd">Display uptime in seconds on UART and LCD</a></li>
 <li><a class="reference internal" href="#display-voltage-value-from-potmeter">Display voltage value from potmeter</a></li>
+<li><a class="reference internal" href="#exercise-thermometer">Exercise: thermometer</a></li>
 <li><a class="reference internal" href="#splash-screen-and-scrolling-text">Splash screen and scrolling text</a></li>
 <li><a class="reference internal" href="#display-data-from-uart">Display data from UART</a></li>
 <li><a class="reference internal" href="#display-data-in-different-formats">Display data in different formats</a></li>
 <li><a class="reference internal" href="#voltmeter-with-selectable-scaling">Voltmeter with selectable scaling</a></li>
+<li><a class="reference internal" href="#adding-custom-character-to-the-display">Adding custom character to the display</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#graphic-lc-display">Graphic LC-display</a></li>
-<li><a class="reference internal" href="#lcd-and-interrupt-class-activity-codes">LCD and Interrupt Class Activity Codes</a></li>
 <li><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
@@ -94,6 +106,8 @@
               </li>
 
             
+              <li><a href="L7_timer_interrupt.html" title="Interrupts and timers" accesskey="P">previous </a></li>
+              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -129,7 +143,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
@@ -140,6 +154,31 @@
 <li class="toctree-l1"><a class="reference internal" href="L5_adc.html">Lesson 5: Analog to digital conversion (ADC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 8: LC-Display</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operation-of-the-hitachi-hd44780-display-controller">Operation of the Hitachi HD44780 display controller</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#electrical-interface">Electrical interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#communication-protocols">Communication protocols</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#arduino-control-of-hitachi-hd44780-compatible-display">Arduino control of Hitachi HD44780 compatible display</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#electrical-test">Electrical test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-test">Software test</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises-and-examples">Exercises and examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#display-uptime-in-seconds-on-uart-and-lcd">Display uptime in seconds on UART and LCD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display-voltage-value-from-potmeter">Display voltage value from potmeter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-thermometer">Exercise: thermometer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splash-screen-and-scrolling-text">Splash screen and scrolling text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display-data-from-uart">Display data from UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display-data-in-different-formats">Display data in different formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#voltmeter-with-selectable-scaling">Voltmeter with selectable scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-custom-character-to-the-display">Adding custom character to the display</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -185,6 +224,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="L7_timer_interrupt.html"
+                          title="previous chapter">Interrupts and timers</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
+                          title="next chapter">Additional material for lesson 1</a></p>
+  </div>
   </div>
 </div> 
         
@@ -197,30 +246,39 @@
                   
   <div class="section" id="lc-display">
 <h1>LC-Display<a class="headerlink" href="#lc-display" title="Permalink to this headline">¶</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Write down Vcc,Vee,Vdd,Vss.</p>
-</div>
 <p>A Liquid crystal display (LCD) <a class="footnote-reference brackets" href="#f1" id="id1">1</a> is a form of flat panel display where liquid crystals are used to modulate light in order to change the appearance of the display.</p>
 <p>Some displays are application specific, and only support displaying certain patterns (e.g. only numbers, or only text). Others consists of a matrix of pixels, where each individual pixel is controlled independently, either on/off, in different shades, or even in color.</p>
 <div class="section" id="operation-of-the-hitachi-hd44780-display-controller">
 <h2>Operation of the Hitachi HD44780 display controller<a class="headerlink" href="#operation-of-the-hitachi-hd44780-display-controller" title="Permalink to this headline">¶</a></h2>
 <p>The Hitachi HD44780 is a display controller for character displays, which includes support for ASCII, Japanese, and some additional symbols <span id="id2">[]</span>. Many LC-displays, and vacuum fluorescent displays (VFD) controllers are compatible with the HD44780.</p>
-<p>For simple display applications where one only needs to display text, this kind of display is a popular option.</p>
+<p>For simple display applications where one only needs to display text, this kind of display is a popular option. The display is available from multiple manufactures, and with varying size. I.e. with variation in the number of character which can be displayed.</p>
+<div class="section" id="electrical-interface">
+<h3>Electrical interface<a class="headerlink" href="#electrical-interface" title="Permalink to this headline">¶</a></h3>
+<p>The electrical interface to the HD44780 compatible LC-display consists of several digital control signals, 4 or 8 wires with data, and a clock signal.</p>
+<ul class="simple">
+<li><p>RS - Register select. Select between the data, and the command registers. When RS is low we are in command mode.</p></li>
+<li><p>R/W - Read/write. Selects between reading and writing to the LCD controller. Reading is often not used, and the pin is simply tied low (to ground) for write mode.</p></li>
+<li><p>EN - Enable. The enable signal is the clock signal where the controller asserts the state of the data inputs.</p></li>
+<li><p>Bit 0 to Bin 7 is the data input pins. In 4 bit mode only bit 4 to bit 7 is in use.</p></li>
+</ul>
+</div>
+<div class="section" id="communication-protocols">
+<h3>Communication protocols<a class="headerlink" href="#communication-protocols" title="Permalink to this headline">¶</a></h3>
+<p>The communication protocol for the HD44780 compatible LC-display is relatively simple, and uses dedicated wires for switching between read and write mode, as well as for switching between command and data mode.</p>
+</div>
 </div>
 <div class="section" id="arduino-control-of-hitachi-hd44780-compatible-display">
 <h2>Arduino control of Hitachi HD44780 compatible display<a class="headerlink" href="#arduino-control-of-hitachi-hd44780-compatible-display" title="Permalink to this headline">¶</a></h2>
-<p>Arduino comes with a official HD44780 library, which we will be using in the following sections. There are however several more capable libraries available, if you feel that this library is too limiting.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Even though the library is official, you may still have to install it. The steps for installation will wary depending on which platform you are using (PlatformIO, or official Arduino IDE).</p>
+<p>Arduino comes with a official HD44780 library, but there are several more capable libraries available. In this lesson we will be using the LiquidCrystal library by <em>F Malpartida</em>, which is compatible with the original Arduino LiquidCrystal library but faster and with more features.</p>
+<div class="figure align-center">
+<img alt="LiquidCrystal library installation." src="../../_images/platformio-liquid-crystal-library.png" />
 </div>
-<p>The following code will create a instance of the <cite>LiquidCrystal</cite> object called <cite>lcd</cite>. We will be using the <cite>lcd</cite> instance in the examples to follow.</p>
+<p>Once the library is installed the following code will create a instance of the <cite>LiquidCrystal</cite> object called <cite>lcd</cite>. We will be using the <cite>lcd</cite> instance in the examples to follow.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
 <span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The LCD library functions we will be using in this tutorial are:</p>
+<p>Some of the LCD library methods we will be using in this lesson include:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.arduino.cc/en/Reference/LiquidCrystalBegin">lcd.begin()</a></p></li>
 <li><p><a class="reference external" href="https://www.arduino.cc/en/Reference/LiquidCrystalWrite">lcd.write()</a></p></li>
@@ -234,9 +292,48 @@
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/lc_display_bb.png"><img alt="../../_images/lc_display_bb.png" src="../../_images/lc_display_bb.png" style="width: 487.5px; height: 778.5px;" /></a>
 </div>
+<div class="section" id="electrical-test">
+<h3>Electrical test<a class="headerlink" href="#electrical-test" title="Permalink to this headline">¶</a></h3>
+<p>Adjust the resistance of the potmeter until black squares are clearly visible on the top row of the LC-display. The bottom row should remain blank. Try to exceed the optimum value and observe that black squares appear in both rows, but make sure to only have squares in one row before you proceed with the firmware tests.</p>
+<p>The backlight of the LC-display should be illuminated.</p>
+</div>
+<div class="section" id="software-test">
+<h3>Software test<a class="headerlink" href="#software-test" title="Permalink to this headline">¶</a></h3>
+<p>In order to verify the operation of our LC-display, a very simple firmware will be used for the initial test.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Configure the library for the number of columns and rows</span>
+<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Print a message to the LDC</span>
+<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// put your main code here, to run repeatedly:</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The first two lines of interest provides meaningful names to some pin numbers, and instantiate the <code class="code ccode c docutils literal notranslate"><span class="pre">LiquidCrystal</span></code> object:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Further down in the <code class="code ccode c docutils literal notranslate"><span class="pre">setup()</span></code> function, the LCD driver is initialized and configured for a 16x2 character display by the method <code class="code ccode c docutils literal notranslate"><span class="pre">lcd.begin(16,</span> <span class="pre">2);</span></code>. Finally the method <code class="code ccode c docutils literal notranslate"><span class="pre">lcd.print(&quot;Hello,</span> <span class="pre">world!&quot;);</span></code> prints the text “Hello, world!” to the display. The cursor is automatically advanced as each character is transferred to the display.</p>
+</div>
+</div>
+<div class="section" id="exercises-and-examples">
+<h2>Exercises and examples<a class="headerlink" href="#exercises-and-examples" title="Permalink to this headline">¶</a></h2>
+<p>This section contains examples on how to use the LC-display, and various exercises which allows you to practice the use of the display.</p>
 <div class="section" id="display-uptime-in-seconds-on-uart-and-lcd">
 <h3>Display uptime in seconds on UART and LCD<a class="headerlink" href="#display-uptime-in-seconds-on-uart-and-lcd" title="Permalink to this headline">¶</a></h3>
-<p>In the following example the current uptime in seconds is displayed on the LCD, as well as on the UART. There is one important difference to note between the two, as the cursor on the LCD is moved back with the <code class="code ccode c docutils literal notranslate"><span class="pre">setCursor()</span></code> method, while the cursor in your serial terminal is always moving forward.</p>
+<p>In the following example the current uptime in seconds is displayed on the LCD, as well as on the UART. There is one important difference to note between the two, as the cursor on the LCD is moved back with the <code class="code ccode c docutils literal notranslate"><span class="pre">setCursor()</span></code> method, while the cursor in your serial terminal is always moving forward. As you can probably realize a set cursor method for your serial monitor would be a useful addition in many cases. This is unfortunately not supported by the basic serial monitors in the Arduino IDE, or PlatformIO. It is possible to use more advanced serial monitors which supports this, but it will not be discussed in this lesson.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
 
@@ -273,6 +370,7 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
+<p>It should be noted that since the <code class="code ccode c docutils literal notranslate"><span class="pre">setCursor()</span></code> method only move the cursor without deleting the text on the display, it is possible that some old and irrelevant text remains in the display after you try to print some new value. For the uptime example in this section it will not be a problem since the uptime is always increasing, but consider the case where you sometimes would print a number with fewer digits than the previous number. Some of the digits in the old number would remain in the display, and the reading would thus be incorrect. There are several possible solutions to this problem, one of which is to simply clear the display before printing some new value. This is achieved by calling the method <code class="code ccode c docutils literal notranslate"><span class="pre">lcd.clear();</span></code> This is demonstrated in the next section.</p>
 </div>
 <div class="section" id="display-voltage-value-from-potmeter">
 <h3>Display voltage value from potmeter<a class="headerlink" href="#display-voltage-value-from-potmeter" title="Permalink to this headline">¶</a></h3>
@@ -324,6 +422,20 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="exercise-thermometer">
+<h3>Exercise: thermometer<a class="headerlink" href="#exercise-thermometer" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise you will develop a thermometer which displays the temperature on a LC-display, as well as on the UART. You will use the <a class="reference external" href="https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf">TMP36</a> sensor which is included in the Arduino kit.</p>
+<p>The following wiring of the LC-display and thermometer can be used. Here the LC-display is rotated 180 degrees with respect to the previous examples. This makes the orientation of the display correct with respect to the orientatin of the Arduino, but also makes the wiring more cumbersome.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/arduino_lc-display-thermometer_bb.png"><img alt="../../_images/arduino_lc-display-thermometer_bb.png" src="../../_images/arduino_lc-display-thermometer_bb.png" style="width: 727.5px; height: 661.5px;" /></a>
+</div>
+<ol class="arabic simple">
+<li><p>Write the code required to read the temperature once every second and print the value to the UART. Use <code class="code ccode c docutils literal notranslate"><span class="pre">millis()</span></code> instead of <code class="code ccode c docutils literal notranslate"><span class="pre">delay()</span></code>.</p></li>
+<li><p>Add the code required to print the temperature on the LC-display.</p></li>
+<li><p>Cooperate with one of your classmates, and wire up two temperature sensors to the same Arduino UNO. Print the value of both sensors simultaneously to the LC-display. One of the sensors could be used for measuring the outside temperature, while the other measures the inside temperature (as in a classical electrical temperature sensor for your home).</p></li>
+<li><p>The temperature sensors in the Arduino kit (TMP36) are not very accurate. The datasheet states a +/- 2 degree accuracy over the specified temperature range. If this inaccuracy has a normal distribution, higher accuracy could be obtained by averaging the temperature reading over multiple samples. Write the code required to take the average over 20 samples.</p></li>
+</ol>
 </div>
 <div class="section" id="splash-screen-and-scrolling-text">
 <h3>Splash screen and scrolling text<a class="headerlink" href="#splash-screen-and-scrolling-text" title="Permalink to this headline">¶</a></h3>
@@ -598,15 +710,78 @@ VOLT -&gt; MILLIVOLT : toggle_button"/>
 </pre></div>
 </div>
 </div>
+<div class="section" id="adding-custom-character-to-the-display">
+<h3>Adding custom character to the display<a class="headerlink" href="#adding-custom-character-to-the-display" title="Permalink to this headline">¶</a></h3>
+<p>A HD44780 compatible display is capable of storing up to 8 custom characters. These characters are stored in a volatile memory, and must be transferred to the LC-display after each power cycle. The characters will be accessible like any normal character, on the addresses 0x00 to 0x07. If you look carefully on the LC-display, you may observe that each character is printed in a rectangle which is 5 pixels wide, and 8 pixel tall. We have <span class="math notranslate nohighlight">\(5 \cdot 8 = 40\)</span> pixels. Each custom character uses 8 bytes of memory, where each byte stores one row of 5 pixels. The bits 0 to 4 in each byte are used to set the respective pixels high or low, while the bits 5 - 7 are not used.</p>
+<p>The following code demonstrates how to use the LiquidCrystal library for defining of custom characters. In the example several battery icon characters are defined, which could be useful to indicate the battery status of some battery powered device.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span><span class="c1"> </span><span class="cp"></span>
+<span class="linenos"> 3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">bell</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x4</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x1f</span><span class="p">,</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0x4</span><span class="p">};</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">note</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x2</span><span class="p">,</span><span class="mh">0x3</span><span class="p">,</span><span class="mh">0x2</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x1e</span><span class="p">,</span><span class="mh">0xc</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">10</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">clock</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x15</span><span class="p">,</span><span class="mh">0x17</span><span class="p">,</span><span class="mh">0x11</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">11</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">heart</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0xa</span><span class="p">,</span><span class="mh">0x1f</span><span class="p">,</span><span class="mh">0x1f</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x4</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">12</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">duck</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0xc</span><span class="p">,</span><span class="mh">0x1d</span><span class="p">,</span><span class="mh">0xf</span><span class="p">,</span><span class="mh">0xf</span><span class="p">,</span><span class="mh">0x6</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">13</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">check</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0x1</span><span class="p">,</span><span class="mh">0x3</span><span class="p">,</span><span class="mh">0x16</span><span class="p">,</span><span class="mh">0x1c</span><span class="p">,</span><span class="mh">0x8</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">14</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">cross</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="mh">0x1b</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x4</span><span class="p">,</span><span class="mh">0xe</span><span class="p">,</span><span class="mh">0x1b</span><span class="p">,</span><span class="mh">0x0</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">15</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">retarrow</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x1</span><span class="p">,</span><span class="mh">0x1</span><span class="p">,</span><span class="mh">0x5</span><span class="p">,</span><span class="mh">0x9</span><span class="p">,</span><span class="mh">0x1f</span><span class="p">,</span><span class="mh">0x8</span><span class="p">,</span><span class="mh">0x4</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">smiley</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0a</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0e</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">battery1</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1B</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">20</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">battery2</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1B</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">21</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">battery3</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1B</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">22</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">battery4</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1B</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">23</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">battery5</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mh">0x0E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">   </span>
+<span class="linenos">29</span><span class="w">   </span><span class="c1">//lcd.createChar(0, bell);</span>
+<span class="linenos">30</span><span class="w">   </span><span class="c1">//lcd.createChar(1, note);</span>
+<span class="linenos">31</span><span class="w">   </span><span class="c1">//lcd.createChar(2, clock);</span>
+<span class="linenos">32</span><span class="w">   </span><span class="c1">//lcd.createChar(3, heart);</span>
+<span class="linenos">33</span><span class="w">   </span><span class="c1">//lcd.createChar(4, duck);</span>
+<span class="linenos">34</span><span class="w">   </span><span class="c1">//lcd.createChar(5, check);</span>
+<span class="linenos">35</span><span class="w">   </span><span class="c1">//lcd.createChar(6, cross);</span>
+<span class="linenos">36</span><span class="w">   </span><span class="c1">//lcd.createChar(7, retarrow);</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">createChar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">battery1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">createChar</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">battery2</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">createChar</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">battery3</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">createChar</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">battery4</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">   </span><span class="n">lcd</span><span class="p">.</span><span class="n">createChar</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">battery5</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="kt">void</span><span class="w"> </span><span class="nf">displayKeyCodes</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">46</span>
+<span class="linenos">47</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">48</span>
+<span class="linenos">49</span><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">50</span><span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">51</span><span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Codes 0x&quot;</span><span class="p">);</span><span class="w"> </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">HEX</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">52</span><span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;-0x&quot;</span><span class="p">);</span><span class="w"> </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">HEX</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">53</span><span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">54</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">55</span><span class="w">      </span><span class="n">lcd</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">56</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">57</span><span class="w">    </span><span class="n">i</span><span class="o">+=</span><span class="mi">16</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">58</span><span class="w">    </span>
+<span class="linenos">59</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">60</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">61</span><span class="p">}</span><span class="w">    </span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">64</span><span class="w">  </span><span class="n">displayKeyCodes</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">65</span><span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
-<div class="section" id="graphic-lc-display">
-<h2>Graphic LC-display<a class="headerlink" href="#graphic-lc-display" title="Permalink to this headline">¶</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Graphic LC-displays are outside the curriculum of the course, and only mentioned briefly for completeness.</p>
-</div>
-<p>Graphic LC-displays are often controlled by writing to a memory. Each bit it the memory may control a whole pixel on simple displays, or parts of a pixel (e.g. its brightness, or color), on more complex displays.</p>
-<p>For simple displays each bit of the memory turns a pixel on or off.</p>
+<p>You will sometimes see creative combination of multiple pixel blocks in order to create more spectacular characters (or simple drawings). Since the character memory can be updated while the display is running, the 8 custom character limitation can be overcome by having more character defined in the microcontroller firmware, and transfer them when they are needed.</p>
 <p class="rubric">Footnotes</p>
 <dl class="footnote brackets">
 <dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -614,134 +789,6 @@ VOLT -&gt; MILLIVOLT : toggle_button"/>
 </dd>
 </dl>
 </div>
-<div class="section" id="lcd-and-interrupt-class-activity-codes">
-<h2>LCD and Interrupt Class Activity Codes<a class="headerlink" href="#lcd-and-interrupt-class-activity-codes" title="Permalink to this headline">¶</a></h2>
-<p>Here are the codes of the class activity. The aim is to get rid of the <code class="code docutils literal notranslate"><span class="pre">delay(ms)</span></code> and use the time in a wiser way. The example is taken from <a class="reference external" href="https://eeenthusiast.com/arduino-delay-function-tutorial-on-software-interrupts-timer-library-alternatives-to-delay/">EEenhusiast</a>. So let’s get started.</p>
-<p>We have LCD circuit already built from the previous examples. We also attached a potentiometer to pin <code class="code docutils literal notranslate"><span class="pre">A0</span></code>. We would like to read the analog value from this potentiometer and display in on LCD immediately.</p>
-<p>In the working principle of the LCD, you have to <code class="code docutils literal notranslate"><span class="pre">print</span></code> the characters and <code class="code docutils literal notranslate"><span class="pre">clear</span></code> the LCD afterwards. Otherwise, you will have a blended display. You can try it out by yourself only with <code class="code docutils literal notranslate"><span class="pre">lcd.print()</span></code> and removing the <code class="code docutils literal notranslate"><span class="pre">lcd.clear()</span></code> in your code.</p>
-<p>There is one important point in printing/clearing the LCD. If you clear the display so quickly, then you have a flicker problem. That’s why, it is better to wait a little before clearing the screen for a better display quality. The following code is the simplest way to do it.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
-
-<span class="c1">// initialize the library with the numbers of the interface pins</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
-<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorValue</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>This code works perfectly in such a simple program. However, delays are always enemies of bigger programs. <code class="code docutils literal notranslate"><span class="pre">delay(ms)</span></code> stops all other executions, such as pin read/write, calculations, communications with the other sensors etc. Basically it halts the whole process in the specified period of time. That’s why delays are one of the biggest problems in efficiency.</p>
-<p>Insted of using a <code class="code docutils literal notranslate"><span class="pre">delay(ms)</span></code> function, we can use <code class="code docutils literal notranslate"><span class="pre">millis()</span></code> function. We can set a time interval and execute the routine in everr interval of time. Here is the same code without using any delay function.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
-
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// initialize the library with the numbers of the interface pins</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
-<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prevTime</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span>
-<span class="w">  </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currTime</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorValue</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>Now, you can execute any other processes in your main function without adding an extra waiting time.</p>
-<p>However, this is still not the efficient way. There is another process that takes a lot of time in the main process. We can do in in another way since there is a hidden “delay” or a “wait” in this process. Yes, I am talking about <code class="code docutils literal notranslate"><span class="pre">analogRead(A0)</span></code>.</p>
-<p>ADC is a pretty slow process compated to many other processes that you execute on a microcontroller. Actually, you don’t have to wait the whole time of the conversion. You can instead set an ISR (Interrupt Service Routine) and pull the data in a specified period of time. The next code shows how it is done.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;TimerOne.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
-
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// initialize the library with the numbers of the interface pins</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
-<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"> </span><span class="c1">// in microseconds</span>
-<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">soft_interrupt</span><span class="p">);</span><span class="w"> </span><span class="c1">// since it is an irs, no input or output</span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prevTime</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span>
-<span class="w">  </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currTime</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorValue</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">soft_interrupt</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"> </span><span class="c1">// that&#39;s the slowest process</span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>As you can see, we moved the ADC process in an ISR function. We call this ISR function in every 100000 microseconds (as we specified in the <code class="code docutils literal notranslate"><span class="pre">setup()</span></code> function.</p>
-<p>Yet, there is one more step to increase efficiency here. We can merge the wait time for LCD to clear and the conversion time for the analogRead. If we get rid of the waiting setup with the millis() function and move this process intp the ISR, we can achive this objective. Here is the code for that.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;TimerOne.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LiquidCrystal.h&gt;</span><span class="cp"></span>
-
-<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// initialize the library with the numbers of the interface pins</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
-<span class="n">LiquidCrystal</span><span class="w"> </span><span class="nf">lcd</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">,</span><span class="w"> </span><span class="n">d4</span><span class="p">,</span><span class="w"> </span><span class="n">d5</span><span class="p">,</span><span class="w"> </span><span class="n">d6</span><span class="p">,</span><span class="w"> </span><span class="n">d7</span><span class="p">);</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"> </span><span class="c1">// in microseconds</span>
-<span class="w">  </span><span class="n">Timer1</span><span class="p">.</span><span class="n">attachInterrupt</span><span class="p">(</span><span class="n">soft_interrupt</span><span class="p">);</span><span class="w"> </span><span class="c1">// since it is an irs, no input or output</span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span><span class="w"> </span><span class="c1">// this is just for showing any other long processes you need to execute.</span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">soft_interrupt</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">A0</span><span class="p">);</span><span class="w"> </span><span class="c1">// that&#39;s the slowest process</span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="n">lcd</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">sensorValue</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>Here you see a long long delay. This is only to demonstrate other processes that you may do inside your main function. It wouldn’t be nice to leave the main function completely empty but it doesn’t have any purpose at all. Also, see that the <code class="code docutils literal notranslate"><span class="pre">delay(ms)</span></code> function is only be cut off with an interrupt routine.</p>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
@@ -767,6 +814,8 @@ VOLT -&gt; MILLIVOLT : toggle_button"/>
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
+        <li><a href="L7_timer_interrupt.html" title="Interrupts and timers" >previous</a></li>
+        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

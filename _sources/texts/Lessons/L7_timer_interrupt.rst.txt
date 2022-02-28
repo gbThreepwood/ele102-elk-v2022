@@ -16,9 +16,55 @@ A interrupt is some form of external signal that interrupts the main process. Wh
 
 Interrupts are useful for making the system responsive to external events while avoiding constant polling of the possible external event sources. Sometimes the ISR may simply set a flag, or publish a message in a event queue such that the main process can take appropriate action when it is ready to do so.
 
+..
+    .. figure:: ../../../external/fig/check-phone.gif
+    :alt: ASCII table
+    :align: center
+
+.. image:: ../../../external/fig/check-phone.gif
+   :width: 49%
+.. image:: ../../../external/fig/phone-rings.gif
+   :width: 45%
+
+
+--------------------------------POLLING-----------------------------------VS----------------------------------INTERRUPT----------------------------
+
 .. The first section of this lecture describes how and when the interrupts are preferable over polling techniques. The following sections explain how the interrupt mechanism works.
 
 .. The second half of the lecture notes, starting with the section "Management of Interrupts," describes the common problems and programming mistakes and their solutions in utilizing interrupts in typical microcontroller applications.
+
+
+An interrupt is a signal that tells the processor to immediately stop what it is doing and handle some high priority processing.  That high priority processing is called an Interrupt Handler. An interrupt handler is like any other void function.  If you write one and attach it to an interrupt, it will get called whenever that interrupt signal is triggered.  When you return from the interrupt handler, the processor goes back to continue what it was doing before. [#f4]_
+
+Interrupts can be generated from several sources:
+
+#. Timer interrupts from one of the Arduino timers.
+#. External Interrupts from a change in state of one of the external interrupt pins.
+#. Pin-change interrupts from a change in state of any one of a group of pins.
+
+
+Using interrupts, you don’t need to write loop code to continuously check for the high priority interrupt condition.  You don't have to worry about sluggish response or missed button presses due to long-running subroutines.  
+
+The processor will automagically stop whatever it is doing when the interrupt occurs and call your interrupt handler.  You just need to write code to respond to the interrupt whenever it happens. [#f4]_
+
+Types of Interrupts  
+There are two types of interrupts:
+
+**Hardware Interrupt:** It happens when an external event occurs like an external interrupt pin changes its state from LOW to HIGH or HIGH to LOW.
+
+**Software Interrupt:** It happens according to the instruction from the software. For example Timer interrupts are software interrupt.
+
+.. admonition:: **Start with an exercise**
+   :class: myownstyle
+
+   Use 3 LEDs attached to pin numbers 9,10,11. Turn them on one by one. When all are turned on, turn them of one by one in reverse order as shown in the GIF below. Wait 1 second every time you reverse the order.
+
+   .. figure:: ../../../external/fig/led-on-off-in-order.gif
+
+    ..
+        Solution is in ../../../projects/led-on-off-in-order.gif
+
+   Now attach a button to the pin number 2 and update your code such that a counter will count everytime you press the button. Observe any problems?
 
 
 Interrupts in Arduino
@@ -28,17 +74,17 @@ There are some important keynotes `About Interrupt Service Routines <https://www
 
 Properties of ISR (Interrupt Service Routine):
 
-#. Global variables used in an ISR must be :code:`volatile`.
-#. Should normally be fast and short functions.
+#. Global variables used in an ISR must be declared :code:`volatile`.
+#. ISR should normally be fast and short functions.
 #. No delay in the ISR.
-#. Interrupts are disabled while the ISR is executed. They can be enabled, but this should normally be avoided.
+#. Interrupts are disabled while the ISR is executed. They can be enabled, but this should normally be avoided as it might have unpredictable consequences.
 #. An ISR cannot have parameters - no input argument, no output return.
 #. Stops **everything** in the main function.
 #. :code:`millis()` doesn't work properly, :code:`delayMicroseconds()` works since it does not rely on interrupts.
 
 Interrupts can be:
 
-- Internal 
+- Internal: Timers, ADC conversion complete, hardware faults, etc.
 - External: digital pins, or communication channels (UART/SPI/I2C)
 
 
@@ -64,7 +110,6 @@ There are multiple options for how an external interrupt is triggered. This can 
 
 .. The syntax which are going to be attach interrupt and specify the pin, e.g. pin number 2 than ISR is the function which is going to be call and mode tells that whenever the interrupts is been triggered.
 
-
 .. Created by sensors (via communication channels) or buttons.
 
 An external interrupt is configured by the function call:
@@ -81,6 +126,12 @@ In order to disable the interrupt the following function call is used:
 
     detachInterrupt(digitalPinToInterrupt(some_pin_number))
 
+.. admonition:: **Continue the exercise**
+   :class: myownstyle
+
+   Now solve the count problem with interrupts.
+
+
 Exercise: change the trigger criteria
 --------------------------------------
 
@@ -95,11 +146,15 @@ In this exercise you will change the criteria for how the external interrupt is 
 #. Try all the different trigger modes which are supported. Take note on the behaviour of the counter in each case.
 #. Extend the program with the ability to toggle the state of a LED on the rising edge interrupt.
 
-Exercise: Led blink start/stop
-------------------------------
+..
+    Exercise: Led blink start/stop
+    ------------------------------
 
 #. Write a program to blink a normal, or RBG-LED using :ccode:`millis()` for the delay.
 #. Modify the code such that the blinking should stop immediately as soon as a button is pressed, and should continue again as soon as it is released. Use an external interrupt to detect the rising and falling edge of the push button.
+    
+.. Modify the RGB-LED code such that the blinking should stop immediately as soon as the button is pressed and should continue again as soon as it is released.
+
 
 Demo: external interrupt on rising edge of both pins
 ----------------------------------------------------
@@ -191,6 +246,7 @@ The specifications for a timer are directly related to the requirements of the a
 **1. Maximum clock frequency** determines the timing resolution. The internal clock frequencies available for timer operations depend on the microprocessor clock.
 
 **2. Number of counter bits** determines the count range or the maximum time period that can be measured.
+
 **3. Functionality:** Having a programmable timer does not necessarily mean that it will support all operation modes and gating or triggering options. You need to read the timer description to find out whether it is useful for your application or not. You may as well need additional features such as buffering of timer count results for motor speed measurements. A timer with buffered outputs can store the count result at the end of every motor revolution and re-start the counting process immediately.
 
 
@@ -253,6 +309,12 @@ On the Atmega328p the timer clock signal is normally derived from the system clo
 
 
 ..   :code:`interrupts()` and :code:`noInterrupts()` for the critical parts of the code. - https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/
+.. note::
+   :code:`interrupts()` and :code:`noInterrupts()` for the critical parts of the code. - https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/
+
+
+..
+   **Practical Exercise:** Let's write a program with an RGB light, blinking each LED for 1 second (reg, green, blue, white) and repeat it infinitely. Also, attach a button that stops blinking of all LEDs. Do not use any interrupt knowledge at first and let's see what happens. Afterwards, define your button as an interrupt and see what changes.
 
 
 Using a library to control timer 1
@@ -275,6 +337,18 @@ The timer can be started (:ccode:`Timer1.start()`), stopped (:ccode:`Timer1.stop
 
 .. todo: add more details from: https://playground.arduino.cc/Code/Timer1/
 
+Exercise: User timer ISR for polling digital inputs
+---------------------------------------------------
+
+This exercise is a little bit challenging, but demonstrate a very relevant problem and common use case for a timer.
+
+#. Use the TimerOne library to generate an interrupt with a interval of 5 millisecond.
+#. Use the timer ISR to poll the state of three push buttons.
+#. Store the state of the push buttons, and compare them to the previous state. If the state remains stable for two invocations of the ISR, they should be considered valid (i.e. debounced).
+#. Write a function :ccode:`uint8_t get_btn_rising_edge_event(uint8_t btn)` which returns true the first time it is called for a given button, after the button has had a rising edge. The function must reset a rising edge detected flag back to zero after invocation, in order to ensure that successive calls does not return true unless the flag has again been set by the ISR.
+#. Write a function :ccode:`uint8_t get_btn_falling_edge_event(uint8_t btn)` which returns true the first time it is called for a given button, after the button has had a falling edge.
+#. Add a routine to :ccode:`loop()` which prints a message on rising, and falling edge of each push button.
+
 Exercise: RGB led blinking
 ---------------------------
 
@@ -282,6 +356,127 @@ Exercise: RGB led blinking
 #. Attach a button that stops blinking of all LEDs. 
 #. Modify (or rewrite) your program to use the TimerOne library for the timing, and define your button as an external interrupt.
 #. Write a short summary of the advantages and disadvantages for each of your two solutions.
+
+
+Recursive functions
+====================
+Since we know conditionals, functions, loops and arrays we can talk about common paradigm in programming languages: **Recursive Functions**. There are still discussions about whether recursive functions are bad or good, they are staple in procedural programming languages (like C, Fortran, Pascal) and also commonly used in object-oriented programming languages (like C++, C#, Python). 
+
+By definition a recursive function is one that calls back to itself. The most common example might be the Fibonacci.
+
+.. code-block::
+
+  int ledPin = 13;
+  int i = 0;
+
+  void setup() {
+    Serial.begin(9600);
+    pinMode(ledPin, OUTPUT);
+  }
+
+  void loop() {
+
+    digitalWrite(ledPin, HIGH);
+    delay(100);
+    digitalWrite(ledPin, LOW);
+    delay(fibonacci(i)*100);
+    i++;
+  }
+
+  int fibonacci(int n) {
+    if (n <=1) {
+      return n;
+    }
+    else {
+      return fibonacci(n-1)+fibonacci(n-2);
+    }
+  }
+
+
+**The good** about recursive functions are generally shorter and more elegant. **The bad** sides of the recursion is mainly that recursive functions are less efficient than their iterative counterparts. Additionally, they are subject to the perils of stack overflows, which is *probably the most common* error in early programming languages that happens when program tries to use more memory space than the call stack has available. 
+
+.. seealso::
+
+  `https://stackoverflow.com <https://stackoverflow.com/>`_ is the number one website for programmers!
+
+
+From Arduino perspective, the situation is 50/50. Recursive functions are resource intensive and we don't like using any resources (neither memory nor power) on microcontrollers. An embedded software project has to do a resource budget. However, recursive functions are easy to implement and comprehend. Particularly sensor applications where there is a data to be manipulated based on previous readings, recursive functions can be an option. 
+
+One last thing to note, it does not take too long to fill the 2KBytes memory of Arduino. If you need to recurse too much than you may need to free some memory. We will not get into details of it since it has too many branches when it comes to embedded systems programming. Particularly Run-time performance constraints and Memory constraints are acknowledged as the most effort requiring skills in all software applications. Since these are the most critical points in microcontrollers, embedded system software development is scientifically approved the `most difficult of programming skills to master <https://en.wikipedia.org/wiki/COCOMO>`_.
+
+
+Random
+=======
+What is random? Is there such a thing?
+
+The arduino :code:`random()` function created `Pseudorandom number <https://en.wikipedia.org/wiki/Pseudorandom_number_generator>`_. However, it is not truely random. It creates random numbers based on an initial value. This initial value is the :code:`time(0)` where Arduino is first powered.
+
+
+.. code-block:: c
+
+  long randNumber;
+
+  void setup() {
+    Serial.begin(9600);
+  }
+
+  void loop() {
+    // print a random number from 0 to 299
+    randNumber = random(300);
+    Serial.println(randNumber);
+
+    // print a random number from 10 to 19
+    randNumber = random(10, 20);
+    Serial.println(randNumber);
+
+    delay(50);
+  }
+
+It is quite a special subject in all programming languages. By providing different *seed* s. It is a bit of an issue in C# to create truely random but we are slightly luckier on the Arduino side.
+
+.. code-block:: c
+
+  void setup() {
+    Serial.begin(9600);
+
+    // if analog input pin 0 is unconnected, random analog
+    // noise will cause the call to randomSeed() to generate
+    // different seed numbers each time the sketch runs.
+    // randomSeed() will then shuffle the random function.
+    randomSeed(analogRead(0));
+  }
+
+The :code:`randomSeed(analogRead(0));` creates a random seed based on the noise signal on A0 pin.
+
+Check this out:
+
+.. code-block:: c
+
+  long randNumber;
+
+  void setup() {
+    Serial.begin(9600);
+    // randomSeed(5);
+    randomSeed(analogRead(0));
+  }
+
+  void loop() {
+    // print a random number from 0 to 299
+    randNumber = random(300);
+    Serial.print(randNumber);
+    Serial.print("\t");
+    
+    // print a random unsigned int
+    randNumber = rand();
+    Serial.print(randNumber);
+    Serial.print("\t");
+    
+    // print a random number from 10 to 19
+    randNumber = random(10, 20);
+    Serial.println(randNumber);
+
+    delay(500);
+  }
 
 Summary
 =============
@@ -370,6 +565,7 @@ Or modify:
 
 
 .. rubric:: References
+.. [#f4] https://learn.adafruit.com/multi-tasking-the-arduino-part-2/what-is-an-interrupt
 .. [#f1] Izmir Institute of Technology - Department of Electrical and Electronics Engineering *EE443 - Embedded Systems lecture notes - 2013*
 .. [#f2] https://www.tutorialspoint.com/embedded_systems/es_timer_counter.htm
 .. [#f3] https://www.robotshop.com/community/forum/t/arduino-101-timers-and-interrupts/13072

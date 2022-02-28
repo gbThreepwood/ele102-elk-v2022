@@ -1,6 +1,17 @@
+.. _phase_displacement_measurement:
+
+******************************************************************
+Phase displacement measurements
+******************************************************************
+
+.. role:: ccode(code)
+        :language: c
 
 
-If the two signals have equal amplitude the displacement can be measured as the difference between the two. By subtracting one sine wave from the other, a new signal will emerge, with zero amplitude for zero phase displacement.
+Instantaneous magnitude difference
+----------------------------------
+
+If two signals have equal amplitude the displacement can be measured as the difference in magnitude between samples of each waveforms taken at the same instant. E.g. by subtracting one sine wave from the other, a new signal will emerge, with zero amplitude for zero phase displacement.
 
 Peak or zero crossing detector
 -------------------------------
@@ -39,4 +50,11 @@ If both signals have the same reference, the phase difference can be computed by
 
     \varphi = \theta_1 - \theta_2
 
-The reference for each signal will be the instant we start the sampling. This is not important however, since we are only looking at the difference.
+The reference for each signal will be the instant we start the sampling. This is not important however, since we are only looking at the difference. In order to avoid confusion it can be advantageous to normalize the angle :math:`\varphi` from -180 to 180 degrees. Otherwise the computation might sometimes produce results such as -340, instead of +20. An approximately steady phase displacement should not have such large swings in numerical value, even though the value represents the same angle.
+
+The following code listing illustrates an implementation for the sampling and calculation of the phase displacement between two 50 Hz waveforms.
+
+.. literalinclude:: ../../../projects/platformio/dsp/dft-phase-difference-estimation/src/main.cpp
+    :language: c
+    :linenos:
+
