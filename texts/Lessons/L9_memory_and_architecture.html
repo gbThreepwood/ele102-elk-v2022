@@ -76,7 +76,8 @@
                 <ul>
 <li><a class="reference internal" href="#">Microcontroller architecture and Memory technology</a><ul>
 <li><a class="reference internal" href="#microcontroller-architecture">Microcontroller architecture</a><ul>
-<li><a class="reference internal" href="#some-wellknown-processors">Some Wellknown Processors</a></li>
+<li><a class="reference internal" href="#some-well-known-processors">Some well known processors</a></li>
+<li><a class="reference internal" href="#atmega328p-core-architecture">Atmega328p core architecture</a></li>
 <li><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System</a></li>
 <li><a class="reference internal" href="#reset-circuit">Reset Circuit</a></li>
 <li><a class="reference internal" href="#clock-generator">Clock Generator</a></li>
@@ -179,7 +180,8 @@
 <li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 9: Memory and MCU architecture</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#microcontroller-architecture">Microcontroller architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#some-wellknown-processors">Some Wellknown Processors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#some-well-known-processors">Some well known processors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#atmega328p-core-architecture">Atmega328p core architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reset-circuit">Reset Circuit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clock-generator">Clock Generator</a></li>
@@ -300,8 +302,8 @@
 <li><p><strong>Cost:</strong>  IC packages, PCB area, and PCB assembly are all major cost items that can be reduced with integration of components in a single device.</p></li>
 <li><p><strong>Easy development:</strong>  You don’t need to worry about interfacing external components and the related noise coupling or interference problems.  Accessing an ADC is as easy as writing and reading a few special function registers when the ADC is available as an on-chip component of the microcontroller.  On the other hand, if you end up using an external ADC component, then you need to find solutions to several design requirements such as, ADC power supply, interface protocol,  reserving I/O pins on the microcontroller, and routing I/O connections on the PCB.</p></li>
 </ul>
-<div class="section" id="some-wellknown-processors">
-<h3>Some Wellknown Processors<a class="headerlink" href="#some-wellknown-processors" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="some-well-known-processors">
+<h3>Some well known processors<a class="headerlink" href="#some-well-known-processors" title="Permalink to this headline">¶</a></h3>
 <p>The instruction set architecture (<a class="reference external" href="https://en.wikipedia.org/wiki/Instruction_set_architecture">ISA</a>) of the processor describes the main processing capabilities of a microcontroller. Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  … . .  controller with ARM core or  … . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of some common processor architectures used in microcontrollers.</p>
 <ul class="simple">
 <li><p><strong>AVR (Atmel):</strong>  A large variety of Harvard architecture microcontrollers manufactured by Atmel (Atmel has been consumed by Microchip). The Atmega328p is one example on an AVR controller, and is the one used in the application work of this course.</p></li>
@@ -313,6 +315,12 @@
 <li><p><strong>ARM (ARM7, ARM9, ARM11 - ARM Holdings):</strong>  ARM architecture is the most widely used 32-bit ISA in terms of numbers produced.  ARM Holdings itself does not manufacture any processors but they license ARM ISA to independent manufacturers.  ARM processors dominate the mobile and embedded electronics market (90% of all embedded 32-bit RISC processors in 2009), because they are suitable for low power applications as relatively low cost, simple, and small microprocessors.</p></li>
 <li><p><strong>x86 (386, 486, Pentium, … -  Intel):</strong>  The term x86 refers to a family of ISAs based on the Intel 8086 CPU introduced in 1978.  More specifically, x86 implies compatibility with the instruction set of 32-bit 80386.  x86 processors are not widely used in embedded systems.</p></li>
 </ul>
+</div>
+<div class="section" id="atmega328p-core-architecture">
+<h3>Atmega328p core architecture<a class="headerlink" href="#atmega328p-core-architecture" title="Permalink to this headline">¶</a></h3>
+<div class="align-center figure">
+<img alt="Atmega328p memory map" src="../../_images/core-architecture.png" />
+</div>
 </div>
 <div class="section" id="memory-requirement-of-an-embedded-system">
 <h3>Memory Requirement of an Embedded System<a class="headerlink" href="#memory-requirement-of-an-embedded-system" title="Permalink to this headline">¶</a></h3>
@@ -563,13 +571,13 @@
 <li><p>Use the above code lines in a program to determine the number of bytes on the stack.</p></li>
 <li><p>Print the value to the UART.</p></li>
 <li><p>Add some new variables to the stack, and observe how the stack size value changes. You add variables to the stack simply by declaring them inside a function. Due to compiler optimization you have to either use the variables for something, or declare them as <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>. Otherwise the compiler will optimize them away, and your stack size will not change.</p></li>
-<li><p>The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yeild correct results to use the address of a variable. The third (commented) line in the above example uses the macor <code class="code docutils literal notranslate"><span class="pre">SP</span></code> (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for</p></li>
+<li><p>The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yield correct results to use the address of a variable. The third (commented) line in the above example uses the macor <code class="code docutils literal notranslate"><span class="pre">SP</span></code> (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for</p></li>
 </ol>
 </div>
 <div class="section" id="little-or-big-endian">
 <h3>Little or big endian<a class="headerlink" href="#little-or-big-endian" title="Permalink to this headline">¶</a></h3>
 <p>Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.</p>
-<p>The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. I can however become important when interfacing several microcontrollers to each other.</p>
+<p>The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. It can however become important when interfacing several microcontrollers to each other. It is a fundamental concept which should be understood by anyone involved in software development.</p>
 <p>In order to check if the microcontroller is little or big endian one may force the compiler in to considering a pointer to a 16 bit value as a pointer to an 8 bit value. By reading the value that the pointer is pointing to, only 8 bits are returned, and these would be the 8 bits that are stored first in memory. If the bits returned are the most significant bits of the original number,</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 <span class="linenos"> 2</span>
@@ -610,11 +618,39 @@
 <div class="section" id="non-volatile-storage-in-eeprom">
 <h2>Non volatile storage in EEPROM<a class="headerlink" href="#non-volatile-storage-in-eeprom" title="Permalink to this headline">¶</a></h2>
 <p>If you have some value in your program which you would like the microcontroller to remember the next time it boots, you have the option to store it to the EEPROM. The Atmega328p has 1 kilobyte of EEPROM.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">boot_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;The board has booted less than 5 times&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">  </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;The current boot count is:&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">boot_count</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">19</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">  </span><span class="c1">// Be careful with write operations to the EEPROM in loop</span>
+<span class="linenos">24</span><span class="w">  </span><span class="c1">// If they run continuosly it might wear out the EEPROM</span>
+<span class="linenos">25</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
 <div class="section" id="exercise-store-adc-readings-in-eeprom">
 <h3>Exercise: store ADC readings in EEPROM<a class="headerlink" href="#exercise-store-adc-readings-in-eeprom" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Connect a push button with pull-down resistor to pin 3, and a potmeter to analog input A0</p></li>
 <li><p>Write a program which reads the value on analog input A0, and print it on the UART.</p></li>
+<li><p>Add prober edge detection, and debounce routines for the push button.</p></li>
 <li><p>Add the functionality to store the current ADC reading to an array by pushing the button. The 10 most recent readings should be stored, i.e. if the memory already holds 10 readings, the oldest reading should be dropped. Print all readings to the UART at a rate of 1 second.</p></li>
 <li><p>Add the functionality to store the array in EEPROM each time the button is pushed.</p></li>
 </ol>
@@ -623,9 +659,9 @@
 <div class="section" id="memory-technology">
 <h2>Memory technology<a class="headerlink" href="#memory-technology" title="Permalink to this headline">¶</a></h2>
 <p>No, floppy disk is not a 3D printed save button</p>
-<blockquote>
-<div><img alt="3D save button" class="align-center" src="../../_images/3d_save_button.jpg" />
-</div></blockquote>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/3d_save_button.jpg"><img alt="3D save button" src="../../_images/3d_save_button.jpg" style="width: 604.8000000000001px; height: 604.8000000000001px;" /></a>
+</div>
 <div class="section" id="common-non-volatile-memory-devices">
 <h3>Common Non-volatile Memory Devices<a class="headerlink" href="#common-non-volatile-memory-devices" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -655,7 +691,7 @@
 <div class="section" id="flash-memory">
 <h3>Flash memory<a class="headerlink" href="#flash-memory" title="Permalink to this headline">¶</a></h3>
 <p>Flash memory is a type of non volatile memory. Flash memory has it’s name from the requirement that one has to erase a whole block of memory if one or more bits of the block has to be changed from zero (0) to one (1). This is a so called <cite>Flash</cite> erase.</p>
-<p>Initially (or straight after a <cite>Flash</cite> erase) all the bits of a flash memory block are one (1), and you only program the ones that have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform <cite>Flash</cite> erase.</p>
+<p>Initially (or straight after a <cite>Flash</cite> erase) all the bits of a flash memory block are one (1), and you only program the bits which have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform a <cite>Flash</cite> erase.</p>
 <p>There is no physical limitation that forces us to use a full block erase, but the memory is designed in this way (the transistors are connected in such a way that this is the only possibility). The reason for doing this is that the erase cycle is a relative slow operation, and thus there is a speed gain in erasing many bits at once.</p>
 <p>A Flash memory supporting single byte (or bit) erase is called a EEPROM. But in order to achieve this the circuit for each bit is more complex, and hence more expensive.</p>
 <p>Each bit in a Flash memory consists of one transistor, specifically a floating gate MOSFET. The floating gate holds a negative charge when the bit is programmed, and neutral charge when it is not programmed. The negative charge prevents current from flowing through the transistor when a read voltage is applied, thus zero current is interpreted as a logic zero (0) <span id="id1">[]</span>.</p>

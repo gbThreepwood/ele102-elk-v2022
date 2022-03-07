@@ -17,7 +17,7 @@ This lecture describes the common building blocks of a microcontroller, and how 
 * **Cost:**  IC packages, PCB area, and PCB assembly are all major cost items that can be reduced with integration of components in a single device. 
 * **Easy development:**  You don't need to worry about interfacing external components and the related noise coupling or interference problems.  Accessing an ADC is as easy as writing and reading a few special function registers when the ADC is available as an on-chip component of the microcontroller.  On the other hand, if you end up using an external ADC component, then you need to find solutions to several design requirements such as, ADC power supply, interface protocol,  reserving I/O pins on the microcontroller, and routing I/O connections on the PCB.
 
-Some Wellknown Processors
+Some well known processors
 ---------------------------
 
 The instruction set architecture (`ISA <https://en.wikipedia.org/wiki/Instruction_set_architecture>`_) of the processor describes the main processing capabilities of a microcontroller. Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  . . . . .  controller with ARM core or  . . . . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of some common processor architectures used in microcontrollers. 
@@ -25,6 +25,7 @@ The instruction set architecture (`ISA <https://en.wikipedia.org/wiki/Instructio
 * **AVR (Atmel):**  A large variety of Harvard architecture microcontrollers manufactured by Atmel (Atmel has been consumed by Microchip). The Atmega328p is one example on an AVR controller, and is the one used in the application work of this course. 
 
 * **PICXXX (Microchip):**  PIC (Peripheral Interface Controller) is a family of Harvard architecture microcontrollers manufactured by Microchip Technology, first introduced in 1976. PIC microcontrollers have been widely used for both industrial applications and hobby purposes.
+
 .. Optimized processor efficiency, serial programming capability, free development tools, and availability of a large library of application notes made PIC processors popular. 
 
 * **8051 (Intel):**  A Harvard architecture 8-bit microcontroller series developed by Intel in 1980 for use in embedded systems.  Today, a large variety of faster and enhanced 8051-core microcontrollers are produced by more than 20 independent manufacturers. 
@@ -34,6 +35,15 @@ The instruction set architecture (`ISA <https://en.wikipedia.org/wiki/Instructio
 * **ARM (ARM7, ARM9, ARM11 - ARM Holdings):**  ARM architecture is the most widely used 32-bit ISA in terms of numbers produced.  ARM Holdings itself does not manufacture any processors but they license ARM ISA to independent manufacturers.  ARM processors dominate the mobile and embedded electronics market (90% of all embedded 32-bit RISC processors in 2009), because they are suitable for low power applications as relatively low cost, simple, and small microprocessors. 
 
 * **x86 (386, 486, Pentium, . . . -  Intel):**  The term x86 refers to a family of ISAs based on the Intel 8086 CPU introduced in 1978.  More specifically, x86 implies compatibility with the instruction set of 32-bit 80386.  x86 processors are not widely used in embedded systems. 
+
+Atmega328p core architecture
+----------------------------
+
+.. figure:: ../../../external/fig/atmega/core-architecture.png
+    :align: center
+    :alt: Atmega328p memory map
+    :figclass: align-center
+
 
 
 Memory Requirement of an Embedded System
@@ -293,7 +303,7 @@ If the stack grows so large that it runs in to the heap area, you have what is k
 
 
 Exercise: determine stack usage
------------------------------
+-------------------------------
 
 There is a macro :code:`RAMEND` somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet page 18 is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the :code:`&` operator, it is possible to calculate the number of bytes on the stack.
 
@@ -306,14 +316,14 @@ There is a macro :code:`RAMEND` somewhere in the libraries that are included as 
 #. Use the above code lines in a program to determine the number of bytes on the stack.
 #. Print the value to the UART.
 #. Add some new variables to the stack, and observe how the stack size value changes. You add variables to the stack simply by declaring them inside a function. Due to compiler optimization you have to either use the variables for something, or declare them as :code:`volatile`. Otherwise the compiler will optimize them away, and your stack size will not change.
-#. The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yeild correct results to use the address of a variable. The third (commented) line in the above example uses the macor :code:`SP` (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for 
+#. The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yield correct results to use the address of a variable. The third (commented) line in the above example uses the macor :code:`SP` (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for 
 
 Little or big endian
 --------------------
 
 Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.
 
-The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. I can however become important when interfacing several microcontrollers to each other.
+The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. It can however become important when interfacing several microcontrollers to each other. It is a fundamental concept which should be understood by anyone involved in software development.
 
 In order to check if the microcontroller is little or big endian one may force the compiler in to considering a pointer to a 16 bit value as a pointer to an 8 bit value. By reading the value that the pointer is pointing to, only 8 bits are returned, and these would be the 8 bits that are stored first in memory. If the bits returned are the most significant bits of the original number, 
 
@@ -341,12 +351,18 @@ Non volatile storage in EEPROM
 
 If you have some value in your program which you would like the microcontroller to remember the next time it boots, you have the option to store it to the EEPROM. The Atmega328p has 1 kilobyte of EEPROM.
 
+.. literalinclude:: ../../../projects/platformio/memory/eeprom-write-read/src/main.cpp
+    :language: c
+    :linenos:
+
+
 
 Exercise: store ADC readings in EEPROM
 --------------------------------------
 
 #. Connect a push button with pull-down resistor to pin 3, and a potmeter to analog input A0
 #. Write a program which reads the value on analog input A0, and print it on the UART.
+#. Add prober edge detection, and debounce routines for the push button.
 #. Add the functionality to store the current ADC reading to an array by pushing the button. The 10 most recent readings should be stored, i.e. if the memory already holds 10 readings, the oldest reading should be dropped. Print all readings to the UART at a rate of 1 second.
 #. Add the functionality to store the array in EEPROM each time the button is pushed.
 
@@ -359,8 +375,9 @@ Memory technology
 
 No, floppy disk is not a 3D printed save button
 
-  .. image:: ../../fig/3d_save_button.jpg
+.. figure:: ../../fig/3d_save_button.jpg
           :alt: 3D save button
+          :scale: 45
           :align: center
 
 
@@ -397,7 +414,7 @@ Flash memory
 
 Flash memory is a type of non volatile memory. Flash memory has it's name from the requirement that one has to erase a whole block of memory if one or more bits of the block has to be changed from zero (0) to one (1). This is a so called `Flash` erase.
 
-Initially (or straight after a `Flash` erase) all the bits of a flash memory block are one (1), and you only program the ones that have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform `Flash` erase.
+Initially (or straight after a `Flash` erase) all the bits of a flash memory block are one (1), and you only program the bits which have to be zero (0). As soon as a zero (0) bit has to return to the one (1) state however, you must perform a `Flash` erase.
 
 There is no physical limitation that forces us to use a full block erase, but the memory is designed in this way (the transistors are connected in such a way that this is the only possibility). The reason for doing this is that the erase cycle is a relative slow operation, and thus there is a speed gain in erasing many bits at once.
 
