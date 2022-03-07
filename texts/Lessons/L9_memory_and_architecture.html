@@ -52,7 +52,9 @@
 </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="prev" title="LC-Display" href="L8_LC_display.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -75,12 +77,30 @@
 <li><a class="reference internal" href="#">Microcontroller architecture and Memory technology</a><ul>
 <li><a class="reference internal" href="#microcontroller-architecture">Microcontroller architecture</a><ul>
 <li><a class="reference internal" href="#some-wellknown-processors">Some Wellknown Processors</a></li>
-<li><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System:</a></li>
+<li><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System</a></li>
 <li><a class="reference internal" href="#reset-circuit">Reset Circuit</a></li>
 <li><a class="reference internal" href="#clock-generator">Clock Generator</a></li>
 <li><a class="reference internal" href="#i-o-ports-channels-buffers">I/O PORTS, Channels, Buffers</a></li>
 <li><a class="reference internal" href="#serial-i-o">Serial I/O</a></li>
 <li><a class="reference internal" href="#timers">Timers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#direct-register-access-on-atmega328p">Direct register access on Atmega328p</a><ul>
+<li><a class="reference internal" href="#exercise-blink-a-led-connected-to-pin-8">Exercise: blink a LED connected to pin 8</a></li>
+<li><a class="reference internal" href="#reading-and-manipulating-single-bits">Reading and manipulating single bits</a></li>
+<li><a class="reference internal" href="#exercise-analyze-the-above-example">Exercise: analyze the above example</a></li>
+<li><a class="reference internal" href="#exercise-read-a-digital-input-on-pin-a5">Exercise: read a digital input on pin A5</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#memory-usage">Memory usage</a><ul>
+<li><a class="reference internal" href="#ram-usage-at-run-time">RAM usage at run time</a></li>
+<li><a class="reference internal" href="#stack-overflow">Stack overflow</a></li>
+<li><a class="reference internal" href="#exercise-determine-stack-usage">Exercise: determine stack usage</a></li>
+<li><a class="reference internal" href="#little-or-big-endian">Little or big endian</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#non-volatile-storage-in-eeprom">Non volatile storage in EEPROM</a><ul>
+<li><a class="reference internal" href="#exercise-store-adc-readings-in-eeprom">Exercise: store ADC readings in EEPROM</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#memory-technology">Memory technology</a><ul>
@@ -97,9 +117,6 @@
 <li><a class="reference internal" href="#special-memory-types">Special memory types</a></li>
 <li><a class="reference internal" href="#historical-memory-types">Historical memory types</a></li>
 <li><a class="reference internal" href="#random-access-memory-ram">Random access memory (RAM)</a></li>
-<li><a class="reference internal" href="#checking-the-ram-usage-at-run-time">Checking the RAM usage at run time</a></li>
-<li><a class="reference internal" href="#the-stack-and-the-heap">The stack, and the heap</a></li>
-<li><a class="reference internal" href="#stack-overflow">Stack overflow</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#bibliography">Bibliography</a></li>
@@ -111,6 +128,8 @@
               </li>
 
             
+              <li><a href="L8_LC_display.html" title="LC-Display" accesskey="P">previous </a></li>
+              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -146,7 +165,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <h3><a href="../../index.html">Table of Contents</a></h3>
 <p class="caption" role="heading"><span class="caption-text">Lessons:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="L0_Introduction_elk.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_hardware_preparations.html">Software and hardware preparations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L1a_UC_intro.html">Lesson 1a: What is a Microcontroller</a></li>
@@ -158,6 +177,54 @@
 <li class="toctree-l1"><a class="reference internal" href="L6_serial_io.html">Lesson 6: Serial I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L7_timer_interrupt.html">Lesson 7: Timers and interrupts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 9: Memory and MCU architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#microcontroller-architecture">Microcontroller architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#some-wellknown-processors">Some Wellknown Processors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-requirement-of-an-embedded-system">Memory Requirement of an Embedded System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-circuit">Reset Circuit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clock-generator">Clock Generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#i-o-ports-channels-buffers">I/O PORTS, Channels, Buffers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serial-i-o">Serial I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timers">Timers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#direct-register-access-on-atmega328p">Direct register access on Atmega328p</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-blink-a-led-connected-to-pin-8">Exercise: blink a LED connected to pin 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reading-and-manipulating-single-bits">Reading and manipulating single bits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-analyze-the-above-example">Exercise: analyze the above example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-read-a-digital-input-on-pin-a5">Exercise: read a digital input on pin A5</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-usage">Memory usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ram-usage-at-run-time">RAM usage at run time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stack-overflow">Stack overflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-determine-stack-usage">Exercise: determine stack usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#little-or-big-endian">Little or big endian</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#non-volatile-storage-in-eeprom">Non volatile storage in EEPROM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-store-adc-readings-in-eeprom">Exercise: store ADC readings in EEPROM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-technology">Memory technology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-non-volatile-memory-devices">Common Non-volatile Memory Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-volatile-memory-devices">Common volatile Memory Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flash-memory">Flash memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nand-flash">NAND Flash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nor-flash">NOR Flash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-access-memory">Random access memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#static-ram">Static RAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-ram">Dynamic RAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eeprom">EEPROM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hard-disk-drives">Hard disk drives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#special-memory-types">Special memory types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#historical-memory-types">Historical memory types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-access-memory-ram">Random access memory (RAM)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -185,6 +252,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -203,6 +271,16 @@
     Enter search terms or a module, class or function name.
     </p>
 </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="L8_LC_display.html"
+                          title="previous chapter">LC-Display</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
+                          title="next chapter">Additional material for lesson 1</a></p>
+  </div>
   </div>
 </div> 
         
@@ -217,17 +295,19 @@
 <span id="l9-memory-and-architecture"></span><h1>Microcontroller architecture and Memory technology<a class="headerlink" href="#microcontroller-architecture-and-memory-technology" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="microcontroller-architecture">
 <h2>Microcontroller architecture<a class="headerlink" href="#microcontroller-architecture" title="Permalink to this headline">¶</a></h2>
-<p>This lecture summarizes the common components that can be found in a microcontroller.  It is better to combine as many as possible components in a single chip.  The advantages of integration are:</p>
+<p>This lecture describes the common building blocks of a microcontroller, and how they interact with each other. It is generally better to combine as many as possible components in a single chip. The advantages of integration are:</p>
 <ul class="simple">
 <li><p><strong>Cost:</strong>  IC packages, PCB area, and PCB assembly are all major cost items that can be reduced with integration of components in a single device.</p></li>
 <li><p><strong>Easy development:</strong>  You don’t need to worry about interfacing external components and the related noise coupling or interference problems.  Accessing an ADC is as easy as writing and reading a few special function registers when the ADC is available as an on-chip component of the microcontroller.  On the other hand, if you end up using an external ADC component, then you need to find solutions to several design requirements such as, ADC power supply, interface protocol,  reserving I/O pins on the microcontroller, and routing I/O connections on the PCB.</p></li>
 </ul>
 <div class="section" id="some-wellknown-processors">
 <h3>Some Wellknown Processors<a class="headerlink" href="#some-wellknown-processors" title="Permalink to this headline">¶</a></h3>
-<p>The instruction set architecture (ISA) of the processor determines the main processing capabilities and efficiency of a microcontroller.  Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  … . .  controller with ARM core or  … . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of the common processor architectures used in microcontrollers.</p>
+<p>The instruction set architecture (<a class="reference external" href="https://en.wikipedia.org/wiki/Instruction_set_architecture">ISA</a>) of the processor describes the main processing capabilities of a microcontroller. Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  … . .  controller with ARM core or  … . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of some common processor architectures used in microcontrollers.</p>
 <ul class="simple">
-<li><p><strong>AVR (Atmel):</strong>  A large variety of microcontrollers manufactured by Atmel.  Couple of these microprocessors will be used in the application work of this course.</p></li>
-<li><p><strong>PICXXX (Microchip):</strong>  PIC is a family of Harvard architecture microcontrollers manufactured by Microchip Technology.  PIC processors are widely used for industrial applications and hobby purposes.  Optimized processor efficiency, serial programming capability, free development tools, and availability of a large library of application notes made PIC processors popular.</p></li>
+<li><p><strong>AVR (Atmel):</strong>  A large variety of Harvard architecture microcontrollers manufactured by Atmel (Atmel has been consumed by Microchip). The Atmega328p is one example on an AVR controller, and is the one used in the application work of this course.</p></li>
+<li><p><strong>PICXXX (Microchip):</strong>  PIC (Peripheral Interface Controller) is a family of Harvard architecture microcontrollers manufactured by Microchip Technology, first introduced in 1976. PIC microcontrollers have been widely used for both industrial applications and hobby purposes.</p></li>
+</ul>
+<ul class="simple">
 <li><p><strong>8051 (Intel):</strong>  A Harvard architecture 8-bit microcontroller series developed by Intel in 1980 for use in embedded systems.  Today, a large variety of faster and enhanced 8051-core microcontrollers are produced by more than 20 independent manufacturers.</p></li>
 <li><p><strong>68XX, 680X0 (Motorola):</strong>  The 68xx is an 8-bit microprocessor family introduced by Motorola starting in 1974.  The MC6801 and MC6805 were commonly used as microcontrollers in automotive industry.  The Motorola 6809 introduced in 1977 had some 16-bit features.  The Motorola 680x0 is a family of 32-bit processors that were popular in personal computers and workstations until the mid-1990s.  Descendants of the 680x0 family processors are still widely used in embedded applications.</p></li>
 <li><p><strong>ARM (ARM7, ARM9, ARM11 - ARM Holdings):</strong>  ARM architecture is the most widely used 32-bit ISA in terms of numbers produced.  ARM Holdings itself does not manufacture any processors but they license ARM ISA to independent manufacturers.  ARM processors dominate the mobile and embedded electronics market (90% of all embedded 32-bit RISC processors in 2009), because they are suitable for low power applications as relatively low cost, simple, and small microprocessors.</p></li>
@@ -235,7 +315,7 @@
 </ul>
 </div>
 <div class="section" id="memory-requirement-of-an-embedded-system">
-<h3>Memory Requirement of an Embedded System:<a class="headerlink" href="#memory-requirement-of-an-embedded-system" title="Permalink to this headline">¶</a></h3>
+<h3>Memory Requirement of an Embedded System<a class="headerlink" href="#memory-requirement-of-an-embedded-system" title="Permalink to this headline">¶</a></h3>
 <p>A stand-alone computer requires two types of memory.  First, a non-volatile memory is necessary to store the program instructions and other permanent information required for execution.  The non-volatile memory does not lose the stored information when power is turned off.  The second type of memory is the volatile memory to store temporary or dynamically changing information during program execution.</p>
 <ul class="simple">
 <li><p><strong>Non-volatile memory requirement:</strong></p>
@@ -326,6 +406,220 @@
 <p><strong>Watchdog timers</strong> are special-purpose timers dedicated to ensure the proper execution of microcontroller functions.  The processor is required to restart the watchdog timer before the preset timer period expires and it repeats this operation as long as the watchdog function is enabled.  The program written for the processor includes the necessary statements to restart the watchdog timer periodically.  If the processor fails to restart the watchdog timer, then this indicates a major functional failure due to corrupt program memory or some other reason.  In this case, the watchdog timer resets the processor, forcing initialization of all microcontroller functions.</p>
 </div>
 </div>
+<div class="section" id="direct-register-access-on-atmega328p">
+<h2>Direct register access on Atmega328p<a class="headerlink" href="#direct-register-access-on-atmega328p" title="Permalink to this headline">¶</a></h2>
+<div class="align-center figure">
+<img alt="Atmega328p memory map" src="../../_images/atmega328p-memory-map.jpg" />
+</div>
+<p>The peripherals of the microcontroller, such as I/O ports, timers, or the interrupt system is configured and controlled by setting special bits in designated areas of memory. An area the beginning of the microcontroller memory address space (from address 0x20 to 0x5F) is reserved for I/O ports, as well as some of the more important peripheral control registers. The regular CPU instructions used to read or write to memory can be used to manipulate these special addresses, but there are also some special instructions (such as the <code class="code docutils literal notranslate"><span class="pre">OUT</span></code> instruction, see: <a class="reference external" href="http://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf">AVR Instruction set manual</a>) available for more efficient manipulation of the registers.</p>
+<p>The Atmega328p uses memory addresses of 16 bit, and each CPU instruction is also 16 bit. Since some bits of each CPU instruction must be used for unique identification, it is thus impossible for a single CPU instruction to hold a complete memory address. Since the special I/O register is limited to a small address range it is possible to have instructions where the address is contained as part of the instruction.</p>
+<p>Unfortunately the restricted range I/O address space does not have room for all the special control registers, and thus some of them are outside the reach of the special efficient instructions. Regular memory operation instructions must be used to reach them. Additionally in order to best utilize the available bits in each CPU instruction, the value 0x20 is subtracted from the actual memory address to obtain the value to be used in the instruction. That way you start at address 0x00, instead of 0x20.</p>
+<p>Normally when we store a value to a variable, e.g. <code class="code docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">5;</span></code> we do not care about the exact location it is stored in memory, as long as it is stored. For the special I/O registers the exact memory address matters, as the side effects of setting a specific bit (e.g. the side effect that an output port becomes high) will wary depending on the address.</p>
+<p>The digital I/O ports of the Atmega328p are utilized by means of three registers. One register (PORTx) is used to write to digital outputs, one (PINx) is used to read digital inputs, and one (DDRx) is used to configure the pin as input, or output. Each register is 8 bits wide, and thus responsible for 8 I/O pins. This grouping of pins is known as a port, and is given a letter starting with A, i.e. PORTA is the output register for the 8 I/O pins of port A.</p>
+<p>Functions such as <code class="code docutils literal notranslate"><span class="pre">digitalWrite()</span></code> will access the memory locations of these ports, and manipulate a single bit depending on the parameters to the function. Even though the use of the functions are easier, and more portable than accessing the registers directly, direct register manipulations can be useful since they are faster, and allows us to change multiple pins at once.</p>
+<p>The pins 0 to 7 on the Arduino UNO are connected to PORTD (PD0 to PD7 respectively). According to the datasheet PORTD is placed at the address 0x2B. Additionally the data direction register DDRD is placed at 0x2A, and the PIND register is placed at 0x29.</p>
+<p>In order to associate a variable name with a specific memory address it is possible to use pointers. A pointer is a variable which holds the location to a memory address, and by using the special dereference operator <code class="code docutils literal notranslate"><span class="pre">*</span></code> we access the memory address instead of the variable.</p>
+<p>Create a pointer to memory address 0x002b:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x002b</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Write a 1 to bit number 4 (note the asterisk <code class="code docutils literal notranslate"><span class="pre">*</span></code> in front of the variable name):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00001000</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Without the asterisk we are changing the contents of the variable, rather than the memory location to which it points:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00001000</span><span class="p">;</span><span class="w"> </span><span class="c1">// Attempts to set the variable to point to memory address 0x0008. Don&#39;t do this!</span>
+</pre></div>
+</div>
+<p>The following example illustrates how to blink a LED connected to pin 3 on the Arduino UNO:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x002b</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">ddr_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x002a</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pin_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x0029</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="c1">// Configure pin 4 as output</span>
+<span class="linenos">10</span><span class="w">  </span><span class="o">*</span><span class="n">ddr_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00001000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">  </span><span class="c1">// Set bit 4 (pin 3) high, all other pins low</span>
+<span class="linenos">16</span><span class="w">  </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00001000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1">// Set all pins (including bit 4 / pin 3) low</span>
+<span class="linenos">21</span><span class="w">  </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00000000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">24</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note that the register accesses modify all the bits in the register. E.g. if pin 5 was high before, it will be written low even though we are only interested in modifying pin 3. This can be solved by first reading the register and using some logic operations before writing back to the register.</p>
+<div class="section" id="exercise-blink-a-led-connected-to-pin-8">
+<h3>Exercise: blink a LED connected to pin 8<a class="headerlink" href="#exercise-blink-a-led-connected-to-pin-8" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Use the Arduino UNO pinout diagram to figure out which port (bank of I/O pins) that pin 8 is connected to.</p></li>
+<li><p>Use the datasheet of the Atmega328p (page 280) to figure out the memory addresses of the registers which controls the bank of pins of which pin 8 is a member. Use the addresses in parentheses.</p></li>
+<li><p>Write a short explanation in your own words about the difference between the addresses in parentheses and the ones without.</p></li>
+<li><p>Modify the program in the previous example to blink a LED connected to pin 8.</p></li>
+</ol>
+</div>
+<div class="section" id="reading-and-manipulating-single-bits">
+<h3>Reading and manipulating single bits<a class="headerlink" href="#reading-and-manipulating-single-bits" title="Permalink to this headline">¶</a></h3>
+<p>In order to manipulate single bits of a register we have to read the register, make changes using logic operations, and finally write back the result.</p>
+<p>A very useful operator for this purpose is the left bit shift (<code class="code docutils literal notranslate"><span class="pre">&lt;&lt;</span></code>) operator. It allows us to shift a binary value to the left (a right shift operator <code class="code docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> is also available).</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// The value of &#39;b&#39; is 1 shifted 3 places to the left, i.e. 0b1000, or 8 in decimal.</span>
+</pre></div>
+</div>
+<p>Additionally the bitwise and (<code class="code docutils literal notranslate"><span class="pre">&amp;</span></code>), the bitwise or (<code class="code docutils literal notranslate"><span class="pre">|</span></code>), the bitwise xor (<code class="code docutils literal notranslate"><span class="pre">^</span></code>), and the bitwise not (<code class="code docutils literal notranslate"><span class="pre">~</span></code>) can be used in clever ways to set, clear, or flip the state of single bits while leaving the other bits untouched.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x002b</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">ddr_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x002a</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pin_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="mh">0x0029</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="c1">// Configure pin 4 as output</span>
+<span class="linenos">10</span><span class="w">  </span><span class="o">*</span><span class="n">ddr_d</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w">  </span><span class="c1">// Configure pin 5 as input</span>
+<span class="linenos">13</span><span class="w">  </span><span class="o">*</span><span class="n">ddr_d</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="c1">// Set bit 3 high, while not touching any other bits</span>
+<span class="linenos">19</span><span class="w">  </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="w">  </span><span class="c1">// Read the state of bit 4</span>
+<span class="linenos">22</span><span class="w">  </span><span class="k">if</span><span class="p">(((</span><span class="o">*</span><span class="n">pin_d</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x01</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">800</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">  </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="w">  </span><span class="c1">// Set bit 3 low, while not touching any other bits</span>
+<span class="linenos">30</span><span class="w">  </span><span class="o">*</span><span class="n">port_d</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">33</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exercise-analyze-the-above-example">
+<h3>Exercise: analyze the above example<a class="headerlink" href="#exercise-analyze-the-above-example" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Verify the operation of the above code listing by testing it on a Arduino UNO. Connect a push button with pull-down resistor to pin 4, and a LED to pin 3.</p></li>
+<li><p>Use your knowledge about digital electronics to analyze the above code listing. Especially the lines which read or manipulate the registers. Consider the case that PORD = 0b11000000, PIND = 0, and DDRD = 0, before the program starts. Write down your explanation for each statement.</p></li>
+</ol>
+</div>
+<div class="section" id="exercise-read-a-digital-input-on-pin-a5">
+<h3>Exercise: read a digital input on pin A5<a class="headerlink" href="#exercise-read-a-digital-input-on-pin-a5" title="Permalink to this headline">¶</a></h3>
+<p>The analog input pins can be reconfigured to work as digital input or output pins. In this exercise you are going to use the pin A5 as a digital input by means of direct manipulation of the memory registers.</p>
+<ol class="arabic simple">
+<li><p>Use the pinout diagram, and the datasheet of the Atmega328p to figure out the memory addresses of the registers which controls the bank of pins of which pin A5 is a member.</p></li>
+<li><p>Configure pin A5 as an input.</p></li>
+<li><p>Read the state of the A5 pin, and blink a LED if A5 is high. If A5 is low the blinking should stop and the LED should be low. You may use the normal <code class="code docutils literal notranslate"><span class="pre">digitalWrite()</span></code> function for the LED control.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="memory-usage">
+<h2>Memory usage<a class="headerlink" href="#memory-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ram-usage-at-run-time">
+<h3>RAM usage at run time<a class="headerlink" href="#ram-usage-at-run-time" title="Permalink to this headline">¶</a></h3>
+<p>After building your program a inspect tool can be used to provide information on the usage of RAM and Flash memory on the microcontroller. This happens automatically in PlatformIO, and the result might look like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Checking size .pio/build/uno/firmware.elf</span>
+<span class="go">Advanced Memory Usage is available via &quot;PlatformIO Home &gt; Project Inspect&quot;</span>
+<span class="go">RAM:   [=         ]  10.6% (used 218 bytes from 2048 bytes)</span>
+<span class="go">Flash: [=         ]   5.5% (used 1790 bytes from 32256 bytes)</span>
+</pre></div>
+</div>
+<p>For the Flash usage this is usually the correct value, but for the RAM the situation is more complex. It is possible for an application to change the RAM usage at run time. This happens each time a function is called, or when a function returns. It is also possible to declare more memory as needed, e.g. in order to store some data from a user who interacts with the microcontroller. Dynamic memory allocation is typically discouraged on microcontrollers which has small amounts of total RAM available, but still it should be apparent that the RAM usage can be a complex thing to analyze in some cases.</p>
+</div>
+<div class="section" id="stack-overflow">
+<h3>Stack overflow<a class="headerlink" href="#stack-overflow" title="Permalink to this headline">¶</a></h3>
+<div class="align-center figure">
+<img alt="Atmega328p RAM memory map" src="../../_images/nongnu-onboard-ram.png" />
+</div>
+<p>The data memory (RAM) of the microcontroller is divided in to several portions. First we have the .data, and the .bss (Block Started by Symbol) sections at the lower addresses in memory. The .data section contains initialized global variables, and local variables declared as <code class="code docutils literal notranslate"><span class="pre">static</span></code>. The .bss section is for the uninitialized variables in the same two categories. The .data and .bss sections do not change during the execution of the program.</p>
+<p>After that follows the dynamic portions of the memory, the stack and the heap which may change size as the program executes. The stack grows down from the top of the memory, and is used for storing data in functions as they are called, e.g. variables local to functions. The heap grows up from the bottom of the memory and is used for dynamically allocated memory.</p>
+<p>If the stack grows so large that it runs in to the heap area, you have what is known as stack overflow. In this case the behavior of the microcontroller will be unpredictable. It is therefore important to have some free space in RAM for the stack to grow or shrink as functions are called or returning.</p>
+</div>
+<div class="section" id="exercise-determine-stack-usage">
+<h3>Exercise: determine stack usage<a class="headerlink" href="#exercise-determine-stack-usage" title="Permalink to this headline">¶</a></h3>
+<p>There is a macro <code class="code docutils literal notranslate"><span class="pre">RAMEND</span></code> somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet page 18 is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the <code class="code docutils literal notranslate"><span class="pre">&amp;</span></code> operator, it is possible to calculate the number of bytes on the stack.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">variable_at_top_of_stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint16_t</span><span class="w"> </span><span class="n">stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RAMEND</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)</span><span class="o">&amp;</span><span class="n">variable_at_top_of_stack</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="c1">//uint16_t stack_size = RAMEND - SP;</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Use the above code lines in a program to determine the number of bytes on the stack.</p></li>
+<li><p>Print the value to the UART.</p></li>
+<li><p>Add some new variables to the stack, and observe how the stack size value changes. You add variables to the stack simply by declaring them inside a function. Due to compiler optimization you have to either use the variables for something, or declare them as <code class="code docutils literal notranslate"><span class="pre">volatile</span></code>. Otherwise the compiler will optimize them away, and your stack size will not change.</p></li>
+<li><p>The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yeild correct results to use the address of a variable. The third (commented) line in the above example uses the macor <code class="code docutils literal notranslate"><span class="pre">SP</span></code> (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for</p></li>
+</ol>
+</div>
+<div class="section" id="little-or-big-endian">
+<h3>Little or big endian<a class="headerlink" href="#little-or-big-endian" title="Permalink to this headline">¶</a></h3>
+<p>Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.</p>
+<p>The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. I can however become important when interfacing several microcontrollers to each other.</p>
+<p>In order to check if the microcontroller is little or big endian one may force the compiler in to considering a pointer to a 16 bit value as a pointer to an 8 bit value. By reading the value that the pointer is pointing to, only 8 bits are returned, and these would be the 8 bits that are stored first in memory. If the bits returned are the most significant bits of the original number,</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">test_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xabcd</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">test_number_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">test_number</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;First byte: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="o">*</span><span class="n">test_number_pointer</span><span class="p">,</span><span class="w"> </span><span class="n">HEX</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Second byte: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="o">*++</span><span class="n">test_number_pointer</span><span class="p">,</span><span class="w"> </span><span class="n">HEX</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1">// put your main code here, to run repeatedly:</span>
+<span class="linenos">21</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt; Executing task in folder little-or-big-endian: platformio device monitor &lt;</span>
+
+<span class="go">--- Available filters and text transformations: colorize, debug, default, direct, hexlify, log2file, nocontrol, printable, send_on_enter, time</span>
+<span class="go">--- More details at https://bit.ly/pio-monitor-filters</span>
+<span class="go">--- Miniterm on /dev/ttyACM0  9600,8,N,1 ---</span>
+<span class="go">--- Quit: Ctrl+C | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---</span>
+<span class="go">First byte: CD</span>
+<span class="go">Second byte: AB</span>
+</pre></div>
+</div>
+<p>The first byte is 0xCD which is the least significant byte, while the second byte is 0xAB which is the most significant byte. This suggests that the CPU is little endian (the little end of the number comes first), and we know from the datasheet that the AVR CPU is little endian.</p>
+</div>
+</div>
+<div class="section" id="non-volatile-storage-in-eeprom">
+<h2>Non volatile storage in EEPROM<a class="headerlink" href="#non-volatile-storage-in-eeprom" title="Permalink to this headline">¶</a></h2>
+<p>If you have some value in your program which you would like the microcontroller to remember the next time it boots, you have the option to store it to the EEPROM. The Atmega328p has 1 kilobyte of EEPROM.</p>
+<div class="section" id="exercise-store-adc-readings-in-eeprom">
+<h3>Exercise: store ADC readings in EEPROM<a class="headerlink" href="#exercise-store-adc-readings-in-eeprom" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Connect a push button with pull-down resistor to pin 3, and a potmeter to analog input A0</p></li>
+<li><p>Write a program which reads the value on analog input A0, and print it on the UART.</p></li>
+<li><p>Add the functionality to store the current ADC reading to an array by pushing the button. The 10 most recent readings should be stored, i.e. if the memory already holds 10 readings, the oldest reading should be dropped. Print all readings to the UART at a rate of 1 second.</p></li>
+<li><p>Add the functionality to store the array in EEPROM each time the button is pushed.</p></li>
+</ol>
+</div>
+</div>
 <div class="section" id="memory-technology">
 <h2>Memory technology<a class="headerlink" href="#memory-technology" title="Permalink to this headline">¶</a></h2>
 <p>No, floppy disk is not a 3D printed save button</p>
@@ -397,7 +691,8 @@
 <h3>Special memory types<a class="headerlink" href="#special-memory-types" title="Permalink to this headline">¶</a></h3>
 <p>NVRAM</p>
 <p>NVSRAM</p>
-<p>EERAM</p>
+<p>NVSRAM is a special type of hybrid non-volatile random-access memory (NVRAM). One portion is a normal volatile SRAM, while the other is some form of EEPROM which has lower read and write speeds, but allows storing the memory contents in a non volatile manner.</p>
+<p>EERAM is similar in concept to NVSRAM. Whenever it detects a power failure it will transfer the contents of the SRAM to a non volatile storage.</p>
 <p>OTP EPROM</p>
 </div>
 <div class="section" id="historical-memory-types">
@@ -406,16 +701,6 @@
 </div>
 <div class="section" id="random-access-memory-ram">
 <h3>Random access memory (RAM)<a class="headerlink" href="#random-access-memory-ram" title="Permalink to this headline">¶</a></h3>
-<p>It is possible for the RAM usage to change during the execution of a program on the microcontroller. Whenever a function is called, all the variables local to the function takes up memory which is released when the function returns. Additionally it is possible to dynamically allocate memory (e.g. by the function <code class="code ccode c docutils literal notranslate"><span class="pre">malloc()</span></code>). If the microcontroller runs out of memory the result will usually be catastrophic. Since dynamic memory allocation can increase the risk of exhausting the memory, it is generally discouraged on low end microcontrollers. If you really need dynamic memory allocation, it should be restricted to only use some parts of the memory and it should be able to safely deal with the situation that the memory is full.</p>
-</div>
-<div class="section" id="checking-the-ram-usage-at-run-time">
-<h3>Checking the RAM usage at run time<a class="headerlink" href="#checking-the-ram-usage-at-run-time" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="the-stack-and-the-heap">
-<h3>The stack, and the heap<a class="headerlink" href="#the-stack-and-the-heap" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="stack-overflow">
-<h3>Stack overflow<a class="headerlink" href="#stack-overflow" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="bibliography">
@@ -442,6 +727,8 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
+        <li><a href="L8_LC_display.html" title="LC-Display" >previous</a></li>
+        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

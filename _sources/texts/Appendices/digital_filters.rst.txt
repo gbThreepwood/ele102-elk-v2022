@@ -134,6 +134,25 @@ E.g. a state matrix for position and velocity in the x direction could look like
 
 
 
+Variance - covariance matrix
+----------------------------
+
+The variance is the square of the standard deviation for at set of measurements.
+
+.. math::
+
+    \sigma_x^2 = \frac{\sum_{i = 1}^{N} (\bar{x} - x_i)^2}{N}
+
+.. math::
+
+    \sigma_x \sigma_y = \frac{\sum_{i = 1}^{N} (\bar{x} - x_i)(\bar{y} - y_i)}{N}
+
+
+:math:`[P]` is the state covariance matrix (error in the estimate), and :math:`[Q]` is the process noise covariance matrix. The process noise covariance matrix is important in order to ensure that the state covariance matrix does not become to small, which in turn would make our filter put to high emphasis on the estimation rather than the measurement.
+
+
+:math:`[R]` is the measurement covariance matrix (error in the measurement), and :math:`[K]` is the Kalman gain.
+
 
 Temperature measurement using multiple sensors
 ----------------------------------------------

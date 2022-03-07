@@ -3,16 +3,6 @@ Additional material for lesson 8
 *******************************************************
 
 
-Graphic LC-display
-==================
-
-.. note:: Graphic LC-displays are outside the curriculum of the course, and only mentioned briefly for completeness.
-
-Graphic LC-displays are often controlled by writing to a memory. Each bit it the memory may control a whole pixel on simple displays, or parts of a pixel (e.g. its brightness, or color), on more complex displays.
-
-For simple displays each bit of the memory turns a pixel on or off.
-
-
 LCD and Interrupt Class Activity Codes
 ======================================
 

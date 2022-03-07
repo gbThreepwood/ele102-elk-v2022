@@ -12,7 +12,7 @@ Microcontroller architecture and Memory technology
 Microcontroller architecture
 ==============================
 
-This lecture summarizes the common components that can be found in a microcontroller.  It is better to combine as many as possible components in a single chip.  The advantages of integration are: 
+This lecture describes the common building blocks of a microcontroller, and how they interact with each other. It is generally better to combine as many as possible components in a single chip. The advantages of integration are: 
 
 * **Cost:**  IC packages, PCB area, and PCB assembly are all major cost items that can be reduced with integration of components in a single device. 
 * **Easy development:**  You don't need to worry about interfacing external components and the related noise coupling or interference problems.  Accessing an ADC is as easy as writing and reading a few special function registers when the ADC is available as an on-chip component of the microcontroller.  On the other hand, if you end up using an external ADC component, then you need to find solutions to several design requirements such as, ADC power supply, interface protocol,  reserving I/O pins on the microcontroller, and routing I/O connections on the PCB.
@@ -20,11 +20,12 @@ This lecture summarizes the common components that can be found in a microcontro
 Some Wellknown Processors
 ---------------------------
 
-The instruction set architecture (ISA) of the processor determines the main processing capabilities and efficiency of a microcontroller.  Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  . . . . .  controller with ARM core or  . . . . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of the common processor architectures used in microcontrollers. 
+The instruction set architecture (`ISA <https://en.wikipedia.org/wiki/Instruction_set_architecture>`_) of the processor describes the main processing capabilities of a microcontroller. Usually a microcontroller is labeled with a core name that identifies the processor ISA (e.g.  . . . . .  controller with ARM core or  . . . . .  controller with 8051 core).  Note that the ISA determines the main programming features and requirements of a processor.  The hardware implementation may vary from an IC manufacturer to another.  Following is a list of some common processor architectures used in microcontrollers. 
 
-* **AVR (Atmel):**  A large variety of microcontrollers manufactured by Atmel.  Couple of these microprocessors will be used in the application work of this course. 
+* **AVR (Atmel):**  A large variety of Harvard architecture microcontrollers manufactured by Atmel (Atmel has been consumed by Microchip). The Atmega328p is one example on an AVR controller, and is the one used in the application work of this course. 
 
-* **PICXXX (Microchip):**  PIC is a family of Harvard architecture microcontrollers manufactured by Microchip Technology.  PIC processors are widely used for industrial applications and hobby purposes.  Optimized processor efficiency, serial programming capability, free development tools, and availability of a large library of application notes made PIC processors popular. 
+* **PICXXX (Microchip):**  PIC (Peripheral Interface Controller) is a family of Harvard architecture microcontrollers manufactured by Microchip Technology, first introduced in 1976. PIC microcontrollers have been widely used for both industrial applications and hobby purposes.
+.. Optimized processor efficiency, serial programming capability, free development tools, and availability of a large library of application notes made PIC processors popular. 
 
 * **8051 (Intel):**  A Harvard architecture 8-bit microcontroller series developed by Intel in 1980 for use in embedded systems.  Today, a large variety of faster and enhanced 8051-core microcontrollers are produced by more than 20 independent manufacturers. 
 
@@ -35,7 +36,7 @@ The instruction set architecture (ISA) of the processor determines the main proc
 * **x86 (386, 486, Pentium, . . . -  Intel):**  The term x86 refers to a family of ISAs based on the Intel 8086 CPU introduced in 1978.  More specifically, x86 implies compatibility with the instruction set of 32-bit 80386.  x86 processors are not widely used in embedded systems. 
 
 
-Memory Requirement of an Embedded System:
+Memory Requirement of an Embedded System
 -----------------------------------------
 
 A stand-alone computer requires two types of memory.  First, a non-volatile memory is necessary to store the program instructions and other permanent information required for execution.  The non-volatile memory does not lose the stored information when power is turned off.  The second type of memory is the volatile memory to store temporary or dynamically changing information during program execution. 
@@ -141,6 +142,213 @@ Timers are counters that can be programmed to perform a variety of functions.  F
 .. THEN MAYBE OPEN THE ATMEGA328P DATASHEET AND LOOK AT ALL THE DETAILS. COMPARE WITH STM32 FOR EXAMPLE
 
 
+
+
+Direct register access on Atmega328p
+====================================
+
+.. figure:: ../../../external/fig/atmega/atmega328p-memory-map.jpg
+    :align: center
+    :alt: Atmega328p memory map
+    :figclass: align-center
+
+
+The peripherals of the microcontroller, such as I/O ports, timers, or the interrupt system is configured and controlled by setting special bits in designated areas of memory. An area the beginning of the microcontroller memory address space (from address 0x20 to 0x5F) is reserved for I/O ports, as well as some of the more important peripheral control registers. The regular CPU instructions used to read or write to memory can be used to manipulate these special addresses, but there are also some special instructions (such as the :code:`OUT` instruction, see: `AVR Instruction set manual <http://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf>`_) available for more efficient manipulation of the registers.
+
+The Atmega328p uses memory addresses of 16 bit, and each CPU instruction is also 16 bit. Since some bits of each CPU instruction must be used for unique identification, it is thus impossible for a single CPU instruction to hold a complete memory address. Since the special I/O register is limited to a small address range it is possible to have instructions where the address is contained as part of the instruction.
+
+Unfortunately the restricted range I/O address space does not have room for all the special control registers, and thus some of them are outside the reach of the special efficient instructions. Regular memory operation instructions must be used to reach them. Additionally in order to best utilize the available bits in each CPU instruction, the value 0x20 is subtracted from the actual memory address to obtain the value to be used in the instruction. That way you start at address 0x00, instead of 0x20.
+
+Normally when we store a value to a variable, e.g. :code:`uint8_t a = 5;` we do not care about the exact location it is stored in memory, as long as it is stored. For the special I/O registers the exact memory address matters, as the side effects of setting a specific bit (e.g. the side effect that an output port becomes high) will wary depending on the address.
+
+The digital I/O ports of the Atmega328p are utilized by means of three registers. One register (PORTx) is used to write to digital outputs, one (PINx) is used to read digital inputs, and one (DDRx) is used to configure the pin as input, or output. Each register is 8 bits wide, and thus responsible for 8 I/O pins. This grouping of pins is known as a port, and is given a letter starting with A, i.e. PORTA is the output register for the 8 I/O pins of port A.
+
+Functions such as :code:`digitalWrite()` will access the memory locations of these ports, and manipulate a single bit depending on the parameters to the function. Even though the use of the functions are easier, and more portable than accessing the registers directly, direct register manipulations can be useful since they are faster, and allows us to change multiple pins at once.
+
+The pins 0 to 7 on the Arduino UNO are connected to PORTD (PD0 to PD7 respectively). According to the datasheet PORTD is placed at the address 0x2B. Additionally the data direction register DDRD is placed at 0x2A, and the PIND register is placed at 0x29.
+
+In order to associate a variable name with a specific memory address it is possible to use pointers. A pointer is a variable which holds the location to a memory address, and by using the special dereference operator :code:`*` we access the memory address instead of the variable.
+
+Create a pointer to memory address 0x002b:
+
+.. code-block:: c
+
+  uint8_t *port_d = (uint8_t*)0x002b;
+
+Write a 1 to bit number 4 (note the asterisk :code:`*` in front of the variable name):
+
+.. code-block:: c
+
+    *port_d = 0b00001000;
+
+Without the asterisk we are changing the contents of the variable, rather than the memory location to which it points:
+
+.. code-block:: c
+
+  port_d = 0b00001000; // Attempts to set the variable to point to memory address 0x0008. Don't do this!
+
+The following example illustrates how to blink a LED connected to pin 3 on the Arduino UNO:
+
+.. literalinclude:: ../../../projects/platformio/architecture/register-address-specification-led-blink/src/main.cpp
+    :language: c
+    :linenos:
+
+Note that the register accesses modify all the bits in the register. E.g. if pin 5 was high before, it will be written low even though we are only interested in modifying pin 3. This can be solved by first reading the register and using some logic operations before writing back to the register.
+
+Exercise: blink a LED connected to pin 8
+-----------------------------------------
+
+#. Use the Arduino UNO pinout diagram to figure out which port (bank of I/O pins) that pin 8 is connected to.
+#. Use the datasheet of the Atmega328p (page 280) to figure out the memory addresses of the registers which controls the bank of pins of which pin 8 is a member. Use the addresses in parentheses.
+#. Write a short explanation in your own words about the difference between the addresses in parentheses and the ones without.
+#. Modify the program in the previous example to blink a LED connected to pin 8.
+
+
+Reading and manipulating single bits
+------------------------------------
+
+In order to manipulate single bits of a register we have to read the register, make changes using logic operations, and finally write back the result.
+
+A very useful operator for this purpose is the left bit shift (:code:`<<`) operator. It allows us to shift a binary value to the left (a right shift operator :code:`>>` is also available).
+
+.. code-block:: c
+
+  uint8_t b = (1 << 3); // The value of 'b' is 1 shifted 3 places to the left, i.e. 0b1000, or 8 in decimal.
+
+Additionally the bitwise and (:code:`&`), the bitwise or (:code:`|`), the bitwise xor (:code:`^`), and the bitwise not (:code:`~`) can be used in clever ways to set, clear, or flip the state of single bits while leaving the other bits untouched.
+
+.. literalinclude:: ../../../projects/platformio/architecture/register-access-single-bit-manipulations/src/main.cpp
+    :language: c
+    :linenos:
+
+
+Exercise: analyze the above example
+-------------------------------------------
+
+#. Verify the operation of the above code listing by testing it on a Arduino UNO. Connect a push button with pull-down resistor to pin 4, and a LED to pin 3.
+#. Use your knowledge about digital electronics to analyze the above code listing. Especially the lines which read or manipulate the registers. Consider the case that PORD = 0b11000000, PIND = 0, and DDRD = 0, before the program starts. Write down your explanation for each statement.
+
+
+Exercise: read a digital input on pin A5
+-------------------------------------------
+
+The analog input pins can be reconfigured to work as digital input or output pins. In this exercise you are going to use the pin A5 as a digital input by means of direct manipulation of the memory registers.
+
+#. Use the pinout diagram, and the datasheet of the Atmega328p to figure out the memory addresses of the registers which controls the bank of pins of which pin A5 is a member.
+#. Configure pin A5 as an input.
+#. Read the state of the A5 pin, and blink a LED if A5 is high. If A5 is low the blinking should stop and the LED should be low. You may use the normal :code:`digitalWrite()` function for the LED control.
+
+
+Memory usage
+============
+
+
+
+RAM usage at run time
+-------------------------------
+
+After building your program a inspect tool can be used to provide information on the usage of RAM and Flash memory on the microcontroller. This happens automatically in PlatformIO, and the result might look like:
+
+.. code-block:: console
+
+  Checking size .pio/build/uno/firmware.elf
+  Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+  RAM:   [=         ]  10.6% (used 218 bytes from 2048 bytes)
+  Flash: [=         ]   5.5% (used 1790 bytes from 32256 bytes)
+
+For the Flash usage this is usually the correct value, but for the RAM the situation is more complex. It is possible for an application to change the RAM usage at run time. This happens each time a function is called, or when a function returns. It is also possible to declare more memory as needed, e.g. in order to store some data from a user who interacts with the microcontroller. Dynamic memory allocation is typically discouraged on microcontrollers which has small amounts of total RAM available, but still it should be apparent that the RAM usage can be a complex thing to analyze in some cases.
+
+.. It is possible for the RAM usage to change during the execution of a program on the microcontroller. Whenever a function is called, all the variables local to the function takes up memory which is released when the function returns. Additionally it is possible to dynamically allocate memory (e.g. by the function :ccode:`malloc()`).
+
+.. If the microcontroller runs out of memory the result will usually be catastrophic. Since dynamic memory allocation can increase the risk of exhausting the memory, it is generally discouraged on low end microcontrollers. If you really need dynamic memory allocation, it should be restricted to only use some parts of the memory and it should be able to safely deal with the situation that the memory is full.
+
+
+
+Stack overflow
+--------------
+
+.. figure:: ../../../external/fig/atmega/nongnu-onboard-ram.png
+    :align: center
+    :alt: Atmega328p RAM memory map
+    :figclass: align-center
+
+
+The data memory (RAM) of the microcontroller is divided in to several portions. First we have the .data, and the .bss (Block Started by Symbol) sections at the lower addresses in memory. The .data section contains initialized global variables, and local variables declared as :code:`static`. The .bss section is for the uninitialized variables in the same two categories. The .data and .bss sections do not change during the execution of the program.
+
+After that follows the dynamic portions of the memory, the stack and the heap which may change size as the program executes. The stack grows down from the top of the memory, and is used for storing data in functions as they are called, e.g. variables local to functions. The heap grows up from the bottom of the memory and is used for dynamically allocated memory.
+
+If the stack grows so large that it runs in to the heap area, you have what is known as stack overflow. In this case the behavior of the microcontroller will be unpredictable. It is therefore important to have some free space in RAM for the stack to grow or shrink as functions are called or returning.
+
+..
+  Determine RAM usage
+  ----------------------
+
+  Several symbols are defined which can be used to compute the current amount of used and free RAM.
+
+
+  .. literalinclude:: ../../../projects/platformio/architecture/data-bss-heap-size/src/main.cpp
+      :language: c
+      :linenos:
+
+
+
+Exercise: determine stack usage
+-----------------------------
+
+There is a macro :code:`RAMEND` somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet page 18 is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the :code:`&` operator, it is possible to calculate the number of bytes on the stack.
+
+.. code-block:: c
+
+  uint8_t variable_at_top_of_stack = 1;
+  uint16_t stack_size = RAMEND - (uint16_t)&variable_at_top_of_stack + 1;
+  //uint16_t stack_size = RAMEND - SP;
+
+#. Use the above code lines in a program to determine the number of bytes on the stack.
+#. Print the value to the UART.
+#. Add some new variables to the stack, and observe how the stack size value changes. You add variables to the stack simply by declaring them inside a function. Due to compiler optimization you have to either use the variables for something, or declare them as :code:`volatile`. Otherwise the compiler will optimize them away, and your stack size will not change.
+#. The compiler may choose to organize the data in the stack in another order than it is declared in the code. Thus it might not always yeild correct results to use the address of a variable. The third (commented) line in the above example uses the macor :code:`SP` (stack pointer) to obtain the address to the top of the stack. This is probably a better method, but both are provided for 
+
+Little or big endian
+--------------------
+
+Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.
+
+The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. I can however become important when interfacing several microcontrollers to each other.
+
+In order to check if the microcontroller is little or big endian one may force the compiler in to considering a pointer to a 16 bit value as a pointer to an 8 bit value. By reading the value that the pointer is pointing to, only 8 bits are returned, and these would be the 8 bits that are stored first in memory. If the bits returned are the most significant bits of the original number, 
+
+.. literalinclude:: ../../../projects/platformio/architecture/little-or-big-endian/src/main.cpp
+    :language: c
+    :linenos:
+
+
+.. code-block:: console
+
+  > Executing task in folder little-or-big-endian: platformio device monitor <
+
+  --- Available filters and text transformations: colorize, debug, default, direct, hexlify, log2file, nocontrol, printable, send_on_enter, time
+  --- More details at https://bit.ly/pio-monitor-filters
+  --- Miniterm on /dev/ttyACM0  9600,8,N,1 ---
+  --- Quit: Ctrl+C | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+  First byte: CD
+  Second byte: AB
+
+The first byte is 0xCD which is the least significant byte, while the second byte is 0xAB which is the most significant byte. This suggests that the CPU is little endian (the little end of the number comes first), and we know from the datasheet that the AVR CPU is little endian.
+
+
+Non volatile storage in EEPROM
+==============================
+
+If you have some value in your program which you would like the microcontroller to remember the next time it boots, you have the option to store it to the EEPROM. The Atmega328p has 1 kilobyte of EEPROM.
+
+
+Exercise: store ADC readings in EEPROM
+--------------------------------------
+
+#. Connect a push button with pull-down resistor to pin 3, and a potmeter to analog input A0
+#. Write a program which reads the value on analog input A0, and print it on the UART.
+#. Add the functionality to store the current ADC reading to an array by pushing the button. The 10 most recent readings should be stored, i.e. if the memory already holds 10 readings, the oldest reading should be dropped. Print all readings to the UART at a rate of 1 second.
+#. Add the functionality to store the array in EEPROM each time the button is pushed.
 
 Memory technology
 ==================
@@ -249,7 +457,9 @@ NVRAM
 
 NVSRAM
 
-EERAM
+NVSRAM is a special type of hybrid non-volatile random-access memory (NVRAM). One portion is a normal volatile SRAM, while the other is some form of EEPROM which has lower read and write speeds, but allows storing the memory contents in a non volatile manner.
+
+EERAM is similar in concept to NVSRAM. Whenever it detects a power failure it will transfer the contents of the SRAM to a non volatile storage.
 
 OTP EPROM
 
@@ -264,23 +474,6 @@ In this section we will briefly discuss some of the memory technologies that are
 
 Random access memory (RAM)
 ---------------------------
-
-It is possible for the RAM usage to change during the execution of a program on the microcontroller. Whenever a function is called, all the variables local to the function takes up memory which is released when the function returns. Additionally it is possible to dynamically allocate memory (e.g. by the function :ccode:`malloc()`). If the microcontroller runs out of memory the result will usually be catastrophic. Since dynamic memory allocation can increase the risk of exhausting the memory, it is generally discouraged on low end microcontrollers. If you really need dynamic memory allocation, it should be restricted to only use some parts of the memory and it should be able to safely deal with the situation that the memory is full.
-
-
-Checking the RAM usage at run time
-----------------------------------
-
-The stack, and the heap
------------------------
-
-Stack overflow
---------------
-
-
-
-
-
 
 
 
