@@ -444,12 +444,101 @@ The motor supply voltage pin is connected to the 5 V output from the Arduino. Th
 .. .. literalinclude:: ../../../projects/DC_speed_control/DC_speed_control.ino
 ..    :language: c
 
+Control function for easy use of the L293D
+------------------------------------------------
+
+In order to easily use the L293D, and also to easily change to a different motor driver without having to make a lot of changes to your code, it is a good idea to abstract away the low level details in a function. The function should take parameters for the duty cycle, as well as for the voltage polarity which determine the rotational direction.
+
+The following code listing shows an example of such a function, which support the four most basic functions that is available for DC-motor driving using the LM293D.
+
+.. code-block:: c
+
+    typedef enum _drive_ctrl_t {
+        DIR_FORWARD = 0,
+        DIR_REVERSE,
+        CTRL_STOP,
+        CTRL_EM_STOP
+    } drive_ctrl_t;
+
+    void motor_drive_control(uint8_t duty_cycle, drive_ctrl_t ctrl){
+
+      switch (ctrl)
+      {
+      case DIR_FORWARD:
+        digitalWrite(a1_pin, HIGH);
+        digitalWrite(a2_pin, LOW);
+        analogWrite(en_pin, duty_cycle);
+        break;
+
+      case DIR_REVERSE:
+        digitalWrite(a1_pin, LOW);
+        digitalWrite(a2_pin, HIGH);
+        analogWrite(en_pin, duty_cycle);
+        break;
+
+      case CTRL_STOP:
+        digitalWrite(a1_pin, LOW);
+        digitalWrite(a2_pin, LOW);
+        digitalWrite(en_pin, LOW);
+        break;
+
+      case CTRL_EM_STOP: 
+        digitalWrite(a1_pin, LOW);
+        digitalWrite(a2_pin, LOW);
+        digitalWrite(en_pin, HIGH);
+        break;
+
+      default:
+        break;
+      }
+    }
+
+The listing starts by defining a :code:`enum`, which provides names for the four possible values to the second parameter of the function. This is not mandatory but helps in improving the readability of the code, as well as providing some type safety. The four parameters are translated to numbers, but numeric values outside the range will cause compiler warnings.
+
+Depending on the received parameter, the :code:`switch` will set the appropriate logic levels to the output pins, and also set the duty cycle if needed.
 
 A slightly more complete example with start, stop, and emergency stop
 ---------------------------------------------------------------------
 
 The emergency stop is implemented by forcing the motor to stop as quickly as possible. By setting both 1A, and 2A low (or high) simultaneously while keeping the EN signal high the motor terminals will be short circuited to each other. This will cause a large current to flow in the motor windings, and the rotational energy will be dissipated as heat in the winding resistance.
 
+.. literalinclude:: ../../../projects/platformio/motor-drive/em-stop-dc-motor-drive-l293d/src/main.cpp
+    :language: c
+
+Start/stop, forward/reverse and speed control
+---------------------------------------------
+
+The previous example only supported operation of the motor in one direction. Furthermore the next step after the start/stop, and forward/reverse commands have been implemented is to implement speed control. For the upcoming exercises you should use the following wiring:
+
+.. The following example is a slightly more complete implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stopping the motor. The voltage on analog input `A0` is used to control the duty cycle of the pulse width modulation.
+
+.. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
+    :scale: 50
+    :align: center
+
+
+..  .. literalinclude:: ../../../projects/motor_drive/dc_motor_drive/src/main.cpp
+..    :language: c
+
+Exercise: LM293D motor drive
+-----------------------------
+
+#. Use the L293D motor driver and perform the necessary wiring. There should be 3 push buttons and a potentiometer.
+#. Write an application which takes the armature voltage (motor speed) set point as a input from a potentiometer.
+#. Read the signals from three push buttons with proper debouncing, and edge detection.
+#. Add the code to use the first push button to toggle between start and stop.
+#. Add the code to use the second push button to toggle the rotational direction. The program should only allow the direction to change if the motor is first stopped.
+#. Add the code for emergency stop on the third button. If pressed the program should go in to emergency stop mode, and stay there until the controller receives the command "reset", or "RESET" from the UART.
+#. Test the program, and write a short description about the behavior of your code.
+
+Exercise: motor drive with acceleration ramp
+--------------------------------------------
+
+In this exercise you are going to develop a motor drive which has an adjustable acceleration, and deceleration ramp. I.e. when the motor is started there will be a acceleration period where the armature voltage is increased linearly from zero, and up to the configured voltage.
+
+#. Use the program you have developed in the previous exercise as a starting point. Make sure everything in that exercise is working as expected
+#. Add a routine to slowly accelerate the motor from standstill and up to the potentiometer setting. A parameter (const variable) should set the acceleration time, and it should support at least 0 to 20 seconds.
+#. Add a routine to slowly decelerate the motor from nominal operation and down to standstill. If the stop button is pressed while the motor is accelerating, the deceleration routine should take precedence and use the correct portion of the configured deceleration delay down to standstill.
 
 Regenerative braking of the motor
 ---------------------------------
@@ -483,38 +572,6 @@ For each of the four drivers we have the following truth (function) table:
 
 If the enable (EN) signal is low, the control signal (A) is ignored and the output goes in to a high impedance (high Z) state. When the enable signal is high, the output follows the control signal (A). By applying PWM to the enable signal and leaving the A signals fixed regenerative braking will be impossible. Whenever the output is in a high Z state, the motor current will have to circulate through the freewheeling diodes. If however the PWM signal is applied to e.g. 1A while 2A is low, a reduction in duty cycle will allow the voltage to be boosted by the motor inductance. For the opposite rotational direction the PWM signal should be applied to 2A while 1A is low.
 
-Feature rich motor drive example using the L293D
-------------------------------------------------
-
-The following example is a slightly more complete implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stopping the motor. The voltage on analog input `A0` is used to control the duty cycle of the pulse width modulation.
-
-.. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
-    :scale: 50
-    :align: center
-
-
-.. literalinclude:: ../../../projects/motor_drive/dc_motor_drive/src/main.cpp
-  :language: c
-
-Exercise: LM293D motor drive
------------------------------
-
-#. Use the L293D motor driver and perform the necessary wiring. There should be 3 push buttons and a potentiometer.
-#. Write an application which takes the armature voltage (motor speed) set point as a input from a potentiometer.
-#. Read the signals from three push buttons with proper debouncing, and edge detection.
-#. Add the code to use the first push button to toggle between start and stop.
-#. Add the code to use the second push button to toggle the rotational direction. The program should only allow the direction to change if the motor is first stopped.
-#. Add the code for emergency stop on the third button. If pressed the program should go in to emergency stop mode, and stay there until the controller receives the command "reset", or "RESET" from the UART.
-#. Test the program, and write a short description about the behavior of your code.
-
-Exercise: motor drive with acceleration ramp
---------------------------------------------
-
-In this exercise you are going to develop a motor drive which has an adjustable acceleration, and deceleration ramp. I.e. when the motor is started there will be a acceleration period where the armature voltage is increased linearly from zero, and up to the configured voltage.
-
-#. Use the program you have developed in the previous exercise as a starting point. Make sure everything in that exercise is working as expected
-#. Add a routine to slowly accelerate the motor from standstill and up to the potentiometer setting. A parameter (const variable) should set the acceleration time, and it should support at least 0 to 20 seconds.
-#. Add a routine to slowly decelerate the motor from nominal operation and down to standstill. If the stop button is pressed while the motor is accelerating, the deceleration routine should take precedence and use the correct portion of the configured deceleration delay down to standstill.
 
 Advanced motor drive example
 ----------------------------
