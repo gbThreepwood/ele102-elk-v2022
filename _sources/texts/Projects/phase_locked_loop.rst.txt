@@ -5,6 +5,10 @@ Phase locked loop (PLL)
 ****************************
 
 .. https://www.ti.com/lit/an/sprabt3a/sprabt3a.pdf
+.. https://www.diva-portal.org/smash/get/diva2:1016340/FULLTEXT01.pdf
+.. https://liquidsdr.org/blog/pll-howto/
+
+.. https://github.com/jaspreetsingh009/Digital-Phase-Locked-Loop-PLL/tree/master/PLL%20Project/PLL/source
 
 A phase locked loop (PLL) is a control loop which forces a locally generated signal to stay in phase with an external input signal. Since we are in control of our locally generated signal, it is more easy to extract information from it, when compared to the external signal. E.g. the frequency, and phase of our local signal can be used as measures of the frequency and phase of the external signal. The PLL can be realized in both software, and hardware, but in this lesson only software based PLLs are discussed.
 

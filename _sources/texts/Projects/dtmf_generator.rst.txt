@@ -1,0 +1,9 @@
+.. DTMF_generator:
+
+*****************
+DTMF generator
+*****************
+
+
+
+.. Inspiration: http://ww1.microchip.com/downloads/en/AppNotes/doc1982.pdf

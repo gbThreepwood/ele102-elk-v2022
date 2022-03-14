@@ -305,7 +305,7 @@ If the stack grows so large that it runs in to the heap area, you have what is k
 Exercise: determine stack usage
 -------------------------------
 
-There is a macro :code:`RAMEND` somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet page 18 is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the :code:`&` operator, it is possible to calculate the number of bytes on the stack.
+There is a macro :code:`RAMEND` somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet of the Atmega328p page 18, is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the :code:`&` operator, it is possible to calculate the number of bytes on the stack.
 
 .. code-block:: c
 
@@ -321,7 +321,7 @@ There is a macro :code:`RAMEND` somewhere in the libraries that are included as 
 Little or big endian
 --------------------
 
-Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.
+Endianness describes the ordering of bytes when storing numbers of more than 8 bits. Almost all modern computers organize the memory in chunks of 8 bit, called bytes. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.
 
 The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. It can however become important when interfacing several microcontrollers to each other. It is a fundamental concept which should be understood by anyone involved in software development.
 

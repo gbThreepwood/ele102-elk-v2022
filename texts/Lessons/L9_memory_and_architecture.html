@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="ELE102 Microcontroller course v1.1.0 documentation" href="../../index.html" />
-    <link rel="next" title="Additional material for lesson 1" href="../Lessons-additional/L1_additional.html" />
+    <link rel="next" title="Motor Drives" href="L10_motor_drive.html" />
     <link rel="prev" title="LC-Display" href="L8_LC_display.html" /> 
   </head>
   <body role="document">
@@ -130,7 +130,7 @@
 
             
               <li><a href="L8_LC_display.html" title="LC-Display" accesskey="P">previous </a></li>
-              <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" accesskey="N">next </a></li>
+              <li><a href="L10_motor_drive.html" title="Motor Drives" accesskey="N">next </a></li>
               <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
             
 
@@ -227,6 +227,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="L10_motor_drive.html">Lesson 10: Motor drive</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -280,8 +281,8 @@
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../Lessons-additional/L1_additional.html"
-                          title="next chapter">Additional material for lesson 1</a></p>
+    <p class="topless"><a href="L10_motor_drive.html"
+                          title="next chapter">Motor Drives</a></p>
   </div>
   </div>
 </div> 
@@ -561,7 +562,7 @@
 </div>
 <div class="section" id="exercise-determine-stack-usage">
 <h3>Exercise: determine stack usage<a class="headerlink" href="#exercise-determine-stack-usage" title="Permalink to this headline">¶</a></h3>
-<p>There is a macro <code class="code docutils literal notranslate"><span class="pre">RAMEND</span></code> somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet page 18 is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the <code class="code docutils literal notranslate"><span class="pre">&amp;</span></code> operator, it is possible to calculate the number of bytes on the stack.</p>
+<p>There is a macro <code class="code docutils literal notranslate"><span class="pre">RAMEND</span></code> somewhere in the libraries that are included as part of your Atmega328p project. This macro is defined as the hexadecimal value of the highest address in the internal RAM (which according to the memory map in the datasheet of the Atmega328p page 18, is 0x8FF). By allocating a new variable, and obtaining the address of this variable by means of the <code class="code docutils literal notranslate"><span class="pre">&amp;</span></code> operator, it is possible to calculate the number of bytes on the stack.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">variable_at_top_of_stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="kt">uint16_t</span><span class="w"> </span><span class="n">stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RAMEND</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)</span><span class="o">&amp;</span><span class="n">variable_at_top_of_stack</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="c1">//uint16_t stack_size = RAMEND - SP;</span>
@@ -576,7 +577,7 @@
 </div>
 <div class="section" id="little-or-big-endian">
 <h3>Little or big endian<a class="headerlink" href="#little-or-big-endian" title="Permalink to this headline">¶</a></h3>
-<p>Endianness describes the ordering of bytes when storing numbers of more than 8 bits. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.</p>
+<p>Endianness describes the ordering of bytes when storing numbers of more than 8 bits. Almost all modern computers organize the memory in chunks of 8 bit, called bytes. If the ordering is big endian, the most significant byte is stored first, while little endian means that the least significant byte is stored first. This naming convention might seem illogical at first, but endian refers to the end which comes first, not the end of the number in memory. Hence big endian means that the big end (most significant part) comes first.</p>
 <p>The endianess is typically not something you need to consider while developing software on a given microcontroller, since the C compiler takes care of the details. It can however become important when interfacing several microcontrollers to each other. It is a fundamental concept which should be understood by anyone involved in software development.</p>
 <p>In order to check if the microcontroller is little or big endian one may force the compiler in to considering a pointer to a 16 bit value as a pointer to an 8 bit value. By reading the value that the pointer is pointing to, only 8 bits are returned, and these would be the 8 bits that are stored first in memory. If the bits returned are the most significant bits of the original number,</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
@@ -621,28 +622,29 @@
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
 <span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
 <span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
-<span class="linenos"> 6</span>
-<span class="linenos"> 7</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="linenos"> 8</span><span class="w">  </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">boot_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
-<span class="linenos">11</span>
-<span class="linenos">12</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;The board has booted less than 5 times&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">13</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">14</span><span class="w">  </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;The current boot count is:&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">17</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">boot_count</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">18</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">19</span><span class="p">}</span><span class="w"></span>
-<span class="linenos">20</span>
-<span class="linenos">21</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos">22</span>
-<span class="linenos">23</span><span class="w">  </span><span class="c1">// Be careful with write operations to the EEPROM in loop</span>
-<span class="linenos">24</span><span class="w">  </span><span class="c1">// If they run continuosly it might wear out the EEPROM</span>
-<span class="linenos">25</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="n">EEPROM</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">boot_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">boot_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;The board has booted less than 5 times&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">  </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;The current boot count is:&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">boot_count</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">20</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="w">  </span><span class="c1">// Be careful with write operations to the EEPROM in loop</span>
+<span class="linenos">25</span><span class="w">  </span><span class="c1">// If they run continuosly it might wear out the EEPROM</span>
+<span class="linenos">26</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="section" id="exercise-store-adc-readings-in-eeprom">
@@ -764,7 +766,7 @@
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="L8_LC_display.html" title="LC-Display" >previous</a></li>
-        <li><a href="../Lessons-additional/L1_additional.html" title="Additional material for lesson 1" >next</a></li>
+        <li><a href="L10_motor_drive.html" title="Motor Drives" >next</a></li>
         <li><a href="../../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
