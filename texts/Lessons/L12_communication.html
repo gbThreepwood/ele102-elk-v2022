@@ -106,7 +106,11 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#software-uart">Software UART</a></li>
+<li><a class="reference internal" href="#software-uart">Software UART</a><ul>
+<li><a class="reference internal" href="#exercise-message-relay">Exercise: Message relay</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -182,7 +186,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#spi-i-o-port-expander">SPI I/O port expander</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#software-uart">Software UART</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#software-uart">Software UART</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise-message-relay">Exercise: Message relay</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -617,15 +625,15 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>A summary of everything video:</p>
-<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/IyGwvGzrqp8" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
+</div>
 </div>
 </div>
 <div class="section" id="software-uart">
 <h2>Software UART<a class="headerlink" href="#software-uart" title="Permalink to this headline">¶</a></h2>
 <p>The Atmega328p only has a single UART in hardware. It is however possible to implement additional UART’s in software as long as your performance requirements are modest.</p>
 <p><strong>Sender:</strong></p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
 
 <span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w">  </span><span class="c1">// RX, TX</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"></span>
@@ -645,7 +653,8 @@
 </pre></div>
 </div>
 <p><strong>Receiver:</strong></p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SoftwareSerial.h&gt;</span><span class="cp"></span>
 
 <span class="n">SoftwareSerial</span><span class="w"> </span><span class="nf">softSerial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
 
@@ -666,7 +675,21 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
+<div class="section" id="exercise-message-relay">
+<h3>Exercise: Message relay<a class="headerlink" href="#exercise-message-relay" title="Permalink to this headline">¶</a></h3>
+<p>In this exercise you will be working together in groups of three or more. You are going to connect your arduinos using software UART’s.</p>
+<ol class="arabic simple">
+<li><p>Use pin 2 for RX, and pin 3 for TX. Connect the TX pin on the first arduino to the RX pin of the next. The first Arduino should have a free RX pin, and the last Arduino should have a free TX pin. Make sure that ground (GND) of all the Arduinos are connected together.</p></li>
+<li><p>Write a program which receive data on the software UART (on pin 2), and retransmits it on both the software and the hardware UART (on pin 3, and on the USB). All the microcontrollers should run the same firmware. Use a baud rate of 9600 for both the software and the hardware UART.</p></li>
+<li><p>Add the functionality for the first Arduino to receive data on the hardware UART (on the USB), and retransmit it on the software UART (on pin 3). The program should operate on single bytes, i.e. it should transmit a character as soon as it is received on the hardware UART. The existing functionality of transmitting everything it receives on pin 2 back to pin 3 should still remain intact.</p></li>
+<li><p>Close the loop by connecting the TX pin of the last arduino to the RX pin of the first. Inject some data in to the loop and observe the consequences.</p></li>
+</ol>
 </div>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>A summary of everything video:</p>
+<iframe width="640" height="360" style="margin-bottom: 25px" src="https://www.youtube.com/embed/IyGwvGzrqp8" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
 </div>
 
 

@@ -1,4 +1,4 @@
-.. _audio_processing:
+.. _adaptive_line_enhancer:
 
 ******************************************************************
 Adaptive line enhancer

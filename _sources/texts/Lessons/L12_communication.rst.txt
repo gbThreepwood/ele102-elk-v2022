@@ -269,10 +269,6 @@ Slave
 .. General suggested reading: Canvas > Modules > Oreilly Arduino Cookbook
 .. 2nd Edition > Chapter 13 - Communicating Using I2C and SPI
 
-A summary of everything video:
-
-.. youtube:: https://www.youtube.com/watch?v=IyGwvGzrqp8
-
 Software UART
 ==============
 
@@ -292,6 +288,7 @@ The Atmega328p only has a single UART in hardware. It is however possible to imp
 
 .. code:: c
 
+   #include <Arduino.h>
    #include <SoftwareSerial.h>
     
    SoftwareSerial softSerial(2,3);  // RX, TX 
@@ -314,6 +311,7 @@ The Atmega328p only has a single UART in hardware. It is however possible to imp
 
 .. code:: c
 
+   #include <Arduino.h>
    #include <SoftwareSerial.h>
 
    SoftwareSerial softSerial(2,3);
@@ -333,4 +331,22 @@ The Atmega328p only has a single UART in hardware. It is however possible to imp
        //Connect an LED later
      } 
    }
+
+
+Exercise: Message relay
+------------------------
+
+In this exercise you will be working together in groups of three or more. You are going to connect your arduinos using software UART's.
+
+#. Use pin 2 for RX, and pin 3 for TX. Connect the TX pin on the first arduino to the RX pin of the next. The first Arduino should have a free RX pin, and the last Arduino should have a free TX pin. Make sure that ground (GND) of all the Arduinos are connected together.
+#. Write a program which receive data on the software UART (on pin 2), and retransmits it on both the software and the hardware UART (on pin 3, and on the USB). All the microcontrollers should run the same firmware. Use a baud rate of 9600 for both the software and the hardware UART.
+#. Add the functionality for the first Arduino to receive data on the hardware UART (on the USB), and retransmit it on the software UART (on pin 3). The program should operate on single bytes, i.e. it should transmit a character as soon as it is received on the hardware UART. The existing functionality of transmitting everything it receives on pin 2 back to pin 3 should still remain intact.
+#. Close the loop by connecting the TX pin of the last arduino to the RX pin of the first. Inject some data in to the loop and observe the consequences.
+
+Summary
+=======
+
+A summary of everything video:
+
+.. youtube:: https://www.youtube.com/watch?v=IyGwvGzrqp8
 
