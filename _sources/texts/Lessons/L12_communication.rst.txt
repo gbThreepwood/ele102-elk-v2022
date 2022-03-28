@@ -1,0 +1,336 @@
+.. _L9_communication:
+
+..
+  .. note:: 
+
+    **Aim:**
+
+    - I2C, SPI, UART/USART basics
+    - they are mostly SoC protocols, low range
+    - mention long range ones like RF, Ethernet etc but very basic.
+    - why do we need a communication protocol?
+    - Teach how to read a Datasheet 
+        - IMU
+        - NRF
+        - MA702
+        - Atmega328P
+    - you can connect even 2 arduinos !
+
+
+    **Materials:**
+
+    - Arduino Board
+    - Button
+    - Cables
+    - Breadboard
+    - Potentiometer
+    - Resistors
+    - LED
+    - MPU6050
+    - NRF24L01 x 2
+    - OLED
+
+
+
+    **Code:**
+
+    - Ex: NRF LED on/off (connected via SPI)
+    - Hw: provide MPU6050 psudo code, make them plot acceleration
+
+
+.. role:: ccode(code)
+        :language: c
+
+*************************************
+Communication Protocols
+*************************************
+
+A communication protocol is a system of rules governing how two entities are to communicate with each other. Often it is useful to separate the protocol into various layers, governing different aspects of the communication. Some layers may be general in nature, and applicable to many systems, while others may be very application specific. 
+
+A communication protocol is sometimes linked to a specific physical means of transmission, e.g. som specific voltage levels on the wires connecting two devices. Other protocols can be agnostic to the transport medium.
+
+.. note:: A interesting example of a protocol which is agnostic to the physical layer is the internet protocol (IP) which is fundamental in the operation of the Internet. Several standards exists for how the IP data could be transmitted, and during normal internet usage the traffic likely passes through multiple different physical layers such as ethernet (WiFi, or cables), or LTE, WiMax. There is even the RFC 1149 standard for IP over Avian Carriers, which describes how IP traffic should be carried over birds such as pigeons.
+
+
+A communication protocol is often associated with some physical connector, such as the USB-C, or 8P8C connector. There are many others, but luckily standardization is slowly limiting the number of different ports which are used in consumer electronics.
+
+  Why do we need ports?
+  *There was a dark era before some protocols are decided...*
+
+  .. image:: ../../fig/port_fuck.jpeg
+          :alt: To avoid from mess
+          :scale: 100
+          :align: center
+
+
+    
+Inter Integrated Circuit (I2C)
+=====================================
+
+.. .. warning:: pin numbers, where to use, SDA/SCL, advantages, history
+
+I2C or :math:`I^2C` is a acronym for Inter integrated circuit, and is a serial communication bus standard released by Phillips in 1982. Initially intended for internal communication inside electronic appliances, e.g. for the communication between multiple chips on the same circuit board. In other words it is not intended (or suitable) for long range communication. It requires two wires SDA (Serial data), and SCL (Serial clock) in addition to a common ground.
+
+The maximum physical separation between two devices utilizing the bus is not defined in the standard, but a practical might be around 1 to 10 meters, depending on the baud rate. Longer lengths may work, but you may experience problems with reliability.
+
+.. figure:: ../../fig/i2c_master_slave_interconnection.png
+    :scale: 100
+
+I2C operation
+-------------
+
+On the electrical side every device uses open drain (or open collector) outputs to the bus lines. This means that any device can pull the lines low, but no device can pull the lines high. Pull up resistors are used to pull the line high, whenever no devices are pulling them low.
+
+I2C uses a 7-bit address (it also supports 10-bit address), which theoretically allows 128 unique addresses (In practice only 127 because address 0b0000000 is reserved for a general call). Common :math:`I^2C` bus speeds include the 100 kbit/s standard mode, and the 400 kbit/s Fast mode.
+
+The communication is initiated by the master, which sends a START condition followed by the 7-bit address and a single bit determining if it is a read (1) or a write (0) request. The START condition is signaled by allowing the data line (SDA) to go from high to low, while the clock line (SCL) remains high. The STOP condition is signaled by allowing the data line to go from low to high, while the clock line is high.
+
+.. figure:: ../../fig/i2c_address_packet_format.png
+    :scale: 100
+
+
+System Management Bus (SMBus)
+-----------------------------
+
+The System Management Bus (SMBus), defined by Intel in 1995, is a subset of :math:`I^2C`, defining additional features. In particular it supports a address resolution protocol for automatic slave identification, useful for plug and play support of external devices. It also has a feature known as the Host Notify protocol which allows a slave to initiate communication (the slave temporary becomes the master), and notify another device of some event.
+
+.. such as automatic address configuration. Another important difference is that in SMBus any device can initiate communication, while in regular :math:`I^2C` there is only one master which initiate communication and one or more slaves which responds to request from the master.
+
+
+
+I2C in Arduino
+--------------
+
+The standard library to use for I2C communication on the Arduino is the Wire library. The details on the functions in this library is available in the `Wire documentation <https://www.arduino.cc/en/reference/wire>`_
+
+Connecting two Arduino's using I2C
+--------------------------------------
+
+The following example shows how to connect two Arduino UNO's using the I2C bus, each device will send anything it receives on the UART to the other device. One of the devices is operating in master mode, while the other is operating in slave mode. A slave can not initiate communication, but has to wait for the master to request data.
+
+.. figure:: ../../fig/dual_arduino_i2c_communication_bb.png
+    :scale: 50
+
+
+Master
+~~~~~~
+
+.. literalinclude:: ../../../projects/platformio/i2c/simple-i2c-uart-comm-master/src/main.cpp
+    :language: c
+
+..
+  .. literalinclude:: ../../../projects/i2c/simple_i2c_master/src/main.cpp
+    :language: c
+
+
+Slave
+~~~~~
+.. literalinclude:: ../../../projects/platformio/i2c/simple-i2c-uart-comm-slave/src/main.cpp
+    :language: c
+
+
+..
+  .. literalinclude:: ../../../projects/i2c/simple_i2c_slave/src/main.cpp
+    :language: c
+
+Exercise: Remote controlled LED
+-------------------------------
+
+In this exercise you will work in groups of two, and write a program which communicate between two Arduinos.
+
+#. Start by agreeing on who will be writing the master firmware, and who will be writing the slave firmware.
+#. Connect two push buttons to the master arduino, and one LED to the slave
+#. Write a program on the master which sends the character "H" to turn the led on, and the character "L" to turn the led off. One of the push buttons should transmit the "H", and the other should transmit the "L".
+#. Write a program on the slave which receive the characters, and writes the led pin low, or high depending on the character which it receives.
+#. Add a confirmation message. When the slave changes the state of the LED it should also transmit the message "LED on", or "LED off" to the master using I2C. The master should print this message on the UART. The message should only appear if the state changes, hence if the push button for turning the LEDa on is pushed multiple times, the message should only appear once.
+
+Exercise: Chat service between two arduinos
+--------------------------------------------
+
+In this exercise you will work in groups of two, and write a program which communicate between two Arduinos.
+
+#. Start by agreeing on who will be writing the master firmware, and who will be writing the slave firmware.
+#. Base your firmware on the previous UART chat example, and verify that it is operating before you continue. Any text you type in your serial monitor, should appear in the serial monitor of your coworker.
+#. Extend the program with a buffer which receive data (text) from the serial UART, and only transmit it over I2C when the user presses enter.
+#. Extend the program with a configurable nickname. Whenever the user presses enter the nickname should be prepended to the text which is transmitted. "username: the text you want to transmit", e.g.: "Zelensky: i don't need a ride i need ammunition".
+#. (Optionally) Add support for connecting more than one slave. The master should loop through a list of slave addresses and receive the data available from any of them. After finishing a reception loop through the slave addresses it should transmit back all the data which it has received, so all slaves will see all the chat traffic.
+
+Reading and writing external EEPROM on I2C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note:: The students do not have access to this kind of chip. Should we remove this section? Alternatively we could write a program that emulates an external EEPROM, and the students could work in groups, wher one arduino is reading the EEPROM of the other.
+
+
+Serial Peripheral Interface (SPI)
+=====================================
+
+.. pin numbers, where to use, daisy-chain, advantages, history
+.. Use your thesis
+
+SPI (Serial Peripheral Interface Bus) is a synchronous serial communication interface developed by Motorola. It requires (at least) four wires:
+
+* Serial Clock (SCLK)
+* Master Output Slave Input (MOSI)
+* Master Input Slave Output (MISO)
+* Slave select (SS).
+
+The slave select signal is used by the master to activate a given slave. Thus each slave requires a unique slave select wire.
+
+SPI requires more wires than I2C, but it has some other advantages. In particular it supports higher data rate, and duplex communication (master and slave can send data at the same time). The maximum clock frequency supported by I2C on the Atmega 328 is 400kHz, while SPI supports 4Mhz.
+
+SPI operation
+-------------
+
+The following figure depicts the operation of the SPI.
+
+.. figure:: ../../fig/spi_master_slave_interconnection.png
+    :scale: 100
+
+The master initiates communication with a given slave by pulling the slave select pin low. The slave and master both prepare the data to be transmitted in the shift registers. The master generates the required clock signals in order to interchange the data between the two shift registers.
+
+In master mode on the Atmega 328 the interface is implemented in such a way that the clock generator start automaically, when a byte is written to the shift register. The generated clock makes sure that a single byte is shifted, and then the clock signal is disabled.
+
+The MISO pin on the slave is in tri-state mode as long as the Chip Select (SS) pin is high. This allows several slaves to share the same MISO wires.
+
+The receive system is double buffered in order to allow time for the controller to read a byte from the buffer while the next byte is beeing received. The transmit system however is single buffered, which means that you must wait for the transmit cycle to complete before writing a new byte to the buffer.
+
+
+SPI in Arduino
+--------------
+
+The official Arduino library for SPI communication is simply know as SPI, this library only supports operating in master mode. More information is available in the `spi documentation <https://www.arduino.cc/en/reference/SPI>`_.
+
+The Atmega328p microcontroller supports both master and slave mode. In order to implement an Arduino SPI slave we will be using direct register manipulation.
+
+
+.. figure:: ../../fig/dual_arduino_spi_communication_bb.png
+    :scale: 50
+
+
+Master
+~~~~~~
+
+The following code example shows how to simply transmit a text string from a arduino operating in master mode, and how to receive and print the message on the serial UART of the slave.
+
+
+  .. literalinclude:: ../../../projects/platformio/spi/simple-spi-master-send-message/src/main.cpp
+    :language: c
+
+
+..
+  .. literalinclude:: ../../../projects/spi/simple_spi_master/src/main.cpp
+    :language: c
+
+
+Slave
+~~~~~~
+
+.. warning:: Direct register manipulation is outside the curriculum of the course, thus you do not have to fully understand the :ccode:`spi_init_slave()` function in this code. You may simply use it on one Arduino device, in order to test the master code on another Arduino device.
+
+  .. literalinclude:: ../../../projects/platformio/spi/simple-spi-slave-receive-message/src/main.cpp
+    :language: c
+
+
+..
+  .. literalinclude:: ../../../projects/spi/simple_spi_slave/src/main.cpp
+    :language: c
+
+SPI I/O port expander
+-----------------------
+
+A I/O port expander is a device that provides more digital I/O pins for the microcontroller, accessible using bus communication. Often this will be a specially made integrated circuit, such as the MCP23S17. It is possible to emulate the features of this chip using software on the Arduino.
+
+In this example we will be using SPI to control the LED's, and read the push buttons on one Arduino from another.
+
+
+Master
+~~~~~~
+
+.. literalinclude:: ../../../projects/spi/spi_io_port_expander_master/src/main.cpp
+    :language: c
+
+
+Slave
+~~~~~~
+
+.. warning:: Direct register manipluation is outside the curriculum of the course, thus you do not have to fully understand this code. You may simply use it on one Arduino device, and consider the Arduino running this code to be a simulation of a I/O expansion chip.
+
+
+.. literalinclude:: ../../../projects/spi/spi_io_port_expander_slave/src/main.cpp
+    :language: c
+
+
+.. To Gizem: if you need to link to another page please use relative links, the notes for my students are not located under the domain automatisering-frde
+  General suggested reading:
+  https://ele102.gitlab.io/automatisering-frde/ele102-frde/texts/Lessons/L9_communication.html
+
+.. Please do not write it like this Gizem, unless we agree about it first. My students do not have access to your Canvas. If we really need to share that book think it is better that we put the book in Sharepoint and link to it from Canvas.
+
+.. General suggested reading: Canvas > Modules > Oreilly Arduino Cookbook
+.. 2nd Edition > Chapter 13 - Communicating Using I2C and SPI
+
+A summary of everything video:
+
+.. youtube:: https://www.youtube.com/watch?v=IyGwvGzrqp8
+
+Software UART
+==============
+
+The Atmega328p only has a single UART in hardware. It is however possible to implement additional UART's in software as long as your performance requirements are modest.
+
+..  
+  Suggested reading:
+  https://www.circuitbasics.com/how-to-set-up-uart-communication-for-arduino/
+
+..
+  .. figure:: /home/gizem/snap/typora/33/.config/Typora/typora-user-images/image-20210325100740492.png
+     :alt: image-20210325100740492
+
+     image-20210325100740492
+
+**Sender:**
+
+.. code:: c
+
+   #include <SoftwareSerial.h>
+    
+   SoftwareSerial softSerial(2,3);  // RX, TX 
+   void setup()  {
+     Serial.begin(9600); 
+     softSerial.begin(9600);
+   } 
+   void loop()  { 
+   // Check for received characters from the computer 
+     if (Serial.available())  { 
+   // Write what is received to the soft serial 
+       char x = Serial.read();
+       softSerial.write(x); 
+       Serial.print("Sending:");
+       Serial.println(x);
+     }
+   }
+
+**Receiver:**
+
+.. code:: c
+
+   #include <SoftwareSerial.h>
+
+   SoftwareSerial softSerial(2,3);
+
+   void setup()  { 
+   softSerial.begin(9600); 
+   Serial.begin(9600);
+   // pinMode(LED, OUTPUT);
+   } 
+   void loop()  { 
+   // When our comm channel is active: 
+     if (softSerial.available())  { 
+
+       char data_received = softSerial.read(); 
+       Serial.print("Received:");
+       Serial.println(data_received);
+       //Connect an LED later
+     } 
+   }
+

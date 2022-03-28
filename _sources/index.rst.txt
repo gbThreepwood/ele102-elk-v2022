@@ -25,10 +25,12 @@ On this page we will publish new lecture notes every week, as the course is prog
    Lesson 8: LC-Display <texts/Lessons/L8_LC_display.rst>
    Lesson 9: Memory and MCU architecture <texts/Lessons/L9_memory_and_architecture.rst>
    Lesson 10: Motor drive <texts/Lessons/L10_motor_drive.rst>
+   Lesson 11: Communication Protocols <texts/Lessons/L12_communication.rst>
 
-..
-   Lesson 11: Communication Protocols <texts/Lessons/L11_communication.rst>
-   Lesson 12: Repetition <texts/Lessons/L12_repetition.rst>
+.. 
+   Lesson 11: Visual Studio - Arduino Communication <texts/Lessons/L11_VS_Arduino.rst>
+   Lesson 12: Communication Protocols <texts/Lessons/L12_communication.rst>
+   Lesson 13: Repetition <texts/Lessons/L13_repetition.rst>
    Course summary <texts/Lessons/course_summary.rst>
    
 ..
@@ -80,6 +82,7 @@ On this page we will publish new lecture notes every week, as the course is prog
    Additional material lesson 10 <texts/Lessons-additional/L10_additional.rst>
    Additional material lesson 11 <texts/Lessons-additional/L11_additional.rst>
    Additional material lesson 12 <texts/Lessons-additional/L12_additional.rst>
+   Additional material lesson 12 <texts/Lessons-additional/L13_additional.rst>
 
 
 
@@ -101,7 +104,7 @@ On this page we will publish new lecture notes every week, as the course is prog
 
    Low power operation <texts/Appendices/low_power_operation.rst>
    Lesson Stacks, Queues, Lists <texts/Appendices/stacks_queues_lists.rst>
-   Assembly programming <texts/Appendices/assembly_programming.rst>
+
 .. 
    Lesson X.8 Interrupts <texts/Lessons/interrupts.rst>
    Lesson X.5 Functions <texts/Lessons/functions.rst>

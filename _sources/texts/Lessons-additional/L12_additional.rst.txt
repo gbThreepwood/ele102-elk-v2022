@@ -2,3 +2,138 @@
 Additional material for lesson 12
 *******************************************************
 
+I2C
+===
+
+Suggested reading:
+https://howtomechatronics.com/tutorials/arduino/how-i2c-communication-works-and-how-to-use-it-with-arduino/
+
+https://www.circuitbasics.com/how-to-set-up-i2c-communication-for-arduino/
+
+.. 
+  .. figure:: /home/gizem/snap/typora/33/.config/Typora/typora-user-images/image-20210325134005680.png
+     :alt: image-20210325134005680
+
+     image-20210325134005680
+
+**Master**
+
+.. code:: c
+
+   #include <Wire.h>
+
+   const uint8_t slave_address = 1;
+
+   void setup() {
+     Wire.begin();  // Start the I2C protocol as master
+     
+     Serial.begin(9600); 
+     Serial.println("I2C Master");
+   }
+
+   byte data_sent = 0;
+
+   void loop() {
+     Wire.beginTransmission(slave_address);                
+     Wire.write("data: ");       
+     Wire.write(data_sent);             
+     Wire.endTransmission();    
+        
+     delay(500);
+     
+     Wire.requestFrom(slave_address, 4); //request 4 byte from this slave
+     while (Wire.available()) {
+       char ch = Wire.read(); 
+       Serial.print(ch);        
+     }    
+     data_sent++;
+     if(data_sent==6)data_sent=0;  
+   }
+
+**Slave:**
+
+.. code:: c
+
+   #include <Wire.h>
+
+   const uint8_t slave_address = 1;
+
+   void setup() {
+     Wire.begin(slave_address);                
+     Wire.onRequest(requestEvent); 
+     Wire.onReceive(receiveEvent); 
+     
+     Serial.begin(9600);   
+     Serial.println("I2C Slave");
+   }
+
+   void loop() {
+     delay(500); // just do nothing
+   }
+
+   void receiveEvent(int data_received) { 
+     // to be called when a slave device receives a transmission from a master.
+     while (Wire.available()>1) { 
+       char ch = Wire.read(); 
+       Serial.print(ch);         
+     }
+     int x = Wire.read();    
+     Serial.println(x);      
+   }
+
+   void requestEvent() { 
+     // to be called when a master requests data from this slave device
+     // (on-demand function)
+     // better to have, not essential
+     Wire.write("gzm\n");   
+   }
+
+**Slave with LED**
+
+.. code:: c
+
+   #include <Wire.h>
+
+   const uint8_t slave_address = 1;
+   const uint8_t led_pin = 13;
+
+   int val = 0;
+
+   void setup() {
+     Wire.begin(slave_address);                
+     Wire.onRequest(requestEvent); 
+     Wire.onReceive(receiveEvent); 
+     
+     Serial.begin(9600);   
+     Serial.println("I2C Slave");
+   }
+
+   void loop() {
+     delay(500); // just do nothing
+   }
+
+   void receiveEvent(int data_received) { 
+     // to be called when a slave device receives a transmission from a master.
+     while (Wire.available()>1) { 
+       char ch = Wire.read(); // read the first group "data:"
+       Serial.print(ch);         
+     }
+     int x = Wire.read(); // read the second group "number"    
+     Serial.println(x);
+     if(x == 0){
+       Serial.println("LED Toggle!");
+       Serial.println(val);
+       val = !val;
+       digitalWrite(led_pin, val);
+     }
+   }
+
+   void requestEvent() { 
+     // to be called when a master requests data from this slave device
+     // (on-demand function)
+     // better to have, not essential
+     Wire.write("gzm\n");   
+   }
+
+Suggested reading:
+https://www.circuitbasics.com/how-to-set-up-spi-communication-for-arduino/

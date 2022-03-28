@@ -181,6 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="L8_LC_display.html">Lesson 8: LC-Display</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L9_memory_and_architecture.html">Lesson 9: Memory and MCU architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="L10_motor_drive.html">Lesson 10: Motor drive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="L12_communication.html">Lesson 11: Communication Protocols</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Additional material:</span></p>
 <ul>
@@ -196,6 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L10_additional.html">Additional material lesson 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L11_additional.html">Additional material lesson 11</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L12_additional.html">Additional material lesson 12</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lessons-additional/L13_additional.html">Additional material lesson 12</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Projects:</span></p>
 <ul>
@@ -208,7 +210,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/low_power_operation.html">Low power operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Appendices/stacks_queues_lists.html">Lesson Stacks, Queues, Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Appendices/assembly_programming.html">Assembly programming</a></li>
 </ul>
 
 <div id="searchbox" role="search">
@@ -270,9 +271,12 @@
 There are two types of interrupts:</p>
 <p><strong>Hardware Interrupt:</strong> It happens when an external event occurs like an external interrupt pin changes its state from LOW to HIGH or HIGH to LOW.</p>
 <p><strong>Software Interrupt:</strong> It happens according to the instruction from the software. For example Timer interrupts are software interrupt.</p>
-<div class="myownstyle admonition">
-<p class="admonition-title"><strong>Start with an exercise</strong></p>
-<p>Use 3 LEDs attached to pin numbers 9,10,11. Turn them on one by one. When all are turned on, turn them of one by one in reverse order as shown in the GIF below. Wait 1 second every time you reverse the order.</p>
+<div class="admonition-start-with-an-exercise-class-myownstyle admonition">
+<p class="admonition-title"><strong>Start with an exercise</strong>
+ :class: myownstyle</p>
+<blockquote>
+<div><p>Use 3 LEDs attached to pin numbers 9,10,11. Turn them on one by one. When all are turned on, turn them of one by one in reverse order as shown in the GIF below. Wait 1 second every time you reverse the order.</p>
+</div></blockquote>
 <div class="figure align-default">
 <img alt="../../_images/led-on-off-in-order.gif" src="../../_images/led-on-off-in-order.gif" />
 </div>

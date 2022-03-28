@@ -59,12 +59,12 @@ There are two types of interrupts:
 
    Use 3 LEDs attached to pin numbers 9,10,11. Turn them on one by one. When all are turned on, turn them of one by one in reverse order as shown in the GIF below. Wait 1 second every time you reverse the order.
 
-   .. figure:: ../../../external/fig/led-on-off-in-order.gif
+  .. figure:: ../../../external/fig/led-on-off-in-order.gif
 
-    ..
+  Now attach a button to the pin number 2 and update your code such that a counter will count everytime you press the button. Observe any problems?
+
+..
         Solution is in ../../../projects/led-on-off-in-order.gif
-
-   Now attach a button to the pin number 2 and update your code such that a counter will count everytime you press the button. Observe any problems?
 
 
 Interrupts in Arduino

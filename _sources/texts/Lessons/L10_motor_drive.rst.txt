@@ -80,6 +80,20 @@ Brushed DC motors have been in commercial use since 1886. Brushless motors, on t
           Source: `https://www.motioncontrolonline.org/ <https://www.motioncontrolonline.org/blog-article.cfm/Brushed-DC-Motors-Vs-Brushless-DC-Motors/24>`_
 
 
+.. figure:: ../../../external/fig/simpleDCinside.jpg
+          :align: center
+
+          Source: `https://itectec.com/ <https://itectec.com/electrical/electrical-self-inductance-in-steady-state-equivalent-model-of-brushed-dc-machine/>`_
+
+
+.. figure:: ../../../external/fig/simpleDCinside2.jpg
+          :align: center
+
+          Source: `https://www.timotion.com <https://www.timotion.com/en/news-and-articles/part-2-components-of-an-electric-linear-actuator>`_
+
+
+
+
 Brushed DC motor operation
 ---------------------------
 
@@ -121,116 +135,9 @@ If we use SI units, the torque constant, and the EMF constant has the exact same
 .. math::
     k_T = k_e = k
 
-Transfer function
------------------
 
-.. note:: An understanding of the transfer function is not required for the exercises in this lesson, but is important for closed loop control of the DC-motor. It is included here for completeness.
+.. note:: An understanding of the transfer function is not required for the exercises in this lesson, but is important for closed loop control of the DC-motor. It is included in :ref:`transfer_function` for completeness.
 
-The transfer function is very useful when analyzing the transient behavior of the motor. By using the laplace transform, we arrive at the following results for the mechanical and electrical differential equations:
-
-.. math::
-
-    s(Js + B) \theta(s) = k_T I_a(s) \Rightarrow s^2J \theta(s) + sB\theta(s) = k_T I_a(s)
-
-.. math::
-
-    (R_a + sL_a) I_a(s) = V_a(s) - s K_e \theta(s) \Rightarrow (R_a + sL_a) I_a(s) = V_a(s) - K_e \omega_m(s)
-
-.. math::
-
-    s J \omega_m(s) + B \omega_m(s) = k_T I_a(s) \Rightarrow (sJ + B) \omega_m(s) = k_T I_a(s)
-
-
-
-A transfer function relates some input to some output. We have several possible transfer functions for the DC motor depending on the value which is of interest.
-
-* The motor speed for a given armature voltage
-* The motor speed for a given torque
-* The motor armature current for a given armature voltage
-* The motor armature current for a given torque
-
-The armature current can be expressed as:
-
-.. math::
-    I_a(s) = \frac{V_a(s) - k_e \omega_m(s)}{R_a + sL_a}
-
-The armature angular velocity can be expressed as:
-
-.. math::
-    \omega_m(s) = \frac{k_T I_a(s) - T_L}{sJ + B}
-
-Neglecting the load torque :math:`T_L` and remembering that :math:`k_T = k_e = k`, we can write:
-
-.. math::
-    \omega_m(s) = \cfrac{k_T \cfrac{V_a(s) - k_e \omega_m(s)}{R_a + sL_a}}{sJ + B} = \frac{k V_a(s) - k^2 \omega_m(s)}{(R_a + sL_a)(sJ + B)} 
-
-We want to solve for :math:`\frac{\omega_m}{V_a}`, we start by isolating :math:`\omega_m`:
-
-.. math::
-    \frac{\omega_m}{k} \cdot (R_a + sL_a)(sJ + B) + k \omega_m = V_a \Rightarrow \omega_m \left(\frac{(R_a + sL_a)(sJ + B)}{k} + k \right) = V_a
-
-Multiplying by :math:`\frac{k}{k}` in the second term we can write: 
-
-.. math::
-    \omega_m \left(\frac{(R_a + sL_a)(sJ + B) + k^2}{k} \right) = V_a
-
-Thus the transfer function between speed and applied voltage is given by:
-
-.. math::
-    H_{\omega}(s) = \frac{\omega_m(s)}{V_a(s)} = \frac{k}{(Js + B)(Ls + R) + k^2}
-
-Similar derivations can be performed for the other transfer functions if needed.
-
-By choosing the mechanical angular velocity and the armature current as state variables, we arrive at the following state-space representation for the motor:
-
-.. math::
-
-    \frac{\mathrm{d}}{\mathrm{d}t}
-    \begin{bmatrix}
-    \omega_m \\
-    i_a
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-    -\frac{B}{J} & \frac{K}{J} \\
-    -\frac{K}{L} & -\frac{R}{L}
-    \end{bmatrix}
-    \begin{bmatrix}
-    \omega_m \\
-    i_a
-    \end{bmatrix}
-    +
-    \begin{bmatrix}
-    0 \\
-    \frac{1}{L} 
-    \end{bmatrix}
-    V_a
-
-.. math::
-
-    y =
-    \begin{bmatrix}
-    1 & 0    
-    \end{bmatrix}
-    \begin{bmatrix}
-    \omega_m \\
-    i_a    
-    \end{bmatrix}
-
-
-It can be insightful to define and use time constants in the transfer function expressions. A mechanical time constant can be expressed as:
-
-.. TODO: Verifiser denne:
-
-.. math::
-
-    \tau_m = \frac{J \cdot \omega_{m,N}^2}{P_{e,N}}
-
-A electrical time constant for the armature circuit can be defined as:
-
-.. math::
-
-    \tau_e = \frac{L_a}{R_a}
 
 Brushed DC-motor drive
 ======================
@@ -424,7 +331,7 @@ The motor supply voltage pin is connected to the 5 V output from the Arduino. Th
 .. literalinclude:: ../../../projects/platformio/motor-drive/basic-dc-motor-drive-l293d/src/main.cpp
     :language: c
 
-.. note:: Applying PWM to the 1A, and 2A pins will also cause the output voltage to be modulated. This will not have the exact same effect though. The difference is outlined later in the lesson.
+.. note:: Applying PWM to the 1A, and 2A pins will also cause the output voltage to be modulated. This will not have the exact same effect though. The difference is outlined in advanced topics :ref:`regenerative_braking_of_the_motor`.
 
 .. It is no problem to test this, but on should pay some attention to the temperature of the integrated circuit, just to make sure that it does not increase the dissipation.
 .. On some motor drivers is is required to add som delay between turning off one control signal and turning on the next.
@@ -497,7 +404,23 @@ The listing starts by defining a :code:`enum`, which provides names for the four
 
 Depending on the received parameter, the :code:`switch` will set the appropriate logic levels to the output pins, and also set the duty cycle if needed.
 
-A slightly more complete example with start, stop, and emergency stop
+Exercise-1: Control motor speed with a potentiometer
+------------------------------------------------------
+
+Set the circuit below. The button is not required for this step (yet). And start thinking how to control the motor speed via potentiometer :)
+
+.. figure:: ../../../external/fig/dc_motor_drive_circuit.png
+         :align: center
+
+
+Exercise-2: Change rotation direction using a button
+-------------------------------------------------------
+
+Use the same circuit above, modify your code such that the motor change rotation direction everytime you press the button.
+
+
+
+A slightly more complete case with start, stop, and emergency stop
 ---------------------------------------------------------------------
 
 The emergency stop is implemented by forcing the motor to stop as quickly as possible. By setting both 1A, and 2A low (or high) simultaneously while keeping the EN signal high the motor terminals will be short circuited to each other. This will cause a large current to flow in the motor windings, and the rotational energy will be dissipated as heat in the winding resistance.
@@ -508,7 +431,7 @@ The emergency stop is implemented by forcing the motor to stop as quickly as pos
 Start/stop, forward/reverse and speed control
 ---------------------------------------------
 
-The previous example only supported operation of the motor in one direction. Furthermore the next step after the start/stop, and forward/reverse commands have been implemented is to implement speed control. For the upcoming exercises you should use the following wiring:
+The previous example only supported operation of the motor in one direction. In addition to the forward/reverse commands speed control should also be supported by means of adjustable duty cycle. For the upcoming exercises you should use the following wiring:
 
 .. The following example is a slightly more complete implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stopping the motor. The voltage on analog input `A0` is used to control the duty cycle of the pulse width modulation.
 
@@ -572,93 +495,40 @@ For each of the four drivers we have the following truth (function) table:
 
 If the enable (EN) signal is low, the control signal (A) is ignored and the output goes in to a high impedance (high Z) state. When the enable signal is high, the output follows the control signal (A). By applying PWM to the enable signal and leaving the A signals fixed regenerative braking will be impossible. Whenever the output is in a high Z state, the motor current will have to circulate through the freewheeling diodes. If however the PWM signal is applied to e.g. 1A while 2A is low, a reduction in duty cycle will allow the voltage to be boosted by the motor inductance. For the opposite rotational direction the PWM signal should be applied to 2A while 1A is low.
 
+Feature rich motor drive example using the L293D
+------------------------------------------------
 
-Advanced motor drive example
-----------------------------
-
-In the following example a potentiometer is used to control the voltage level (i.e. speed) of the motor, one push button changes rotation direction, and the other turns the drive on and off. The main idea is pretty much the same as the first program. The code is a bit more sophisticated and safer to use. The control software is built around a hierarchical `State Machine <https://www.wikiwand.com/en/Finite-state_machine>`_, that simplifyes the management of the different states in which the motor drive may be operating. Put attention of the usage of :code:`typedef`.
+The following example is a slightly more complete implementation of motor control using the L293D driver. The implementation uses one push button for starting, and one for stopping the motor. The voltage on analog input `A0` is used to control the duty cycle of the pulse width modulation.
 
 .. figure:: ../../fig/dc_motor_drive_potmeter_control_bb.png
     :scale: 50
     :align: center
 
 
-The following state diagram depicts the operation of the software:
+.. literalinclude:: ../../../projects/motor_drive/dc_motor_drive/src/main.cpp
+  :language: c
 
-.. Apparently Gizem decided to go for images instead of UML plugin last year. Let's change it back now :P
+Exercise: LM293D motor drive
+-----------------------------
 
-.. .. figure:: ../../fig/uml/motorctrlStateDiagram1.png
-    :align: center
+#. Use the L293D motor driver and perform the necessary wiring. There should be 3 push buttons and a potentiometer.
+#. Write an application which takes the armature voltage (motor speed) set point as a input from a potentiometer.
+#. Read the signals from three push buttons with proper debouncing, and edge detection.
+#. Add the code to use the first push button to toggle between start and stop.
+#. Add the code to use the second push button to toggle the rotational direction. The program should only allow the direction to change if the motor is first stopped.
+#. Add the code for emergency stop on the third button. If pressed the program should go in to emergency stop mode, and stay there until the controller receives the command "reset", or "RESET" from the UART.
+#. Test the program, and write a short description about the behavior of your code.
 
+Exercise: motor drive with acceleration ramp
+--------------------------------------------
 
-.. uml::
+In this exercise you are going to develop a motor drive which has an adjustable acceleration, and deceleration ramp. I.e. when the motor is started there will be a acceleration period where the armature voltage is increased linearly from zero, and up to the configured voltage.
 
-        [*] --> STOPPED
-        
-        STOPPED -> RUNNING : enable_button
-        RUNNING -> STOPPED : enable_button
-        STOPPED: motor_control(0, 0);
-        
-        RUNNING: duty_cycle = analogRead(control_voltage)/4;
-        state RUNNING {
-          [*] --> FORWARD
-          FORWARD -> REVERSE : direction_button
-          REVERSE -> FORWARD : direction_button
-
-          FORWARD: motor_control(duty_cycle, FORWARD);
-          REVERSE: motor_control(duty_cycle, REVERSE);
-        }
-        
-
-The following source code listing is the complete software for the motor drive:
-
-.. container:: toggle
-
-    .. container:: header
-
-        **Show/Hide Code**
-
-    .. literalinclude:: ../../../projects/dc_motor_drive/src/main.cpp
-       :language: c
+#. Use the program you have developed in the previous exercise as a starting point. Make sure everything in that exercise is working as expected
+#. Add a routine to slowly accelerate the motor from standstill and up to the potentiometer setting. A parameter (const variable) should set the acceleration time, and it should support at least 0 to 20 seconds.
+#. Add a routine to slowly decelerate the motor from nominal operation and down to standstill. If the stop button is pressed while the motor is accelerating, the deceleration routine should take precedence and use the correct portion of the configured deceleration delay down to standstill.
 
 
-Motor drive assignment
-----------------------
-
-The following circuit is the one used in assignment 5.
-
-.. figure:: ../../fig/dc_motor_drive_potmeter_control_three_button_9v_battery_bb.png
-  :scale: 50
-
-
-The following state diagram depicts the intended operation of the motor drive in the assignment:
-
-.. .. figure:: ../../fig/uml/motorctrlStateDiagram2.png
-     :align: center
-
-
-.. uml::
-
-        STATE NORMAL {
-
-          [*] --> STOPPED
-          
-          STOPPED -> ACCELERATING : start_stop_button
-          ACCELERATING -> RUNNING : setpoint_reached
-          ACCELERATING -> BREAKING : start_stop_button
-          RUNNING -> BREAKING : start_stop_button
-          BREAKING -> STOPPED : zero_reached
-          BREAKING -> ACCELERATING : start_stop_button
-          STOPPED: motor_control(0, 0);
-          
-        }
-
-        [*] --> NORMAL
-
-        NORMAL -> EMERGENCY_STOP : emergency_stop_button
-        EMERGENCY_STOP -> NORMAL : start_stop_button
-        
-        EMERGENCY_STOP : motor_control(0, 0);
            
 
 Bibliography
